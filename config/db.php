@@ -1,12 +1,10 @@
 <?php
 
-return [
-    'class' => 'yii\db\Connection',
-    'dsn' => 'mongodb://mongodb:27017/db?authSource=admin',
-    'username' => 'root',
-    'password' => '',
-    'charset' => 'utf8',
+use yii\mongodb\Connection;
 
+return [
+    'class' => Connection::class,
+    'dsn' => 'mongodb://root:password@mongodb:27017/db?authSource=admin',
     // Schema cache options (for production environment)
     //'enableSchemaCache' => true,
     //'schemaCacheDuration' => 60,

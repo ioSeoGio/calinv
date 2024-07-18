@@ -28,7 +28,7 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
 <body class="d-flex flex-column h-100">
 <?php $this->beginBody() ?>
 
-<header id="header">
+<header id="header" class="container-fluid pb-5">
     <?php
     NavBar::begin([
         'brandLabel' => Yii::$app->name,
@@ -45,11 +45,11 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
     ?>
 </header>
 
-<main id="main" class="flex-shrink-0" role="main">
-    <div class="container">
+<main id="main" class="wrap" role="main">
         <?php if (!empty($this->params['breadcrumbs'])): ?>
             <?= Breadcrumbs::widget(['links' => $this->params['breadcrumbs']]) ?>
         <?php endif ?>
+    <div class="container-fluid pt-4">
         <?= $content ?>
     </div>
 </main>

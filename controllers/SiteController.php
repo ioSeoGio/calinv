@@ -2,23 +2,17 @@
 
 namespace app\controllers;
 
-use Yii;
-use yii\web\Controller;
+use common\BaseController;
 
-class SiteController extends Controller
+class SiteController extends BaseController
 {
-    public function __construct()
-    {
+    public function __construct(
+        $id,
+        $module,
 
-    }
-
-    public function actions(): array
-    {
-        return [
-            'error' => [
-                'class' => 'yii\web\ErrorAction',
-            ],
-        ];
+        $config = [],
+    ) {
+        parent::__construct($id, $module, $config);
     }
 
     public function actionIndex(): string

@@ -1,16 +1,29 @@
 <?php
 
+use yii2tech\embedded\Mapping;
+
 $params = require __DIR__ . '/params.php';
 $db = require __DIR__ . '/db.php';
 
 $config = [
+    'language' => 'ru-RU',
     'id' => 'calinv',
     'name' => 'CalInv',
     'basePath' => dirname(__DIR__),
-    'bootstrap' => ['log'],
+    'bootstrap' => ['log', 'log-reader'],
     'aliases' => [
         '@bower' => '@vendor/bower-asset',
         '@npm'   => '@vendor/npm-asset',
+    ],
+    'modules' => [
+        'log-reader' => [
+            'class' => 'kriss\logReader\Module',
+            //'as login_filter' => UserLoginFilter::class, // to use login filter
+            'aliases' => [
+                'Main' => '@app/runtime/logs/app.log',
+            ],
+            //'defaultTailLine' => 200,
+        ],
     ],
     'components' => [
         'request' => [
@@ -42,32 +55,36 @@ $config = [
                 ],
             ],
         ],
-        'db' => $db,
+        'mongodb' => $db,
         'urlManager' => [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
+                'calculator' => '/IssuerRatingCalculator/calculator/index',
+                '<folder:\w+>/<controller:\w+>/<action:\w+>' => '<folder>/<controller>/<action>',
+                '<controller:\w+>/<action:\w+>' => '<controller>/<action>',
+                '<controller:\w+>' => '<controller>/index',
                 '' => 'site/index',
             ],
+        ],
+        Mapping::class => [
+            'class' => Mapping::class,
+            'unsetSource' => false,
         ],
     ],
     'params' => $params,
 ];
 
 if (YII_ENV_DEV) {
-    // configuration adjustments for 'dev' environment
     $config['bootstrap'][] = 'debug';
     $config['modules']['debug'] = [
         'class' => 'yii\debug\Module',
-        // uncomment the following to add your IP if you are not connecting from localhost.
-        //'allowedIPs' => ['127.0.0.1', '::1'],
+        'allowedIPs' => ['*'],
     ];
 
     $config['bootstrap'][] = 'gii';
     $config['modules']['gii'] = [
         'class' => 'yii\gii\Module',
-        // uncomment the following to add your IP if you are not connecting from localhost.
-        //'allowedIPs' => ['127.0.0.1', '::1'],
     ];
 }
 
