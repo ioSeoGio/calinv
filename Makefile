@@ -37,4 +37,8 @@ composer-install:
 composer-update:
 	docker compose run --rm php composer update
 
+update:
+	git pull
+	docker compose run --rm php composer install
+
 init: down rights build up composer-install
