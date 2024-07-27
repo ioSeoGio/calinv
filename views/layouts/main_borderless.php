@@ -4,6 +4,7 @@
 /** @var string $content */
 
 use app\assets\AppAsset;
+use app\widgets\Alert;
 use yii\bootstrap5\Breadcrumbs;
 use yii\bootstrap5\Html;
 use yii\bootstrap5\Nav;
@@ -29,23 +30,12 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
 <?php $this->beginBody() ?>
 
 <header id="header" class="container-fluid pb-5">
-    <?php
-    NavBar::begin([
-        'brandLabel' => Yii::$app->name,
-        'brandUrl' => Yii::$app->homeUrl,
-        'options' => ['class' => 'navbar-expand-md navbar-dark bg-dark fixed-top']
-    ]);
-    echo Nav::widget([
-        'options' => ['class' => 'navbar-nav'],
-        'items' => [
-            ['label' => 'Калькулятор эмитентов', 'url' => ['/calculator']],
-        ]
-    ]);
-    NavBar::end();
-    ?>
+    <?= $this->render('nav'); ?>
 </header>
 
 <main id="main" class="wrap" role="main">
+        <?= Alert::widget([]); ?>
+
         <?php if (!empty($this->params['breadcrumbs'])): ?>
             <?= Breadcrumbs::widget(['links' => $this->params['breadcrumbs']]) ?>
         <?php endif ?>

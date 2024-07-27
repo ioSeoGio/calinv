@@ -1,7 +1,5 @@
 <?php
 
-use yii2tech\embedded\Mapping;
-
 $params = require __DIR__ . '/params.php';
 $db = require __DIR__ . '/db.php';
 
@@ -60,16 +58,15 @@ $config = [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
+                'financial-instruments' => '/FinancialInstrument/share/index',
+                'portfolio' => '/Portfolio/personal-share/index',
                 'calculator' => '/IssuerRatingCalculator/calculator/index',
+
                 '<folder:\w+>/<controller:\w+>/<action:\w+>' => '<folder>/<controller>/<action>',
                 '<controller:\w+>/<action:\w+>' => '<controller>/<action>',
                 '<controller:\w+>' => '<controller>/index',
                 '' => 'site/index',
             ],
-        ],
-        Mapping::class => [
-            'class' => Mapping::class,
-            'unsetSource' => false,
         ],
     ],
     'params' => $params,

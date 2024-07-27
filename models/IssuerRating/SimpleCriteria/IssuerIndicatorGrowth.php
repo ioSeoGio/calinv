@@ -6,6 +6,16 @@ use yii\base\Model;
 
 class IssuerIndicatorGrowth extends Model
 {
+    public float $shortAssetGrowth;
+    public float $longAssetGrowth;
+    public float $capitalGrowth;
+    public float $shortLiabilityGrowth;
+    public float $longLiabilityGrowth;
+    public float $profitGrowth;
+    public string $dateFrom;
+    public string $dateTo;
+
+
     public function __construct(
         float $shortAssetGrowth,
         float $longAssetGrowth,

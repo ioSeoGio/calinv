@@ -2,6 +2,7 @@
 
 namespace common\Database;
 
+use Yii;
 use yii\mongodb\ActiveRecord;
 
 class BaseActiveRecord extends ActiveRecord
@@ -41,5 +42,14 @@ class BaseActiveRecord extends ActiveRecord
         }
 
         return parent::__get($name);
+    }
+
+    public function afterValidate(): void
+    {
+        if ($e = $this->getErrors()) {
+            Yii::$app->session->setFlash('error', json_encode($e));
+        }
+
+        parent::afterValidate();
     }
 }
