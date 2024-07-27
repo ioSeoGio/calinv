@@ -29,11 +29,3 @@ services:
       - "27017:27017"
     volumes:
       - ./.data:/data/db
-
-  phpmyadmin:
-    image: phpmyadmin/phpmyadmin
-    depends_on:
-      - mongodb
-    restart: always
-    ports:
-      - "8080:80"
