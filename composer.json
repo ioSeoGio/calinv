@@ -77,7 +77,7 @@
             "type": "package",
             "package": {
                 "name": "unclead/yii2-multiple-input",
-                "version": "~2.0",
+                "version": "master",
                 "source": {
                     "url": "https://github.com/ioSeoGio/yii2-multiple-input.git",
                     "type": "git",
