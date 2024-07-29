@@ -107,10 +107,6 @@ use yii\helpers\ArrayHelper;
             'attribute' => 'buyDate',
         ],
         [
-            'label' => 'выпуск',
-            'attribute' => 'share.issueDate',
-        ],
-        [
             'label' => 'объем выпуска',
             'attribute' => 'share.volumeIssued',
             'value' => function (PersonalShare $model) {

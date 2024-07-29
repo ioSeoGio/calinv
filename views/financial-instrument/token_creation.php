@@ -39,6 +39,12 @@ $form = ActiveForm::begin([
                 Выпущено, шт.
             </th>
             <th scope="col">
+                Выпуск
+            </th>
+            <th scope="col">
+                Погашение
+            </th>
+            <th scope="col">
             </th>
         </tr>
         <tr>

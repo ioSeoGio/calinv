@@ -30,6 +30,9 @@ $form = ActiveForm::begin([
                 Закупочная цена, руб.
             </th>
             <th scope="col">
+                Дата покупки
+            </th>
+            <th scope="col">
             </th>
         </tr>
         <tr>
