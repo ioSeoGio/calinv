@@ -253,6 +253,19 @@ $this->title = 'Калькулятор эмитентов';
                     return Html::tag('div', $model->k3_standard, ['class' => 'text-primary']) . $values;
                 }
             ],
+            [
+                'label' => 'P/E',
+                'format' => 'raw',
+                'value' => function (IssuerRating $model) {
+                    $values = '';
+                    foreach ($model->getIndicator() as $indicator) {
+                        $values .= Html::tag('div', round($indicator->PE, 2), [
+                        ]);
+                    }
+
+                    return $values;
+                }
+            ],
         ],
     ]) ?>
 </div>
