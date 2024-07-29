@@ -43,6 +43,9 @@ $this->title = 'Калькулятор эмитентов';
                 <th scope="col">
                 </th>
                 <th scope="col">
+                    Кол-во акций
+                </th>
+                <th scope="col">
                     k1
                 </th>
                 <th scope="col">
@@ -120,6 +123,11 @@ $this->title = 'Калькулятор эмитентов';
                 </td>
                 <td>
                     <div class="input-group mb-1">
+                        <?= $form->field($simpleForm, 'shareAmount')->textInput(['class' => 'form-control'])->label(false) ?>
+                    </div>
+                </td>
+                <td>
+                    <div class="input-group mb-1">
                         <?= $form->field($simpleForm, 'k1_standard')->textInput(['class' => 'form-control'])->label(false) ?>
                     </div>
                 </td>
@@ -143,23 +151,36 @@ $this->title = 'Калькулятор эмитентов';
         'dataProvider' => $dataProvider,
         'filterModel' => $searchForm,
         'columns' => [
-            'issuer',
-            'bikScore',
+            [
+                'label' => 'эмитент',
+                'attribute' => 'issuer',
+            ],
+            [
+                'label' => 'BIK рейтинг',
+                'attribute' => 'bikScore',
+            ],
             [
                 'attribute' => 'ср. прирост',
                 'format' => 'raw',
                 'value' => function (IssuerRating $model) {
                     $values = '';
                     foreach ($model->getAverageGrowth() as $key => $averageValue) {
+                        if (str_contains($key, 'долги')) {
+                            $class = $averageValue > 0 ? 'text-danger' : 'text-success';
+                        } else {
+                            $class = $averageValue > 0 ? 'text-success' : 'text-danger';
+                        }
+
                         $values .= Html::tag(
                             name: 'div',
                             content: "$key: "
                             . Html::tag(
                                 name: 'span',
                                 content: round($averageValue, 2) . '%',
-                                options: ['class' => $averageValue > 0 ? 'text-success' : 'text-danger']
+                                options: ['class' => $class]
                             ),
-                            options: ['class' => 'text-primary']);
+                            options: ['class' => 'text-primary']
+                        );
                     }
                     return $values;
                 }
@@ -170,15 +191,22 @@ $this->title = 'Калькулятор эмитентов';
                 'value' => function (IssuerRating $model) {
                     $values = '';
                     foreach ($model->getMinimumGrowth() as $key => $averageValue) {
+                        if (str_contains($key, 'долги')) {
+                            $class = $averageValue > 0 ? 'text-danger' : 'text-success';
+                        } else {
+                            $class = $averageValue > 0 ? 'text-success' : 'text-danger';
+                        }
+
                         $values .= Html::tag(
                             name: 'div',
                             content: "$key: "
                             . Html::tag(
                                 name: 'span',
                                 content: round($averageValue, 2) . '%',
-                                options: ['class' => $averageValue > 0 ? 'text-success' : 'text-danger']
+                                options: ['class' => $class]
                             ),
-                            options: ['class' => 'text-primary']);
+                            options: ['class' => 'text-primary']
+                        );
                     }
                     return $values;
                 }

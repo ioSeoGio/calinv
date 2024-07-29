@@ -16,30 +16,6 @@ class IssuerIndicatorGrowth extends Model
     public string $dateTo;
 
 
-    public function __construct(
-        float $shortAssetGrowth,
-        float $longAssetGrowth,
-        float $capitalGrowth,
-        float $shortLiabilityGrowth,
-        float $longLiabilityGrowth,
-        float $profitGrowth,
-        \DateTimeImmutable $dateFrom,
-        \DateTimeImmutable $dateTo,
-    ) {
-        parent::__construct();
-        $this->load([
-            'shortAssetGrowth' => $shortAssetGrowth,
-            'longAssetGrowth' => $longAssetGrowth,
-            'capitalGrowth' => $capitalGrowth,
-            'shortLiabilityGrowth' => $shortLiabilityGrowth,
-            'longLiabilityGrowth' => $longLiabilityGrowth,
-            'profitGrowth' => $profitGrowth,
-
-            'dateFrom' => $dateFrom->format(DATE_ATOM),
-            'dateTo' => $dateTo->format(DATE_ATOM),
-        ], '');
-    }
-
     public function rules(): array
     {
         return [
@@ -51,7 +27,7 @@ class IssuerIndicatorGrowth extends Model
                 'longLiabilityGrowth',
                 'profitGrowth',
                 'dateFrom',
-                'dateTo'
+                'dateTo',
             ], 'required'],
             [[
                 'shortAssetGrowth',
@@ -59,7 +35,7 @@ class IssuerIndicatorGrowth extends Model
                 'capitalGrowth',
                 'shortLiabilityGrowth',
                 'longLiabilityGrowth',
-                'profitGrowth'
+                'profitGrowth',
             ], 'double'],
         ];
     }

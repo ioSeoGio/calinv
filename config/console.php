@@ -25,7 +25,7 @@ $config = [
                 ],
             ],
         ],
-        'db' => $db,
+        'mongodb' => $db,
     ],
     'params' => $params,
     /*

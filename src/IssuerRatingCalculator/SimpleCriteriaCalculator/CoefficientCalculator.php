@@ -8,13 +8,13 @@ class CoefficientCalculator
 {
     public static function k1(IssuerIndicator $issuerIndicator): float
     {
-        return $issuerIndicator->shortAsset / $issuerIndicator->shortLiability;
+        return $issuerIndicator->shortAsset / ($issuerIndicator->shortLiability ?: 1);
     }
 
     public static function k2(IssuerIndicator $issuerIndicator): float
     {
         return ($issuerIndicator->capital + $issuerIndicator->longLiability - $issuerIndicator->longAsset)
-            / $issuerIndicator->shortAsset;
+            / ($issuerIndicator->shortAsset ?: 1);
     }
 
     public static function k3(IssuerIndicator $issuerIndicator): float

@@ -2,6 +2,8 @@
 
 use app\models\FinancialInstrument\Share;
 use app\models\IssuerRating\IssuerRating;
+use src\Helper\SimpleNumberFormatter;
+use src\IssuerRatingCalculator\Static\FairSharePriceCalculator;
 use yii\base\Model;
 use yii\bootstrap5\Html;
 use yii\data\ArrayDataProvider;
@@ -44,21 +46,42 @@ use yii\helpers\ArrayHelper;
             'label' => 'номинал',
             'attribute' => 'denomination',
             'value' => function (Share $model) {
-                return $model->denomination . ' р.';
+                return SimpleNumberFormatter::toView($model->denomination) . ' р.';
             }
         ],
         [
             'label' => 'текущая цена',
             'attribute' => 'currentPrice',
+            'format' => 'raw',
             'value' => function (Share $model) {
-                return $model->currentPrice . ' р.';
+                return Html::tag(
+                    name: 'span',
+                    content: SimpleNumberFormatter::toView($model->currentPrice) . ' р.',
+                    options: ['class' => 'text-primary']
+                );
+            }
+        ],
+        [
+            'label' => 'справедливая цена',
+            'format' => 'raw',
+            'value' => function (Share $model) {
+                $r = '';
+                foreach (FairSharePriceCalculator::calculate($model) as $fairPrice) {
+                    $r .= Html::tag(
+                        name: 'span',
+                        content: SimpleNumberFormatter::toView($fairPrice) . ' р.',
+                        options: ['class' => $fairPrice >= $model->currentPrice ? 'text-success' : 'text-danger']
+                    ) . '<br>';
+                }
+
+                return $r;
             }
         ],
         [
             'label' => 'объем выпуска',
             'attribute' => 'volumeIssued',
             'value' => function (Share $model) {
-                return $model->volumeIssued . ' шт.';
+                return SimpleNumberFormatter::toView($model->volumeIssued, 0) . ' шт.';
             }
         ],
     ],

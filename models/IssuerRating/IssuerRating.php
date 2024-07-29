@@ -22,6 +22,7 @@ class IssuerRating extends BaseActiveRecord
             '_id',
             'issuer',
             'bikScore',
+            'shareAmount',
             'indicator',
             'indicatorGrowth',
             'k1_standard',
@@ -36,6 +37,7 @@ class IssuerRating extends BaseActiveRecord
             [[
                 'issuer',
                 'bikScore',
+                'shareAmount',
                 'indicator',
                 'indicatorGrowth',
                 'k1_standard',
@@ -90,16 +92,6 @@ class IssuerRating extends BaseActiveRecord
             $minimum['Короткие долги'] = min($minimum['Короткие долги'] ?? 0, $indicatorGrowth['shortLiabilityGrowth']);
             $minimum['Длинные долги'] = min($minimum['Длинные долги'] ?? 0, $indicatorGrowth['longLiabilityGrowth']);
             $minimum['Прибыль'] = min($minimum['Прибыль'] ?? 0, $indicatorGrowth['profitGrowth']);
-        }
-
-        return $minimum;
-    }
-
-    public function getMinimumAssetGrowth(): float
-    {
-        $minimum = 0;
-        foreach ($this->indicatorGrowth() as $indicatorGrowth) {
-            $minimum = min($minimum, $indicatorGrowth['longAssetGrowth']);
         }
 
         return $minimum;

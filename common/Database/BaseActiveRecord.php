@@ -27,7 +27,7 @@ class BaseActiveRecord extends ActiveRecord
 
                 if ($attribute->getName() === EmbeddedMany::class) {
                     $return = [];
-                    foreach ($parentRawData as $one) {
+                    foreach ($parentRawData ?: [] as $one) {
                         $object = new ($attribute->getArguments()['objectClass']);
                         foreach ($one as $key => $value) {
                             $object->$key = $value;
@@ -38,6 +38,10 @@ class BaseActiveRecord extends ActiveRecord
                 }
             }
         } catch (\Throwable $e) {
+            var_dump($e->getMessage());
+                var_dump($name);
+                var_dump($attribute->getArguments());
+                die;
             return parent::__get($name);
         }
 
