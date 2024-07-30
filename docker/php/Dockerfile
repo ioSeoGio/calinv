@@ -14,6 +14,7 @@ RUN apt-get update && \
 RUN apt-get install -y \
       pkg-config \
       libssl-dev \
+      git \
 && docker-php-ext-configure intl \
 && docker-php-ext-install intl
 

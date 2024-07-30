@@ -20,7 +20,8 @@
         "yiisoft/yii2-symfonymailer": "~2.0.3",
         "yiisoft/yii2-mongodb": "^3.0",
         "kriss/yii2-log-reader": "2.*",
-        "unclead/yii2-multiple-input": "~2.0"
+        "ext-mongodb": "*",
+        "unclead/yii2-multiple-input": "dev-master"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.1.0",
@@ -72,6 +73,10 @@
         {
             "type": "composer",
             "url": "https://asset-packagist.org"
+        },
+        {
+            "url": "git@github.com:ioSeoGio/yii2-multiple-input.git",
+            "type": "git"
         }
     ],
     "autoload": {

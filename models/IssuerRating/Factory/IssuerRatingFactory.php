@@ -2,44 +2,47 @@
 
 namespace app\models\IssuerRating\Factory;
 
-use app\controllers\IssuerRatingCalculator\CalculateForm;
-use app\models\IssuerRating\IssuerIndicator;
+use app\controllers\IssuerRatingCalculator\CalculateIndicatorForm;
+use app\controllers\IssuerRatingCalculator\CalculateSimpleForm;
 use app\models\IssuerRating\IssuerRating;
-use src\IssuerRatingCalculator\SimpleCriteriaCalculator\CoefficientCalculator;
-use src\IssuerRatingCalculator\SimpleCriteriaCalculator\IndicatorGrowthCalculator;
 
 class IssuerRatingFactory
 {
     public function __construct(
-        private IndicatorGrowthCalculator $indicatorGrowthCalculator,
-        private CoefficientCalculator $coefficientCalculator,
+        private IssuerIndicatorGrowthFactory $issuerIndicatorGrowthFactory,
+        private IssuerIndicatorFactory $issuerIndicatorFactory,
     ) {
     }
 
-    public function create(CalculateForm $form): IssuerRating
+    public function create(CalculateSimpleForm $simpleForm, CalculateIndicatorForm ...$indicatorForms): IssuerRating
     {
-        $issuerIndicators = [];
-        foreach ($form->shortAssetPerYearData as $key => $assetPerYear) {
-            $issuerIndicators[] = new IssuerIndicator(
-                shortAsset: $assetPerYear,
-                longAsset: $form->longAssetPerYearData[$key],
-                capital: $form->capitalPerYearData[$key],
-                shortLiability: $form->shortLiabilityPerYearData[$key],
-                longLiability: $form->longLiabilityPerYearData[$key],
-                profit: $form->profitPerYearData[$key],
-                date: new \DateTimeImmutable(),
-            );
-        }
+        $issuerIndicators = $this->issuerIndicatorFactory->createMany(...$indicatorForms);
 
         $rating = new IssuerRating();
         $rating->load([
-            'issuer' => $form->issuer,
-            'bikScore' => $form->bikScore,
+            'issuer' => $simpleForm->issuer,
+            'bikScore' => $simpleForm->bikScore,
             'indicator' => $issuerIndicators,
-            'indicatorGrowth' => $this->indicatorGrowthCalculator->execute(...$issuerIndicators),
-            'calculatedCoefficient' => $this->coefficientCalculator->execute(...$issuerIndicators),
+            'shareAmount' => $simpleForm->shareAmount,
+            'k1_standard' => $simpleForm->k1_standard,
+            'k2_standard' => $simpleForm->k2_standard,
+            'k3_standard' => $simpleForm->k3_standard,
         ], '');
+        $this->update($rating);
 
         return $rating;
+    }
+
+    public function update(IssuerRating $rating, bool $recalculateChildren = false): void
+    {
+        $rating->indicatorGrowth = $this->issuerIndicatorGrowthFactory->createMany(...$rating->indicator);
+
+        if ($recalculateChildren) {
+            $indicators = [];
+            foreach ($rating->indicator as $indicator) {
+                $indicators[] = $this->issuerIndicatorFactory->update($indicator);
+            }
+            $rating->indicator = $indicators;
+        }
     }
 }

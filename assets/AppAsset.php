@@ -7,7 +7,10 @@
 
 namespace app\assets;
 
+use Yii;
+use yii\helpers\Json;
 use yii\web\AssetBundle;
+use yii\web\View;
 
 /**
  * Main application asset bundle.
@@ -21,11 +24,37 @@ class AppAsset extends AssetBundle
     public $baseUrl = '@web';
     public $css = [
         'css/site.css',
+        'css/alert-messages.css',
     ];
     public $js = [
+        'js/alert-messages.js',
     ];
+    public $jsOptions = ['position' => View::POS_HEAD];
+
     public $depends = [
         'yii\web\YiiAsset',
         'yii\bootstrap5\BootstrapAsset'
     ];
+
+    public function init()
+    {
+        parent::init();
+
+        $options = [
+        ];
+        Yii::$app->view->registerJs(
+            "var yiiGlobal = " . Json::htmlEncode($options).";",
+            View::POS_HEAD,
+            'yiiGlobal'
+        );
+
+        $images = [
+        ];
+
+        Yii::$app->view->registerJs(
+            "var yiiImages = " . Json::htmlEncode($images).";",
+            View::POS_HEAD,
+            'yiiImages'
+        );
+    }
 }

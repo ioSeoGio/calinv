@@ -21,7 +21,7 @@ services:
       PHP_INI_SCAN_DIR: "/usr/local/etc/php/custom.d:/usr/local/etc/php/conf.d"
 
   mongodb:
-    image: mongo:latest
+    image: mongo:4.4.6
     environment:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: password
@@ -29,11 +29,3 @@ services:
       - "27017:27017"
     volumes:
       - ./.data:/data/db
-
-  phpmyadmin:
-    image: phpmyadmin/phpmyadmin
-    depends_on:
-      - mongodb
-    restart: always
-    ports:
-      - "8080:80"

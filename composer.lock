@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "ca52e6e33b172d2b957030041f74130b",
+    "content-hash": "ad5eccb7d9c7782972c2d7737d53baa6",
     "packages": [
         {
             "name": "bower-asset/bootstrap",
@@ -1425,17 +1425,11 @@
         },
         {
             "name": "unclead/yii2-multiple-input",
-            "version": "2.30.0",
+            "version": "dev-master",
             "source": {
                 "type": "git",
-                "url": "https://github.com/unclead/yii2-multiple-input.git",
-                "reference": "21d0138c1364903c5237c8a6d7a39e4b619ffac7"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/unclead/yii2-multiple-input/zipball/21d0138c1364903c5237c8a6d7a39e4b619ffac7",
-                "reference": "21d0138c1364903c5237c8a6d7a39e4b619ffac7",
-                "shasum": ""
+                "url": "git@github.com:ioSeoGio/yii2-multiple-input.git",
+                "reference": "f3a9d2b4e07914fd6d25b9dc263eb5b9e7e2dbd1"
             },
             "require": {
                 "php": ">=5.4.0",
@@ -1444,15 +1438,15 @@
             "require-dev": {
                 "phpunit/phpunit": "5.7.*"
             },
+            "default-branch": true,
             "type": "yii2-extension",
             "autoload": {
                 "psr-4": {
+                    "unclead\\multipleinput\\examples\\": "examples/",
                     "unclead\\multipleinput\\": "src/",
-                    "unclead\\multipleinput\\tests\\": "tests/",
-                    "unclead\\multipleinput\\examples\\": "examples/"
+                    "unclead\\multipleinput\\tests\\": "tests/"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "BSD-3-Clause"
             ],
@@ -1474,7 +1468,7 @@
                 "issues": "https://github.com/unclead/yii2-multiple-input/issues?state=open",
                 "source": "https://github.com/unclead/yii2-multiple-input"
             },
-            "time": "2024-04-21T10:54:03+00:00"
+            "time": "2024-07-28T07:12:41+00:00"
         },
         {
             "name": "yiisoft/yii2",
@@ -5709,7 +5703,8 @@
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
-        "php": ">=8.1"
+        "php": ">=8.1",
+        "ext-mongodb": "*"
     },
     "platform-dev": [],
     "plugin-api-version": "2.6.0"

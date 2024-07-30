@@ -37,4 +37,9 @@ composer-install:
 composer-update:
 	docker compose run --rm php composer update
 
+update:
+	git pull
+	docker compose run --rm php composer install
+	docker exec -it $(shell basename $(CURDIR))-php-1 php yii update-issuers
+
 init: down rights build up composer-install

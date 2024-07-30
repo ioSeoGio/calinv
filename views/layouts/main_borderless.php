@@ -5,6 +5,7 @@
 /** @var string $content */
 
 use app\assets\AppAsset;
+use app\widgets\Alert;
 use yii\bootstrap5\Breadcrumbs;
 use yii\bootstrap5\Html;
 use yii\bootstrap5\Nav;
@@ -30,60 +31,19 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
 <?php $this->beginBody() ?>
 
 <header id="header" class="container-fluid pb-5">
-	<?php
-	NavBar::begin([
-		'brandLabel' => Yii::$app->name,
-		'brandUrl' => Yii::$app->homeUrl,
-		'options' => ['class' => 'navbar-expand-md navbar-dark bg-dark fixed-top']
-	]);
-
-	echo '<div class="d-flex justify-content-between w-100">';
-
-	echo Nav::widget([
-		'options' => ['class' => 'navbar-nav'],
-		'items' => [
-			['label' => 'Калькулятор эмитентов', 'url' => ['/calculator']],
-		]
-	]);
-
-	if (Yii::$app->user->isGuest) {
-		echo Nav::widget([
-			'options' => ['class' => 'navbar-nav'],
-			'items' => [
-				['label' => 'Вход', 'url' => ['/login']],
-				['label' => 'Регистрация', 'url' => ['/auth/signup']],
-			]
-		]);
-	} else {
-		echo Nav::widget([
-			'options' => ['class' => 'navbar-nav'],
-			'items' => [
-				['label' => 'Профиль', 'url' => ['/profile/index']],
-				'<li>'
-				. Html::beginForm(['/auth/logout'], 'post', ['class' => 'form-inline'])
-				. Html::submitButton(
-					'Выход (' . Yii::$app->user->identity->username . ')',
-					['class' => 'btn btn-link logout']
-				)
-				. Html::endForm()
-				. '</li>'
-			]
-		]);
-	}
-
-	echo '</div>';
-
-	NavBar::end();
-	?>
+	<?= $this->render('nav'); ?>
 </header>
 
 <main id="main" class="wrap" role="main">
+	<?= Alert::widget([]); ?>
+
 	<?php if (!empty($this->params['breadcrumbs'])): ?>
 		<?= Breadcrumbs::widget(['links' => $this->params['breadcrumbs']]) ?>
 	<?php endif ?>
 	<div class="container-fluid pt-4">
 	  <?= $content ?>
 	</div>
+	>>>>>>> origin/master
 </main>
 
 <footer id="footer" class="mt-auto py-3 bg-light">

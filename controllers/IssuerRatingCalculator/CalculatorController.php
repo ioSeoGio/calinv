@@ -3,9 +3,10 @@
 namespace app\controllers\IssuerRatingCalculator;
 
 use app\models\IssuerRating\Factory\IssuerRatingFactory;
-use app\models\IssuerRating\IssuerRating;
 use common\BaseController;
 use Yii;
+use yii\bootstrap5\ActiveForm;
+use yii\web\Response;
 
 class CalculatorController extends BaseController
 {
@@ -25,29 +26,55 @@ class CalculatorController extends BaseController
 
     public function actionIndex(): string
     {
+        $searchForm = new IssuerRatingSearchForm();
+        $dataProvider = $searchForm->search(Yii::$app->request->queryParams);
+
         return $this->render('index', [
-            'model' => new CalculateForm(),
+            'searchForm' => $searchForm,
+            'dataProvider' => $dataProvider,
+
+            'simpleForm' => new CalculateSimpleForm(),
+            'indicatorForm' => new CalculateIndicatorForm(),
         ]);
     }
 
     public function actionCalculate(): mixed
     {
-        $model = new CalculateForm();
+        if ($post = Yii::$app->request->post()) {
+            $indicatorForms = [];
+            foreach ($post['CalculateIndicatorForm'] ?? [] as $formData) {
+                $indicatorForms[] = new CalculateIndicatorForm();
+            }
+            $simpleForm = new CalculateSimpleForm();
 
-        dd(Yii::$app->request->post());
-        if ($model->load(Yii::$app->request->post())) {
-            if ($model->validate()) {
-                $rating = $this->issuerRatingFactory->create($model);
+            if ($simpleForm->load($post) && CalculateIndicatorForm::loadMultiple($indicatorForms, $post)) {
+                $rating = $this->issuerRatingFactory->create($simpleForm, ...$indicatorForms);
                 $rating->save();
 
                 return $this->redirect(['index']);
             }
-
-            return $this->render('index', [
-                'model' => $model,
-            ]);
         }
 
         return $this->redirect(['index']);
+    }
+
+    public function actionValidate(): array
+    {
+        Yii::$app->response->format = Response::FORMAT_JSON;
+
+        if ($post = Yii::$app->request->post()) {
+            $indicatorForms = [];
+            foreach ($post['CalculateIndicatorForm'] ?? [] as $formData) {
+                $indicatorForms[] = new CalculateIndicatorForm();
+            }
+            $simpleForm = new CalculateSimpleForm();
+
+            $simpleForm->load($post);
+            CalculateIndicatorForm::loadMultiple($indicatorForms, $post);
+
+            $r = array_merge(ActiveForm::validate($simpleForm), ActiveForm::validateMultiple($indicatorForms));
+            return $r;
+        }
+        return [];
     }
 }
