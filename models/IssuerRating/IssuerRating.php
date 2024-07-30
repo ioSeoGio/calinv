@@ -66,7 +66,14 @@ class IssuerRating extends BaseActiveRecord
 
     public function getAverageGrowth(): array
     {
-        $averages = [];
+        $averages = [
+            'Короткие активы' => 0,
+            'Длинные активы' => 0,
+            'Капитал' => 0,
+            'Короткие долги' => 0,
+            'Длинные долги' => 0,
+            'Прибыль' => 0,
+        ];
         $counter = 0;
         foreach ($this->indicatorGrowth() as $indicatorGrowth) {
             $averages['Короткие активы'] += $indicatorGrowth['shortAssetGrowth'];
