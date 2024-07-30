@@ -92,12 +92,12 @@ class IssuerRating extends BaseActiveRecord
     {
         $minimum = [];
         foreach ($this->indicatorGrowth() as $indicatorGrowth) {
-            $minimum['Короткие активы'] = min($minimum['Короткие активы'] ?? 0, $indicatorGrowth['shortAssetGrowth']);
-            $minimum['Длинные активы'] = min($minimum['Длинные активы'] ?? 0, $indicatorGrowth['longAssetGrowth']);
-            $minimum['Капитал'] = min($minimum['Капитал'] ?? 0, $indicatorGrowth['capitalGrowth']);
-            $minimum['Короткие долги'] = min($minimum['Короткие долги'] ?? 0, $indicatorGrowth['shortLiabilityGrowth']);
-            $minimum['Длинные долги'] = min($minimum['Длинные долги'] ?? 0, $indicatorGrowth['longLiabilityGrowth']);
-            $minimum['Прибыль'] = min($minimum['Прибыль'] ?? 0, $indicatorGrowth['profitGrowth']);
+            $minimum['Короткие активы'] = min($minimum['Короткие активы'] ?? PHP_FLOAT_MAX, $indicatorGrowth['shortAssetGrowth']);
+            $minimum['Длинные активы'] = min($minimum['Длинные активы'] ?? PHP_FLOAT_MAX, $indicatorGrowth['longAssetGrowth']);
+            $minimum['Капитал'] = min($minimum['Капитал'] ?? PHP_FLOAT_MAX, $indicatorGrowth['capitalGrowth']);
+            $minimum['Короткие долги'] = min($minimum['Короткие долги'] ?? PHP_FLOAT_MAX, $indicatorGrowth['shortLiabilityGrowth']);
+            $minimum['Длинные долги'] = min($minimum['Длинные долги'] ?? PHP_FLOAT_MAX, $indicatorGrowth['longLiabilityGrowth']);
+            $minimum['Прибыль'] = min($minimum['Прибыль'] ?? PHP_FLOAT_MAX, $indicatorGrowth['profitGrowth']);
         }
 
         return $minimum;
