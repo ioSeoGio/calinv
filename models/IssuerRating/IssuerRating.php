@@ -69,12 +69,12 @@ class IssuerRating extends BaseActiveRecord
         $averages = [];
         $counter = 0;
         foreach ($this->indicatorGrowth() as $indicatorGrowth) {
-            $averages['Короткие активы'] = $indicatorGrowth['shortAssetGrowth'];
-            $averages['Длинные активы'] = $indicatorGrowth['longAssetGrowth'];
-            $averages['Капитал'] = $indicatorGrowth['capitalGrowth'];
-            $averages['Короткие долги'] = $indicatorGrowth['shortLiabilityGrowth'];
-            $averages['Длинные долги'] = $indicatorGrowth['longLiabilityGrowth'];
-            $averages['Прибыль'] = $indicatorGrowth['profitGrowth'];
+            $averages['Короткие активы'] += $indicatorGrowth['shortAssetGrowth'];
+            $averages['Длинные активы'] += $indicatorGrowth['longAssetGrowth'];
+            $averages['Капитал'] += $indicatorGrowth['capitalGrowth'];
+            $averages['Короткие долги'] += $indicatorGrowth['shortLiabilityGrowth'];
+            $averages['Длинные долги'] += $indicatorGrowth['longLiabilityGrowth'];
+            $averages['Прибыль'] += $indicatorGrowth['profitGrowth'];
             $counter++;
         }
 
