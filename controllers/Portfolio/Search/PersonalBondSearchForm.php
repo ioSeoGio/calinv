@@ -5,6 +5,7 @@ namespace app\controllers\Portfolio\Search;
 use app\models\Portfolio\PersonalBond;
 use common\DataProvider\BaseArrayDataProvider;
 use MongoDB\BSON\ObjectId;
+use Yii;
 use yii\base\Model;
 use yii\data\ArrayDataProvider;
 
@@ -23,7 +24,8 @@ class PersonalBondSearchForm extends Model
     public function search($params): ArrayDataProvider
     {
         $query = PersonalBond::find()
-            ->with(['bond.issuerRating']);
+            ->with(['bond.issuerRating'])
+            ->where(['user_id' => Yii::$app->user->identity->getId()]);
 
         $this->load($params);
         if (!$this->validate()) {

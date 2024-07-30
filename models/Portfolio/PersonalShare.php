@@ -23,6 +23,7 @@ class PersonalShare extends BaseActiveRecord
             'buyPrice',
             'amount',
             'buyDate',
+            'user_id',
         ];
     }
 
@@ -34,6 +35,7 @@ class PersonalShare extends BaseActiveRecord
                 'buyPrice',
                 'amount',
                 'buyDate',
+                'user_id',
             ], 'required'],
         ];
     }

@@ -8,13 +8,13 @@ use yii\web\IdentityInterface;
 
 class User extends ActiveRecord implements IdentityInterface
 {
-	public static function collectionName()
-	{
-		return ['db', 'user'];
+	public static function collectionName(): string
+    {
+		return 'user';
 	}
 
-	public function attributes()
-	{
+	public function attributes(): array
+    {
 		return [
 			'_id',
 			'username',
@@ -66,7 +66,7 @@ class User extends ActiveRecord implements IdentityInterface
 
 	public function getId()
 	{
-		return (string)$this->_id;
+		return (string) $this->_id;
 	}
 
 	public function getAuthKey()

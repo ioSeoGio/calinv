@@ -22,6 +22,7 @@ class PersonalToken extends BaseActiveRecord
             'buyPrice',
             'amount',
             'buyDate',
+            'user_id',
         ];
     }
 
@@ -33,6 +34,7 @@ class PersonalToken extends BaseActiveRecord
                 'buyPrice',
                 'amount',
                 'buyDate',
+                'user_id',
             ], 'required'],
         ];
     }

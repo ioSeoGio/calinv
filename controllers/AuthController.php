@@ -6,11 +6,12 @@ use Yii;
 use yii\web\Controller;
 use app\models\SignupForm;
 use app\models\LoginForm;
+use yii\web\Response;
 
 class AuthController extends Controller
 {
-	public function actionSignup()
-	{
+	public function actionSignup(): Response|string
+    {
 		$model = new SignupForm();
 
 		if ($model->load(Yii::$app->request->post()) && $model->signup()) {
@@ -22,8 +23,8 @@ class AuthController extends Controller
 		]);
 	}
 
-	public function actionLogin()
-	{
+	public function actionLogin(): Response|string
+    {
 		if (!Yii::$app->user->isGuest) {
 			return $this->goHome();
 		}
@@ -40,9 +41,10 @@ class AuthController extends Controller
 		]);
 	}
 
-	public function actionLogout()
-	{
+	public function actionLogout(): Response
+    {
 		Yii::$app->user->logout();
+
 		return $this->goHome();
 	}
 }

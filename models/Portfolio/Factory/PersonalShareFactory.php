@@ -5,6 +5,7 @@ namespace app\models\Portfolio\Factory;
 use app\controllers\Portfolio\Form\PersonalShareForm;
 use app\models\Portfolio\PersonalShare;
 use MongoDB\BSON\ObjectId;
+use Yii;
 
 class PersonalShareFactory
 {
@@ -20,6 +21,7 @@ class PersonalShareFactory
             'buyPrice' => $form->buyPrice,
             'amount' => $form->amount,
             'buyDate' => $form->buyDate,
+            'user_id' => Yii::$app->user->identity->getId(),
         ], '');
 
         return $model;

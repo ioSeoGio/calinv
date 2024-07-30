@@ -5,6 +5,7 @@ namespace app\models\Portfolio\Factory;
 use app\controllers\Portfolio\Form\PersonalTokenForm;
 use app\models\Portfolio\PersonalToken;
 use MongoDB\BSON\ObjectId;
+use Yii;
 
 class PersonalTokenFactory
 {
@@ -20,6 +21,7 @@ class PersonalTokenFactory
             'buyPrice' => $form->buyPrice,
             'amount' => $form->amount,
             'buyDate' => $form->buyDate,
+            'user_id' => Yii::$app->user->identity->getId(),
         ], '');
 
         return $model;

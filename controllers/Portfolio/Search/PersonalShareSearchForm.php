@@ -5,6 +5,7 @@ namespace app\controllers\Portfolio\Search;
 use app\models\Portfolio\PersonalShare;
 use common\DataProvider\BaseArrayDataProvider;
 use MongoDB\BSON\ObjectId;
+use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
 use yii\data\ArrayDataProvider;
@@ -24,7 +25,8 @@ class PersonalShareSearchForm extends Model
     public function search($params): ArrayDataProvider
     {
         $query = PersonalShare::find()
-            ->with(['share.issuerRating']);
+            ->with(['share.issuerRating'])
+            ->where(['user_id' => Yii::$app->user->identity->getId()]);
 
         $this->load($params);
         if (!$this->validate()) {

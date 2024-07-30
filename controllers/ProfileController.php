@@ -5,11 +5,12 @@ namespace app\controllers;
 use Yii;
 use yii\web\Controller;
 use app\models\ProfileForm;
+use yii\web\Response;
 
 class ProfileController extends Controller
 {
-	public function actionIndex()
-	{
+	public function actionIndex(): Response|string
+    {
 		if (Yii::$app->user->isGuest) {
 			return $this->redirect(['auth/login']);
 		}
@@ -24,8 +25,8 @@ class ProfileController extends Controller
 		]);
 	}
 
-	public function actionEdit()
-	{
+	public function actionEdit(): Response|string
+    {
 		$user = Yii::$app->user->identity;
 		$profileForm = new ProfileForm();
 
