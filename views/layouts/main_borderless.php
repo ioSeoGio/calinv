@@ -43,7 +43,6 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
 	<div class="container-fluid pt-4">
 	  <?= $content ?>
 	</div>
-	>>>>>>> origin/master
 </main>
 
 <footer id="footer" class="mt-auto py-3 bg-light">

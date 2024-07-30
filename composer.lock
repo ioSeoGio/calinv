@@ -5699,7 +5699,9 @@
     ],
     "aliases": [],
     "minimum-stability": "dev",
-    "stability-flags": [],
+    "stability-flags": {
+        "unclead/yii2-multiple-input": 20
+    },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
