@@ -23,8 +23,8 @@ class LoginForm extends Model
 		];
 	}
 
-	public function validatePassword($attribute, $params)
-	{
+	public function validatePassword($attribute, $params): void
+    {
 		if (!$this->hasErrors()) {
 			$user = $this->getUser();
 
@@ -34,16 +34,16 @@ class LoginForm extends Model
 		}
 	}
 
-	public function login()
-	{
+	public function login(): bool
+    {
 		if ($this->validate()) {
 			return Yii::$app->user->login($this->getUser(), $this->rememberMe ? 3600*24*30 : 0);
 		}
 		return false;
 	}
 
-	protected function getUser()
-	{
+	protected function getUser(): ?User
+    {
 		if ($this->_user === false) {
 			$this->_user = User::findByEmail($this->email);
 		}
