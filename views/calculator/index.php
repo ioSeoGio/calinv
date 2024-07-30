@@ -10,6 +10,7 @@ use app\controllers\IssuerRatingCalculator\CalculateIndicatorForm;
 use app\controllers\IssuerRatingCalculator\CalculateSimpleForm;
 use app\controllers\IssuerRatingCalculator\IssuerRatingSearchForm;
 use app\models\IssuerRating\IssuerRating;
+use app\views\calculator\CoefficientViewHelper;
 use unclead\multipleinput\TabularColumn;
 use unclead\multipleinput\TabularInput;
 use yii\bootstrap5\ActiveForm;
@@ -54,6 +55,9 @@ $this->title = 'Калькулятор эмитентов';
                 </th>
                 <th scope="col">
                     k3
+                </th>
+                <th scope="col">
+                    k4
                 </th>
             </tr>
             <tr>
@@ -141,6 +145,11 @@ $this->title = 'Калькулятор эмитентов';
                     <div class="input-group mb-1">
                         <?= $form->field($simpleForm, 'k3_standard')->textInput(['class' => 'form-control'])->label(false) ?>
                     </div>
+                </td>>
+                <td>
+                    <div class="input-group mb-1">
+                        <?= $form->field($simpleForm, 'k4_standard')->textInput(['class' => 'form-control'])->label(false) ?>
+                    </div>
                 </td>
             </tr>
             <div class="mx-auto d-flex justify-content-center">
@@ -216,42 +225,28 @@ $this->title = 'Калькулятор эмитентов';
                 'attribute' => 'k1',
                 'format' => 'raw',
                 'value' => function (IssuerRating $model) {
-                    $values = '';
-                    foreach ($model->getIndicator() as $indicator) {
-                        $values .= Html::tag('div', round($indicator['k1'], 2), [
-                            'class' => $indicator['k1'] > $model->k1_standard ? 'text-success' : 'text-danger',
-                        ]);
-                    }
-
-                    return Html::tag('div', $model->k1_standard, ['class' => 'text-primary']) . $values;
+                    return CoefficientViewHelper::execute($model, 'k1');
                 }
             ],
             [
                 'attribute' => 'k2',
                 'format' => 'raw',
                 'value' => function (IssuerRating $model) {
-                    $values = '';
-                    foreach ($model->getIndicator() as $indicator) {
-                        $values .= Html::tag('div', round($indicator['k2'], 2), [
-                            'class' => $indicator['k2'] < $model->k2_standard ? 'text-success' : 'text-danger',
-                        ]);
-                    }
-
-                    return Html::tag('div', $model->k2_standard, ['class' => 'text-primary']) . $values;
+                    return CoefficientViewHelper::execute($model, 'k2');
                 }
             ],
             [
                 'attribute' => 'k3',
                 'format' => 'raw',
                 'value' => function (IssuerRating $model) {
-                    $values = '';
-                    foreach ($model->getIndicator() as $indicator) {
-                        $values .= Html::tag('div', round($indicator['k3'], 2), [
-                            'class' => $indicator['k3'] > $model->k3_standard ? 'text-success' : 'text-danger',
-                        ]);
-                    }
-
-                    return Html::tag('div', $model->k3_standard, ['class' => 'text-primary']) . $values;
+                    return CoefficientViewHelper::execute($model, 'k3');
+                }
+            ],
+            [
+                'attribute' => 'k4',
+                'format' => 'raw',
+                'value' => function (IssuerRating $model) {
+                    return CoefficientViewHelper::execute($model, 'k4');
                 }
             ],
             [
@@ -260,8 +255,7 @@ $this->title = 'Калькулятор эмитентов';
                 'value' => function (IssuerRating $model) {
                     $values = '';
                     foreach ($model->getIndicator() as $indicator) {
-                        $values .= Html::tag('div', round($indicator->PE, 2), [
-                        ]);
+                        $values .= Html::tag('div', round($indicator->PE, 2), []);
                     }
 
                     return $values;

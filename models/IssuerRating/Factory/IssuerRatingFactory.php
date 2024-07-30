@@ -27,6 +27,7 @@ class IssuerRatingFactory
             'k1_standard' => $simpleForm->k1_standard,
             'k2_standard' => $simpleForm->k2_standard,
             'k3_standard' => $simpleForm->k3_standard,
+            'k4_standard' => $simpleForm->k4_standard,
         ], '');
         $this->update($rating);
 

@@ -5,7 +5,6 @@ namespace app\models\IssuerRating;
 use app\models\IssuerRating\SimpleCriteria\IssuerIndicatorGrowth;
 use common\Database\BaseActiveRecord;
 use common\Database\EmbeddedMany;
-use src\IssuerRatingCalculator\SimpleCriteriaCalculator\IndicatorGrowthCalculator;
 
 #[EmbeddedMany(propertyName: 'indicator', objectClass: IssuerIndicator::class)]
 #[EmbeddedMany(propertyName: 'indicatorGrowth', objectClass: IssuerIndicatorGrowth::class)]
@@ -28,6 +27,7 @@ class IssuerRating extends BaseActiveRecord
             'k1_standard',
             'k2_standard',
             'k3_standard',
+            'k4_standard',
         ];
     }
 
@@ -45,6 +45,12 @@ class IssuerRating extends BaseActiveRecord
                 'k3_standard',
             ], 'required'],
             ['issuer', 'unique'],
+            [[
+                'k1_standard',
+                'k2_standard',
+                'k3_standard',
+                'k4_standard',
+            ], 'double'],
         ];
     }
 

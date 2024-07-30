@@ -37,6 +37,7 @@ class IssuerIndicatorFactory
             'k1' => CoefficientCalculator::k1($issuerIndicator),
             'k2' => CoefficientCalculator::k2($issuerIndicator),
             'k3' => CoefficientCalculator::k3($issuerIndicator),
+            'k4' => CoefficientCalculator::k4($issuerIndicator),
             'PE' => PECalculator::execute($issuerIndicator),
         ], '');
 

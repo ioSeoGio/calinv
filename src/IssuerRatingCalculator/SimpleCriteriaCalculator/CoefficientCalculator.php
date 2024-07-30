@@ -22,4 +22,12 @@ class CoefficientCalculator
         return ($issuerIndicator->shortLiability + $issuerIndicator->longLiability)
             / ($issuerIndicator->shortAsset + $issuerIndicator->longAsset);
     }
+
+    public static function k4(IssuerIndicator $issuerIndicator): float
+    {
+        $assets = $issuerIndicator->longAsset + $issuerIndicator->shortAsset;
+        $liabilities = $issuerIndicator->longLiability - $issuerIndicator->shortLiability;
+
+        return $issuerIndicator->capital / ($assets - $liabilities);
+    }
 }

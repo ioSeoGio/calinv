@@ -15,6 +15,7 @@ class IssuerIndicator extends Model
     public float $k1;
     public float $k2;
     public float $k3;
+    public ?float $k4 = null;
     public float $PE;
     public string $date;
 
@@ -46,6 +47,9 @@ class IssuerIndicator extends Model
                 'k3',
                 'PE',
             ], 'double'],
+            [[
+                'k4',
+            ], 'safe'],
         ];
     }
 

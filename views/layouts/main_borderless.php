@@ -41,7 +41,7 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
 		<?= Breadcrumbs::widget(['links' => $this->params['breadcrumbs']]) ?>
 	<?php endif ?>
 	<div class="container-fluid pt-4">
-	  <?= $content ?>
+        <?= $content ?>
 	</div>
 </main>
 
