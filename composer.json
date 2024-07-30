@@ -21,7 +21,8 @@
         "yiisoft/yii2-mongodb": "^3.0",
         "kriss/yii2-log-reader": "2.*",
         "ext-mongodb": "*",
-        "unclead/yii2-multiple-input": "dev-master"
+        "unclead/yii2-multiple-input": "dev-master",
+        "yiithings/yii2-dotenv": "*"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.1.0",
