@@ -1,3 +1,4 @@
 .data
 .idea
 /vendor
+config/db.php
