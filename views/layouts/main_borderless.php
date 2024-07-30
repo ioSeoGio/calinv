@@ -1,6 +1,7 @@
 <?php
 
 /** @var yii\web\View $this */
+
 /** @var string $content */
 
 use app\assets\AppAsset;
@@ -23,33 +24,33 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
 <!DOCTYPE html>
 <html lang="<?= Yii::$app->language ?>" class="h-100">
 <head>
-    <title><?= Html::encode($this->title) ?></title>
-    <?php $this->head() ?>
+	<title><?= Html::encode($this->title) ?></title>
+	<?php $this->head() ?>
 </head>
 <body class="d-flex flex-column h-100">
 <?php $this->beginBody() ?>
 
 <header id="header" class="container-fluid pb-5">
-    <?= $this->render('nav'); ?>
+	<?= $this->render('nav'); ?>
 </header>
 
 <main id="main" class="wrap" role="main">
-        <?= Alert::widget([]); ?>
+	<?= Alert::widget([]); ?>
 
-        <?php if (!empty($this->params['breadcrumbs'])): ?>
-            <?= Breadcrumbs::widget(['links' => $this->params['breadcrumbs']]) ?>
-        <?php endif ?>
-    <div class="container-fluid pt-4">
-        <?= $content ?>
-    </div>
+	<?php if (!empty($this->params['breadcrumbs'])): ?>
+		<?= Breadcrumbs::widget(['links' => $this->params['breadcrumbs']]) ?>
+	<?php endif ?>
+	<div class="container-fluid pt-4">
+	  <?= $content ?>
+	</div>
 </main>
 
 <footer id="footer" class="mt-auto py-3 bg-light">
-    <div class="container">
-        <div class="row text-muted">
-            <div class="col-md-6 text-center text-md-start">&copy; CalInv <?= date('Y') ?></div>
-        </div>
-    </div>
+	<div class="container">
+		<div class="row text-muted">
+			<div class="col-md-6 text-center text-md-start">&copy; CalInv <?= date('Y') ?></div>
+		</div>
+	</div>
 </footer>
 
 <?php $this->endBody() ?>

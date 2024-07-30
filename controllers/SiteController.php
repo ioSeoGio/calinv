@@ -3,6 +3,8 @@
 namespace app\controllers;
 
 use common\BaseController;
+use app\models\User;
+use Yii;
 
 class SiteController extends BaseController
 {

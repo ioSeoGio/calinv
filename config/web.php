@@ -61,7 +61,9 @@ $config = [
                 'financial-instruments' => '/FinancialInstrument/share/index',
                 'portfolio' => '/Portfolio/personal-share/index',
                 'calculator' => '/IssuerRatingCalculator/calculator/index',
-
+				'signup' => 'auth/signup',
+				'login' => 'auth/login',
+				'profile' => 'profile/index',
                 '<folder:\w+>/<controller:\w+>/<action:\w+>' => '<folder>/<controller>/<action>',
                 '<controller:\w+>/<action:\w+>' => '<controller>/<action>',
                 '<controller:\w+>' => '<controller>/index',

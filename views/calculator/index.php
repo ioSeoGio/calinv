@@ -14,6 +14,7 @@ use unclead\multipleinput\TabularColumn;
 use unclead\multipleinput\TabularInput;
 use yii\bootstrap5\ActiveForm;
 use yii\bootstrap5\Html;
+use yii\bootstrap5\Widget;
 use yii\data\ActiveDataProvider;
 use yii\grid\GridView;
 use yii\helpers\Url;
