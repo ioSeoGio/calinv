@@ -59,6 +59,7 @@ $config = [
             'showScriptName' => false,
             'rules' => [
                 'financial-instruments' => '/FinancialInstrument/share/index',
+                'portfolio/search' => '/Portfolio/portfolio/search',
                 'portfolio' => '/Portfolio/personal-share/index',
                 'calculator' => '/IssuerRatingCalculator/calculator/index',
 				'signup' => 'auth/signup',

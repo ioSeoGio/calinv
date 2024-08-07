@@ -21,7 +21,7 @@ class PersonalBondFactory
             'buyPrice' => $form->buyPrice,
             'amount' => $form->amount,
             'buyDate' => $form->buyDate,
-            'user_id' => Yii::$app->user->identity->getId(),
+            'user_id' => new ObjectId(Yii::$app->user->identity->getId()),
         ], '');
 
         return $model;

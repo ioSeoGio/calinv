@@ -2,6 +2,8 @@
 
 use yii\helpers\Html;
 
+/** @var \app\models\User $model */
+
 $this->title = 'Профиль';
 ?>
 
@@ -18,14 +20,8 @@ $this->title = 'Профиль';
 							<dt class="col-sm-4">Логин:</dt>
 							<dd class="col-sm-8"><?= Html::encode($model->username) ?></dd>
 
-							<dt class="col-sm-4">ФИО:</dt>
-							<dd class="col-sm-8"><?= Html::encode($model->fio) ?></dd>
-
 							<dt class="col-sm-4">Электронная почта:</dt>
 							<dd class="col-sm-8"><?= Html::encode($model->email) ?></dd>
-
-							<dt class="col-sm-4">Номер телефона:</dt>
-							<dd class="col-sm-8"><?= Html::encode($model->phone_number) ?></dd>
 
 							<dt class="col-sm-4">Дата регистрации:</dt>
 							<dd class="col-sm-8"><?= Yii::$app->formatter->asDate($model->created_at->toDateTime(), 'long') ?></dd>

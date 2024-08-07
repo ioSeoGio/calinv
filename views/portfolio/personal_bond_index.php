@@ -17,9 +17,11 @@ use yii\helpers\ArrayHelper;
 
 ?>
 <?= $this->render('tabs', []); ?>
-<?= $this->render('personal_bond_creation', [
-    'personalBondForm' => $personalBondForm,
-]); ?>
+<?php if (!isset(Yii::$app->request->queryParams['userId'])) {
+    echo $this->render('personal_bond_creation', [
+        'personalBondForm' => $personalBondForm,
+    ]);
+} ?>
 <?= $sharesContent = GridView::widget([
     'dataProvider' => $personalBondDataProvider,
     'filterModel' => $personalBondSearchForm,

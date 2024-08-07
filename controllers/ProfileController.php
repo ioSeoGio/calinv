@@ -2,6 +2,7 @@
 
 namespace app\controllers;
 
+use app\controllers\Portfolio\Search\PortfolioSearch;
 use Yii;
 use yii\web\Controller;
 use app\models\ProfileForm;
@@ -34,9 +35,7 @@ class ProfileController extends Controller
 			if ($profileForm->load(Yii::$app->request->post()) && $profileForm->validate()) {
 				// Обновляем поля профиля
 				$user->username = $profileForm->username;
-				$user->fio = $profileForm->fio;
 				$user->email = $profileForm->email;
-				$user->phone_number = $profileForm->phone_number;
 
 				// Обновляем пароль, если он указан
 				if ($profileForm->new_password) {
@@ -48,9 +47,7 @@ class ProfileController extends Controller
 			}
 		} else {
 			$profileForm->username = $user->username;
-			$profileForm->fio = $user->fio;
 			$profileForm->email = $user->email;
-			$profileForm->phone_number = $user->phone_number;
 		}
 
 		// Устанавливаем хлебные крошки

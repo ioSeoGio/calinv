@@ -15,13 +15,9 @@ $this->params['breadcrumbs'][] = $this->title;
 
 	<?php $form = ActiveForm::begin(['id' => 'form-signup']); ?>
 
-	<?= $form->field($model, 'fio')->textInput(['autofocus' => true, 'placeholder' => 'ФИО'])->label(false) ?>
-
 	<?= $form->field($model, 'email')->textInput(['placeholder' => 'Электронная почта'])->label(false) ?>
 
 	<?= $form->field($model, 'username')->textInput(['placeholder' => 'Логин'])->label(false) ?>
-
-	<?= $form->field($model, 'phone_number')->textInput(['placeholder' => 'Номер телефона'])->label(false) ?>
 
 	<?= $form->field($model, 'password')->passwordInput(['placeholder' => 'Пароль'])->label(false) ?>
 

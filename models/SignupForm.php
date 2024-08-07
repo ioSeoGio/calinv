@@ -8,17 +8,15 @@ use yii\base\Model;
 class SignupForm extends Model
 {
 	public $username;
-	public $fio;
 	public $email;
-	public $phone_number;
 	public $password;
 	public $password_repeat;
 
-	public function rules()
-	{
+	public function rules(): array
+    {
 		return [
-			[['username', 'fio', 'email', 'phone_number', 'password', 'password_repeat'], 'required'],
-			[['username', 'fio', 'email', 'phone_number', 'password', 'password_repeat'], 'string', 'min' => 4, 'max' => 255],
+			[['username', 'email', 'password', 'password_repeat'], 'required'],
+			[['username', 'email', 'password', 'password_repeat'], 'string', 'min' => 4, 'max' => 255],
 			['email', 'email'],
 			['username', 'unique', 'targetClass' => '\app\models\User', 'message' => 'Этот логин уже занят.'],
 			['email', 'unique', 'targetClass' => '\app\models\User', 'message' => 'Этот email уже используется.'],
@@ -34,9 +32,7 @@ class SignupForm extends Model
 
 		$user = new User();
 		$user->username = $this->username;
-		$user->fio = $this->fio;
 		$user->email = $this->email;
-		$user->phone_number = $this->phone_number;
 		$user->setPassword($this->password);
 		$user->generateAuthKey();
 		$user->generateAccessToken();

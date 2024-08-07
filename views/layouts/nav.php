@@ -17,6 +17,7 @@ echo Nav::widget([
 	'items' => [
 		['label' => 'Калькулятор эмитентов', 'url' => ['/calculator']],
 		['label' => 'Мой портфель', 'url' => ['/portfolio']],
+		['label' => 'Поиск портфелей', 'url' => ['/portfolio/search']],
 		['label' => 'Инструменты', 'url' => ['/financial-instruments']],
 	]
 ]);

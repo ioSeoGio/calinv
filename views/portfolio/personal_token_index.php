@@ -17,9 +17,11 @@ use yii\helpers\ArrayHelper;
 
 ?>
 <?= $this->render('tabs', []); ?>
-<?= $this->render('personal_token_creation', [
-    'personalTokenForm' => $personalTokenForm,
-]); ?>
+<?php if (!isset(Yii::$app->request->queryParams['userId'])) {
+    echo $this->render('personal_token_creation', [
+        'personalTokenForm' => $personalTokenForm,
+    ]);
+} ?>
 <?= $sharesContent = GridView::widget([
     'dataProvider' => $personalTokenDataProvider,
     'filterModel' => $personalTokenSearchForm,

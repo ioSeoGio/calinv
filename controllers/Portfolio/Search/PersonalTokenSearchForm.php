@@ -25,7 +25,7 @@ class PersonalTokenSearchForm extends Model
     {
         $query = PersonalToken::find()
             ->with(['token.issuerRating'])
-            ->where(['user_id' => Yii::$app->user->identity->getId()]);
+            ->where(['user_id' => new ObjectId($params['userId'] ?? Yii::$app->user->identity->getId())]);
 
         $this->load($params);
         if (!$this->validate()) {

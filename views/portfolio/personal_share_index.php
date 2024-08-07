@@ -16,9 +16,11 @@ use yii\helpers\ArrayHelper;
 
 ?>
 <?= $this->render('tabs', []); ?>
-<?= $this->render('personal_share_creation', [
-    'personalShareForm' => $personalShareForm,
-]); ?>
+<?php if (!isset(Yii::$app->request->queryParams['userId'])) {
+    echo $this->render('personal_share_creation', [
+        'personalShareForm' => $personalShareForm,
+    ]);
+} ?>
 <?= $sharesContent = GridView::widget([
     'dataProvider' => $personalShareDataProvider,
     'filterModel' => $personalShareSearchForm,

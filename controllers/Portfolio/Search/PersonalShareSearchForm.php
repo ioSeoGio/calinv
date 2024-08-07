@@ -26,7 +26,7 @@ class PersonalShareSearchForm extends Model
     {
         $query = PersonalShare::find()
             ->with(['share.issuerRating'])
-            ->where(['user_id' => Yii::$app->user->identity->getId()]);
+            ->where(['user_id' => new ObjectId($params['userId'] ?? Yii::$app->user->identity->getId())]);
 
         $this->load($params);
         if (!$this->validate()) {

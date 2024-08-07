@@ -2,7 +2,12 @@
 
 namespace app\models;
 
+use app\models\Portfolio\PersonalBond;
+use app\models\Portfolio\PersonalShare;
+use app\models\Portfolio\PersonalToken;
 use Yii;
+use yii\db\ActiveQuery;
+use yii\db\ActiveQueryInterface;
 use yii\mongodb\ActiveRecord;
 use yii\web\IdentityInterface;
 
@@ -18,9 +23,7 @@ class User extends ActiveRecord implements IdentityInterface
 		return [
 			'_id',
 			'username',
-			'fio',
 			'email',
-			'phone_number',
 			'password_hash',
 			'auth_key',
 			'access_token',
@@ -31,8 +34,8 @@ class User extends ActiveRecord implements IdentityInterface
 	public function rules()
 	{
 		return [
-			[['username', 'fio', 'email', 'phone_number', 'password_hash', 'auth_key', 'access_token', 'created_at'], 'safe'],
-			[['username', 'fio', 'email', 'phone_number'], 'required'],
+			[['username', 'email', 'password_hash', 'auth_key', 'access_token', 'created_at'], 'safe'],
+			[['username', 'email'], 'required'],
 			[['email'], 'email'],
 			[['username', 'email'], 'unique'],
 		];
@@ -98,4 +101,58 @@ class User extends ActiveRecord implements IdentityInterface
 	{
 		$this->access_token = Yii::$app->getSecurity()->generateRandomString();
 	}
+
+    public function getPersonalBonds(): ActiveQuery|ActiveQueryInterface
+    {
+        return $this->hasMany(PersonalBond::class, ['user_id' => '_id']);
+    }
+
+    public function getPersonalShares(): ActiveQuery|ActiveQueryInterface
+    {
+        return $this->hasMany(PersonalShare::class, ['user_id' => '_id']);
+    }
+
+    public function getPersonalTokens(): ActiveQuery|ActiveQueryInterface
+    {
+        return $this->hasMany(PersonalToken::class, ['user_id' => '_id']);
+    }
+
+    public function getSharesInfo(): array
+    {
+        $shareAmount = 0;
+        $shareMoneyCost = 0;
+        foreach ($this->getPersonalShares()->all() as $personalShare) {
+            $shareAmount += $personalShare->amount;
+            $shareMoneyCost += $personalShare->amount * $personalShare->share->currentPrice;
+        }
+
+        $bondAmount = 0;
+        $bondMoneyCost = 0;
+        foreach ($this->getPersonalBonds()->all() as $personalBond) {
+            $bondAmount += $personalBond->amount;
+            $bondMoneyCost += $personalBond->amount * $personalBond->bond->currentPrice;
+        }
+
+        $tokenAmount = 0;
+        $tokenMoneyCost = 0;
+        foreach ($this->getPersonalTokens()->all() as $personalToken) {
+            $tokenAmount += $personalToken->amount;
+            $tokenMoneyCost += $personalToken->amount * $personalToken->token->currentPrice;
+        }
+
+        $allCost = $shareMoneyCost + $bondMoneyCost + $tokenMoneyCost;
+        return [
+            'shareAmount' => $shareAmount,
+            'shareMoneyCost' => $shareMoneyCost,
+            'sharePercentage' => $shareMoneyCost / $allCost * 100,
+
+            'bondAmount' => $bondAmount,
+            'bondMoneyCost' => $bondMoneyCost,
+            'bondPercentage' => $bondMoneyCost / $allCost * 100,
+
+            'tokenAmount' => $tokenAmount,
+            'tokenMoneyCost' => $tokenMoneyCost,
+            'tokenPercentage' => $tokenMoneyCost / $allCost * 100,
+        ];
+    }
 }
