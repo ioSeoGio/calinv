@@ -5,6 +5,7 @@ namespace app\models;
 use app\models\Portfolio\PersonalBond;
 use app\models\Portfolio\PersonalShare;
 use app\models\Portfolio\PersonalToken;
+use src\Helper\SimpleNumberFormatter;
 use Yii;
 use yii\db\ActiveQuery;
 use yii\db\ActiveQueryInterface;
@@ -140,19 +141,19 @@ class User extends ActiveRecord implements IdentityInterface
             $tokenMoneyCost += $personalToken->amount * $personalToken->token->currentPrice;
         }
 
-        $allCost = $shareMoneyCost + $bondMoneyCost + $tokenMoneyCost;
+        $allCost = $shareMoneyCost + $bondMoneyCost + $tokenMoneyCost ?: 1;
         return [
             'shareAmount' => $shareAmount,
             'shareMoneyCost' => $shareMoneyCost,
-            'sharePercentage' => $shareMoneyCost / $allCost * 100,
+            'sharePercentage' => SimpleNumberFormatter::toView($shareMoneyCost / $allCost * 100),
 
             'bondAmount' => $bondAmount,
             'bondMoneyCost' => $bondMoneyCost,
-            'bondPercentage' => $bondMoneyCost / $allCost * 100,
+            'bondPercentage' => SimpleNumberFormatter::toView($bondMoneyCost / $allCost * 100),
 
             'tokenAmount' => $tokenAmount,
             'tokenMoneyCost' => $tokenMoneyCost,
-            'tokenPercentage' => $tokenMoneyCost / $allCost * 100,
+            'tokenPercentage' => SimpleNumberFormatter::toView($tokenMoneyCost / $allCost * 100),
         ];
     }
 }

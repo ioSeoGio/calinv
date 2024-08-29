@@ -59,7 +59,7 @@ use yii\helpers\ArrayHelper;
             'label' => 'прибыль, всего',
             'format' => 'raw',
             'value' => function (PersonalShare $model) {
-                $value = $model->share->currentPrice - $model->buyPrice / $model->buyPrice;
+                $value = ($model->share->currentPrice - $model->buyPrice) / $model->buyPrice * 100;
 
                  return Html::tag(
                     name: 'span',

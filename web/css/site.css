@@ -107,3 +107,30 @@ a.desc:after {
     margin: 0 auto;
     padding: 15px;
 }
+
+[data-tooltip] {
+    position: relative; /* Относительное позиционирование */
+}
+
+[data-tooltip]::after {
+    content: attr(data-tooltip); /* Выводим текст */
+    position: absolute; /* Абсолютное позиционирование */
+    max-width: 200px; /* Максимальная ширина подсказки */
+    left: 0; top: 100%; /* Положение подсказки под элементом */
+    background: #3989c9; /* Синий цвет фона */
+    color: #fff; /* Цвет текста */
+    padding: 0.5em; /* Поля вокруг текста */
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3); /* Параметры тени */
+    opacity: 0; /* Подсказка невидима */
+    visibility: hidden; /* Подсказка скрыта */
+    transition: opacity 0.5s, visibility 0.5s; /* Время появления подсказки */
+    white-space: normal; /* Разрешаем перенос текста */
+    word-wrap: break-word; /* Перенос длинных слов */
+    pointer-events: auto; /* Разрешаем взаимодействие с подсказкой */
+    user-select: text; /* Разрешаем выделение текста */
+}
+
+[data-tooltip]:hover::after {
+    opacity: 1; /* Показываем подсказку */
+    visibility: visible; /* Подсказка видима */
+}

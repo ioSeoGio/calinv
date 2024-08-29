@@ -2,9 +2,12 @@
 
 namespace app\models\IssuerRating;
 
+use app\models\FinancialInstrument\Share;
 use app\models\IssuerRating\SimpleCriteria\IssuerIndicatorGrowth;
 use common\Database\BaseActiveRecord;
 use common\Database\EmbeddedMany;
+use yii\db\ActiveQuery;
+use yii\db\ActiveQueryInterface;
 
 #[EmbeddedMany(propertyName: 'indicator', objectClass: IssuerIndicator::class)]
 #[EmbeddedMany(propertyName: 'indicatorGrowth', objectClass: IssuerIndicatorGrowth::class)]
@@ -21,7 +24,6 @@ class IssuerRating extends BaseActiveRecord
             '_id',
             'issuer',
             'bikScore',
-            'shareAmount',
             'indicator',
             'indicatorGrowth',
             'k1_standard',
@@ -37,7 +39,6 @@ class IssuerRating extends BaseActiveRecord
             [[
                 'issuer',
                 'bikScore',
-                'shareAmount',
                 'indicator',
                 'indicatorGrowth',
                 'k1_standard',
@@ -108,5 +109,10 @@ class IssuerRating extends BaseActiveRecord
         }
 
         return $minimum;
+    }
+
+    public function getShares(): ActiveQuery|ActiveQueryInterface
+    {
+        return $this->hasMany(Share::class, ['issuer_id' => '_id']);
     }
 }

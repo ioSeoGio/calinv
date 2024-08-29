@@ -16,7 +16,8 @@ class IssuerIndicator extends Model
     public float $k2;
     public float $k3;
     public ?float $k4 = null;
-    public float $PE;
+    public ?float $PE = null;
+    public ?float $PB = null;
     public string $date;
 
     public function rules(): array
@@ -32,7 +33,6 @@ class IssuerIndicator extends Model
                 'k1',
                 'k2',
                 'k3',
-                'PE',
                 'date',
             ], 'required'],
             [[
@@ -45,10 +45,11 @@ class IssuerIndicator extends Model
                 'k1',
                 'k2',
                 'k3',
-                'PE',
             ], 'double'],
             [[
                 'k4',
+                'PE',
+                'PB',
             ], 'safe'],
         ];
     }

@@ -23,7 +23,6 @@ class IssuerRatingFactory
             'issuer' => $simpleForm->issuer,
             'bikScore' => $simpleForm->bikScore,
             'indicator' => $issuerIndicators,
-            'shareAmount' => $simpleForm->shareAmount,
             'k1_standard' => $simpleForm->k1_standard,
             'k2_standard' => $simpleForm->k2_standard,
             'k3_standard' => $simpleForm->k3_standard,
@@ -41,7 +40,7 @@ class IssuerRatingFactory
         if ($recalculateChildren) {
             $indicators = [];
             foreach ($rating->indicator as $indicator) {
-                $indicators[] = $this->issuerIndicatorFactory->update($indicator);
+                $indicators[] = $this->issuerIndicatorFactory->update($indicator, $rating);
             }
             $rating->indicator = $indicators;
         }

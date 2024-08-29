@@ -14,8 +14,10 @@ class AuthController extends Controller
     {
 		$model = new SignupForm();
 
-		if ($model->load(Yii::$app->request->post()) && $model->signup()) {
-			return $this->redirect(['login']);
+		if ($model->load(Yii::$app->request->post()) && $user = $model->signup()) {
+            Yii::$app->user->login($user, 3600*24*30);
+
+			return $this->redirect(['/']);
 		}
 
 		return $this->render('signup', [

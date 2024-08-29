@@ -24,7 +24,7 @@ class SignupForm extends Model
 		];
 	}
 
-	public function signup()
+	public function signup(): ?User
 	{
 		if (!$this->validate()) {
 			return null;

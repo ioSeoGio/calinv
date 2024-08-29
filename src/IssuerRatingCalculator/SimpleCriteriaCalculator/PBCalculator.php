@@ -6,7 +6,7 @@ use app\models\IssuerRating\IssuerIndicator;
 use app\models\IssuerRating\IssuerRating;
 use src\IssuerRatingCalculator\Static\CapitalizationCalculator;
 
-class PECalculator
+class PBCalculator
 {
     public static function execute(IssuerIndicator $issuerIndicator, ?IssuerRating $issuerRating = null): ?float
     {
@@ -15,6 +15,6 @@ class PECalculator
         }
 
         $capitalization = CapitalizationCalculator::calculate($issuerRating);
-        return $capitalization / $issuerIndicator->profit;
+        return $capitalization / $issuerIndicator->capital;
     }
 }

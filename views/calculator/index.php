@@ -11,11 +11,15 @@ use app\controllers\IssuerRatingCalculator\CalculateSimpleForm;
 use app\controllers\IssuerRatingCalculator\IssuerRatingSearchForm;
 use app\models\IssuerRating\IssuerRating;
 use app\views\calculator\CoefficientViewHelper;
+use app\views\helper\GoodBadValueViewHelper;
+use src\Helper\SimpleNumberFormatter;
+use src\IssuerRatingCalculator\Static\CapitalizationCalculator;
+use src\IssuerRatingCalculator\Static\ExpressRatingCalculator;
+use src\IssuerRatingCalculator\Static\FairSharePriceCalculator;
 use unclead\multipleinput\TabularColumn;
 use unclead\multipleinput\TabularInput;
 use yii\bootstrap5\ActiveForm;
 use yii\bootstrap5\Html;
-use yii\bootstrap5\Widget;
 use yii\data\ActiveDataProvider;
 use yii\grid\GridView;
 use yii\helpers\Url;
@@ -43,9 +47,6 @@ $this->title = 'Калькулятор эмитентов';
                     BIK рейтинг
                 </th>
                 <th scope="col">
-                </th>
-                <th scope="col">
-                    Кол-во акций
                 </th>
                 <th scope="col">
                     k1
@@ -128,11 +129,6 @@ $this->title = 'Калькулятор эмитентов';
                 </td>
                 <td>
                     <div class="input-group mb-1">
-                        <?= $form->field($simpleForm, 'shareAmount')->textInput(['class' => 'form-control'])->label(false) ?>
-                    </div>
-                </td>
-                <td>
-                    <div class="input-group mb-1">
                         <?= $form->field($simpleForm, 'k1_standard')->textInput(['class' => 'form-control'])->label(false) ?>
                     </div>
                 </td>
@@ -145,7 +141,7 @@ $this->title = 'Калькулятор эмитентов';
                     <div class="input-group mb-1">
                         <?= $form->field($simpleForm, 'k3_standard')->textInput(['class' => 'form-control'])->label(false) ?>
                     </div>
-                </td>>
+                </td>
                 <td>
                     <div class="input-group mb-1">
                         <?= $form->field($simpleForm, 'k4_standard')->textInput(['class' => 'form-control'])->label(false) ?>
@@ -250,12 +246,46 @@ $this->title = 'Калькулятор эмитентов';
                 }
             ],
             [
+                'label' => 'капитализация',
+                'format' => 'raw',
+                'value' => function (IssuerRating $model) {
+                    return Html::tag('div', SimpleNumberFormatter::toView(CapitalizationCalculator::calculate($model)), []);
+                }
+            ],
+            [
+                'headerOptions' => ['data-tooltip' => 'Капитализация к прибыли (окупаемость в годах)'],
                 'label' => 'P/E',
                 'format' => 'raw',
                 'value' => function (IssuerRating $model) {
                     $values = '';
                     foreach ($model->getIndicator() as $indicator) {
-                        $values .= Html::tag('div', round($indicator->PE, 2), []);
+                        $values .= GoodBadValueViewHelper::execute($indicator['PE'], line: 10, moreBetter: false) . "<br>";
+                    }
+
+                    return $values;
+                }
+            ],
+            [
+                'headerOptions' => ['data-tooltip' => 'Капитализация к капиталу (чистых рублей на вложенный рубль)'],
+                'label' => 'P/B',
+                'format' => 'raw',
+                'value' => function (IssuerRating $model) {
+                    $values = '';
+                    foreach ($model->getIndicator() as $indicator) {
+                        $values .= GoodBadValueViewHelper::execute($indicator['PB'], line: 1) . "<br>";
+                    }
+
+                    return $values;
+                }
+            ],
+            [
+                'headerOptions' => ['data-tooltip' => 'https://www.youtube.com/watch?v=JnT3XThmzgA'],
+                'label' => 'экспресс оценка',
+                'format' => 'raw',
+                'value' => function (IssuerRating $model) {
+                    $values = '';
+                    foreach (ExpressRatingCalculator::calculate($model) as $mark) {
+                        $values .= GoodBadValueViewHelper::execute($mark, line: 5, decimals: 1) . "<br>";
                     }
 
                     return $values;

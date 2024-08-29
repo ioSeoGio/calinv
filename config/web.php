@@ -68,7 +68,7 @@ $config = [
                 '<folder:\w+>/<controller:\w+>/<action:\w+>' => '<folder>/<controller>/<action>',
                 '<controller:\w+>/<action:\w+>' => '<controller>/<action>',
                 '<controller:\w+>' => '<controller>/index',
-                '' => 'site/index',
+                '' => '/IssuerRatingCalculator/calculator/index',
             ],
         ],
     ],
