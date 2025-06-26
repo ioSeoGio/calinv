@@ -1,0 +1,37 @@
+<?php
+
+use yii\db\Migration;
+
+class m250622_191227_create_user_table extends Migration
+{
+    public function safeUp(): void
+    {
+        $this->createTable('{{%user}}', [
+            'id' => $this->primaryKey(),
+            'username' => $this->string(64)->notNull(),
+            'email' => $this->string(64)->notNull(),
+            'auth_key' => $this->string(64),
+            'password_hash' => $this->string(64)->notNull(),
+
+            'created_at' => $this->timestamp()->notNull()->defaultExpression('CURRENT_TIMESTAMP'),
+            'updated_at' => $this->timestamp()->notNull()->defaultExpression('CURRENT_TIMESTAMP'),
+        ]);
+
+        $passwordHash = Yii::$app->getSecurity()->generatePasswordHash('12345678');
+        $this->insert('{{%user}}', [
+            'username' => 'seog',
+            'password_hash' => $passwordHash,
+            'email' => 'ioseogio@gmail.com',
+        ]);
+        $this->insert('{{%user}}', [
+            'username' => 'kenris',
+            'password_hash' => $passwordHash,
+            'email' => 'kenris@gmail.com',
+        ]);
+    }
+
+    public function safeDown(): void
+    {
+        $this->dropTable('{{%user}}');
+    }
+}

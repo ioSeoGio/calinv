@@ -2,29 +2,13 @@
 
 namespace app\controllers;
 
+use lib\BaseController;
+use src\Action\Auth\LoginForm;
 use Yii;
-use yii\web\Controller;
-use app\models\SignupForm;
-use app\models\LoginForm;
 use yii\web\Response;
 
-class AuthController extends Controller
+class AuthController extends BaseController
 {
-	public function actionSignup(): Response|string
-    {
-		$model = new SignupForm();
-
-		if ($model->load(Yii::$app->request->post()) && $user = $model->signup()) {
-            Yii::$app->user->login($user, 3600*24*30);
-
-			return $this->redirect(['/']);
-		}
-
-		return $this->render('signup', [
-			'model' => $model,
-		]);
-	}
-
 	public function actionLogin(): Response|string
     {
 		if (!Yii::$app->user->isGuest) {

@@ -6,26 +6,28 @@ services:
       - "80:80"
     volumes:
       - ./:/var/www/html
-      - ./docker/nginx/site.conf:/etc/nginx/conf.d/default.conf
+      - ./.docker/nginx/site.conf:/etc/nginx/conf.d/default.conf
     depends_on:
       - php
 
   php:
     build:
       context: ./
-      dockerfile: ./docker/php/Dockerfile
+      dockerfile: .docker/php/Dockerfile
     volumes:
       - ./:/var/www/html
-      - ./docker/php:/usr/local/etc/php/custom.d
+      - ./.docker/php:/usr/local/etc/php/custom.d
     environment:
       PHP_INI_SCAN_DIR: "/usr/local/etc/php/custom.d:/usr/local/etc/php/conf.d"
 
-  mongodb:
-    image: mongo:4.4.6
-    environment:
-      MONGO_INITDB_ROOT_USERNAME: root
-      MONGO_INITDB_ROOT_PASSWORD: password
+  db:
+    image: postgres:latest
+    restart: always
     ports:
-      - "27017:27017"
+      - "54322:5432"
     volumes:
-      - ./.data:/data/db
+      - "./database/postgres-data:/var/lib/postgresql/data"
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: root
+      POSTGRES_DB: calinv_db

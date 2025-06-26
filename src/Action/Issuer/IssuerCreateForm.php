@@ -4,19 +4,19 @@ namespace src\Action\Issuer;
 
 use yii\base\Model;
 
-class CreateIssuerForm extends Model
+class IssuerCreateForm extends Model
 {
-    public string $issuer = 'Amazon';
+    public string $issuerName = 'Amazon';
     public string $bikScore = 'AA+';
 
     public function rules(): array
     {
         return [
             [[
-                'issuer',
+                'issuerName',
                 'bikScore',
             ], 'required', 'message' => 'Заполните.'],
-            [['issuer', 'bikScore'], 'string'],
+            [['issuerName', 'bikScore'], 'string'],
         ];
     }
 }

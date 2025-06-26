@@ -1,11 +1,11 @@
 <?php
 
-use app\models\User;
+use src\Entity\User\User;
 use yii\bootstrap5\Html;
 use yii\bootstrap5\Tabs;
 use yii\helpers\Url;
 
-$userId = Yii::$app->request->queryParams['userId'] ?? '';
+$userId = Yii::$app->request->queryParams['userId'] ?? Yii::$app->user->id;
 ?>
 
 <?php if ($user = User::findOne($userId)): ?>
@@ -26,26 +26,10 @@ $userId = Yii::$app->request->queryParams['userId'] ?? '';
         [
             'label' => 'Акции',
             'url' => Url::to($userId
-                ? ['/Portfolio/personal-share/index', 'userId' => $userId]
-                : ['/Portfolio/personal-share/index']
+                ? ['/personal-share/index', 'userId' => $userId]
+                : ['/personal-share/index']
             ),
-            'active' => str_contains(Url::current(), '/portfolio'),
-        ],
-        [
-            'label' => 'Облигации',
-            'url' => Url::to($userId
-                ? ['/Portfolio/personal-bond/index', 'userId' => $userId]
-                : ['/Portfolio/personal-bond/index']
-            ),
-            'active' => str_contains(Url::current(), Url::to(['/Portfolio/personal-bond/index'])),
-        ],
-        [
-            'label' => 'Токены',
-            'url' => Url::to($userId
-                ? ['/Portfolio/personal-token/index', 'userId' => $userId]
-                : ['/Portfolio/personal-token/index']
-            ),
-            'active' => str_contains(Url::current(), Url::to(['/Portfolio/personal-token/index'])),
+            'active' => true,
         ],
     ]
 ]) ?>

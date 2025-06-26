@@ -1,8 +1,7 @@
 <?php
 
-namespace app\views\helper;
+namespace src\Helper;
 
-use src\Helper\SimpleNumberFormatter;
 use yii\bootstrap5\Html;
 
 class GoodBadValueViewHelper

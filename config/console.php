@@ -1,5 +1,7 @@
 <?php
 
+use yii\console\controllers\MigrateController;
+
 $params = require __DIR__ . '/params.php';
 $db = require __DIR__ . '/db.php';
 
@@ -25,16 +27,17 @@ $config = [
                 ],
             ],
         ],
-        'mongodb' => $db,
+        'db' => $db,
     ],
     'params' => $params,
-    /*
     'controllerMap' => [
-        'fixture' => [ // Fixture generation command line.
-            'class' => 'yii\faker\FixtureController',
+        'migrate' => [
+            'class' => MigrateController::class,
+            'migrationPath' => [
+                '@app/migrations',
+            ],
         ],
     ],
-    */
 ];
 
 if (YII_ENV_DEV) {

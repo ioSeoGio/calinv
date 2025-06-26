@@ -32,17 +32,11 @@ $config = [
             'class' => 'yii\caching\FileCache',
         ],
         'user' => [
-            'identityClass' => 'app\models\User',
+            'identityClass' => 'src\Entity\User\User',
             'enableAutoLogin' => true,
         ],
         'errorHandler' => [
             'errorAction' => 'site/error',
-        ],
-        'mailer' => [
-            'class' => \yii\symfonymailer\Mailer::class,
-            'viewPath' => '@app/mail',
-            // send all mails to a file by default.
-            'useFileTransport' => true,
         ],
         'log' => [
             'traceLevel' => YII_DEBUG ? 3 : 0,
@@ -53,22 +47,15 @@ $config = [
                 ],
             ],
         ],
-        'mongodb' => $db,
+        'db' => $db,
         'urlManager' => [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
-                'financial-instruments' => '/FinancialInstrument/share/index',
-                'portfolio/search' => '/Portfolio/portfolio/search',
-                'portfolio' => '/Portfolio/personal-share/index',
-                'calculator' => '/IssuerRatingCalculator/calculator/index',
-				'signup' => 'auth/signup',
+                'portfolio' => '/personal-share/index',
+                'issuer' => '/issuer/index',
 				'login' => 'auth/login',
-				'profile' => 'profile/index',
-                '<folder:\w+>/<controller:\w+>/<action:\w+>' => '<folder>/<controller>/<action>',
-                '<controller:\w+>/<action:\w+>' => '<controller>/<action>',
-                '<controller:\w+>' => '<controller>/index',
-                '' => '/IssuerRatingCalculator/calculator/index',
+                '' => '/issuer/index',
             ],
         ],
     ],

@@ -1,24 +1,26 @@
 <?php
 
-use app\models\FinancialInstrument\Share;
-use app\models\IssuerRating\IssuerRating;
-use app\models\Portfolio\PersonalShare;
-use src\IssuerRatingCalculator\Static\YieldToMaturityCalculator;
+use src\Entity\Issuer\Issuer;
+use src\Entity\PersonalShare\PersonalShare;
+use src\Entity\Share\Share;
 use yii\base\Model;
 use yii\bootstrap5\Html;
 use yii\data\ArrayDataProvider;
 use yii\grid\GridView;
 use yii\helpers\ArrayHelper;
+use yii\web\View;
 
 /** @var ArrayDataProvider $personalShareDataProvider */
 /** @var Model $personalShareSearchForm */
-/** @var Model $personalShareForm */
+/** @var Model $personalShareCreateForm */
+/** @var View $this */
 
+$queryParamUserId = Yii::$app->request->queryParams['userId'] ?? null;
 ?>
 <?= $this->render('tabs', []); ?>
-<?php if (!isset(Yii::$app->request->queryParams['userId'])) {
+<?php if ($queryParamUserId === null || $queryParamUserId === Yii::$app->user->id) {
     echo $this->render('personal_share_creation', [
-        'personalShareForm' => $personalShareForm,
+        'personalShareCreateForm' => $personalShareCreateForm,
     ]);
 } ?>
 <?= $sharesContent = GridView::widget([
@@ -35,23 +37,23 @@ use yii\helpers\ArrayHelper;
                     ['All' => 'Все'],
                     ArrayHelper::map(
                         Share::find()->all(),
-                        fn (Share $model) => (string) $model->_id,
-                        fn (Share $model) => $model->issuerRating?->issuer .' - '.$model->name,
+                        fn (Share $model) => (string) $model->id,
+                        fn (Share $model) => $model->issuer->name .' - ' . $model->name,
                 ),
             ), ['class' => 'form-control']),
         ],
         [
             'label' => 'эмитент',
-            'attribute' => 'share.issuerRating.issuer',
+            'attribute' => 'share.issuer.name',
             'filter' => Html::activeDropDownList(
                 $personalShareSearchForm,
                 'issuerId',
                 array_merge(
                     ['All' => 'Все'],
                     ArrayHelper::map(
-                        IssuerRating::find()->all(),
-                        fn (IssuerRating $issuerRating) => (string) $issuerRating->_id,
-                        'issuer'
+                        Issuer::find()->all(),
+                        fn (Issuer $issuer) => (string) $issuer->id,
+                        'name'
                 ),
             ), ['class' => 'form-control']),
         ],
@@ -106,7 +108,7 @@ use yii\helpers\ArrayHelper;
         ],
         [
             'label' => 'дата покупки',
-            'attribute' => 'buyDate',
+            'attribute' => 'boughtAt',
         ],
         [
             'label' => 'объем выпуска',

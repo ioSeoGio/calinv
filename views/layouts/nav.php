@@ -15,11 +15,17 @@ echo '<div class="d-flex justify-content-between w-100">';
 echo Nav::widget([
 	'options' => ['class' => 'navbar-nav'],
 	'items' => [
-		['label' => 'Калькулятор эмитентов', 'url' => ['/calculator']],
+		['label' => 'Эмитенты', 'url' => ['/issuer']],
+		['label' => 'Акции', 'url' => ['/share']],
+	]
+]);
+
+echo Nav::widget([
+    'options' => ['class' => 'navbar-nav'],
+    'items' => [
 		['label' => 'Мой портфель', 'url' => ['/portfolio']],
 		['label' => 'Поиск портфелей', 'url' => ['/portfolio/search']],
-		['label' => 'Инструменты', 'url' => ['/financial-instruments']],
-	]
+    ]
 ]);
 
 if (Yii::$app->user->isGuest) {
@@ -27,14 +33,14 @@ if (Yii::$app->user->isGuest) {
 		'options' => ['class' => 'navbar-nav'],
 		'items' => [
 			['label' => 'Вход', 'url' => ['/login']],
-			['label' => 'Регистрация', 'url' => ['/auth/signup']],
+//			['label' => 'Регистрация', 'url' => ['/auth/signup']],
 		]
 	]);
 } else {
 	echo Nav::widget([
 		'options' => ['class' => 'navbar-nav'],
 		'items' => [
-			['label' => 'Профиль', 'url' => ['/profile/index']],
+//			['label' => 'Профиль', 'url' => ['/profile/index']],
 			'<li>'
 			. Html::beginForm(['/auth/logout'], 'post', ['class' => 'form-inline'])
 			. Html::submitButton(

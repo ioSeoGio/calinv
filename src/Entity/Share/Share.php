@@ -1,41 +1,38 @@
 <?php
 
-namespace app\models\FinancialInstrument;
+namespace src\Entity\Share;
 
-use app\models\IssuerRating\IssuerRating;
-use common\Database\BaseActiveRecord;
-use yii\db\ActiveQueryInterface;
-use yii\mongodb\ActiveQuery;
+use lib\BaseActiveRecord;
+use src\Action\Share\ShareCreateForm;
+use src\Entity\Issuer\Issuer;
+use yii\db\ActiveQuery;
+use yii\db\ActiveRecord;
 
+/**
+ * @property int $id
+ * @property string $name
+ * @property int $issuer_id
+ * @property Issuer $issuer
+ * @property float $denomination
+ * @property float $currentPrice
+ * @property int $volumeIssued
+ */
 class Share extends BaseActiveRecord
 {
     public static function tableName(): string
     {
-        return 'shares';
+        return 'share';
     }
 
     public function attributes(): array
     {
         return [
-            '_id',
+            'id',
             'name',
             'issuer_id',
             'denomination',
             'currentPrice',
             'volumeIssued',
-        ];
-    }
-
-    public function rules(): array
-    {
-        return [
-            [[
-                'name',
-                'issuer_id',
-                'denomination',
-                'currentPrice',
-                'volumeIssued',
-            ], 'required'],
         ];
     }
 
@@ -50,8 +47,22 @@ class Share extends BaseActiveRecord
         ];
     }
 
-    public function getIssuerRating(): \yii\db\ActiveQuery|ActiveQueryInterface
+    public static function make(ShareCreateForm $form): Share
     {
-        return $this->hasOne(IssuerRating::class, ['_id' => 'issuer_id']);
+        $share = new Share([
+            'name' => $form->name,
+            'issuer_id' => $form->issuer_id,
+            'denomination' => $form->denomination,
+            'currentPrice' => $form->currentPrice,
+            'volumeIssued' => $form->volumeIssued,
+        ]);
+        $share->save();
+
+        return $share;
+    }
+
+    public function getIssuer(): ActiveQuery
+    {
+        return $this->hasOne(Issuer::class, ['id' => 'issuer_id']);
     }
 }

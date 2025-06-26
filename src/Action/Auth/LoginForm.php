@@ -1,7 +1,8 @@
 <?php
 
-namespace app\models;
+namespace src\Action\Auth;
 
+use src\Entity\User\User;
 use Yii;
 use yii\base\Model;
 
@@ -9,12 +10,12 @@ class LoginForm extends Model
 {
 	public $email;
 	public $password;
-	public $rememberMe = true;
+	public mixed $rememberMe = true;
 
-	private $_user = false;
+	private ?User $_user = null;
 
-	public function rules()
-	{
+	public function rules(): array
+    {
 		return [
 			[['email', 'password'], 'required'],
 			['email', 'email'],
@@ -23,28 +24,30 @@ class LoginForm extends Model
 		];
 	}
 
-	public function validatePassword($attribute, $params): void
-    {
-		if (!$this->hasErrors()) {
-			$user = $this->getUser();
-
-			if (!$user || !$user->validatePassword($this->password)) {
-				$this->addError($attribute, 'Неправильно указан логин и/или пароль.');
-			}
-		}
-	}
-
 	public function login(): bool
     {
-		if ($this->validate()) {
+		if ($this->validate() && $this->validatePassword()) {
 			return Yii::$app->user->login($this->getUser(), $this->rememberMe ? 3600*24*30 : 0);
 		}
+
 		return false;
 	}
 
-	protected function getUser(): ?User
+	public function validatePassword(): bool
     {
-		if ($this->_user === false) {
+        $user = $this->getUser();
+
+        if (!$user || !$user->validatePassword($this->password)) {
+            $this->addError('password', 'Неправильно указан логин и/или пароль.');
+            return false;
+        }
+
+        return true;
+	}
+
+	private function getUser(): ?User
+    {
+		if ($this->_user === null) {
 			$this->_user = User::findByEmail($this->email);
 		}
 

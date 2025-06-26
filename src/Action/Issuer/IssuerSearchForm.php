@@ -6,21 +6,22 @@ use src\Entity\Issuer\Issuer;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
 
-class SearchIssuerForm extends Model
+class IssuerSearchForm extends Model
 {
-    public string $issuer = '';
+    public string $name = '';
     public string $bikScore = '';
 
     public function rules(): array
     {
         return [
-            [['issuer', 'bikScore'], 'string'],
+            [['name', 'bikScore'], 'string'],
         ];
     }
 
     public function search($params): ActiveDataProvider
     {
-        $query = Issuer::find();
+        $query = Issuer::find()
+            ->with('shares');
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
@@ -31,7 +32,7 @@ class SearchIssuerForm extends Model
             return $dataProvider;
         }
 
-        $query->andFilterWhere(['like', 'issuer', $this->issuer])
+        $query->andFilterWhere(['like', 'name', $this->name])
             ->andFilterWhere(['like', 'bikScore', $this->bikScore]);
 
         return $dataProvider;

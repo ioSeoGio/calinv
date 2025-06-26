@@ -19,6 +19,7 @@ vendor-rights:
 rights: db-rights vendor-rights
 	sudo chmod 777 -R web/
 	sudo chmod 777 -R runtime/
+	sudo chmod 777 -R migrations/
 
 	if [ -d message/ ]; \
 	then \
@@ -43,3 +44,12 @@ update:
 	docker exec -it $(shell basename $(CURDIR))-php-1 php yii update-issuers
 
 init: down rights build up composer-install
+
+migrate:
+	docker compose run --rm php php yii migrate --interactive=0
+
+migrate-prev:
+	docker compose run --rm php php yii migrate/down --interactive=0
+
+db-refresh:
+	docker compose run --rm php php yii migrate/fresh --interactive=0

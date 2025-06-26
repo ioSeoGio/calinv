@@ -1,46 +1,50 @@
 <?php
 
-namespace app\models\Portfolio;
+namespace src\Entity\PersonalShare;
 
+use src\Action\Share\PersonalShareCreateForm;
 use src\Entity\Share\Share;
+use src\Entity\User\User;
 use yii\db\ActiveQuery;
-use yii\db\ActiveQueryInterface;
 use yii\db\ActiveRecord;
 
+/**
+ * @property int $share_id
+ * @property int $user_id
+ * @property int $amount
+ * @property float $buyPrice
+ * @property string $boughtAt
+ *
+ * @property Share $share
+ */
 class PersonalShare extends ActiveRecord
 {
     public static function tableName(): string
     {
-        return 'personal_shares';
+        return 'personal_share';
     }
 
-    public function attributes(): array
+    public static function make(PersonalShareCreateForm $form): self
     {
-        return [
-            '_id',
-            'share_id',
-            'buyPrice',
-            'amount',
-            'buyDate',
-            'user_id',
-        ];
+        $model = new PersonalShare([
+            'share_id' => $form->share_id,
+            'user_id' => $form->user_id,
+            'amount' =>  $form->amount,
+            'buyPrice' => $form->buyPrice,
+            'boughtAt' => $form->boughtAt,
+        ]);
+        $model->save();
+
+        return $model;
     }
 
-    public function rules(): array
+    public function getShare(): ActiveQuery
     {
-        return [
-            [[
-                'share_id',
-                'buyPrice',
-                'amount',
-                'buyDate',
-                'user_id',
-            ], 'required'],
-        ];
+        return $this->hasOne(Share::class, ['id' => 'share_id']);
     }
 
-    public function getShare(): ActiveQuery|ActiveQueryInterface
+    public function getUser(): ActiveQuery
     {
-        return $this->hasOne(Share::class, ['_id' => 'share_id']);
+        return $this->hasOne(User::class, ['id' => 'user_id']);
     }
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace app\views\calculator;
+namespace src\Helper;
 
 use app\models\IssuerRating\IssuerRating;
 use yii\bootstrap5\Html;
