@@ -2,7 +2,7 @@
 
 namespace app\controllers;
 
-class SiteController
+class ShareController
 {
 
 }
