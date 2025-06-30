@@ -1,5 +1,7 @@
 <?php
 
+use app\bootstrap\SetUp;
+
 $params = require __DIR__ . '/params.php';
 $db = require __DIR__ . '/db.php';
 
@@ -8,7 +10,11 @@ $config = [
     'id' => 'calinv',
     'name' => 'CalInv',
     'basePath' => dirname(__DIR__),
-    'bootstrap' => ['log', 'log-reader'],
+    'bootstrap' => [
+        'log',
+        'log-reader',
+        SetUp::class,
+    ],
     'aliases' => [
         '@bower' => '@vendor/bower-asset',
         '@npm'   => '@vendor/npm-asset',
@@ -36,7 +42,7 @@ $config = [
             'enableAutoLogin' => true,
         ],
         'errorHandler' => [
-            'errorAction' => 'site/error',
+            'class' => \lib\ErrorHandler::class,
         ],
         'log' => [
             'traceLevel' => YII_DEBUG ? 3 : 0,

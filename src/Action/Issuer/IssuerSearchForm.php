@@ -21,6 +21,7 @@ class IssuerSearchForm extends Model
     public function search($params): ActiveDataProvider
     {
         $query = Issuer::find()
+            ->with('businessReputationInfo')
             ->with('shares');
 
         $dataProvider = new ActiveDataProvider([

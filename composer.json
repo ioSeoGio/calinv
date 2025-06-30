@@ -14,11 +14,18 @@
     },
     "minimum-stability": "dev",
     "require": {
-        "php": ">=8.1",
+        "php": ">=8.4",
         "yiisoft/yii2": "~2.0.45",
         "yiisoft/yii2-bootstrap5": "~2.0.2",
         "kriss/yii2-log-reader": "2.*",
-        "yiithings/yii2-dotenv": "*"
+        "yiithings/yii2-dotenv": "*",
+        "symfony/serializer": "8.0.x-dev",
+        "symfony/http-client": "8.0.x-dev",
+        "symfony/validator": "8.0.x-dev",
+        "symfony/property-info": "8.0.x-dev",
+        "symfony/property-access": "8.0.x-dev",
+        "ext-dom": "*",
+        "simplehtmldom/simplehtmldom": "dev-master"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.1.0",

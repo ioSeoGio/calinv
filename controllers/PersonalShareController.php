@@ -5,7 +5,13 @@ namespace app\controllers;
 use lib\BaseController;
 use src\Action\Share\PersonalShareCreateForm;
 use src\Action\Share\PersonalShareSearchForm;
+use src\Entity\Issuer\BusinessReputationRating\BusinessReputationInfo;
+use src\Entity\Issuer\Issuer;
+use src\Entity\Issuer\PayerIdentificationNumber;
 use src\Entity\PersonalShare\PersonalShare;
+use src\Integration\Bik\BusinessReputation\BusinessReputationRatingFetcher;
+use src\Integration\Bik\EsgRating\EsgRatingFetcher;
+use src\Integration\Egr\LegalName\EgrLegalNameFetcher;
 use Yii;
 use yii\bootstrap5\ActiveForm;
 use yii\web\Response;
@@ -14,8 +20,20 @@ class PersonalShareController extends BaseController
 {
     public $layout = 'main_borderless';
 
-    public function __construct($id, $module, $config = [])
-    {
+    public function __construct(
+        $id,
+        $module,
+        private BusinessReputationRatingFetcher $bFetcher,
+        private EsgRatingFetcher $fetcher,
+        private EgrLegalNameFetcher $egrLegalNameFetcher,
+        $config = []
+    ) {
+//        $dto = BusinessReputationInfo::findByIssuerName('ООО "Активлизинг"');
+//        dump($dto);
+        $this->bFetcher->updateRatings();
+        $this->fetcher->updateRatings();
+//        $r = $this->egrLegalNameFetcher->get(new PayerIdentificationNumber('101489077'));
+//        dump($r);
         parent::__construct($id, $module, $config);
         $this->setViewPath('@app/views/portfolio');
     }

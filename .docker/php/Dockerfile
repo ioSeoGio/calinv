@@ -2,7 +2,7 @@ FROM php:8.4-rc-fpm
 
 RUN apt-get update && \
 	apt-get install -y \
-		libzip-dev zlib1g-dev libicu-dev g++ unzip libpng-dev libpq-dev git
+		libzip-dev zlib1g-dev libicu-dev g++ unzip libpng-dev libpq-dev git libxml2-dev
 
 RUN docker-php-ext-install zip
 RUN docker-php-ext-configure intl

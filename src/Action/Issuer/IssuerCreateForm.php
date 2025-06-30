@@ -6,17 +6,15 @@ use yii\base\Model;
 
 class IssuerCreateForm extends Model
 {
-    public string $issuerName = 'Amazon';
-    public string $bikScore = 'AA+';
+    public string $pid = '101489077';
 
     public function rules(): array
     {
         return [
             [[
-                'issuerName',
-                'bikScore',
+                'pid'
             ], 'required', 'message' => 'Заполните.'],
-            [['issuerName', 'bikScore'], 'string'],
+            [['pid'], 'string'],
         ];
     }
 }

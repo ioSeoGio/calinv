@@ -2,38 +2,42 @@
 
 namespace src\Entity\Share;
 
+use DateTimeImmutable;
 use lib\BaseActiveRecord;
-use src\Action\Share\ShareCreateForm;
 use src\Entity\Issuer\Issuer;
+use src\Integration\Bcse\ShareInfo\BcseShareLastDealDto;
 use yii\db\ActiveQuery;
-use yii\db\ActiveRecord;
 
 /**
  * @property int $id
- * @property string $name
+ *
+ * @property string $lastDealChangePercent Изменение цены из-за последней сделки в %
+ * @property string $lastDealDate Дата последней сделки
+ * @property float $currentPrice Цена по последней сделке на бирже (БВФБ)
+ *
+ * @property ShareFullnessState $fullnessStateEnum Заполненность акции данными
+ * @property string $fullnessState Заполненность акции данными
  * @property int $issuer_id
  * @property Issuer $issuer
- * @property float $denomination
- * @property float $currentPrice
- * @property int $volumeIssued
+ *
+ * @property string $nationalId Национальный id выпуска
+ * @property int $orderedIssueId Порядкой номер выпуска
+ * @property string $registerNumber Номер регистрации
+ * @property ShareRegisterNumber $registerNumberObject Номер регистрации (объект)
+ * @property float $denomination Номинал
+ *
+ * @property int $simpleIssuedAmount Кол-во обычных акций в выпуске
+ * @property int $privilegedIssuedAmount Кол-во привелигерованных акций в выпуске
+ * @property int $totalIssuedAmount Общее кол-во в выпуске
+ *
+ * @property string $issueDate Дата выпуска
+ * @property string $closingDate Дата снятия с учета и хранения
  */
 class Share extends BaseActiveRecord
 {
     public static function tableName(): string
     {
         return 'share';
-    }
-
-    public function attributes(): array
-    {
-        return [
-            'id',
-            'name',
-            'issuer_id',
-            'denomination',
-            'currentPrice',
-            'volumeIssued',
-        ];
     }
 
     public function attributeLabels(): array
@@ -47,18 +51,60 @@ class Share extends BaseActiveRecord
         ];
     }
 
-    public static function make(ShareCreateForm $form): Share
-    {
-        $share = new Share([
-            'name' => $form->name,
-            'issuer_id' => $form->issuer_id,
-            'denomination' => $form->denomination,
-            'currentPrice' => $form->currentPrice,
-            'volumeIssued' => $form->volumeIssued,
-        ]);
-        $share->save();
+    public static function make(
+        int $issuerId,
+        string $nationalId,
+        int $orderedIssueId,
+        string $registerNumber,
+        float $denominationPrice,
+        int $simpleIssuedAmount,
+        int $privilegedIssuedAmount,
+        int $totalIssuedAmount,
+        DateTimeImmutable $issueDate,
+        ?DateTimeImmutable $closingDate,
+    ): self {
+        return new self([
+            'issuer_id' => $issuerId,
+            'fullnessState' => ShareFullnessState::initial->value,
 
-        return $share;
+            'nationalId' => $nationalId,
+            'orderedIssueId' => $orderedIssueId,
+            'registerNumber' => $registerNumber,
+            'denomination' => $denominationPrice,
+            'simpleIssuedAmount' => $simpleIssuedAmount,
+            'privilegedIssuedAmount' => $privilegedIssuedAmount,
+            'totalIssuedAmount' => $totalIssuedAmount,
+            'issueDate' => $issueDate->format(DATE_ATOM),
+            'closingDate' => $closingDate?->format(DATE_ATOM),
+        ]);
+    }
+
+
+    public function setLastDealInfo(?BcseShareLastDealDto $lastDealDto): void
+    {
+        if ($lastDealDto === null) {
+            $this->setFullnessState(ShareFullnessState::initial);
+            return;
+        }
+
+        $this->currentPrice = $lastDealDto->price;
+        $this->lastDealDate = $lastDealDto->date->format(DATE_ATOM);
+        $this->lastDealChangePercent = $lastDealDto->changeFromPreviousDealPercent;
+    }
+
+    public function setFullnessState(ShareFullnessState $shareFullnessState): void
+    {
+        $this->fullnessState = $shareFullnessState->value;
+    }
+
+    public function getFullnessStateEnum(): ShareFullnessState
+    {
+        return ShareFullnessState::from($this->fullnessState);
+    }
+
+    public function getRegisterNumberObject(): ShareRegisterNumber
+    {
+        return new ShareRegisterNumber($this->registerNumber);
     }
 
     public function getIssuer(): ActiveQuery

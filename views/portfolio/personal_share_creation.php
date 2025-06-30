@@ -40,7 +40,7 @@ $form = ActiveForm::begin([
                         ->dropDownList(
                             items: ArrayHelper::map(Share::find()->all(),
                             from: fn (Share $model) => (string) $model->id,
-                            to: fn (Share $share) => $share->issuer->name .' - ' . $share->name,
+                            to: fn (Share $share) => $share->issuer->name .' - ' . $share->orderedIssueId,
                         ),
                         options: ['class' => 'form-control'])->label(false) ?>
                 </div>

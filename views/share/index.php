@@ -4,8 +4,8 @@ use src\Action\Share\ShareCreateForm;
 use src\Action\Share\ShareSearchForm;
 use src\Entity\Issuer\Issuer;
 use src\Entity\Share\Share;
+use src\Helper\GoodBadValueViewHelper;
 use src\Helper\SimpleNumberFormatter;
-use src\IssuerRatingCalculator\Static\FairSharePriceCalculator;
 use yii\bootstrap5\Html;
 use yii\data\ArrayDataProvider;
 use yii\grid\GridView;
@@ -17,17 +17,10 @@ use yii\helpers\ArrayHelper;
 
 ?>
 <?= $this->render('../_parts/_tabs', []); ?>
-<?= $this->render('create', [
-    'shareCreateForm' => $shareCreateForm,
-]); ?>
 <?= $sharesContent = GridView::widget([
     'dataProvider' => $shareDataProvider,
     'filterModel' => $shareSearchForm,
     'columns' => [
-        [
-            'label' => 'имя выпуска',
-            'attribute' => 'name',
-        ],
         [
             'label' => 'эмитент',
             'attribute' => 'issuer.name',
@@ -39,23 +32,38 @@ use yii\helpers\ArrayHelper;
                     ArrayHelper::map(Issuer::find()->all(), fn (Issuer $issuer) => $issuer->id, 'name'),
             ), ['class' => 'form-control']),
         ],
+        'registerNumber',
         [
-            'label' => 'номинал',
-            'attribute' => 'denomination',
+            'attribute' => 'lastDealDate',
+            'format' => 'date',
+        ],
+        [
+            'label' => 'изменение по последней сделке',
+            'attribute' => 'lastDealChangePercent',
+            'format' => 'raw',
             'value' => function (Share $model) {
-                return SimpleNumberFormatter::toView($model->denomination) . ' р.';
+                return $model->lastDealChangePercent
+                    ? GoodBadValueViewHelper::execute($model->lastDealChangePercent, 0, postfix: '%')
+                    : 'Не задано';
             }
         ],
         [
             'label' => 'текущая цена',
             'attribute' => 'currentPrice',
-            'format' => 'raw',
+            'format' => 'html',
             'value' => function (Share $model) {
                 return Html::tag(
                     name: 'span',
-                    content: SimpleNumberFormatter::toView($model->currentPrice) . ' р.',
+                    content: $model->currentPrice ? SimpleNumberFormatter::toView($model->currentPrice) . ' р.' : 'Не задано',
                     options: ['class' => 'text-primary']
                 );
+            }
+        ],
+        [
+            'label' => 'номинал',
+            'attribute' => 'denomination',
+            'value' => function (Share $model) {
+                return SimpleNumberFormatter::toView($model->denomination) . ' р.';
             }
         ],
 //        [
@@ -108,10 +116,18 @@ use yii\helpers\ArrayHelper;
 //        ],
         [
             'label' => 'объем выпуска',
-            'attribute' => 'volumeIssued',
+            'attribute' => 'totalIssuedAmount',
             'value' => function (Share $model) {
-                return SimpleNumberFormatter::toView($model->volumeIssued, 0) . ' шт.';
+                return SimpleNumberFormatter::toView($model->totalIssuedAmount, 0) . ' шт.';
             }
+        ],
+        [
+            'attribute' => 'issueDate',
+            'format' => 'date',
+        ],
+        [
+            'attribute' => 'closingDate',
+            'format' => 'date',
         ],
     ],
 ]) ?>

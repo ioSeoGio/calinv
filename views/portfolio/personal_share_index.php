@@ -28,8 +28,7 @@ $queryParamUserId = Yii::$app->request->queryParams['userId'] ?? null;
     'filterModel' => $personalShareSearchForm,
     'columns' => [
         [
-            'label' => 'имя выпуска',
-            'attribute' => 'share.name',
+            'attribute' => 'share.registerNumber',
             'filter' => Html::activeDropDownList(
                 $personalShareSearchForm,
                 'shareId',
@@ -38,7 +37,7 @@ $queryParamUserId = Yii::$app->request->queryParams['userId'] ?? null;
                     ArrayHelper::map(
                         Share::find()->all(),
                         fn (Share $model) => (string) $model->id,
-                        fn (Share $model) => $model->issuer->name .' - ' . $model->name,
+                        fn (Share $model) => $model->issuer->name .' - ' . $model->orderedIssueId,
                 ),
             ), ['class' => 'form-control']),
         ],
@@ -114,7 +113,7 @@ $queryParamUserId = Yii::$app->request->queryParams['userId'] ?? null;
             'label' => 'объем выпуска',
             'attribute' => 'share.volumeIssued',
             'value' => function (PersonalShare $model) {
-                return $model->share->volumeIssued . ' шт.';
+                return $model->share->totalIssuedAmount . ' шт.';
             }
         ],
     ],

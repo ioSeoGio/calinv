@@ -9,9 +9,11 @@ class m250622_203940_create_issuer_table extends Migration
         $this->createTable('{{%issuer}}', [
             'id' => $this->primaryKey(),
 
-            'name' => $this->string()->notNull(),
-            'bikScore' => $this->string()->notNull(),
-            'expressRating' => $this->float()->notNull(),
+            'name' => $this->string()->null(),
+            '_legalStatus' => $this->string()->null(),
+
+            'fullnessState' => $this->json()->notNull(),
+            '_pid' => $this->string()->notNull(),
         ]);
     }
 

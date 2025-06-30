@@ -5,11 +5,9 @@
 /** @var string $content */
 
 use app\assets\AppAsset;
-use app\widgets\Alert;
+use app\widgets\FlashMessagesWidget;
 use yii\bootstrap5\Breadcrumbs;
 use yii\bootstrap5\Html;
-use yii\bootstrap5\Nav;
-use yii\bootstrap5\NavBar;
 
 AppAsset::register($this);
 
@@ -35,13 +33,12 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
 </header>
 
 <main id="main" class="wrap" role="main">
-	<?= Alert::widget([]); ?>
-
 	<?php if (!empty($this->params['breadcrumbs'])): ?>
 		<?= Breadcrumbs::widget(['links' => $this->params['breadcrumbs']]) ?>
 	<?php endif ?>
 	<div class="container-fluid pt-4">
         <?= $content ?>
+        <?= FlashMessagesWidget::widget() ?>
 	</div>
 </main>
 

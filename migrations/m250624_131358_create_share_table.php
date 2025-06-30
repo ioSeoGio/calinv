@@ -9,11 +9,24 @@ class m250624_131358_create_share_table extends Migration
         $this->createTable('{{%share}}', [
             'id' => $this->primaryKey(),
 
-            'name' => $this->string()->notNull(),
+            'lastDealDate' => $this->string()->null(),
+            'lastDealChangePercent' => $this->float()->null(),
+            'currentPrice' => $this->float()->null(),
+
+            'fullnessState' => $this->string()->notNull(),
             'issuer_id' => $this->integer()->notNull(),
+
+            'nationalId' => $this->string()->notNull(),
+            'orderedIssueId' => $this->integer()->notNull(),
+            'registerNumber' => $this->string()->notNull(),
             'denomination' => $this->float()->notNull(),
-            'currentPrice' => $this->float()->notNull(),
-            'volumeIssued' => $this->integer()->notNull(),
+
+            'simpleIssuedAmount' => $this->integer()->notNull(),
+            'privilegedIssuedAmount' => $this->integer()->notNull(),
+            'totalIssuedAmount' => $this->integer()->notNull(),
+
+            'issueDate' => $this->string()->notNull(),
+            'closingDate' => $this->string()->null(),
         ]);
     }
 

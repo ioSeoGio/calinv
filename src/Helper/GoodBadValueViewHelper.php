@@ -11,7 +11,8 @@ class GoodBadValueViewHelper
         int|float $line,
         int $decimals = 2,
         bool $moreBetter = true,
-        bool $withCurrency = false
+        bool $withCurrency = false,
+        string $postfix = '',
     ): string {
         if ($moreBetter) {
             $class = $value > $line ? 'text-success' : 'text-danger';
@@ -21,7 +22,7 @@ class GoodBadValueViewHelper
 
         return Html::tag(
             name: 'span',
-            content: SimpleNumberFormatter::toView($value, decimals: $decimals, withCurrency: $withCurrency),
+            content: SimpleNumberFormatter::toView($value, decimals: $decimals, withCurrency: $withCurrency, postfix: $postfix),
             options: ['class' => $class]
         );
     }

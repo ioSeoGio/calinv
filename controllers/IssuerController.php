@@ -3,9 +3,12 @@
 namespace app\controllers;
 
 use lib\BaseController;
+use lib\Exception\UserException\ApiInternalErrorException;
 use src\Action\Issuer\IssuerCreateForm;
 use src\Action\Issuer\IssuerSearchForm;
+use src\Action\Issuer\Rating\BusinessReputationInfoSearch;
 use src\Entity\Issuer\Issuer;
+use src\Entity\Issuer\IssuerFactory;
 use Yii;
 use yii\bootstrap5\ActiveForm;
 use yii\web\Response;
@@ -13,6 +16,15 @@ use yii\web\Response;
 class IssuerController extends BaseController
 {
     public $layout = 'main_borderless';
+
+    public function __construct(
+        $id,
+        $module,
+        private IssuerFactory $factory,
+        $config = []
+    ) {
+        parent::__construct($id, $module, $config);
+    }
 
     public function actionIndex(): string
     {
@@ -27,13 +39,24 @@ class IssuerController extends BaseController
         ]);
     }
 
+    public function actionRating(): string
+    {
+        $searchForm = new BusinessReputationInfoSearch();
+        $dataProvider = $searchForm->search(Yii::$app->request->queryParams);
+
+        return $this->render('issuer_business_rating', [
+            'searchForm' => $searchForm,
+            'dataProvider' => $dataProvider,
+        ]);
+    }
+
     public function actionCreate(): Response
     {
         $form = new IssuerCreateForm();
         $post = Yii::$app->request->post();
 
         if ($form->load($post) && $form->validate()) {
-            Issuer::make($form);
+            $this->factory->create($form);
         }
 
         return $this->redirect(['index']);

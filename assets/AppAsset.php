@@ -50,7 +50,6 @@ class AppAsset extends AssetBundle
 
         $images = [
         ];
-
         Yii::$app->view->registerJs(
             "var yiiImages = " . Json::htmlEncode($images).";",
             View::POS_HEAD,

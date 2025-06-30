@@ -5,8 +5,10 @@
 /** @var IssuerCreateForm $createForm */
 /** @var IssuerSearchForm $searchForm */
 
+use app\widgets\GuardedActionColumn;
 use src\Action\Issuer\IssuerCreateForm;
 use src\Action\Issuer\IssuerSearchForm;
+use src\Entity\Issuer\Issuer;
 use yii\bootstrap5\ActiveForm;
 use yii\data\ActiveDataProvider;
 use yii\grid\GridView;
@@ -14,36 +16,29 @@ use yii\helpers\Url;
 
 $this->title = 'Калькулятор эмитентов';
 ?>
+<?= $this->render('tabs', []); ?>
 <div class="calculator-index">
     <?php $form = ActiveForm::begin([
-            'id' => 'login-form',
-            'action' => Url::to(['/issuer/create']),
-            'validationUrl' => Url::to(['/issuer/validate']),
+        'id' => 'login-form',
+        'action' => Url::to(['/issuer/create']),
+        'validationUrl' => Url::to(['/issuer/validate']),
 
-            'enableAjaxValidation'      => true,
-            'enableClientValidation'    => true,
-            'validateOnChange'          => true,
-            'validateOnSubmit'          => true,
-            'validateOnBlur'            => true,
+        'enableAjaxValidation'      => true,
+        'enableClientValidation'    => true,
+        'validateOnChange'          => true,
+        'validateOnSubmit'          => true,
+        'validateOnBlur'            => true,
     ]); ?>
         <table class="table">
             <tr>
                 <th scope="col">
-                    Эмитент
-                </th>
-                <th scope="col">
-                    BIK рейтинг
+                    УНП
                 </th>
             </tr>
             <tr>
                 <td>
-                    <div class="input-group mb-3">
-                        <?= $form->field($createForm, 'issuerName')->textInput(['class' => 'form-control'])->label(false) ?>
-                    </div>
-                </td>
-                <td>
                     <div class="input-group mb-1">
-                        <?= $form->field($createForm, 'bikScore')->textInput(['class' => 'form-control'])->label(false) ?>
+                        <?= $form->field($createForm, 'pid')->textInput(['class' => 'form-control'])->label(false) ?>
                     </div>
                 </td>
             </tr>
@@ -60,9 +55,17 @@ $this->title = 'Калькулятор эмитентов';
                 'label' => 'эмитент',
                 'attribute' => 'name',
             ],
+            '_legalStatus',
+            '_pid',
             [
                 'label' => 'BIK рейтинг',
-                'attribute' => 'bikScore',
+                'value' => function (Issuer $model) {
+                    return $model->businessReputationInfo?->rating->value;
+                }
+            ],
+            [
+                'class' => GuardedActionColumn::class,
+                'showButtons' => ['view'],
             ],
 //            [
 //                'attribute' => 'ср. прирост',
