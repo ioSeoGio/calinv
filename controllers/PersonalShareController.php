@@ -23,17 +23,8 @@ class PersonalShareController extends BaseController
     public function __construct(
         $id,
         $module,
-        private BusinessReputationRatingFetcher $bFetcher,
-        private EsgRatingFetcher $fetcher,
-//        private EgrLegalNameFetcher $egrLegalNameFetcher,
         $config = []
     ) {
-//        $dto = BusinessReputationInfo::findByIssuerName('ООО "Активлизинг"');
-//        dump($dto);
-        $this->bFetcher->updateRatings();
-        $this->fetcher->updateRatings();
-//        $r = $this->egrLegalNameFetcher->get(new PayerIdentificationNumber('101489077'));
-//        dump($r);
         parent::__construct($id, $module, $config);
         $this->setViewPath('@app/views/portfolio');
     }

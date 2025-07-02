@@ -25,7 +25,8 @@
         "symfony/property-info": "8.0.x-dev",
         "symfony/property-access": "8.0.x-dev",
         "ext-dom": "*",
-        "simplehtmldom/simplehtmldom": "dev-master"
+        "simplehtmldom/simplehtmldom": "dev-master",
+        "phpdocumentor/reflection-docblock": "5.x-dev"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.1.0",

@@ -45,9 +45,10 @@ class TypeOfActivity extends ApiFetchedActiveRecord
         string $code,
         string $name,
     ): self {
-        $self = self::findOne(['_pid' => $pid->id]) ?:  new self();
+        $self = self::findOne(['_pid' => $pid->id]) ?: new self([
+            '_pid' => $pid->id,
+        ]);
 
-        $self->_pid = $pid->id;
         $self->_activityFromDate = $activityFromDate->format(DATE_ATOM);
         $self->_activityToDate = $activityToDate?->format(DATE_ATOM);
         $self->isActive = $isActive;

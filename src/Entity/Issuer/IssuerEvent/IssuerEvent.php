@@ -35,6 +35,8 @@ class IssuerEvent extends ApiFetchedActiveRecord
     {
         return [
             '_pid' => 'УНП',
+            'eventName' => 'Событие',
+            '_eventDate' => 'Дата события',
         ];
     }
 

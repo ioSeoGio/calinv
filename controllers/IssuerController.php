@@ -8,11 +8,13 @@ use src\Action\Issuer\IssuerCreateForm;
 use src\Action\Issuer\IssuerSearchForm;
 use src\Action\Issuer\Rating\BusinessReputationInfoSearch;
 use src\Action\Issuer\Rating\EsgRatingInfoSearch;
+use src\Action\Issuer\UnreliableSupplier\UnreliableSupplierSearchForm;
 use src\Entity\Issuer\Issuer;
 use src\Entity\Issuer\IssuerFactory;
 use src\Integration\Bik\BusinessReputation\BusinessReputationRatingFetcher;
 use src\Integration\Bik\EsgRating\EsgRatingFetcher;
 use src\Integration\Egr\Event\EgrEventFetcher;
+use src\Integration\Gias\UnreliableSupplier\GiasUnreliableSupplierFetcher;
 use Yii;
 use yii\bootstrap5\ActiveForm;
 use yii\web\Response;
@@ -28,6 +30,7 @@ class IssuerController extends BaseController
         private BusinessReputationRatingFetcher $businessReputationRatingFetcher,
         private EsgRatingFetcher $esgRatingFetcher,
         private EgrEventFetcher $egrEventFetcher,
+        private GiasUnreliableSupplierFetcher $giasUnreliableSupplierFetcher,
 
         $config = []
     ) {
@@ -104,6 +107,24 @@ class IssuerController extends BaseController
         $this->egrEventFetcher->update($issuer->pid);
 
         return $this->redirect(['issuer/view', 'id' => $issuer->id]);
+    }
+
+    public function actionUnreliableSupplier(): string
+    {
+        $searchForm = new UnreliableSupplierSearchForm();
+        $dataProvider = $searchForm->search(Yii::$app->request->queryParams);
+
+        return $this->render('issuer_unreliable_supplier', [
+            'searchForm' => $searchForm,
+            'dataProvider' => $dataProvider,
+        ]);
+    }
+
+    public function actionRenewUnreliableSupplier(): Response
+    {
+        $this->giasUnreliableSupplierFetcher->update();
+
+        return $this->redirect(['issuer/unreliable-supplier']);
     }
 
     public function actionCreate(): Response

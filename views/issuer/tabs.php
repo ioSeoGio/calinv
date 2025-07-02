@@ -24,5 +24,10 @@ $url = Url::current();
             'url' => ['/issuer/esg-rating'],
             'active' => str_contains($url, '/issuer/esg-rating'),
         ],
+        [
+            'label' => 'Реестр недобросовестных поставщиков',
+            'url' => ['/issuer/unreliable-supplier'],
+            'active' => str_contains($url, '/issuer/unreliable-supplier'),
+        ],
     ]
 ]) ?>

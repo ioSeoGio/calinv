@@ -1,13 +1,13 @@
 <?php
 
-namespace src\Action\Issuer\Event;
+namespace src\Action\Issuer\UnreliableSupplier;
 
-use src\Entity\Issuer\Issuer;
-use src\Entity\Issuer\IssuerEvent\IssuerEvent;
+use src\Entity\Issuer\BusinessReputationRating\BusinessReputationInfo;
+use src\Entity\Issuer\UnreliableSupplier\UnreliableSupplier;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
 
-class IssuerEventSearchForm extends Model
+class UnreliableSupplierSearchForm extends Model
 {
     public string $issuerName = '';
     public string $pid = '';
@@ -19,12 +19,11 @@ class IssuerEventSearchForm extends Model
         ];
     }
 
-    public function search(Issuer $issuer, array $params): ActiveDataProvider
+    public function search($params): ActiveDataProvider
     {
-        $query = IssuerEvent::find()
-            ->joinWith('issuer')
-            ->andWhere(['issuer._pid' => $issuer->pid->id])
-            ->addOrderBy(['_eventDate' => SORT_DESC]);
+        $query = UnreliableSupplier::find()
+            ->with('issuer')
+            ->addOrderBy(['_addDate' => SORT_DESC]);
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
@@ -38,7 +37,7 @@ class IssuerEventSearchForm extends Model
             return $dataProvider;
         }
 
-        $query->andFilterWhere(['like', 'issuer.name', $this->issuerName])
+        $query->andFilterWhere(['like', 'issuerName', $this->issuerName])
             ->andFilterWhere(['like', 'pid', $this->pid]);
 
         return $dataProvider;

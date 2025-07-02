@@ -64,6 +64,12 @@ $this->title = 'Калькулятор эмитентов';
                 }
             ],
             [
+                'label' => 'Недобросовестный поставщик',
+                'value' => function (Issuer $model) {
+                    return $model->unreliableSupplier !== null ? 'Да' : 'Нет';
+                }
+            ],
+            [
                 'class' => GuardedActionColumn::class,
                 'showButtons' => ['view'],
             ],

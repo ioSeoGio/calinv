@@ -8,6 +8,7 @@ use src\Entity\Issuer\AddressInfo\AddressInfo;
 use src\Entity\Issuer\BusinessReputationRating\BusinessReputationInfo;
 use src\Entity\Issuer\EsgRating\EsgRatingInfo;
 use src\Entity\Issuer\TypeOfActivity\TypeOfActivity;
+use src\Entity\Issuer\UnreliableSupplier\UnreliableSupplier;
 use src\Entity\Share\Share;
 use yii\db\ActiveQuery;
 
@@ -19,6 +20,7 @@ use yii\db\ActiveQuery;
  * @property ?BusinessReputationInfo $businessReputationInfo
  * @property ?AddressInfo $addressInfo
  * @property ?EsgRatingInfo $esgRatingInfo
+ * @property ?UnreliableSupplier $unreliableSupplier
  *
  * @property array $fullnessState
  *
@@ -120,6 +122,11 @@ class Issuer extends ApiFetchedActiveRecord
     {
         // @todo придумать как подтягивать по имени если не нашло по УНП
         return $this->hasOne(EsgRatingInfo::class, ['_pid' => '_pid']);
+    }
+
+    public function getUnreliableSupplier(): ActiveQuery
+    {
+        return $this->hasOne(UnreliableSupplier::class, ['_pid' => '_pid']);
     }
 
     public function getBusinessReputationInfo(): ActiveQuery
