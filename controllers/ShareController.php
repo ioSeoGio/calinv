@@ -33,7 +33,7 @@ class ShareController extends BaseController
             $form = new ShareCreateForm();
 
             if ($form->load($post) && $form->validate()) {
-                Share::make($form);
+                Share::createOrUpdate($form);
 
                 return $this->redirect(['index']);
             }

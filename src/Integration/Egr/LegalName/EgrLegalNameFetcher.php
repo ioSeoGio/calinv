@@ -8,8 +8,6 @@ use src\Integration\Egr\EgrHttpClient;
 
 class EgrLegalNameFetcher
 {
-    public const PATH = '/v2/egr/getShortInfoByRegNum/%s';
-
     public function __construct(
         private EgrHttpClient $egrHttpClient,
     ) {
@@ -17,6 +15,10 @@ class EgrLegalNameFetcher
 
     public function get(PayerIdentificationNumber $pid): EgrLegalNameDto
     {
-        return $this->egrHttpClient->request(EgrLegalNameDto::class, HttpMethod::GET, sprintf(self::PATH, $pid->id));
+        return $this->egrHttpClient->request(
+            dtoClass: EgrLegalNameDto::class,
+            method: HttpMethod::GET,
+            path: sprintf(EgrHttpClient::SHORT_STATUS, $pid->id)
+        );
     }
 }

@@ -14,6 +14,8 @@ class m250622_203940_create_issuer_table extends Migration
 
             'fullnessState' => $this->json()->notNull(),
             '_pid' => $this->string()->notNull(),
+
+            '_lastApiUpdateDate' =>  $this->string()->null(),
         ]);
     }
 

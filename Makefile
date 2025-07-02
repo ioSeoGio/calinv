@@ -51,5 +51,5 @@ migrate:
 migrate-prev:
 	docker compose run --rm php php yii migrate/down --interactive=0
 
-db-refresh:
+db-fresh:
 	docker compose run --rm php php yii migrate/fresh --interactive=0

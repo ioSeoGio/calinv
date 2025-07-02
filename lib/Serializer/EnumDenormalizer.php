@@ -17,7 +17,12 @@ final class EnumDenormalizer implements DenormalizerInterface
      */
     public function supportsDenormalization($data, $type, $format = null, array $context = []): bool
     {
-        $reflection = new \ReflectionClass($type);
+        try {
+            $reflection = new \ReflectionClass($type);
+        } catch (\ReflectionException $e) {
+            return false;
+        }
+
         return $reflection->isEnum();
     }
 

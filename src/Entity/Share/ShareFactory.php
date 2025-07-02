@@ -16,7 +16,7 @@ class ShareFactory
     public function create(ShareInfoDto $dto, Issuer $issuer): void
     {
         try {
-            $share = Share::make(
+            $share = Share::createOrUpdate(
                 issuerId: $issuer->id,
                 nationalId: $dto->nationalId,
                 orderedIssueId: $dto->orderedIssueId,

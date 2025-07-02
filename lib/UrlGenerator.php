@@ -6,6 +6,12 @@ namespace lib;
 
 final class UrlGenerator
 {
+    public function addProtocolIfNeeded(string $url): string
+    {
+        $hostWithoutProtocol = !preg_match('~http(s)?://~', $url);
+        return $hostWithoutProtocol ? 'https://' . $url : $url;
+    }
+
     public function generateUrl(
         string $host,
         string $path,

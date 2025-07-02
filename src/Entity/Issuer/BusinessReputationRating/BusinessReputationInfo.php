@@ -3,13 +3,14 @@
 namespace src\Entity\Issuer\BusinessReputationRating;
 
 use DateTimeImmutable;
+use lib\Database\ApiFetchedActiveRecord;
 use lib\Helper\TrimHelper;
 use src\Entity\Issuer\Issuer;
 use src\Entity\Issuer\PayerIdentificationNumber;
 use yii\db\ActiveQuery;
-use yii\db\ActiveRecord;
 
 /**
+ * @inheritDoc
  * @property string $_pid;
  * @property PayerIdentificationNumber $pid;
  *
@@ -23,11 +24,11 @@ use yii\db\ActiveRecord;
  *
  * @property string $pressReleaseLink;
  */
-class BusinessReputationInfo extends ActiveRecord
+class BusinessReputationInfo extends ApiFetchedActiveRecord
 {
     public static function tableName(): string
     {
-        return 'business_reputation_info';
+        return 'issuer_business_reputation_info';
     }
 
     public function attributeLabels(): array
@@ -45,13 +46,20 @@ class BusinessReputationInfo extends ActiveRecord
         DateTimeImmutable $lastUpdateDate,
         string $pressReleaseLink,
     ): self {
-        return new self([
-            'issuerName' => $issuerName,
-            '_pid' => $pid->id,
-            '_rating' => $rating->value,
-            '_lastUpdateDate' => $lastUpdateDate->format(DATE_ATOM),
-            'pressReleaseLink' => TrimHelper::trim($pressReleaseLink),
-        ]);
+        $self = new self(['_pid' => $pid->id]);
+        $self->updateInfo(
+            issuerName: $issuerName,
+            rating: $rating,
+            lastUpdateDate: $lastUpdateDate,
+            pressReleaseLink: $pressReleaseLink,
+        );
+
+        return $self;
+    }
+
+    public static function findByIssuerName(string $issuerName): ?self
+    {
+        return self::findOne(['issuerName' => $issuerName]);
     }
 
     public static function findByPid(PayerIdentificationNumber $pid): ?self
@@ -69,6 +77,8 @@ class BusinessReputationInfo extends ActiveRecord
         $this->_rating = $rating->value;
         $this->_lastUpdateDate = $lastUpdateDate->format(DATE_ATOM);
         $this->pressReleaseLink = TrimHelper::trim($pressReleaseLink);
+
+        $this->renewLastApiUpdateDate();
     }
 
     public function getPid(): PayerIdentificationNumber

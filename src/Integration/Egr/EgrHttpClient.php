@@ -13,6 +13,8 @@ use lib\Exception\UserException\ApiNotFoundException;
 use lib\UrlGenerator;
 use RuntimeException;
 use Symfony\Component\Serializer\Exception\ExceptionInterface;
+use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
+use Symfony\Component\Serializer\Normalizer\AbstractObjectNormalizer;
 use Symfony\Component\Serializer\SerializerInterface;
 
 /**
@@ -36,6 +38,8 @@ class EgrHttpClient
     public const string SHORT_STATUS = '/v2/egr/getShortInfoByRegNum/%s';
 
     public const string EVENTS = '/v2/egr/getEventByRegNum/%s';
+    /* ФИО для ИП */
+    public const string ipFio = '/v2/egr/getAllIPFIOByRegNum/%s';
 
     public function __construct(
         private UrlGenerator $urlGenerator,
@@ -52,7 +56,7 @@ class EgrHttpClient
      * @throws ApiInternalErrorException
      * @throws ApiBadRequestException
      */
-    public function request(string $dtoClass, HttpMethod $method, string $path, array $pathParams = []): object
+    public function request(string $dtoClass, HttpMethod $method, string $path, array $pathParams = []): object|array
     {
         $url = $this->urlGenerator->generateUrl(self::BASE_URL, $path, $pathParams);
         $response = $this->httpClient->request($method, $url, [
@@ -65,7 +69,10 @@ class EgrHttpClient
 
         try {
             $content = $response->getContent();
-            return $this->serializer->deserialize($content, $dtoClass, 'json');
+            return $this->serializer->deserialize($content, $dtoClass, 'json', [
+                AbstractObjectNormalizer::DISABLE_TYPE_ENFORCEMENT => true,
+                AbstractNormalizer::ALLOW_EXTRA_ATTRIBUTES => true,
+            ]);
         } catch (ExceptionInterface $e) {
             throw new RuntimeException(previous: $e);
         }

@@ -7,6 +7,7 @@ use lib\ApiIntegrator\BaseHttpClient;
 use lib\Serializer\EnumDenormalizer;
 use Symfony\Component\HttpClient\CachingHttpClient;
 use Symfony\Component\HttpClient\CurlHttpClient;
+use Symfony\Component\HttpClient\RetryableHttpClient;
 use Symfony\Component\HttpClient\TraceableHttpClient;
 use Symfony\Component\PropertyAccess\PropertyAccessor;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
@@ -33,7 +34,13 @@ class SetUp implements BootstrapInterface
     {
         $container = \Yii::$container;
 
-        $container->setSingleton(HttpClientInterface::class, CurlHttpClient::class);
+        $container->setSingleton(HttpClientInterface::class, function () use ($container) {
+            return new RetryableHttpClient(
+                $container->get(CurlHttpClient::class),
+                null,
+                3
+            );
+        });
         $container->setSingleton(ValidatorInterface::class, function () use ($container) {
             return Validation::createValidatorBuilder()
                 ->getValidator();

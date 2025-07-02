@@ -2,11 +2,11 @@
 
 use yii\db\Migration;
 
-class m250628_215725_create_esg_rating_info_table extends Migration
+class m250628_215725_create_issuer_esg_rating_info_table extends Migration
 {
     public function safeUp(): void
     {
-        $this->createTable('{{%esg_rating_info}}', [
+        $this->createTable('{{%issuer_esg_rating_info}}', [
             'id' => $this->primaryKey(),
 
             'issuerName' => $this->string()->notNull(),
@@ -20,11 +20,13 @@ class m250628_215725_create_esg_rating_info_table extends Migration
             '_lastUpdateDate' => $this->string()->notNull(),
 
             'pressReleaseLink' => $this->text()->notNull(),
+
+            '_lastApiUpdateDate' =>  $this->string()->notNull(),
         ]);
     }
 
     public function safeDown(): void
     {
-        $this->dropTable('{{%esg_rating_info}}');
+        $this->dropTable('{{%issuer_esg_rating_info}}');
     }
 }

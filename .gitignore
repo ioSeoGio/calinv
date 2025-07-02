@@ -2,3 +2,4 @@
 .idea
 /vendor
 config/db.php
+/database

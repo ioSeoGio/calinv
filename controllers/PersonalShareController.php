@@ -25,7 +25,7 @@ class PersonalShareController extends BaseController
         $module,
         private BusinessReputationRatingFetcher $bFetcher,
         private EsgRatingFetcher $fetcher,
-        private EgrLegalNameFetcher $egrLegalNameFetcher,
+//        private EgrLegalNameFetcher $egrLegalNameFetcher,
         $config = []
     ) {
 //        $dto = BusinessReputationInfo::findByIssuerName('ООО "Активлизинг"');

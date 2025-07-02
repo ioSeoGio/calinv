@@ -15,9 +15,14 @@ $url = Url::current();
             'active' => str_contains($url, '/issuer/index') || $url === '/issuer' || $url === '/',
         ],
         [
-            'label' => 'Рейтинг BIK',
-            'url' => ['/issuer/rating'],
-            'active' => str_contains($url, '/issuer/rating'),
+            'label' => 'Рейтинг деловой репутации BIK',
+            'url' => ['/issuer/business-rating'],
+            'active' => str_contains($url, '/issuer/business-rating'),
+        ],
+        [
+            'label' => 'ESG рейтинг BIK',
+            'url' => ['/issuer/esg-rating'],
+            'active' => str_contains($url, '/issuer/esg-rating'),
         ],
     ]
 ]) ?>

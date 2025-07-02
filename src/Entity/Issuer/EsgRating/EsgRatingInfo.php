@@ -3,6 +3,7 @@
 namespace src\Entity\Issuer\EsgRating;
 
 use DateTimeImmutable;
+use lib\Database\ApiFetchedActiveRecord;
 use src\Entity\Issuer\Issuer;
 use src\Entity\Issuer\PayerIdentificationNumber;
 use src\Integration\Bik\EsgRating\BikEsgForecast;
@@ -11,6 +12,7 @@ use yii\db\ActiveQuery;
 use yii\db\ActiveRecord;
 
 /**
+ * @inheritDoc
  * @property string $_pid;
  * @property PayerIdentificationNumber $pid;
  *
@@ -33,11 +35,11 @@ use yii\db\ActiveRecord;
  *
  * @property string $pressReleaseLink;
  */
-class EsgRatingInfo extends ActiveRecord
+class EsgRatingInfo extends ApiFetchedActiveRecord
 {
     public static function tableName(): string
     {
-        return 'esg_rating_info';
+        return '{{%issuer_esg_rating_info}}';
     }
 
     public function attributeLabels(): array
@@ -69,6 +71,8 @@ class EsgRatingInfo extends ActiveRecord
         $this->_assignmentDate = $assignmentDate->format(DATE_ATOM);
         $this->_lastUpdateDate = $lastUpdateDate->format(DATE_ATOM);
         $this->pressReleaseLink = $pressReleaseLink;
+
+        $this->renewLastApiUpdateDate();
     }
 
     public static function make(
@@ -81,16 +85,18 @@ class EsgRatingInfo extends ActiveRecord
         \DateTimeImmutable $lastUpdateDate,
         string $pressReleaseLink,
     ): self {
-        return new self([
-            '_pid' => $pid?->id,
-            'issuerName' => $issuerName,
-            '_forecast' => $forecast->value,
-            '_rating' => $rating->value,
-            '_category' => $category->value,
-            '_assignmentDate' => $assignmentDate->format(DATE_ATOM),
-            '_lastUpdateDate' => $lastUpdateDate->format(DATE_ATOM),
-            'pressReleaseLink' => $pressReleaseLink,
-        ]);
+        $self = new self(['issuerName' => $issuerName]);
+        $self->updateInfo(
+            pid: $pid,
+            forecast: $forecast,
+            rating: $rating,
+            category: $category,
+            assignmentDate: $assignmentDate,
+            lastUpdateDate: $lastUpdateDate,
+            pressReleaseLink: $pressReleaseLink,
+        );
+
+        return $self;
     }
 
     public function getCategory(): EsgIssuerCategory

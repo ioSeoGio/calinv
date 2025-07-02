@@ -27,6 +27,8 @@ class m250624_131358_create_share_table extends Migration
 
             'issueDate' => $this->string()->notNull(),
             'closingDate' => $this->string()->null(),
+
+            '_lastApiUpdateDate' =>  $this->string()->notNull(),
         ]);
     }
 

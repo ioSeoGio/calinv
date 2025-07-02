@@ -2,17 +2,23 @@
 
 namespace src\Entity\Issuer;
 
-use src\Action\Issuer\IssuerCreateForm;
+use lib\Database\ApiFetchedActiveRecord;
+use lib\Database\BaseActiveRecord;
+use src\Entity\Issuer\AddressInfo\AddressInfo;
 use src\Entity\Issuer\BusinessReputationRating\BusinessReputationInfo;
+use src\Entity\Issuer\EsgRating\EsgRatingInfo;
+use src\Entity\Issuer\TypeOfActivity\TypeOfActivity;
 use src\Entity\Share\Share;
-use Yii;
 use yii\db\ActiveQuery;
-use yii\db\ActiveRecord;
 
 /**
+ * @inheritDoc
  * @property int $id
  * @property ?string $name
- * @property BusinessReputationInfo $businessReputationInfo
+ *
+ * @property ?BusinessReputationInfo $businessReputationInfo
+ * @property ?AddressInfo $addressInfo
+ * @property ?EsgRatingInfo $esgRatingInfo
  *
  * @property array $fullnessState
  *
@@ -22,7 +28,7 @@ use yii\db\ActiveRecord;
  * @property PayerIdentificationNumber $pid
  * @property string $_pid
  */
-class Issuer extends ActiveRecord
+class Issuer extends ApiFetchedActiveRecord
 {
     public static function tableName(): string
     {
@@ -32,6 +38,7 @@ class Issuer extends ActiveRecord
     public function attributeLabels(): array
     {
         return [
+            '_legalStatus' => 'Статус',
             'name' => 'Наименование',
             'fullnessState' => 'Заполненность',
             'expressRating' => 'Экспресс рейтинг',
@@ -39,13 +46,24 @@ class Issuer extends ActiveRecord
         ];
     }
 
-    public static function make(
-        PayerIdentificationNumber $pid,
-    ): self {
-        return new self([
+    public static function createOrGet(PayerIdentificationNumber $pid): Issuer
+    {
+        return self::findOne(['_pid' => $pid->id]) ?: new self([
             '_pid' => $pid->id,
-            'fullnessState' => [IssuerFullnessState::initial->value],
+            'fullnessState' => [IssuerFullnessState::initial],
         ]);
+    }
+
+    public function updateInfo(
+        string $name,
+        IssuerLegalStatus $legalStatus,
+    ): self {
+        $this->_legalStatus = $legalStatus->value;
+        $this->name = $name;
+
+        $this->renewLastApiUpdateDate();
+
+        return $this;
     }
 
     public static function findByIssuerName(string $issuerName): ?self
@@ -56,6 +74,11 @@ class Issuer extends ActiveRecord
     public function addFullnessState(IssuerFullnessState $state): void
     {
         $this->fullnessState = array_merge($this->fullnessState, [$state->value]);;
+    }
+
+    public function setFullnessState(IssuerFullnessState ...$states): void
+    {
+        $this->fullnessState = $states;
     }
 
     public function updateName(string $name): void
@@ -81,6 +104,22 @@ class Issuer extends ActiveRecord
     public function getShares(): ActiveQuery
     {
         return $this->hasMany(Share::class, ['issuer_id' => 'id']);
+    }
+
+    public function getTypeOfActivity(): ActiveQuery
+    {
+        return $this->hasOne(TypeOfActivity::class, ['_pid' => '_pid']);
+    }
+
+    public function getAddressInfo(): ActiveQuery
+    {
+        return $this->hasOne(AddressInfo::class, ['_pid' => '_pid']);
+    }
+
+    public function getEsgRatingInfo(): ActiveQuery
+    {
+        // @todo придумать как подтягивать по имени если не нашло по УНП
+        return $this->hasOne(EsgRatingInfo::class, ['_pid' => '_pid']);
     }
 
     public function getBusinessReputationInfo(): ActiveQuery

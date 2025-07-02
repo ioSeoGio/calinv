@@ -2,24 +2,24 @@
 
 /** @var yii\web\View $this */
 /** @var ActiveDataProvider $dataProvider */
-/** @var \src\Action\Issuer\Rating\BusinessReputationInfoSearch $searchForm */
+/** @var EsgRatingInfoSearch $searchForm */
 
-use src\Entity\Issuer\BusinessReputationRating\BusinessReputationInfo;
+use src\Action\Issuer\Rating\EsgRatingInfoSearch;
+use src\Entity\Issuer\EsgRating\EsgRatingInfo;
 use yii\data\ActiveDataProvider;
 use yii\grid\GridView;
 use yii\helpers\Html;
-use yii\helpers\Url;
 
-$this->title = 'Рейтинг деловой репутации BIK';
+$this->title = 'ESG Рейтинг BIK';
 ?>
 <?= $this->render('tabs', []); ?>
 <div>
-    Время последнего обновления: <?= Yii::$app->formatter->asDatetime(BusinessReputationInfo::getLastUpdateSessionDate()) ?>
+    Время последнего обновления: <?= Yii::$app->formatter->asDatetime(EsgRatingInfo::getLastUpdateSessionDate()) ?>
     <div>
-        <?= Html::a('Обновить', ['renew-business-rating'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Обновить', ['renew-esg-rating'], ['class' => 'btn btn-success']) ?>
     </div>
 </div>
-<div class="business-rating-index">
+<div class="esg-rating-index">
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchForm,

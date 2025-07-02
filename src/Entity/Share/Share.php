@@ -3,12 +3,13 @@
 namespace src\Entity\Share;
 
 use DateTimeImmutable;
-use lib\BaseActiveRecord;
+use lib\Database\ApiFetchedActiveRecord;
 use src\Entity\Issuer\Issuer;
 use src\Integration\Bcse\ShareInfo\BcseShareLastDealDto;
 use yii\db\ActiveQuery;
 
 /**
+ * @inheritDoc
  * @property int $id
  *
  * @property string $lastDealChangePercent Изменение цены из-за последней сделки в %
@@ -33,7 +34,7 @@ use yii\db\ActiveQuery;
  * @property string $issueDate Дата выпуска
  * @property string $closingDate Дата снятия с учета и хранения
  */
-class Share extends BaseActiveRecord
+class Share extends ApiFetchedActiveRecord
 {
     public static function tableName(): string
     {
@@ -51,7 +52,7 @@ class Share extends BaseActiveRecord
         ];
     }
 
-    public static function make(
+    public static function createOrUpdate(
         int $issuerId,
         string $nationalId,
         int $orderedIssueId,
@@ -63,20 +64,27 @@ class Share extends BaseActiveRecord
         DateTimeImmutable $issueDate,
         ?DateTimeImmutable $closingDate,
     ): self {
-        return new self([
+        $self = self::findOne([
             'issuer_id' => $issuerId,
-            'fullnessState' => ShareFullnessState::initial->value,
-
-            'nationalId' => $nationalId,
-            'orderedIssueId' => $orderedIssueId,
             'registerNumber' => $registerNumber,
-            'denomination' => $denominationPrice,
-            'simpleIssuedAmount' => $simpleIssuedAmount,
-            'privilegedIssuedAmount' => $privilegedIssuedAmount,
-            'totalIssuedAmount' => $totalIssuedAmount,
-            'issueDate' => $issueDate->format(DATE_ATOM),
-            'closingDate' => $closingDate?->format(DATE_ATOM),
+        ]) ?: new self([
+            'issuer_id' => $issuerId,
+            'registerNumber' => $registerNumber,
+            'fullnessState' => [ShareFullnessState::initial],
         ]);
+
+        $self->nationalId = $nationalId;
+        $self->orderedIssueId = $orderedIssueId;
+        $self->denomination = $denominationPrice;
+        $self->simpleIssuedAmount = $simpleIssuedAmount;
+        $self->privilegedIssuedAmount = $privilegedIssuedAmount;
+        $self->totalIssuedAmount = $totalIssuedAmount;
+        $self->issueDate = $issueDate->format(DATE_ATOM);
+        $self->closingDate = $closingDate->format(DATE_ATOM);
+
+        $self->renewLastApiUpdateDate();
+
+        return $self;
     }
 
 
@@ -90,6 +98,8 @@ class Share extends BaseActiveRecord
         $this->currentPrice = $lastDealDto->price;
         $this->lastDealDate = $lastDealDto->date->format(DATE_ATOM);
         $this->lastDealChangePercent = $lastDealDto->changeFromPreviousDealPercent;
+
+        $this->renewLastApiUpdateDate();
     }
 
     public function setFullnessState(ShareFullnessState $shareFullnessState): void

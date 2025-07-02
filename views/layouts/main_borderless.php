@@ -33,10 +33,13 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
 </header>
 
 <main id="main" class="wrap" role="main">
-	<?php if (!empty($this->params['breadcrumbs'])): ?>
-		<?= Breadcrumbs::widget(['links' => $this->params['breadcrumbs']]) ?>
-	<?php endif ?>
 	<div class="container-fluid pt-4">
+        <?php if (!empty($this->params['breadcrumbs'])): ?>
+            <?= Breadcrumbs::widget([
+                'links' => $this->params['breadcrumbs'],
+                'homeLink' => isset($this->params['breadcrumbs.homeLink']) ? $this->params['breadcrumbs.homeLink'] : null,
+            ]) ?>
+        <?php endif ?>
         <?= $content ?>
         <?= FlashMessagesWidget::widget() ?>
 	</div>
