@@ -9,16 +9,16 @@ class m250702_133049_create_issuer_event_table extends Migration
         $this->createTable('{{%issuer_event}}', [
             'id' => $this->primaryKey(),
 
-            'externalId' =>  $this->string()->notNull(),
-            '_pid' =>  $this->string()->notNull(),
-            '_eventDate' =>  $this->string()->notNull(),
-            '_eventCancelDate' =>  $this->string()->null(),
-            'currentAccountingAgency' =>  $this->string()->null(),
-            'decideAccountingAgency' =>  $this->string()->notNull(),
-            'reason' =>  $this->string()->null(),
-            'eventName' =>  $this->string()->notNull(),
+            'externalId' => $this->string()->notNull(),
+            '_pid' => $this->string()->notNull(),
+            '_eventDate' => $this->string()->notNull(),
+            '_eventCancelDate' => $this->string()->null(),
+            'currentAccountingAgency' => $this->string()->null(),
+            'decideAccountingAgency' => $this->string()->null(),
+            'reason' => $this->string()->null(),
+            'eventName' => $this->string()->notNull(),
 
-            '_lastApiUpdateDate' =>  $this->string()->notNull(),
+            '_lastApiUpdateDate' => $this->string()->notNull(),
         ]);
     }
 

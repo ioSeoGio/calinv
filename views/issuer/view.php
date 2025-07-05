@@ -4,6 +4,7 @@
 /** @var Issuer $model */
 /** @var IssuerEventSearchForm $searchForm */
 /** @var ActiveDataProvider $eventDataProvider */
+/** @var ActiveDataProvider $importantEventDataProvider */
 
 use src\Action\Issuer\Event\IssuerEventSearchForm;
 use src\Entity\Issuer\Issuer;
@@ -11,6 +12,7 @@ use src\Entity\Issuer\IssuerEvent\IssuerEvent;
 use yii\data\ActiveDataProvider;
 use yii\grid\GridView;
 use yii\helpers\Html;
+use yii\widgets\DetailView;
 
 $this->params['breadcrumbs.homeLink'] = false;
 $this->params['breadcrumbs'][] = ['label' => 'Эмитенты', 'url' => ['issuer/index']];
@@ -18,9 +20,27 @@ $this->params['breadcrumbs'][] = Html::encode($model->name);
 $this->title = Html::encode($model->name);
 ?>
 <div class="issuer-view">
-    <?= \yii\widgets\DetailView::widget([
+    <?= GridView::widget([
+        'dataProvider' => $importantEventDataProvider,
+        'columns' => [
+            [
+                'label' => 'Важное событие за последние 2 года',
+                'attribute' => 'eventName',
+            ],
+            '_eventDate:datetime',
+        ],
+    ]) ?>
+
+    <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
+            [
+                'label' => '',
+                'format' => 'raw',
+                'value' => function (Issuer $model) {
+                    return Html::a('Обновить общую информацию', ['update-issuer-info', 'id' => $model->id], ['class' => 'btn btn-success']);
+                }
+            ],
             [
                 'label' => 'Наименование',
                 'attribute' => 'name',
@@ -28,9 +48,33 @@ $this->title = Html::encode($model->name);
             '_legalStatus',
             '_pid',
             [
-                'label' => 'BIK рейтинг',
+                'label' => '',
+                'format' => 'raw',
                 'value' => function (Issuer $model) {
-                    return $model->businessReputationInfo?->rating->value;
+                    return Html::a("Акции ({$model->getShares()->count()})", ['/share', 'ShareSearchForm' => [
+                        'issuerId' =>  $model->id,
+                    ]], ['target' => '_blank', 'class' => 'btn btn-success']);
+                }
+            ],
+            [
+                'label' => 'BIK рейтинг',
+                'format' => 'raw',
+                'value' => function (Issuer $model) {
+                    $bikRating = $model->businessReputationInfo;
+
+                    if ($bikRating !== null) {
+                        return Html::a($bikRating->rating->value, $bikRating->pressReleaseLink, ['target' => '_blank']);
+                    }
+
+                    return null;
+                }
+            ],
+
+            [
+                'label' => '',
+                'format' => 'raw',
+                'value' => function (Issuer $model) {
+                    return Html::a('Обновить адрес', ['renew-address', 'id' => $model->id], ['class' => 'btn btn-success']);
                 }
             ],
             'addressInfo.fullAddress',
@@ -45,6 +89,14 @@ $this->title = Html::encode($model->name);
                 }
             ],
             'addressInfo.phones',
+
+            [
+                'label' => '',
+                'format' => 'raw',
+                'value' => function (Issuer $model) {
+                    return Html::a('Обновить вид деятельности', ['renew-type-of-activity', 'id' => $model->id], ['class' => 'btn btn-success']);
+                }
+            ],
             'typeOfActivity.name',
             'typeOfActivity.code',
         ],

@@ -26,6 +26,11 @@ use yii\db\ActiveQuery;
  */
 class IssuerEvent extends ApiFetchedActiveRecord
 {
+    public const array IMPORTANT_EVENTS = [
+        'руководителя',
+        'задолженности',
+    ];
+
     public static function tableName(): string
     {
         return 'issuer_event';

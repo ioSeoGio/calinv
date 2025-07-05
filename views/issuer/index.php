@@ -12,6 +12,7 @@ use src\Entity\Issuer\Issuer;
 use yii\bootstrap5\ActiveForm;
 use yii\data\ActiveDataProvider;
 use yii\grid\GridView;
+use yii\helpers\Html;
 use yii\helpers\Url;
 
 $this->title = 'Калькулятор эмитентов';
@@ -54,6 +55,10 @@ $this->title = 'Калькулятор эмитентов';
             [
                 'label' => 'эмитент',
                 'attribute' => 'name',
+                'format' => 'raw',
+                'value' => function (Issuer $model) {
+                    return Html::a($model->name, ['/issuer/view', 'id' => $model->id]);
+                }
             ],
             '_legalStatus',
             '_pid',

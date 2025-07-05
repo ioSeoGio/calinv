@@ -25,36 +25,14 @@ $queryParamUserId = Yii::$app->request->queryParams['userId'] ?? null;
 } ?>
 <?= $sharesContent = GridView::widget([
     'dataProvider' => $personalShareDataProvider,
-    'filterModel' => $personalShareSearchForm,
+//    'filterModel' => $personalShareSearchForm,
     'columns' => [
         [
             'attribute' => 'share.registerNumber',
-            'filter' => Html::activeDropDownList(
-                $personalShareSearchForm,
-                'shareId',
-                array_merge(
-                    ['All' => 'Все'],
-                    ArrayHelper::map(
-                        Share::find()->all(),
-                        fn (Share $model) => (string) $model->id,
-                        fn (Share $model) => $model->issuer->name .' - ' . $model->orderedIssueId,
-                ),
-            ), ['class' => 'form-control']),
         ],
         [
             'label' => 'эмитент',
             'attribute' => 'share.issuer.name',
-            'filter' => Html::activeDropDownList(
-                $personalShareSearchForm,
-                'issuerId',
-                array_merge(
-                    ['All' => 'Все'],
-                    ArrayHelper::map(
-                        Issuer::find()->all(),
-                        fn (Issuer $issuer) => (string) $issuer->id,
-                        'name'
-                ),
-            ), ['class' => 'form-control']),
         ],
         [
             'label' => 'прибыль, всего',
@@ -98,11 +76,11 @@ $queryParamUserId = Yii::$app->request->queryParams['userId'] ?? null;
             'attribute' => 'share.currentPrice',
             'format' => 'raw',
             'value' => function (PersonalShare $model) {
-                return Html::tag(
+                return $model->share->currentPrice ? Html::tag(
                     name: 'span',
                     content: round($model->share->currentPrice, 2) . ' руб.',
                     options: ['class' => 'text-primary']
-                );
+                ) : null;
             }
         ],
         [

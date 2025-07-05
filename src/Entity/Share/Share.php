@@ -49,6 +49,12 @@ class Share extends ApiFetchedActiveRecord
             'denomination' => 'Номинал',
             'currentPrice' => 'Текущая цена',
             'volumeIssued' => 'Объем выпуска',
+            'registerNumber' => 'Регистрационный номер',
+            'lastDealDate' => 'Дата последней сделки',
+            'lastDealChangePercent' => 'Изменение по последней сделке',
+            'totalIssuedAmount' => 'Объем выпуска',
+            'issueDate' => 'Дата выпуска',
+            'closingDate' => 'Дата изъятия',
         ];
     }
 
@@ -80,7 +86,7 @@ class Share extends ApiFetchedActiveRecord
         $self->privilegedIssuedAmount = $privilegedIssuedAmount;
         $self->totalIssuedAmount = $totalIssuedAmount;
         $self->issueDate = $issueDate->format(DATE_ATOM);
-        $self->closingDate = $closingDate->format(DATE_ATOM);
+        $self->closingDate = $closingDate?->format(DATE_ATOM);
 
         $self->renewLastApiUpdateDate();
 

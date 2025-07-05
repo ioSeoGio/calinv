@@ -13,7 +13,7 @@ class m250624_131358_create_share_table extends Migration
             'lastDealChangePercent' => $this->float()->null(),
             'currentPrice' => $this->float()->null(),
 
-            'fullnessState' => $this->string()->notNull(),
+            'fullnessState' => $this->json()->notNull(),
             'issuer_id' => $this->integer()->notNull(),
 
             'nationalId' => $this->string()->notNull(),

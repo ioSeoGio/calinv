@@ -13,7 +13,7 @@ class ShareFactory
     ) {
     }
 
-    public function create(ShareInfoDto $dto, Issuer $issuer): void
+    public function create(ShareInfoDto $dto, Issuer $issuer, bool $throwErrors = false): void
     {
         try {
             $share = Share::createOrUpdate(
@@ -30,7 +30,7 @@ class ShareFactory
             );
             $share->save();
 
-            $shareInfoDto = $this->fetcher->get($issuer->pidObject, $share->registerNumberObject);
+            $shareInfoDto = $this->fetcher->get($issuer->pid, $share->registerNumberObject);
             $share->setLastDealInfo($shareInfoDto);
             $share->setFullnessState(ShareFullnessState::lastDeal);
             $share->save();
@@ -40,7 +40,9 @@ class ShareFactory
                 $share->save();
             }
 
-//            throw $e;
+            if ($throwErrors) {
+                throw $e;
+            }
         }
     }
 }

@@ -2,13 +2,14 @@
 
 /** @var yii\web\View $this */
 /** @var ActiveDataProvider $dataProvider */
-/** @var \src\Action\Issuer\Rating\BusinessReputationInfoSearch $searchForm */
+/** @var BusinessReputationInfoSearch $searchForm */
 
+use src\Action\Issuer\Rating\BusinessReputationInfoSearch;
 use src\Entity\Issuer\BusinessReputationRating\BusinessReputationInfo;
 use yii\data\ActiveDataProvider;
 use yii\grid\GridView;
 use yii\helpers\Html;
-use yii\helpers\Url;
+use yii\helpers\StringHelper;
 
 $this->title = 'Рейтинг деловой репутации BIK';
 ?>
@@ -24,14 +25,17 @@ $this->title = 'Рейтинг деловой репутации BIK';
         'dataProvider' => $dataProvider,
         'filterModel' => $searchForm,
         'columns' => [
-            [
-                'label' => 'эмитент',
-                'attribute' => 'issuerName',
-            ],
+            'issuerName',
             '_pid',
             '_rating',
-            '_lastUpdateDate',
-            'pressReleaseLink:url',
+            '_lastUpdateDate:datetime',
+            [
+                'attribute' => 'pressReleaseLink',
+                'format' => 'raw',
+                'value' => function ($model) {
+                    return Html::a(StringHelper::truncate($model->pressReleaseLink, 55), $model->pressReleaseLink, ['target' => '_blank']);
+                }
+            ],
         ],
     ]) ?>
 </div>

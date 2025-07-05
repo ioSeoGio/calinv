@@ -45,8 +45,11 @@ class EsgRatingInfo extends ApiFetchedActiveRecord
     public function attributeLabels(): array
     {
         return [
-            'rating' => 'Esg рейтинг',
-            'pid' => 'УНП',
+            '_rating' => 'BIK рейтинг деловой репутации',
+            '_lastUpdateDate' => 'Дата последнего обновления',
+            'pressReleaseLink' => 'Пресс релиз',
+            '_pid' => 'УНП',
+            'issuerName' => 'Эмитент',
         ];
     }
 

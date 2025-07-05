@@ -9,8 +9,11 @@ use src\Action\Issuer\IssuerSearchForm;
 use src\Action\Issuer\Rating\BusinessReputationInfoSearch;
 use src\Action\Issuer\Rating\EsgRatingInfoSearch;
 use src\Action\Issuer\UnreliableSupplier\UnreliableSupplierSearchForm;
+use src\Entity\Issuer\AddressInfo\ApiAddressInfoFactory;
+use src\Entity\Issuer\ApiIssuerInfoAndSharesFactory;
 use src\Entity\Issuer\Issuer;
 use src\Entity\Issuer\IssuerFactory;
+use src\Entity\Issuer\TypeOfActivity\ApiTypeOfActivityFactory;
 use src\Integration\Bik\BusinessReputation\BusinessReputationRatingFetcher;
 use src\Integration\Bik\EsgRating\EsgRatingFetcher;
 use src\Integration\Egr\Event\EgrEventFetcher;
@@ -31,6 +34,9 @@ class IssuerController extends BaseController
         private EsgRatingFetcher $esgRatingFetcher,
         private EgrEventFetcher $egrEventFetcher,
         private GiasUnreliableSupplierFetcher $giasUnreliableSupplierFetcher,
+        private ApiAddressInfoFactory $apiAddressInfoFactory,
+        private ApiTypeOfActivityFactory $apiTypeOfActivityFactory,
+        private ApiIssuerInfoAndSharesFactory $apiIssuerInfoAndSharesFactory,
 
         $config = []
     ) {
@@ -92,12 +98,14 @@ class IssuerController extends BaseController
 
         $searchForm = new IssuerEventSearchForm();
         $eventDataProvider = $searchForm->search($issuer, Yii::$app->request->queryParams);
+        $importantEventDataProvider = $searchForm->searchImportant($issuer);
 
         return $this->render('view', [
             'model' => $issuer,
 
             'searchForm' => $searchForm,
             'eventDataProvider' => $eventDataProvider,
+            'importantEventDataProvider' => $importantEventDataProvider,
         ]);
     }
 
@@ -127,6 +135,20 @@ class IssuerController extends BaseController
         return $this->redirect(['issuer/unreliable-supplier']);
     }
 
+    public function actionRenewAddress($id): Response
+    {
+        $this->apiAddressInfoFactory->createOrUpdate(Issuer::getOneById($id));
+
+        return $this->redirect(['issuer/view', 'id' => $id]);
+    }
+
+    public function actionRenewTypeOfActivity($id): Response
+    {
+        $this->apiTypeOfActivityFactory->createOrUpdate(Issuer::getOneById($id));
+
+        return $this->redirect(['issuer/view', 'id' => $id]);
+    }
+
     public function actionCreate(): Response
     {
         $form = new IssuerCreateForm();
@@ -137,6 +159,13 @@ class IssuerController extends BaseController
         }
 
         return $this->redirect(['index']);
+    }
+    public function actionUpdateIssuerInfo($id): Response
+    {
+        $issuer = Issuer::getOneById($id);
+        $this->apiIssuerInfoAndSharesFactory->update($issuer);
+
+        return $this->redirect(['view', 'id' => $issuer->id]);
     }
 
     public function actionValidate(): array

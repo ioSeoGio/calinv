@@ -27,10 +27,9 @@ use yii\helpers\ArrayHelper;
             'filter' => Html::activeDropDownList(
                 $shareSearchForm,
                 'issuerId',
-                array_merge(
-                    ['All' => 'Все'],
-                    ArrayHelper::map(Issuer::find()->all(), fn (Issuer $issuer) => $issuer->id, 'name'),
-            ), ['class' => 'form-control']),
+                ['All' => 'Все'] + ArrayHelper::map(Issuer::find()->all(), 'id', 'name'),
+                ['class' => 'form-control']
+            ),
         ],
         'registerNumber',
         [
@@ -38,7 +37,6 @@ use yii\helpers\ArrayHelper;
             'format' => 'date',
         ],
         [
-            'label' => 'изменение по последней сделке',
             'attribute' => 'lastDealChangePercent',
             'format' => 'raw',
             'value' => function (Share $model) {
@@ -48,7 +46,6 @@ use yii\helpers\ArrayHelper;
             }
         ],
         [
-            'label' => 'текущая цена',
             'attribute' => 'currentPrice',
             'format' => 'html',
             'value' => function (Share $model) {
@@ -60,10 +57,11 @@ use yii\helpers\ArrayHelper;
             }
         ],
         [
-            'label' => 'номинал',
             'attribute' => 'denomination',
             'value' => function (Share $model) {
-                return SimpleNumberFormatter::toView($model->denomination) . ' р.';
+                return SimpleNumberFormatter::toView($model->denomination);
+//                    . ' '
+//                    . ($model->issueDate <= new DateTimeImmutable(2016) ? 'BYR (до деноминации)' : 'BYN');
             }
         ],
 //        [
@@ -115,7 +113,6 @@ use yii\helpers\ArrayHelper;
 //            }
 //        ],
         [
-            'label' => 'объем выпуска',
             'attribute' => 'totalIssuedAmount',
             'value' => function (Share $model) {
                 return SimpleNumberFormatter::toView($model->totalIssuedAmount, 0) . ' шт.';

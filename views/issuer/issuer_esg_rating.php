@@ -9,6 +9,7 @@ use src\Entity\Issuer\EsgRating\EsgRatingInfo;
 use yii\data\ActiveDataProvider;
 use yii\grid\GridView;
 use yii\helpers\Html;
+use yii\helpers\StringHelper;
 
 $this->title = 'ESG Рейтинг BIK';
 ?>
@@ -24,14 +25,17 @@ $this->title = 'ESG Рейтинг BIK';
         'dataProvider' => $dataProvider,
         'filterModel' => $searchForm,
         'columns' => [
-            [
-                'label' => 'эмитент',
-                'attribute' => 'issuerName',
-            ],
+            'issuerName',
             '_pid',
             '_rating',
-            '_lastUpdateDate',
-            'pressReleaseLink:url',
+            '_lastUpdateDate:datetime',
+            [
+                'attribute' => 'pressReleaseLink',
+                'format' => 'raw',
+                'value' => function ($model) {
+                    return Html::a(StringHelper::truncate($model->pressReleaseLink, 55), $model->pressReleaseLink, ['target' => '_blank']);
+                }
+            ],
         ],
     ]) ?>
 </div>

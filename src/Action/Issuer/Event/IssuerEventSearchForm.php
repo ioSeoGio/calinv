@@ -19,6 +19,22 @@ class IssuerEventSearchForm extends Model
         ];
     }
 
+    public function searchImportant(Issuer $issuer): ActiveDataProvider
+    {
+        $dataProvider = $this->search($issuer, []);
+        $dataProvider->query->andWhere(['>=', '_eventDate', (new \DateTime())->modify('-2 year')->format(DATE_ATOM)]);
+
+        $criteria = [];
+        foreach (IssuerEvent::IMPORTANT_EVENTS as $importantEvent) {
+            $criteria[] = ['like', 'eventName', $importantEvent];
+        }
+        $dataProvider->query->andFilterWhere(['OR', ...$criteria]);
+
+        $dataProvider->pagination->pageSize = 3;
+
+        return $dataProvider;
+    }
+
     public function search(Issuer $issuer, array $params): ActiveDataProvider
     {
         $query = IssuerEvent::find()
@@ -37,9 +53,6 @@ class IssuerEventSearchForm extends Model
         if (!$this->validate()) {
             return $dataProvider;
         }
-
-        $query->andFilterWhere(['like', 'issuer.name', $this->issuerName])
-            ->andFilterWhere(['like', 'pid', $this->pid]);
 
         return $dataProvider;
     }

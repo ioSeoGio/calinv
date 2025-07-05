@@ -34,6 +34,8 @@ class TypeOfActivity extends ApiFetchedActiveRecord
     {
         return [
             '_pid' => 'УНП',
+            'code' => 'ОКЭД',
+            'name' => 'Вид деятельности'
         ];
     }
 
