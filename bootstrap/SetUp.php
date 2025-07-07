@@ -21,6 +21,7 @@ use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Validator\Validation;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
+use Yii;
 use yii\base\BootstrapInterface;
 use Symfony\Component\PropertyInfo\Extractor\ReflectionExtractor;
 use Symfony\Component\Serializer\Mapping\Loader\AttributeLoader;
@@ -33,6 +34,8 @@ class SetUp implements BootstrapInterface
      */
     public function bootstrap($app): void
     {
+        Yii::setAlias('@views', dirname(__DIR__) . '/views');
+
         $container = \Yii::$container;
 
         $container->setSingleton(HttpClientInterface::class, function () use ($container) {

@@ -9,7 +9,7 @@ use Symfony\Contracts\HttpClient\ResponseInterface;
 
 class BcseHttpClient
 {
-    public const string BASE_URL = 'https://www.bcse.by/';
+    public const string BASE_URL = 'https://www.bcse.by';
 
     public function __construct(
         private UrlGenerator $urlGenerator,

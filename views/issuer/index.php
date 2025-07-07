@@ -76,7 +76,18 @@ $this->title = 'Калькулятор эмитентов';
             ],
             [
                 'class' => GuardedActionColumn::class,
-                'showButtons' => ['view'],
+                'buttonsConfig' => [
+                    'view',
+                    'accounting-balance' => [
+                        'icon' => 'bi bi-file-earmark-text',
+                        'url' => function (Issuer $model) {
+                            return Url::to(['/accounting-balance/index', 'issuerId' => $model->id]);
+                        },
+                        'options' => [
+                            'title' => 'Бухгалтерский баланс',
+                        ],
+                    ],
+                ],
             ],
 //            [
 //                'attribute' => 'ср. прирост',

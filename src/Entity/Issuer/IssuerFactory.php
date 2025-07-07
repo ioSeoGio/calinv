@@ -5,6 +5,7 @@ namespace src\Entity\Issuer;
 use src\Action\Issuer\IssuerCreateForm;
 use src\Entity\Issuer\AddressInfo\ApiAddressInfoFactory;
 use src\Entity\Issuer\TypeOfActivity\ApiTypeOfActivityFactory;
+use src\Integration\Egr\Event\EgrEventFetcher;
 
 class IssuerFactory
 {
@@ -12,6 +13,7 @@ class IssuerFactory
         private ApiIssuerInfoAndSharesFactory $apiIssuerInfoAndSharesFactory,
         private ApiAddressInfoFactory $apiAddressInfoFactory,
         private ApiTypeOfActivityFactory $apiTypeOfActivityFactory,
+        private EgrEventFetcher $egrEventFetcher,
     ) {
     }
 
@@ -28,6 +30,7 @@ class IssuerFactory
         $this->apiIssuerInfoAndSharesFactory->update($issuer);
         $this->apiAddressInfoFactory->createOrUpdate($issuer);
         $this->apiTypeOfActivityFactory->createOrUpdate($issuer);
+        $this->egrEventFetcher->update($issuer->pid);
 
         return $issuer;
     }

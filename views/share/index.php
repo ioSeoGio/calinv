@@ -6,6 +6,7 @@ use src\Entity\Issuer\Issuer;
 use src\Entity\Share\Share;
 use src\Helper\GoodBadValueViewHelper;
 use src\Helper\SimpleNumberFormatter;
+use src\Integration\Bcse\BcseUrlHelper;
 use yii\bootstrap5\Html;
 use yii\data\ArrayDataProvider;
 use yii\grid\GridView;
@@ -34,7 +35,12 @@ use yii\helpers\ArrayHelper;
         'registerNumber',
         [
             'attribute' => 'lastDealDate',
-            'format' => 'date',
+            'format' => 'raw',
+            'value' => function (Share $model) {
+                return $model->lastDealDate
+                    ? Html::a(Yii::$app->formatter->asDatetime($model->lastDealDate), BcseUrlHelper::getShareUrl($model), ['target' => '_blank'])
+                    : null;
+            }
         ],
         [
             'attribute' => 'lastDealChangePercent',

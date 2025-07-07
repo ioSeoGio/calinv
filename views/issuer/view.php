@@ -6,6 +6,8 @@
 /** @var ActiveDataProvider $eventDataProvider */
 /** @var ActiveDataProvider $importantEventDataProvider */
 
+use app\widgets\ShowCopyNumberColumn;
+use lib\Helper\DetailViewCopyHelper;
 use src\Action\Issuer\Event\IssuerEventSearchForm;
 use src\Entity\Issuer\Issuer;
 use src\Entity\Issuer\IssuerEvent\IssuerEvent;
@@ -16,9 +18,13 @@ use yii\widgets\DetailView;
 
 $this->params['breadcrumbs.homeLink'] = false;
 $this->params['breadcrumbs'][] = ['label' => 'Эмитенты', 'url' => ['issuer/index']];
-$this->params['breadcrumbs'][] = Html::encode($model->name);
-$this->title = Html::encode($model->name);
+$this->params['breadcrumbs'][] = $model->name;
+$this->title = $model->name;
 ?>
+
+<?= $this->render('issuer_tabs', [
+    'model' => $model,
+]); ?>
 <div class="issuer-view">
     <?= GridView::widget([
         'dataProvider' => $importantEventDataProvider,
@@ -46,7 +52,13 @@ $this->title = Html::encode($model->name);
                 'attribute' => 'name',
             ],
             '_legalStatus',
-            '_pid',
+            [
+                'attribute' => '_pid',
+                'format' => 'raw',
+                'value' => function (Issuer $model) {
+                    return DetailViewCopyHelper::render($model, '_pid');
+                }
+            ],
             [
                 'label' => '',
                 'format' => 'raw',

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "93357c70fe6541f8fa9a98242c5bdb5b",
+    "content-hash": "fd109f3c2111645bf3dc559f1e18a38b",
     "packages": [
         {
             "name": "bower-asset/bootstrap",
@@ -20,6 +20,24 @@
                 "reference": "e0032ae6a5a628a51a8552091816cec09b6434df"
             },
             "type": "bower-asset"
+        },
+        {
+            "name": "bower-asset/clipboard",
+            "version": "v1.7.1",
+            "source": {
+                "type": "git",
+                "url": "git@github.com:zenorocha/clipboard.js.git",
+                "reference": "b6e6b80ab07eab03ce0d277515b3ed540773a330"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/zenorocha/clipboard.js/zipball/b6e6b80ab07eab03ce0d277515b3ed540773a330",
+                "reference": "b6e6b80ab07eab03ce0d277515b3ed540773a330"
+            },
+            "type": "bower-asset",
+            "license": [
+                "MIT"
+            ]
         },
         {
             "name": "bower-asset/inputmask",
@@ -333,6 +351,128 @@
                 }
             ],
             "time": "2025-03-02T21:31:24+00:00"
+        },
+        {
+            "name": "kartik-v/yii2-krajee-base",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/kartik-v/yii2-krajee-base.git",
+                "reference": "5c095126d1be47e0bb1f92779b7dc099f6feae31"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/kartik-v/yii2-krajee-base/zipball/5c095126d1be47e0bb1f92779b7dc099f6feae31",
+                "reference": "5c095126d1be47e0bb1f92779b7dc099f6feae31",
+                "shasum": ""
+            },
+            "suggest": {
+                "yiisoft/yii2-bootstrap": "for Krajee extensions to work with Bootstrap 3.x version",
+                "yiisoft/yii2-bootstrap4": "for Krajee extensions to work with Bootstrap 4.x version",
+                "yiisoft/yii2-bootstrap5": "for Krajee extensions to work with Bootstrap 5.x version"
+            },
+            "default-branch": true,
+            "type": "yii2-extension",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "3.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "kartik\\base\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Kartik Visweswaran",
+                    "email": "kartikv2@gmail.com",
+                    "homepage": "http://www.krajee.com/"
+                }
+            ],
+            "description": "Base library and foundation components for all Yii2 Krajee extensions.",
+            "homepage": "https://github.com/kartik-v/yii2-krajee-base",
+            "keywords": [
+                "base",
+                "extension",
+                "foundation",
+                "krajee",
+                "widget",
+                "yii2"
+            ],
+            "support": {
+                "issues": "https://github.com/kartik-v/yii2-krajee-base/issues",
+                "source": "https://github.com/kartik-v/yii2-krajee-base/tree/v3.0.5"
+            },
+            "time": "2022-06-01T14:05:39+00:00"
+        },
+        {
+            "name": "kartik-v/yii2-number",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/kartik-v/yii2-number.git",
+                "reference": "0e1d1233041c9b64428fa393fd6f66f1c95dd5a0"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/kartik-v/yii2-number/zipball/0e1d1233041c9b64428fa393fd6f66f1c95dd5a0",
+                "reference": "0e1d1233041c9b64428fa393fd6f66f1c95dd5a0",
+                "shasum": ""
+            },
+            "require": {
+                "kartik-v/yii2-krajee-base": ">=2.0.0"
+            },
+            "default-branch": true,
+            "type": "yii2-extension",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "kartik\\number\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Kartik Visweswaran",
+                    "email": "kartikv2@gmail.com",
+                    "homepage": "http://www.krajee.com/"
+                }
+            ],
+            "description": "Number control and format mask input for Yii2 Framework.",
+            "homepage": "https://github.com/kartik-v/yii2-number",
+            "keywords": [
+                "currency",
+                "extension",
+                "format",
+                "mask",
+                "number",
+                "number control",
+                "widget",
+                "yii2"
+            ],
+            "support": {
+                "issues": "https://github.com/kartik-v/yii2-number/issues",
+                "source": "https://github.com/kartik-v/yii2-number/tree/master"
+            },
+            "funding": [
+                {
+                    "url": "https://opencollective.com/kartik-v",
+                    "type": "open_collective"
+                }
+            ],
+            "time": "2019-06-19T07:12:40+00:00"
         },
         {
             "name": "kriss/yii2-log-reader",
@@ -864,6 +1004,48 @@
                 "wiki": "https://simplehtmldom.sourceforge.io/docs/"
             },
             "time": "2022-04-25T19:21:05+00:00"
+        },
+        {
+            "name": "supplyhog/yii2-clipboardjs",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/supplyhog/yii2-clipboardjs.git",
+                "reference": "9bb74f4cfef3ddd05a572e0c0c59ed2cef3745f4"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/supplyhog/yii2-clipboardjs/zipball/9bb74f4cfef3ddd05a572e0c0c59ed2cef3745f4",
+                "reference": "9bb74f4cfef3ddd05a572e0c0c59ed2cef3745f4",
+                "shasum": ""
+            },
+            "require": {
+                "bower-asset/clipboard": "^1.5",
+                "php": ">=5.4.0",
+                "yiisoft/yii2": "*"
+            },
+            "default-branch": true,
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "supplyhog\\ClipboardJs\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Wil Wade",
+                    "email": "wil@supplyhog.com"
+                }
+            ],
+            "support": {
+                "issues": "https://github.com/supplyhog/yii2-clipboardjs/issues",
+                "source": "https://github.com/supplyhog/yii2-clipboardjs/tree/master"
+            },
+            "time": "2016-10-31T13:13:08+00:00"
         },
         {
             "name": "symfony/deprecation-contracts",
@@ -6607,8 +6789,10 @@
     "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
+        "kartik-v/yii2-number": 20,
         "phpdocumentor/reflection-docblock": 20,
         "simplehtmldom/simplehtmldom": 20,
+        "supplyhog/yii2-clipboardjs": 20,
         "symfony/http-client": 20,
         "symfony/property-access": 20,
         "symfony/property-info": 20,
