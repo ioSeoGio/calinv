@@ -3,6 +3,7 @@
 namespace app\controllers;
 
 use lib\BaseController;
+use src\Action\Issuer\AccountingBalance\AccountingBalanceApiCreateForm;
 use src\Action\Issuer\AccountingBalance\AccountingBalanceCreateForm;
 use src\Action\Issuer\AccountingBalance\AccountingBalanceSearchForm;
 use src\Action\Issuer\IssuerCreateForm;
@@ -49,7 +50,20 @@ class AccountingBalanceController extends BaseController
             'model' => $issuer,
             'dataProvider' => $dataProvider,
             'accountingBalanceCreateForm' => new AccountingBalanceCreateForm($issuer),
+            'accountingBalanceApiCreateForm' => new AccountingBalanceApiCreateForm(),
         ]);
+    }
+
+    public function actionFetchExternal(int $issuerId): Response
+    {
+        $issuer = Issuer::getOneById($issuerId);
+        $createForm = new AccountingBalanceApiCreateForm();
+
+        if ($createForm->load(Yii::$app->request->post()) && $createForm->validate()) {
+            $this->factory->createOrUpdateByExternalApi($issuer, \DateTimeImmutable::createFromFormat('Y', $createForm->year));
+        }
+
+        return $this->redirect(['index', 'issuerId' => $issuerId]);
     }
 
     public function actionValidate($issuerId): array

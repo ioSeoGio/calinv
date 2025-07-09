@@ -4,12 +4,13 @@
 /** @var Issuer $model */
 /** @var ActiveDataProvider $dataProvider */
 /** @var AccountingBalanceCreateForm $accountingBalanceCreateForm */
+/** @var AccountingBalanceApiCreateForm $accountingBalanceApiCreateForm */
 
 use app\widgets\ShowCopyNumberColumn;
+use src\Action\Issuer\AccountingBalance\AccountingBalanceApiCreateForm;
 use src\Action\Issuer\AccountingBalance\AccountingBalanceCreateForm;
 use src\Entity\Issuer\AccountingBalance\AccountingBalance;
 use src\Entity\Issuer\Issuer;
-use supplyhog\ClipboardJs\ClipboardJsWidget;
 use yii\data\ActiveDataProvider;
 use yii\grid\GridView;
 
@@ -26,6 +27,10 @@ $this->title = 'Бухгалтерский баланс ' . $model->name;
     'accountingBalanceCreateForm' => $accountingBalanceCreateForm,
     'issuer' => $model,
 ]) ?>
+<?= $this->render('create_by_api', [
+    'createForm' => $accountingBalanceApiCreateForm,
+    'issuer' => $model,
+]) ?>
 <div class="issuer-view">
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
@@ -39,27 +44,27 @@ $this->title = 'Бухгалтерский баланс ' . $model->name;
             ],
             [
                 'class' => ShowCopyNumberColumn::class,
-                'attribute' => 'longAsset',
+                'attribute' => '_190',
                 'format' => 'decimal',
             ],
             [
                 'class' => ShowCopyNumberColumn::class,
-                'attribute' => 'shortAsset',
+                'attribute' => '_290',
                 'format' => 'decimal',
             ],
             [
                 'class' => ShowCopyNumberColumn::class,
-                'attribute' => 'longDebt',
+                'attribute' => '_590',
                 'format' => 'decimal',
             ],
             [
                 'class' => ShowCopyNumberColumn::class,
-                'attribute' => 'shortDebt',
+                'attribute' => '_690',
                 'format' => 'decimal',
             ],
             [
                 'class' => ShowCopyNumberColumn::class,
-                'attribute' => 'capital',
+                'attribute' => '_490',
                 'format' => 'decimal',
             ],
         ],

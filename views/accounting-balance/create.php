@@ -2,12 +2,10 @@
 /** @var AccountingBalanceCreateForm $accountingBalanceCreateForm */
 /** @var Issuer $issuer */
 
-use app\widgets\MaskedNumberInput;
 use kartik\number\NumberControl;
 use src\Action\Issuer\AccountingBalance\AccountingBalanceCreateForm;
 use src\Entity\Issuer\FinanceTermType;
 use src\Entity\Issuer\Issuer;
-use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\bootstrap5\ActiveForm;
 
@@ -50,7 +48,11 @@ $form = ActiveForm::begin([
         </tr>
         <tr>
             <td>
-                <?= $form->field($accountingBalanceCreateForm, 'year')->textInput(['class' => 'form-control'])->label(false) ?>
+                <?= $form->field($accountingBalanceCreateForm, 'year', [
+                    'inputOptions' => [
+                        'maxlength' => 4,
+                    ],
+                ])->textInput(['class' => 'form-control'])->label(false) ?>
             </td>
             <td>
                 <?= $form->field($accountingBalanceCreateForm, 'termType')

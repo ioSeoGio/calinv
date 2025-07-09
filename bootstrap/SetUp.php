@@ -5,15 +5,20 @@ namespace app\bootstrap;
 
 use lib\ApiIntegrator\BaseHttpClient;
 use lib\Serializer\EnumDenormalizer;
+use src\Integration\FinanceReport\FinanceReportFetcherInterface;
+use src\Integration\FinanceReport\Legat\LegatFinanceReportFetcher;
+use src\Integration\FinanceReport\Mock\MockFinanceReportFetcher;
 use Symfony\Component\HttpClient\CurlHttpClient;
 use Symfony\Component\HttpClient\RetryableHttpClient;
 use Symfony\Component\PropertyAccess\PropertyAccessor;
 use Symfony\Component\PropertyInfo\Extractor\PhpDocExtractor;
+use Symfony\Component\PropertyInfo\Extractor\ReflectionExtractor;
 use Symfony\Component\PropertyInfo\Extractor\SerializerExtractor;
+use Symfony\Component\PropertyInfo\PropertyInfoExtractor;
 use Symfony\Component\Serializer\Encoder\ChainEncoder;
-use Symfony\Component\Serializer\Encoder\JsonDecode;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\Mapping\Factory\ClassMetadataFactory;
+use Symfony\Component\Serializer\Mapping\Loader\AttributeLoader;
 use Symfony\Component\Serializer\Normalizer\ArrayDenormalizer;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Serializer\Serializer;
@@ -23,9 +28,6 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 use Yii;
 use yii\base\BootstrapInterface;
-use Symfony\Component\PropertyInfo\Extractor\ReflectionExtractor;
-use Symfony\Component\Serializer\Mapping\Loader\AttributeLoader;
-use Symfony\Component\PropertyInfo\PropertyInfoExtractor;
 
 class SetUp implements BootstrapInterface
 {
@@ -95,6 +97,12 @@ class SetUp implements BootstrapInterface
                     'verify_host' => false,
                 ])
             );
+        });
+
+        $container->setSingleton(FinanceReportFetcherInterface::class, function () use ($container) {
+            return ($_ENV['FINANCE_REPORT_TEST_MODE'] ?? true)
+                ? $container->get(MockFinanceReportFetcher::class)
+                : $container->get(LegatFinanceReportFetcher::class);
         });
     }
 }
