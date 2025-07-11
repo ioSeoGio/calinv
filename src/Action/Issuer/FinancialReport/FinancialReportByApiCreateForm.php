@@ -1,11 +1,10 @@
 <?php
 
-namespace src\Action\Issuer\AccountingBalance;
+namespace src\Action\Issuer\FinancialReport;
 
-use src\Entity\Issuer\Issuer;
 use yii\base\Model;
 
-class AccountingBalanceApiCreateForm extends Model
+class FinancialReportByApiCreateForm extends Model
 {
     public $year;
 

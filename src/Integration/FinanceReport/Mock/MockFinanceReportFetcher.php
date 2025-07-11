@@ -4,7 +4,7 @@ namespace src\Integration\FinanceReport\Mock;
 
 use src\Entity\Issuer\PayerIdentificationNumber;
 use src\Integration\FinanceReport\Dto\FinanceReportAccountingBalanceDto;
-use src\Integration\FinanceReport\Dto\FinanceReportCapitalDto;
+use src\Integration\FinanceReport\Dto\FinanceReportCashFlowDto;
 use src\Integration\FinanceReport\Dto\FinanceReportProfitLossDto;
 use src\Integration\FinanceReport\FinanceReportFetcherInterface;
 use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
@@ -31,7 +31,7 @@ class MockFinanceReportFetcher implements FinanceReportFetcherInterface
         );
     }
 
-    public function getProfitLoss(PayerIdentificationNumber $pid, \DateTimeImmutable $year): FinanceReportAccountingBalanceDto
+    public function getProfitLoss(PayerIdentificationNumber $pid, \DateTimeImmutable $year): FinanceReportProfitLossDto
     {
         return $this->serializer->deserialize(
             file_get_contents(__DIR__ . '/profit-loss.json'),
@@ -44,11 +44,11 @@ class MockFinanceReportFetcher implements FinanceReportFetcherInterface
         );
     }
 
-    public function getCapital(PayerIdentificationNumber $pid, \DateTimeImmutable $year): FinanceReportAccountingBalanceDto
+    public function getCashFlowReport(PayerIdentificationNumber $pid, \DateTimeImmutable $year): FinanceReportCashFlowDto
     {
         return $this->serializer->deserialize(
-            file_get_contents(__DIR__ . '/finance-capital.json'),
-            FinanceReportCapitalDto::class,
+            file_get_contents(__DIR__ . '/cash-flow.json'),
+            FinanceReportCashFlowDto::class,
             'json',
             [
                 AbstractObjectNormalizer::DISABLE_TYPE_ENFORCEMENT => true,

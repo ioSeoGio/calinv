@@ -2,8 +2,6 @@
 
 namespace src\Integration\Egr;
 
-use Dom\HTMLDocument;
-use Faker\Provider\Base;
 use lib\ApiIntegrator\BaseHttpClient;
 use lib\ApiIntegrator\HttpMethod;
 use lib\ApiIntegrator\JsonHttpClient;
@@ -59,15 +57,16 @@ class EgrHttpClient
     public function request(string $dtoClass, HttpMethod $method, string $path, array $pathParams = []): object|array
     {
         $url = $this->urlGenerator->generateUrl(self::BASE_URL, $path, $pathParams);
-        $response = $this->httpClient->request($method, $url, [
-            'timeout' => 1,
-        ]);
-
-        if ($response->getStatusCode() === 204) {
-            throw new ApiNotFoundException();
-        }
 
         try {
+            $response = $this->httpClient->request($method, $url, [
+                'timeout' => 1,
+            ]);
+
+            if ($response->getStatusCode() === 204) {
+                throw new ApiNotFoundException();
+            }
+
             $content = $response->getContent();
             return $this->serializer->deserialize($content, $dtoClass, 'json', [
                 AbstractObjectNormalizer::DISABLE_TYPE_ENFORCEMENT => true,

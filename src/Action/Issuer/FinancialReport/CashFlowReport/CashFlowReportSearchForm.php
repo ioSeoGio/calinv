@@ -1,13 +1,13 @@
 <?php
 
-namespace src\Action\Issuer\AccountingBalance;
+namespace src\Action\Issuer\FinancialReport\CashFlowReport;
 
-use src\Entity\Issuer\AccountingBalance\AccountingBalance;
+use src\Entity\Issuer\FinanceReport\CashFlowReport\CashFlowReport;
 use src\Entity\Issuer\Issuer;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
 
-class AccountingBalanceSearchForm extends Model
+class CashFlowReportSearchForm extends Model
 {
     public string $year = '';
 
@@ -20,7 +20,7 @@ class AccountingBalanceSearchForm extends Model
 
     public function search(Issuer $issuer, $params): ActiveDataProvider
     {
-        $query = AccountingBalance::find()
+        $query = CashFlowReport::find()
             ->joinWith('issuer')
             ->andWhere([Issuer::tableName() . '.id' => $issuer->id]);
 

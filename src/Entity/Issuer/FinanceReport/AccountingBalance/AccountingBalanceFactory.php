@@ -1,9 +1,10 @@
 <?php
 
-namespace src\Entity\Issuer\AccountingBalance;
+namespace src\Entity\Issuer\FinanceReport\AccountingBalance;
 
 use DateTimeImmutable;
-use src\Action\Issuer\AccountingBalance\AccountingBalanceCreateForm;
+use src\Action\Issuer\FinancialReport\AccountingBalance\AccountingBalanceCreateForm;
+use src\Entity\DataTypeEnum;
 use src\Entity\Issuer\Issuer;
 use src\Integration\FinanceReport\Dto\FinanceReportAccountingBalanceDto;
 use src\Integration\FinanceReport\FinanceReportFetcherInterface;
@@ -30,6 +31,7 @@ class AccountingBalanceFactory
             issuer: $issuer,
             date: new \DateTimeImmutable($form->year),
             dto: $dto,
+            dataType: DataTypeEnum::createdManually,
         );
 
         $accountingBalance->save();
@@ -40,10 +42,13 @@ class AccountingBalanceFactory
         Issuer $issuer,
         DateTimeImmutable $date,
     ): AccountingBalance {
+        $dto = $this->financeReportFetcher->getAccountingBalance($issuer->pid, $date);
+
         $accountingBalance = AccountingBalance::createOrUpdate(
             issuer: $issuer,
             date: $date,
-            dto: $this->financeReportFetcher->getAccountingBalance($issuer->pid, $date),
+            dto: $dto,
+            dataType: $dto->isMock ? DataTypeEnum::mockData : DataTypeEnum::fetchedFromApi,
         );
 
         $accountingBalance->save();

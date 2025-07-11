@@ -4,6 +4,7 @@ namespace src\Integration\FinanceReport\Legat;
 
 use lib\ApiIntegrator\BaseHttpClient;
 use lib\ApiIntegrator\HttpMethod;
+use lib\EnvGetter;
 use lib\Exception\UserException\ApiBadRequestException;
 use lib\Exception\UserException\ApiInternalErrorException;
 use lib\UrlGenerator;
@@ -35,7 +36,7 @@ class LegatApiHttpClient
     {
         $url = $this->urlGenerator->generateUrl(self::BASE_URL, $path, queryParams: [
             'unp' => $pid->id,
-            'key' => $_ENV['LEGAT_API_KEY'],
+            'key' => EnvGetter::get('LEGAT_API_KEY'),
             'year' => $year->format('Y'),
         ]);
         $response = $this->httpClient->request($method, $url);

@@ -1,13 +1,13 @@
 <?php
-/** @var AccountingBalanceCreateForm $accountingBalanceCreateForm */
+/** @var \src\Action\Issuer\FinancialReport\AccountingBalance\AccountingBalanceCreateForm $accountingBalanceCreateForm */
 /** @var Issuer $issuer */
 
 use kartik\number\NumberControl;
-use src\Action\Issuer\AccountingBalance\AccountingBalanceCreateForm;
+use src\Action\Issuer\FinancialReport\AccountingBalance\AccountingBalanceCreateForm;
 use src\Entity\Issuer\FinanceTermType;
 use src\Entity\Issuer\Issuer;
-use yii\helpers\Url;
 use yii\bootstrap5\ActiveForm;
+use yii\helpers\Url;
 
 $form = ActiveForm::begin([
     'id' => 'login-form',

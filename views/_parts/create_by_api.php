@@ -1,14 +1,15 @@
 <?php
-/** @var AccountingBalanceApiCreateForm $createForm */
+/** @var FinancialReportByApiCreateForm $createForm */
 /** @var Issuer $issuer */
+/** @var string $url */
 
-use src\Action\Issuer\AccountingBalance\AccountingBalanceApiCreateForm;
+use src\Action\Issuer\FinancialReport\FinancialReportByApiCreateForm;
 use src\Entity\Issuer\Issuer;
-use yii\helpers\Url;
 use yii\bootstrap5\ActiveForm;
+use yii\helpers\Url;
 
 $form = ActiveForm::begin([
-    'action' => Url::to(['/accounting-balance/fetch-external', 'issuerId' => $issuer->id]),
+    'action' => Url::to([$url, 'issuerId' => $issuer->id]),
 
     'enableAjaxValidation'      => false,
     'enableClientValidation'    => true,

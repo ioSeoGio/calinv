@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace app\bootstrap;
 
 use lib\ApiIntegrator\BaseHttpClient;
+use lib\EnvGetter;
 use lib\Serializer\EnumDenormalizer;
 use src\Integration\FinanceReport\FinanceReportFetcherInterface;
 use src\Integration\FinanceReport\Legat\LegatFinanceReportFetcher;
@@ -100,7 +101,7 @@ class SetUp implements BootstrapInterface
         });
 
         $container->setSingleton(FinanceReportFetcherInterface::class, function () use ($container) {
-            return ($_ENV['FINANCE_REPORT_TEST_MODE'] ?? true)
+            return EnvGetter::getBool('FINANCE_REPORT_TEST_MODE', true)
                 ? $container->get(MockFinanceReportFetcher::class)
                 : $container->get(LegatFinanceReportFetcher::class);
         });

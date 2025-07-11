@@ -22,7 +22,7 @@ $this->params['breadcrumbs'][] = $model->name;
 $this->title = $model->name;
 ?>
 
-<?= $this->render('issuer_tabs', [
+<?= $this->render('@views/_parts/issuer_tabs', [
     'model' => $model,
 ]); ?>
 <div class="issuer-view">

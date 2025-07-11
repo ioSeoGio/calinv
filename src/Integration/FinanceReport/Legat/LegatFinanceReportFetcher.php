@@ -5,7 +5,8 @@ namespace src\Integration\FinanceReport\Legat;
 use lib\ApiIntegrator\HttpMethod;
 use src\Entity\Issuer\PayerIdentificationNumber;
 use src\Integration\FinanceReport\Dto\FinanceReportAccountingBalanceDto;
-use src\Integration\FinanceReport\Dto\FinanceReportCapitalDto;
+use src\Integration\FinanceReport\Dto\FinanceReportCashFlowDto;
+use src\Integration\FinanceReport\Dto\FinanceReportProfitLossDto;
 use src\Integration\FinanceReport\FinanceReportFetcherInterface;
 use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
 use Symfony\Component\Serializer\Normalizer\AbstractObjectNormalizer;
@@ -38,13 +39,13 @@ class LegatFinanceReportFetcher implements FinanceReportFetcherInterface
         );
     }
 
-    public function getProfitLoss(PayerIdentificationNumber $pid, \DateTimeImmutable $year): FinanceReportAccountingBalanceDto
+    public function getProfitLoss(PayerIdentificationNumber $pid, \DateTimeImmutable $year): FinanceReportProfitLossDto
     {
         $response = $this->client->request(HttpMethod::GET, self::PROFIT_LOSS, $pid, $year);
 
         return $this->serializer->deserialize(
             $response->getContent(),
-            FinanceReportAccountingBalanceDto::class,
+            FinanceReportProfitLossDto::class,
             'json',
             [
                 AbstractObjectNormalizer::DISABLE_TYPE_ENFORCEMENT => true,
@@ -53,13 +54,13 @@ class LegatFinanceReportFetcher implements FinanceReportFetcherInterface
         );
     }
 
-    public function getCapital(PayerIdentificationNumber $pid, \DateTimeImmutable $year): FinanceReportAccountingBalanceDto
+    public function getCashFlowReport(PayerIdentificationNumber $pid, \DateTimeImmutable $year): FinanceReportCashFlowDto
     {
         $response = $this->client->request(HttpMethod::GET, self::CAPITAL, $pid, $year);
 
         return $this->serializer->deserialize(
             $response->getContent(),
-            FinanceReportCapitalDto::class,
+            FinanceReportCashFlowDto::class,
             'json',
             [
                 AbstractObjectNormalizer::DISABLE_TYPE_ENFORCEMENT => true,

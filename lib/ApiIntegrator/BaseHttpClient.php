@@ -4,6 +4,7 @@ namespace lib\ApiIntegrator;
 
 use lib\Exception\UserException\ApiBadRequestException;
 use lib\Exception\UserException\ApiInternalErrorException;
+use lib\Exception\UserException\ApiLightTemporaryUnavailableException;
 use RuntimeException;
 use Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface;
@@ -23,6 +24,7 @@ class BaseHttpClient
      * @throws RuntimeException
      * @throws ApiInternalErrorException 500 от api
      * @throws ApiBadRequestException 400 от api
+     * @throws ApiLightTemporaryUnavailableException api сдохло временно
      */
     public function request(HttpMethod $method, string $url, array $options = []): ResponseInterface
     {
@@ -34,7 +36,7 @@ class BaseHttpClient
             $response = $this->httpClient->request($method->value, $url, array_merge($defaultOptions, $options));
             $response->getStatusCode();
         } catch (TransportExceptionInterface|RedirectionExceptionInterface $e) {
-            throw new RuntimeException(previous: $e);
+            throw new ApiLightTemporaryUnavailableException(previous: $e);
         } catch (ServerExceptionInterface $e) {
             throw new ApiInternalErrorException(previous: $e);
         } catch (ClientExceptionInterface $e) {

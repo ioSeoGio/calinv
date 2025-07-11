@@ -1,9 +1,11 @@
 <?php
 
-namespace src\Entity\Issuer\AccountingBalance;
+namespace src\Entity\Issuer\FinanceReport\AccountingBalance;
 
 use DateTimeImmutable;
 use lib\Database\ApiFetchedActiveRecord;
+use src\Entity\DataTypeEnum;
+use src\Entity\DataTypeTrait;
 use src\Entity\Issuer\FinanceTermType;
 use src\Entity\Issuer\Issuer;
 use src\Integration\FinanceReport\Dto\FinanceReportAccountingBalanceDto;
@@ -17,7 +19,6 @@ use yii\db\ActiveQuery;
  *
  * @property string $_year
  * @property DateTimeImmutable $year
- * @property bool $isMock
  *
  * ДОЛГОСРОЧНЫЕ АКТИВЫ
  * @property ?float $_110 Основные средства
@@ -79,6 +80,8 @@ use yii\db\ActiveQuery;
  */
 class AccountingBalance extends ApiFetchedActiveRecord
 {
+    use DataTypeTrait;
+
     public static function tableName(): string
     {
         return 'issuer_accounting_balance';
@@ -101,70 +104,75 @@ class AccountingBalance extends ApiFetchedActiveRecord
         Issuer $issuer,
         DateTimeImmutable $date,
         FinanceReportAccountingBalanceDto $dto,
+        DataTypeEnum $dataType,
         FinanceTermType $termType = FinanceTermType::year,
     ): self {
         $self = self::findOne([
             'issuer_id' => $issuer->id,
             'year' => $date->format('Y'),
             '_termType' => $termType->value,
-            'isMock' => $dto->isMock,
+            '_dataType' => $dataType->value,
         ]) ?: new self([
             'issuer_id' => $issuer->id,
             'year' => $date->format('Y'),
             '_termType' => $termType->value,
-            'isMock' => $dto->isMock,
+            '_dataType' => $dataType->value,
         ]);
 
-        $self->_110 = $dto->_110;
-        $self->_120 = $dto->_120;
-        $self->_130 = $dto->_130;
-        $self->_131 = $dto->_131;
-        $self->_140 = $dto->_140;
-        $self->_150 = $dto->_150;
-        $self->_160 = $dto->_160;
-        $self->_170 = $dto->_170;
-        $self->_180 = $dto->_180;
-        $self->_190 = $dto->_190;
-        $self->_210 = $dto->_210;
-        $self->_211 = $dto->_211;
-        $self->_213 = $dto->_213;
-        $self->_214 = $dto->_214;
-        $self->_215 = $dto->_215;
-        $self->_230 = $dto->_230;
-        $self->_240 = $dto->_240;
-        $self->_250 = $dto->_250;
-        $self->_260 = $dto->_260;
-        $self->_270 = $dto->_270;
-        $self->_280 = $dto->_280;
-        $self->_290 = $dto->_290;
-        $self->_300 = $dto->_300;
-        $self->_410 = $dto->_410;
-        $self->_440 = $dto->_440;
-        $self->_450 = $dto->_450;
-        $self->_460 = $dto->_460;
-        $self->_490 = $dto->_490;
-        $self->_510 = $dto->_510;
-        $self->_540 = $dto->_540;
-        $self->_590 = $dto->_590;
-        $self->_610 = $dto->_610;
-        $self->_620 = $dto->_620;
-        $self->_630 = $dto->_630;
-        $self->_631 = $dto->_631;
-        $self->_632 = $dto->_632;
-        $self->_633 = $dto->_633;
-        $self->_634 = $dto->_634;
-        $self->_635 = $dto->_635;
-        $self->_636 = $dto->_636;
-        $self->_637 = $dto->_637;
-        $self->_638 = $dto->_638;
-        $self->_650 = $dto->_650;
-        $self->_670 = $dto->_670;
-        $self->_690 = $dto->_690;
-        $self->_700 = $dto->_700;
-
+        $self->setFieldsFromDto($dto);
         $self->renewLastApiUpdateDate();
 
         return $self;
+    }
+
+    private function setFieldsFromDto(FinanceReportAccountingBalanceDto $dto): void
+    {
+        $this->_110 = $dto->_110;
+        $this->_120 = $dto->_120;
+        $this->_130 = $dto->_130;
+        $this->_131 = $dto->_131;
+        $this->_140 = $dto->_140;
+        $this->_150 = $dto->_150;
+        $this->_160 = $dto->_160;
+        $this->_170 = $dto->_170;
+        $this->_180 = $dto->_180;
+        $this->_190 = $dto->_190;
+        $this->_210 = $dto->_210;
+        $this->_211 = $dto->_211;
+        $this->_213 = $dto->_213;
+        $this->_214 = $dto->_214;
+        $this->_215 = $dto->_215;
+        $this->_230 = $dto->_230;
+        $this->_240 = $dto->_240;
+        $this->_250 = $dto->_250;
+        $this->_260 = $dto->_260;
+        $this->_270 = $dto->_270;
+        $this->_280 = $dto->_280;
+        $this->_290 = $dto->_290;
+        $this->_300 = $dto->_300;
+        $this->_410 = $dto->_410;
+        $this->_440 = $dto->_440;
+        $this->_450 = $dto->_450;
+        $this->_460 = $dto->_460;
+        $this->_490 = $dto->_490;
+        $this->_510 = $dto->_510;
+        $this->_540 = $dto->_540;
+        $this->_590 = $dto->_590;
+        $this->_610 = $dto->_610;
+        $this->_620 = $dto->_620;
+        $this->_630 = $dto->_630;
+        $this->_631 = $dto->_631;
+        $this->_632 = $dto->_632;
+        $this->_633 = $dto->_633;
+        $this->_634 = $dto->_634;
+        $this->_635 = $dto->_635;
+        $this->_636 = $dto->_636;
+        $this->_637 = $dto->_637;
+        $this->_638 = $dto->_638;
+        $this->_650 = $dto->_650;
+        $this->_670 = $dto->_670;
+        $this->_690 = $dto->_690;
+        $this->_700 = $dto->_700;
     }
 
     public function getYear(): DateTimeImmutable

@@ -5,6 +5,7 @@ namespace lib;
 use lib\Exception\UserException\ApiBadRequestException;
 use lib\Exception\UserException\ApiBadResponseException;
 use lib\Exception\UserException\ApiInternalErrorException;
+use lib\Exception\UserException\ApiLightTemporaryUnavailableException;
 use lib\Exception\UserException\ApiNotFoundException;
 use Yii;
 use yii\base\Response;
@@ -15,7 +16,7 @@ class ErrorHandler extends YiiErrorHandler
 {
     protected function renderException($exception): void
     {
-        if (YII_ENV_PROD) {
+        if (YII_ENV_PROD || EnvGetter::getBool('HIDE_SHIT_EXCEPTIONS', false)) {
             $this->handlerProd($exception)->send();
             return;
         }
@@ -32,6 +33,11 @@ class ErrorHandler extends YiiErrorHandler
 
         if ($exception instanceof ApiNotFoundException) {
             $this->printError($exception, FlashType::warning, 'Стороннее api не нашло запрашиваемые данные.');
+            return $this->redirect();
+        }
+
+        if ($exception instanceof ApiLightTemporaryUnavailableException) {
+            $this->printError($exception, FlashType::error, 'Стороннее api временно недоступно.');
             return $this->redirect();
         }
 

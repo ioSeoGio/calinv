@@ -3,11 +3,10 @@
 namespace app\controllers;
 
 use lib\BaseController;
-use src\Action\Issuer\AccountingBalance\AccountingBalanceApiCreateForm;
-use src\Action\Issuer\AccountingBalance\AccountingBalanceCreateForm;
-use src\Action\Issuer\AccountingBalance\AccountingBalanceSearchForm;
-use src\Action\Issuer\IssuerCreateForm;
-use src\Entity\Issuer\AccountingBalance\AccountingBalanceFactory;
+use src\Action\Issuer\FinancialReport\AccountingBalance\AccountingBalanceCreateForm;
+use src\Action\Issuer\FinancialReport\AccountingBalance\AccountingBalanceSearchForm;
+use src\Action\Issuer\FinancialReport\FinancialReportByApiCreateForm;
+use src\Entity\Issuer\FinanceReport\AccountingBalance\AccountingBalanceFactory;
 use src\Entity\Issuer\Issuer;
 use Yii;
 use yii\bootstrap5\ActiveForm;
@@ -49,15 +48,15 @@ class AccountingBalanceController extends BaseController
         return $this->render('index', [
             'model' => $issuer,
             'dataProvider' => $dataProvider,
-            'accountingBalanceCreateForm' => new AccountingBalanceCreateForm($issuer),
-            'accountingBalanceApiCreateForm' => new AccountingBalanceApiCreateForm(),
+            'createForm' => new AccountingBalanceCreateForm($issuer),
+            'apiCreateForm' => new FinancialReportByApiCreateForm(),
         ]);
     }
 
     public function actionFetchExternal(int $issuerId): Response
     {
         $issuer = Issuer::getOneById($issuerId);
-        $createForm = new AccountingBalanceApiCreateForm();
+        $createForm = new FinancialReportByApiCreateForm();
 
         if ($createForm->load(Yii::$app->request->post()) && $createForm->validate()) {
             $this->factory->createOrUpdateByExternalApi($issuer, \DateTimeImmutable::createFromFormat('Y', $createForm->year));

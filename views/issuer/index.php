@@ -87,6 +87,24 @@ $this->title = 'Калькулятор эмитентов';
                             'title' => 'Бухгалтерский баланс',
                         ],
                     ],
+                    'profit-loss-report' => [
+                        'icon' => 'bi bi-file-text',
+                        'url' => function (Issuer $model) {
+                            return Url::to(['/profit-loss-report/index', 'issuerId' => $model->id]);
+                        },
+                        'options' => [
+                            'title' => 'Отчет о прибылях и убытках',
+                        ],
+                    ],
+                    'cash-flow-report' => [
+                        'icon' => 'bi bi-file-earmark-break',
+                        'url' => function (Issuer $model) {
+                            return Url::to(['/cash-flow-report/index', 'issuerId' => $model->id]);
+                        },
+                        'options' => [
+                            'title' => 'Отчет о движении денежных средств',
+                        ],
+                    ],
                 ],
             ],
 //            [

@@ -1,6 +1,6 @@
 <?php
 
-namespace src\Action\Issuer\AccountingBalance;
+namespace src\Action\Issuer\FinancialReport\AccountingBalance;
 
 use src\Entity\Issuer\FinanceTermType;
 use src\Entity\Issuer\Issuer;
