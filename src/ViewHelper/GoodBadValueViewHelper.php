@@ -1,6 +1,6 @@
 <?php
 
-namespace src\Helper;
+namespace src\ViewHelper;
 
 use yii\bootstrap5\Html;
 
@@ -19,6 +19,23 @@ class GoodBadValueViewHelper
         } else {
             $class = $value < $line ? 'text-success' : 'text-danger';
         }
+
+        return Html::tag(
+            name: 'span',
+            content: SimpleNumberFormatter::toView($value, decimals: $decimals, withCurrency: $withCurrency, postfix: $postfix),
+            options: ['class' => $class]
+        );
+    }
+
+    public static function inRange(
+        int|float $value,
+        int|float $min,
+        int|float $max,
+        int $decimals = 2,
+        bool $withCurrency = false,
+        string $postfix = '',
+    ): string {
+        $class = $value >= $min && $value <= $max ? 'text-success' : 'text-danger';
 
         return Html::tag(
             name: 'span',

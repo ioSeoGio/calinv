@@ -63,14 +63,20 @@ $this->title = $model->name;
                 'label' => '',
                 'format' => 'raw',
                 'value' => function (Issuer $model) {
-                    return Html::a("Активные акции ({$model->getActiveShares()->count()})", ['/share', 'ShareSearchForm' => [
-                        'issuerId' =>  $model->id,
-                        'isActive' => true,
-                    ]], ['target' => '_blank', 'class' => 'btn btn-success'])
+                    return Html::a(
+                            "Обновить акции",
+                            ['update-issuer-info', 'id' => $model->id],
+                            ['class' => 'btn btn-success']
+                        )
+                        . '<br>'
+                        . Html::a("Активные акции ({$model->getActiveShares()->count()})", ['/share', 'ShareSearchForm' => [
+                            'issuerId' =>  $model->id,
+                            'isActive' => true,
+                        ]], ['target' => '_blank', 'class' => 'btn btn-primary'])
                         . '<br>'
                         . Html::a("Акции ({$model->getShares()->count()})", ['/share', 'ShareSearchForm' => [
                             'issuerId' =>  $model->id,
-                        ]], ['target' => '_blank', 'class' => 'btn btn-success']);
+                        ]], ['target' => '_blank', 'class' => 'btn btn-primary']);
                 }
             ],
             [

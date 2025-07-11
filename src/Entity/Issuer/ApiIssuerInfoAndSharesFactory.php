@@ -2,9 +2,11 @@
 
 namespace src\Entity\Issuer;
 
+use Psr\Log\LogLevel;
 use src\Entity\Issuer\Helper\FullnessStateChecker;
 use src\Entity\Share\ShareFactory;
 use src\Integration\CentralDepo\CentralDepoIssuerAndShareInfoFetcher;
+use Yii;
 
 class ApiIssuerInfoAndSharesFactory
 {
@@ -25,8 +27,10 @@ class ApiIssuerInfoAndSharesFactory
             $issuer->save();
 
             foreach ($dto->shareDtos as $shareDto) {
-                $this->shareFactory->create($shareDto, $issuer, true);
+                $this->shareFactory->create($shareDto, $issuer, false);
             }
+        } catch (\Throwable $e) {
+            Yii::getLogger()->log($e->getMessage(), LogLevel::ERROR);
         } finally {
             FullnessStateChecker::update($issuer);
             $issuer->save();

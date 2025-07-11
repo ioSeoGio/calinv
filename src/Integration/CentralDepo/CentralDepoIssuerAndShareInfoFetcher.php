@@ -35,12 +35,19 @@ class CentralDepoIssuerAndShareInfoFetcher
         $dom = new HtmlDocument($response->getContent());
 
         $generalInfoTables = $dom->find('.table-color tbody');
-        $sharesSections = $dom->find('.table-container table tbody');
+        $sections = $dom->find('.table-container');
 
         /** @var HtmlNode $generalInfoTable */
         $generalInfoTable = $generalInfoTables[0] ?? null;
-        /** @var HtmlNode $sharesSection */
-        $sharesSection = $sharesSections[0] ?? null;
+        $sharesSection = null;
+
+        /** @var HtmlNode $section */
+        foreach ($sections as $section) {
+            $header = $section->parentNode()->find('h2.sub-header');
+            if ($header->innertext === 'Акции') {
+                $sharesSection = $section->find('table tbody');
+            }
+        }
 
         if ($generalInfoTable === null || $sharesSection === null) {
             throw new ApiNotFoundException("Не найден эмитент с УНП $pid->id");

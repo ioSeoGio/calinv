@@ -10,11 +10,11 @@ use lib\Helper\DetailViewCopyHelper;
 use src\Action\Issuer\IssuerCreateForm;
 use src\Action\Issuer\IssuerSearchForm;
 use src\Entity\Issuer\Issuer;
-use src\Helper\GoodBadValueViewHelper;
-use src\Helper\SimpleNumberFormatter;
 use src\IssuerRatingCalculator\CapitalizationByShareCalculator;
 use src\IssuerRatingCalculator\PBCalculator;
 use src\IssuerRatingCalculator\PECalculator;
+use src\ViewHelper\GoodBadValueViewHelper;
+use src\ViewHelper\SimpleNumberFormatter;
 use yii\bootstrap5\ActiveForm;
 use yii\data\ActiveDataProvider;
 use yii\grid\GridView;
@@ -88,7 +88,7 @@ $this->title = 'Калькулятор эмитентов';
                 }
             ],
             [
-                'label' => 'Выпусков акций',
+                'label' => 'Активные выпуски акций',
                 'value' => function (Issuer $model) {
                     return $model->getActiveShares()->count();
                 }
@@ -100,47 +100,39 @@ $this->title = 'Калькулятор эмитентов';
                 }
             ],
             [
-                'label' => 'P/E',
+                'label' => 'k1',
                 'format' => 'raw',
                 'value' => function (Issuer $model) {
-                    $result = '';
-
-                    foreach ($model->profitLossReports as $profitLossReport) {
-                        $pe = PECalculator::calculate($model, $profitLossReport);
-
-                        $result .= "$profitLossReport->_year: ";
-                        $result .= $pe
-                            ? GoodBadValueViewHelper::execute($pe, line: 10, moreBetter: false)
-                            : null;
-                        $result .= '<br>';
-                    }
-
-                    return $result;
+                    return \src\ViewHelper\K1ViewHelper::render($model);
                 }
             ],
             [
-                'label' => 'P/B',
+                'label' => 'k2',
                 'format' => 'raw',
                 'value' => function (Issuer $model) {
-                    $result = '';
-
-                    foreach ($model->accountBalanceReports as $accountBalanceReport) {
-                        $pb = PBCalculator::calculate($model, $accountBalanceReport);
-
-                        $result .= "$accountBalanceReport->_year: ";
-                        $result .= $pb
-                            ? GoodBadValueViewHelper::execute($pb, line: 1, moreBetter: false)
-                            : null;
-                        $result .= '<br>';
-                    }
-
-                    return $result;
+                    return \src\ViewHelper\K2ViewHelper::render($model);
+                }
+            ],
+            [
+                'label' => 'k3',
+                'format' => 'raw',
+                'value' => function (Issuer $model) {
+                    return \src\ViewHelper\K3ViewHelper::render($model);
                 }
             ],
             [
                 'class' => GuardedActionColumn::class,
                 'buttonsConfig' => [
                     'view',
+                    'coefficient' => [
+                        'icon' => 'bi bi-percent',
+                        'url' => function (Issuer $model) {
+                            return Url::to(['/coefficient/view', 'issuerId' => $model->id]);
+                        },
+                        'options' => [
+                            'title' => 'Коэффициенты',
+                        ],
+                    ],
                     'accounting-balance' => [
                         'icon' => 'bi bi-file-earmark-text',
                         'url' => function (Issuer $model) {

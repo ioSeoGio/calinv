@@ -1,6 +1,6 @@
 <?php
 
-namespace src\Helper;
+namespace src\ViewHelper;
 
 class SimpleNumberFormatter
 {

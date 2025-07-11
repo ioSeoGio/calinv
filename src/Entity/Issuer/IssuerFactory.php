@@ -2,10 +2,12 @@
 
 namespace src\Entity\Issuer;
 
+use Psr\Log\LogLevel;
 use src\Action\Issuer\IssuerCreateForm;
 use src\Entity\Issuer\AddressInfo\ApiAddressInfoFactory;
 use src\Entity\Issuer\TypeOfActivity\ApiTypeOfActivityFactory;
 use src\Integration\Egr\Event\EgrEventFetcher;
+use Yii;
 
 class IssuerFactory
 {
@@ -28,7 +30,11 @@ class IssuerFactory
         $issuer = Issuer::createOrGet($pid);
 
         $this->apiIssuerInfoAndSharesFactory->update($issuer);
-        $this->apiAddressInfoFactory->createOrUpdate($issuer);
+        try {
+            $this->apiAddressInfoFactory->createOrUpdate($issuer);
+        } catch (\Throwable $e) {
+            Yii::getLogger()->log($e->getMessage(), LogLevel::ERROR);
+        }
         $this->apiTypeOfActivityFactory->createOrUpdate($issuer);
         $this->egrEventFetcher->update($issuer->pid);
 

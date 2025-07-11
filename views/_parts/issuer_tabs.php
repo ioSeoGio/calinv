@@ -20,6 +20,11 @@ $url = Url::current();
             'active' => $url === Url::to(['/issuer/view', 'id' => $model->id]),
         ],
         [
+            'label' => 'Коэффициенты',
+            'url' => ['/coefficient/view', 'issuerId' => $model->id],
+            'active' => str_contains($url, Url::to(['/coefficient/view', 'issuerId' => $model->id])),
+        ],
+        [
             'label' => 'Бухгалтерский баланс',
             'url' => ['/accounting-balance/index', 'issuerId' => $model->id],
             'active' => str_contains($url, Url::to(['/accounting-balance/index', 'issuerId' => $model->id])),

@@ -68,6 +68,11 @@ $this->title = 'Бухгалтерский баланс ' . $model->name;
                 'attribute' => '_490',
                 'format' => 'decimal',
             ],
+            [
+                'class' => ShowCopyNumberColumn::class,
+                'attribute' => '_700',
+                'format' => 'decimal',
+            ],
         ],
     ]) ?>
 </div>

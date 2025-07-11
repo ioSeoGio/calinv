@@ -38,10 +38,7 @@ class ShareInfoDto
             $this->simpleIssuedAmount = (int) $simpleIssuedAmount;
         }
         
-        if (EmptyValueChecker::isEmpty($privilegedIssuedAmount)) {
-            $this->privilegedIssuedAmount = 0;
-        }
-
+        $this->privilegedIssuedAmount = EmptyValueChecker::isEmpty($privilegedIssuedAmount) ? 0 : $privilegedIssuedAmount;
         $this->issueDate = DateTimeImmutable::createFromFormat('d.m.Y', $issueDate);
 
         if (EmptyValueChecker::isEmpty($closingDate)) {

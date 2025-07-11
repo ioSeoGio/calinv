@@ -16,6 +16,7 @@ class FinanceReportProfitLossDto
     #[SerializedPath('[year]')]
     public ?string $year = null;
 
+    #[Assert\NotBlank]
     #[SerializedPath('[profit_loss][010_actual]')]
     public ?float $_010 = null;
 
@@ -122,6 +123,7 @@ class FinanceReportProfitLossDto
     #[SerializedPath('[profit_loss][240_actual]')]
     public ?float $_240 = null;
 
+    #[Assert\NotBlank]
     #[SerializedPath('[profit_loss][010_last]')]
     public ?float $last_010 = null;
 

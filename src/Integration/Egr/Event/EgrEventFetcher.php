@@ -32,7 +32,7 @@ class EgrEventFetcher
                 currentAccountingAgency: $dto->currentAccountingAgency,
                 decideAccountingAgency: $dto->decideAccountingAgency,
                 reason: $dto->reason,
-                eventName: $dto->eventName,
+                eventName: $dto->eventName ?: '-',
             );
             $issuerEvent->save();
         }

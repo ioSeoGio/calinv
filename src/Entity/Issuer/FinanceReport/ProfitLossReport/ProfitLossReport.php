@@ -20,7 +20,7 @@ use yii\db\ActiveQuery;
  * @property string $_year
  * @property DateTimeImmutable $year
  *
- * @property ?float $_010 Выручка от реализации продукции, товаров, работ, услуг
+ * @property float $_010 Выручка от реализации продукции, товаров, работ, услуг
  * @property ?float $_020 Себестоимость реализованной продукции, товаров, работ, услуг
  * @property ?float $_030 Валовая прибыль
  * @property ?float $_040 Управленческие расходы

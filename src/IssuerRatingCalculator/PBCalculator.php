@@ -7,8 +7,8 @@ use src\Entity\Issuer\Issuer;
 
 class PBCalculator
 {
-    public static function calculate(Issuer $issuer, AccountingBalance $report): ?float
+    public static function calculate(Issuer $issuer, AccountingBalance $report): float
     {
-        return CapitalizationByShareCalculator::calculate($issuer) / $report->_700;
+        return CapitalizationByShareCalculator::calculate($issuer) / ($report->_700 * 1000);
     }
 }
