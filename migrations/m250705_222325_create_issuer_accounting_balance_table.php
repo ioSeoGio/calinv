@@ -11,7 +11,7 @@ class m250705_222325_create_issuer_accounting_balance_table extends Migration
 
             'issuer_id' => $this->integer()->notNull(),
             '_termType' => $this->string()->notNull(),
-            'year' => $this->string()->notNull(),
+            '_year' => $this->string()->notNull(),
             '_dataType' => $this->string()->notNull(),
 
             '_110' => $this->float()->null(),

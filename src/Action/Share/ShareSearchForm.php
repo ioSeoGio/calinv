@@ -10,11 +10,13 @@ class ShareSearchForm extends Model
 {
     public string $issuerId = 'All';
     public string $name = '';
+    public bool $isActive = false;
 
     public function rules(): array
     {
         return [
             [['issuerId', 'name'], 'string'],
+            [['isActive'], 'boolean'],
         ];
     }
 
@@ -35,6 +37,10 @@ class ShareSearchForm extends Model
         $query->andFilterWhere(['like', 'name', $this->name]);
         if ($this->issuerId !== 'All' && $this->issuerId !== '') {
             $query->andFilterWhere(['issuer_id' => $this->issuerId]);
+        }
+
+        if ($this->isActive) {
+            $query->andWhere(['closingDate' => null]);
         }
 
         return $dataProvider;

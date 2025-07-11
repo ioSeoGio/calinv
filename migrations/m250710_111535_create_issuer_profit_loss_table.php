@@ -11,7 +11,7 @@ class m250710_111535_create_issuer_profit_loss_table extends Migration
 
             'issuer_id' => $this->integer()->notNull(),
             '_termType' => $this->string()->notNull(),
-            'year' => $this->string()->notNull(),
+            '_year' => $this->string()->notNull(),
             '_dataType' => $this->string()->notNull(),
 
             '_010' => $this->float()->null(),

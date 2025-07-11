@@ -86,7 +86,7 @@ class CashFlowReport extends ApiFetchedActiveRecord
     public function attributeLabels(): array
     {
         return [
-            'year' => 'Год',
+            '_year' => 'Год',
             '_termType' => 'Тип отчета',
             '_040' => 'Результат ДДС по текущей деятельности',
             '_070' => 'Результат ДДС по инвестиционной деятельности',
@@ -104,12 +104,12 @@ class CashFlowReport extends ApiFetchedActiveRecord
     ): self {
         $self = self::findOne([
             'issuer_id' => $issuer->id,
-            'year' => $date->format('Y'),
+            '_year' => $date->format('Y'),
             '_termType' => $termType->value,
             '_dataType' => $dataType->value,
         ]) ?: new self([
             'issuer_id' => $issuer->id,
-            'year' => $date->format('Y'),
+            '_year' => $date->format('Y'),
             '_termType' => $termType->value,
             '_dataType' => $dataType->value,
         ]);

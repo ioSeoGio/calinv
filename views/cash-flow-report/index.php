@@ -34,7 +34,7 @@ $this->title = 'Отчет о движении денежных средств (
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'columns' => [
-            'year',
+            '_year',
             [
                 'attribute' => '_termType',
                 'value' => function (CashFlowReport $model) {

@@ -11,7 +11,7 @@ class m250711_092856_create_issuer_cash_flow_report_table extends Migration
 
             'issuer_id' => $this->integer()->notNull(),
             '_termType' => $this->string()->notNull(),
-            'year' => $this->string()->notNull(),
+            '_year' => $this->string()->notNull(),
             '_dataType' => $this->string()->notNull(),
 
             '_020' => $this->float()->notNull(),

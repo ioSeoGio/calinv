@@ -14,7 +14,7 @@ use yii\db\ActiveQuery;
  *
  * @property string $lastDealChangePercent Изменение цены из-за последней сделки в %
  * @property string $lastDealDate Дата последней сделки
- * @property float $currentPrice Цена по последней сделке на бирже (БВФБ)
+ * @property ?float $currentPrice Цена по последней сделке на бирже (БВФБ)
  *
  * @property ShareFullnessState $fullnessStateEnum Заполненность акции данными
  * @property string $fullnessState Заполненность акции данными
@@ -32,7 +32,7 @@ use yii\db\ActiveQuery;
  * @property int $totalIssuedAmount Общее кол-во в выпуске
  *
  * @property string $issueDate Дата выпуска
- * @property string $closingDate Дата снятия с учета и хранения
+ * @property ?string $closingDate Дата снятия с учета и хранения
  */
 class Share extends ApiFetchedActiveRecord
 {

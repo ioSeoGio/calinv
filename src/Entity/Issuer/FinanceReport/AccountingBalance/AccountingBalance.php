@@ -90,7 +90,7 @@ class AccountingBalance extends ApiFetchedActiveRecord
     public function attributeLabels(): array
     {
         return [
-            'year' => 'Год',
+            '_year' => 'Год',
             '_termType' => 'Тип отчета',
             '_190' => 'Долгосрочные активы, т.р.',
             '_290' => 'Краткосрочные активы, т.р.',
@@ -109,12 +109,12 @@ class AccountingBalance extends ApiFetchedActiveRecord
     ): self {
         $self = self::findOne([
             'issuer_id' => $issuer->id,
-            'year' => $date->format('Y'),
+            '_year' => $date->format('Y'),
             '_termType' => $termType->value,
             '_dataType' => $dataType->value,
         ]) ?: new self([
             'issuer_id' => $issuer->id,
-            'year' => $date->format('Y'),
+            '_year' => $date->format('Y'),
             '_termType' => $termType->value,
             '_dataType' => $dataType->value,
         ]);

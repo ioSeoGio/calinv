@@ -26,4 +26,19 @@ class GoodBadValueViewHelper
             options: ['class' => $class]
         );
     }
+
+    public static function asBool(bool $value, bool $trueIsGood = true): string
+    {
+        if ($trueIsGood) {
+            $class = $value ? 'text-success' : 'text-danger';
+        } else {
+            $class = $value ? 'text-danger' : 'text-success';
+        }
+
+        return Html::tag(
+            name: 'span',
+            content: $value ? 'Да' : 'Нет',
+            options: ['class' => $class]
+        );
+    }
 }

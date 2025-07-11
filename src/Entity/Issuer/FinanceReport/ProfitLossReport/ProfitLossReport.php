@@ -74,7 +74,7 @@ class ProfitLossReport extends ApiFetchedActiveRecord
     public function attributeLabels(): array
     {
         return [
-            'year' => 'Год',
+            '_year' => 'Год',
             '_termType' => 'Тип отчета',
             '_210' => 'Чистая прибыль (убыток)',
             '_240' => 'Совокупная прибыль (убыток)',
@@ -90,12 +90,12 @@ class ProfitLossReport extends ApiFetchedActiveRecord
     ): self {
         $self = self::findOne([
             'issuer_id' => $issuer->id,
-            'year' => $date->format('Y'),
+            '_year' => $date->format('Y'),
             '_termType' => $termType->value,
             '_dataType' => $dataType->value,
         ]) ?: new self([
             'issuer_id' => $issuer->id,
-            'year' => $date->format('Y'),
+            '_year' => $date->format('Y'),
             '_termType' => $termType->value,
             '_dataType' => $dataType->value,
         ]);

@@ -7,9 +7,12 @@ use lib\Database\BaseActiveRecord;
 use src\Entity\Issuer\AddressInfo\AddressInfo;
 use src\Entity\Issuer\BusinessReputationRating\BusinessReputationInfo;
 use src\Entity\Issuer\EsgRating\EsgRatingInfo;
+use src\Entity\Issuer\FinanceReport\AccountingBalance\AccountingBalance;
+use src\Entity\Issuer\FinanceReport\ProfitLossReport\ProfitLossReport;
 use src\Entity\Issuer\TypeOfActivity\TypeOfActivity;
 use src\Entity\Issuer\UnreliableSupplier\UnreliableSupplier;
 use src\Entity\Share\Share;
+use src\Integration\FinanceReport\Dto\FinanceReportProfitLossDto;
 use yii\db\ActiveQuery;
 
 /**
@@ -21,6 +24,10 @@ use yii\db\ActiveQuery;
  * @property ?AddressInfo $addressInfo
  * @property ?EsgRatingInfo $esgRatingInfo
  * @property ?UnreliableSupplier $unreliableSupplier
+ * @property Share[] $shares Акции эмитента
+ * @property Share[] $activeShares Акции в обороте
+ * @property ProfitLossReport[] $profitLossReports Отчеты о прибылях и убытках
+ * @property AccountingBalance[] $accountBalanceReports Бухгалтерские отчеты
  *
  * @property array $fullnessState
  *
@@ -106,6 +113,23 @@ class Issuer extends ApiFetchedActiveRecord
     public function getShares(): ActiveQuery
     {
         return $this->hasMany(Share::class, ['issuer_id' => 'id']);
+    }
+
+    public function getActiveShares(): ActiveQuery
+    {
+        return $this->hasMany(Share::class, ['issuer_id' => 'id'])
+            ->andWhere(Share::tableName() . '."closingDate" IS NULL')
+            ->andWhere(Share::tableName() . '."currentPrice" IS NOT NULL');
+    }
+
+    public function getProfitLossReports(): ActiveQuery
+    {
+        return $this->hasMany(ProfitLossReport::class, ['issuer_id' => 'id']);
+    }
+
+    public function getAccountBalanceReports(): ActiveQuery
+    {
+        return $this->hasMany(AccountingBalance::class, ['issuer_id' => 'id']);
     }
 
     public function getTypeOfActivity(): ActiveQuery

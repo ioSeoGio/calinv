@@ -1,5 +1,6 @@
 <?php
 
+use lib\Helper\DetailViewCopyHelper;
 use src\Action\Share\ShareCreateForm;
 use src\Action\Share\ShareSearchForm;
 use src\Entity\Issuer\Issuer;
@@ -32,7 +33,13 @@ use yii\helpers\ArrayHelper;
                 ['class' => 'form-control']
             ),
         ],
-        'registerNumber',
+        [
+            'attribute' => 'registerNumber',
+            'format' => 'raw',
+            'value' => function (Share $model) {
+                return DetailViewCopyHelper::render($model, 'registerNumber');
+            }
+        ],
         [
             'attribute' => 'lastDealDate',
             'format' => 'raw',
