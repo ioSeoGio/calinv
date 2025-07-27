@@ -1,6 +1,6 @@
 <?php
 
-use lib\Helper\DetailViewCopyHelper;
+use lib\FrontendHelper\DetailViewCopyHelper;
 use src\Action\Share\ShareCreateForm;
 use src\Action\Share\ShareSearchForm;
 use src\Entity\Issuer\Issuer;
@@ -26,6 +26,10 @@ use yii\helpers\ArrayHelper;
         [
             'label' => 'эмитент',
             'attribute' => 'issuer.name',
+            'format' => 'raw',
+            'value' => function (Share $model) {
+                return Html::a($model->issuer->name, ['/issuer/view', 'id' => $model->issuer->id]);
+            },
             'filter' => Html::activeDropDownList(
                 $shareSearchForm,
                 'issuerId',
@@ -34,11 +38,19 @@ use yii\helpers\ArrayHelper;
             ),
         ],
         [
+            'label' => 'Выпуск',
+            'attribute' => 'formattedName',
+            'format' => 'raw',
+            'value' => function (Share $model) {
+                return DetailViewCopyHelper::render($model, 'formattedName');
+            },
+        ],
+        [
             'attribute' => 'registerNumber',
             'format' => 'raw',
             'value' => function (Share $model) {
                 return DetailViewCopyHelper::render($model, 'registerNumber');
-            }
+            },
         ],
         [
             'attribute' => 'lastDealDate',
@@ -53,7 +65,7 @@ use yii\helpers\ArrayHelper;
             'attribute' => 'lastDealChangePercent',
             'format' => 'raw',
             'value' => function (Share $model) {
-                return $model->lastDealChangePercent
+                return $model->lastDealChangePercent !== null
                     ? GoodBadValueViewHelper::execute($model->lastDealChangePercent, 0, postfix: '%')
                     : 'Не задано';
             }

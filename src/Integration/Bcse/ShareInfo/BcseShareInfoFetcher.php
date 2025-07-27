@@ -4,15 +4,15 @@ namespace src\Integration\Bcse\ShareInfo;
 
 use lib\ApiIntegrator\HttpMethod;
 use lib\Exception\UserException\ApiNotFoundException;
-use lib\Exception\UserException\ApiSimpleBadResponseException;
+use lib\Transformer\FloatTransformer;
+use NumberFormatter;
 use simplehtmldom\HtmlDocument;
 use simplehtmldom\HtmlNode;
 use src\Entity\Issuer\PayerIdentificationNumber;
 use src\Entity\Share\ShareRegisterNumber;
 use src\Integration\Bcse\BcseHttpClient;
-use src\Integration\CentralDepo\IssuerAndSharesInfo\CentralDepoIssuerAndSharesInfoDto;
-use src\Integration\CentralDepo\IssuerAndSharesInfo\ShareInfoDto;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
+use Yii;
 
 class BcseShareInfoFetcher
 {
@@ -46,9 +46,9 @@ class BcseShareInfoFetcher
 
         $dto = new BcseShareLastDealDto(
             date: $lastDealSection->childNodes(0)->childNodes(1)->innertext(),
-            price: (float) $lastDealSection->childNodes(1)->childNodes(1)->childNodes(0)->innertext(),
-            changeFromPreviousDeal: (float) $lastDealSection->childNodes(1)->childNodes(1)->childNodes(1)->innertext(),
-            changeFromPreviousDealPercent: (float) $lastDealSection->childNodes(1)->childNodes(1)->childNodes(2)->innertext(),
+            price: FloatTransformer::fromShitToFloat($lastDealSection->childNodes(1)->childNodes(1)->childNodes(0)->innertext()),
+            changeFromPreviousDeal: FloatTransformer::fromShitToFloat($lastDealSection->childNodes(1)->childNodes(1)->childNodes(1)->innertext()),
+            changeFromPreviousDealPercent: FloatTransformer::fromShitToFloat($lastDealSection->childNodes(1)->childNodes(1)->childNodes(2)->innertext()),
         );
         return $dto;
     }

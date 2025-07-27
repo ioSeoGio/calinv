@@ -2,7 +2,7 @@
 
 namespace src\Entity\Issuer;
 
-use Psr\Log\LogLevel;
+use lib\Logger\ApplicationLogger;
 use src\Entity\Issuer\Helper\FullnessStateChecker;
 use src\Entity\Share\ShareFactory;
 use src\Integration\CentralDepo\CentralDepoIssuerAndShareInfoFetcher;
@@ -24,16 +24,26 @@ class ApiIssuerInfoAndSharesFactory
                 name: $dto->shortName,
                 legalStatus: $dto->legalStatus,
             );
-            $issuer->save();
 
             foreach ($dto->shareDtos as $shareDto) {
-                $this->shareFactory->create($shareDto, $issuer, false);
+                $this->shareFactory->create($shareDto, $issuer);
             }
         } catch (\Throwable $e) {
-            Yii::getLogger()->log($e->getMessage(), LogLevel::ERROR);
+            ApplicationLogger::log($e);
+
+            $issuer->addFullnessState(IssuerFullnessState::sharesWithException);
+            $issuer->save();
+
+//            return;
+            throw $e;
         } finally {
             FullnessStateChecker::update($issuer);
+            $issuer->markShareInfoNotModerated();
             $issuer->save();
         }
+
+        /** При успешном обновлении убираем старые флаги про ошибки */
+        $issuer->removeFullnessState(IssuerFullnessState::sharesWithException);
+        $issuer->save();
     }
 }

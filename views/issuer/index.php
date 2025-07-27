@@ -6,13 +6,14 @@
 /** @var IssuerSearchForm $searchForm */
 
 use app\widgets\GuardedActionColumn;
-use lib\Helper\DetailViewCopyHelper;
+use lib\FrontendHelper\DetailViewCopyHelper;
+use lib\FrontendHelper\Icon;
+use lib\FrontendHelper\Issuer\Share\IssuerShareFullnessStateIconPrinter;
+use lib\FrontendHelper\Issuer\Share\IssuerShareInfoModeratedIconPrinter;
 use src\Action\Issuer\IssuerCreateForm;
 use src\Action\Issuer\IssuerSearchForm;
 use src\Entity\Issuer\Issuer;
 use src\IssuerRatingCalculator\CapitalizationByShareCalculator;
-use src\IssuerRatingCalculator\PBCalculator;
-use src\IssuerRatingCalculator\PECalculator;
 use src\ViewHelper\GoodBadValueViewHelper;
 use src\ViewHelper\SimpleNumberFormatter;
 use yii\bootstrap5\ActiveForm;
@@ -63,7 +64,10 @@ $this->title = 'Калькулятор эмитентов';
                 'attribute' => 'name',
                 'format' => 'raw',
                 'value' => function (Issuer $model) {
-                    return Html::a($model->name, ['/issuer/view', 'id' => $model->id]);
+                    return
+                        IssuerShareFullnessStateIconPrinter::print($model)
+                        . IssuerShareInfoModeratedIconPrinter::print($model)
+                        . Html::a($model->name, ['/issuer/view', 'id' => $model->id]);
                 }
             ],
             '_legalStatus',

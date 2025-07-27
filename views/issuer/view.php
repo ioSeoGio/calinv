@@ -6,8 +6,9 @@
 /** @var ActiveDataProvider $eventDataProvider */
 /** @var ActiveDataProvider $importantEventDataProvider */
 
-use app\widgets\ShowCopyNumberColumn;
-use lib\Helper\DetailViewCopyHelper;
+use lib\FrontendHelper\DetailViewCopyHelper;
+use lib\FrontendHelper\Issuer\Share\IssuerShareFullnessStateIconPrinter;
+use lib\FrontendHelper\Issuer\Share\IssuerShareInfoModeratedIconPrinter;
 use src\Action\Issuer\Event\IssuerEventSearchForm;
 use src\Entity\Issuer\Issuer;
 use src\Entity\Issuer\IssuerEvent\IssuerEvent;
@@ -50,6 +51,13 @@ $this->title = $model->name;
             [
                 'label' => 'Наименование',
                 'attribute' => 'name',
+                'format' => 'raw',
+                'value' => function (Issuer $model) {
+                    return
+                        IssuerShareFullnessStateIconPrinter::print($model)
+                        . IssuerShareInfoModeratedIconPrinter::print($model)
+                        . DetailViewCopyHelper::render($model, 'name');
+                }
             ],
             '_legalStatus',
             [
@@ -58,6 +66,31 @@ $this->title = $model->name;
                 'value' => function (Issuer $model) {
                     return DetailViewCopyHelper::render($model, '_pid');
                 }
+            ],
+            [
+                'label' => 'Данные о акциях проверены?',
+                'format' => 'raw',
+                'value' => function (Issuer $model) {
+                    if ($model->dateShareInfoModerated) {
+                        return Html::tag(
+                            'span',
+                            Yii::$app->formatter->asBoolean((bool) $model->dateShareInfoModerated)
+                                . ', '
+                                . Yii::$app->formatter->asRelativeTime($model->dateShareInfoModerated),
+                            ['class' => 'btn btn-success']
+                        )
+                            . '<br>'
+                            . Html::a("Пометить ненадежными", ['share/toggle-moderation', 'issuerId' => $model->id], ['class' => 'btn btn-danger']);
+                    }
+
+                    return Html::tag(
+                        'span',
+                        Yii::$app->formatter->asBoolean((bool) $model->dateShareInfoModerated),
+                        ['class' => 'btn btn-danger']
+                    )
+                        . '<br>'
+                        . Html::a("Пометить надежными", ['share/toggle-moderation', 'issuerId' => $model->id], ['class' => 'btn btn-success']);
+                },
             ],
             [
                 'label' => '',
@@ -71,10 +104,9 @@ $this->title = $model->name;
                         . '<br>'
                         . Html::a("Активные акции ({$model->getActiveShares()->count()})", ['/share', 'ShareSearchForm' => [
                             'issuerId' =>  $model->id,
-                            'isActive' => true,
                         ]], ['target' => '_blank', 'class' => 'btn btn-primary'])
                         . '<br>'
-                        . Html::a("Акции ({$model->getShares()->count()})", ['/share', 'ShareSearchForm' => [
+                        . Html::a("Акции ({$model->getShares()->count()})", ['/share/all-shares', 'ShareSearchForm' => [
                             'issuerId' =>  $model->id,
                         ]], ['target' => '_blank', 'class' => 'btn btn-primary']);
                 }

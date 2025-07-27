@@ -1,6 +1,6 @@
 <?php
 
-namespace src\Helper;
+namespace lib\FrontendHelper;
 
 use DateInterval;
 

@@ -28,7 +28,8 @@
         "simplehtmldom/simplehtmldom": "dev-master",
         "phpdocumentor/reflection-docblock": "5.x-dev",
         "kartik-v/yii2-number": "^1.0@dev",
-        "supplyhog/yii2-clipboardjs": "dev-master"
+        "supplyhog/yii2-clipboardjs": "dev-master",
+      "ext-intl": "*"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.1.0",

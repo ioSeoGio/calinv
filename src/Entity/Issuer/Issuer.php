@@ -2,6 +2,7 @@
 
 namespace src\Entity\Issuer;
 
+use DateTimeImmutable;
 use lib\Database\ApiFetchedActiveRecord;
 use src\Entity\Issuer\AddressInfo\AddressInfo;
 use src\Entity\Issuer\BusinessReputationRating\BusinessReputationInfo;
@@ -19,20 +20,23 @@ use yii\db\ActiveQuery;
  * @property int $id
  * @property ?string $name
  *
- * @property ?BusinessReputationInfo $businessReputationInfo
+ * @property ?BusinessReputationInfo $businessReputationInfo Рейтинг деловой репутации BIK
  * @property ?AddressInfo $addressInfo
- * @property ?EsgRatingInfo $esgRatingInfo
- * @property ?UnreliableSupplier $unreliableSupplier
+ * @property ?EsgRatingInfo $esgRatingInfo Рейтинг ESG
+ * @property ?UnreliableSupplier $unreliableSupplier Запись о ненадежном поставщике
  * @property Share[] $shares Акции эмитента
  * @property Share[] $activeShares Акции в обороте
  * @property ProfitLossReport[] $profitLossReports Отчеты о прибылях и убытках
  * @property AccountingBalance[] $accountBalanceReports Бухгалтерские отчеты
  * @property CashFlowReport[] $cashFlowReports Отчеты о движении денежных средств
  *
- * @property array $fullnessState
+ * @property string[] $fullnessState
  *
  * @property IssuerLegalStatus $legalStatus
  * @property string $_legalStatus
+ *
+ * @property ?\DateTimeImmutable $dateShareInfoModerated Дата, когда информация по акциям вручную проверена и подтверждена
+ * @property ?string $_dateShareInfoModerated
  *
  * @property PayerIdentificationNumber $pid
  * @property string $_pid
@@ -75,14 +79,45 @@ class Issuer extends ApiFetchedActiveRecord
         return $this;
     }
 
+    public function getDateShareInfoModerated(): ?\DateTimeInterface
+    {
+        return $this->_dateShareInfoModerated ? new \DateTimeImmutable($this->_dateShareInfoModerated) : null;
+    }
+
+    public function markShareInfoNotModerated(): void
+    {
+        $this->_dateShareInfoModerated = null;
+    }
+
+    public function setDateShareInfoModerated(DateTimeImmutable $date): void
+    {
+        $this->_dateShareInfoModerated = $date->format(DATE_ATOM);
+    }
+
     public static function findByIssuerName(string $issuerName): ?self
     {
         return self::findOne(['name' => $issuerName]);
     }
 
+    public function hasState(IssuerFullnessState $state): bool
+    {
+        return !empty(array_filter($this->fullnessState, function (array $value) use ($state) {
+            return $state->equalsString($value['value']);
+        }));
+    }
+
     public function addFullnessState(IssuerFullnessState $state): void
     {
-        $this->fullnessState = array_merge($this->fullnessState, [$state->value]);;
+        if (!$this->hasState($state)) {
+            $this->fullnessState = array_merge($this->fullnessState, [$state]);
+        }
+    }
+
+    public function removeFullnessState(IssuerFullnessState $state): void
+    {
+        $this->fullnessState = array_filter($this->fullnessState, function ($value) use ($state) {
+            return $value !== $state;
+        });
     }
 
     public function setFullnessState(IssuerFullnessState ...$states): void

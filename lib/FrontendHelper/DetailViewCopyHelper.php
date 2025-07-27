@@ -1,6 +1,6 @@
 <?php
 
-namespace lib\Helper;
+namespace lib\FrontendHelper;
 
 use supplyhog\ClipboardJs\ClipboardJsWidget;
 use Yii;

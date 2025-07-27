@@ -8,9 +8,14 @@ use yii\helpers\Url;
     'headerOptions' => ['class' => 'd-flex justify-content-center'],
     'items' => [
         [
-            'label' => 'Акции',
+            'label' => 'Акции (активные)',
             'url' => Url::to(['/share/index']),
-            'active' => str_contains(Url::current(), '/share'),
+            'active' => str_starts_with(Url::current(), '/share') || Url::current() === '/share/index',
+        ],
+        [
+            'label' => 'Акции (все)',
+            'url' => Url::to(['/share/all-shares']),
+            'active' => str_contains(Url::current(), '/share/all-shares'),
         ],
     ]
 ]) ?>

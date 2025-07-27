@@ -38,9 +38,9 @@ $form = ActiveForm::begin([
                 <div class="input-group mb-1">
                     <?= $form->field($personalShareCreateForm, 'share_id')
                         ->dropDownList(
-                            items: ArrayHelper::map(Share::find()->all(),
+                            items: ArrayHelper::map(Share::findActive()->all(),
                             from: fn (Share $model) => (string) $model->id,
-                            to: fn (Share $share) => $share->issuer->name .' - ' . $share->orderedIssueId,
+                            to: fn (Share $share) => $share->issuer->name .' - ' . $share->getFormattedName(),
                         ),
                         options: ['class' => 'form-control'])->label(false) ?>
                 </div>

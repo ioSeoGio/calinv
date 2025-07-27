@@ -27,6 +27,7 @@ class ShareController extends BaseController
     public function actionIndex(): string
     {
         $shareSearchForm = new ShareSearchForm();
+        $shareSearchForm->isActive = true;
         $shareDataProvider = $shareSearchForm->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
@@ -34,5 +35,32 @@ class ShareController extends BaseController
             'shareSearchForm' => $shareSearchForm,
             'shareDataProvider' => $shareDataProvider,
         ]);
+    }
+
+    public function actionAllShares(): string
+    {
+        $shareSearchForm = new ShareSearchForm();
+        $shareSearchForm->isActive = false;
+        $shareDataProvider = $shareSearchForm->search(Yii::$app->request->queryParams);
+
+        return $this->render('index', [
+            'shareCreateForm' => new ShareCreateForm(),
+            'shareSearchForm' => $shareSearchForm,
+            'shareDataProvider' => $shareDataProvider,
+        ]);
+    }
+
+    public function actionToggleModeration(int $issuerId): Response
+    {
+        $issuer = Issuer::getOneById($issuerId);
+
+        if ($issuer->dateShareInfoModerated !== null) {
+            $issuer->markShareInfoNotModerated();
+        } else {
+            $issuer->dateShareInfoModerated = new \DateTimeImmutable();
+        }
+        $issuer->save();
+
+        return $this->redirect(Yii::$app->request->referrer);
     }
 }

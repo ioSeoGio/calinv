@@ -2,7 +2,7 @@
 
 namespace app\widgets;
 
-use lib\Helper\DetailViewCopyHelper;
+use lib\FrontendHelper\DetailViewCopyHelper;
 use yii\base\Model;
 use yii\grid\DataColumn;
 

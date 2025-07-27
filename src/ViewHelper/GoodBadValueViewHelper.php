@@ -20,6 +20,10 @@ class GoodBadValueViewHelper
             $class = $value < $line ? 'text-success' : 'text-danger';
         }
 
+        if ($value == $line) {
+            $class = 'text-primary';
+        }
+
         return Html::tag(
             name: 'span',
             content: SimpleNumberFormatter::toView($value, decimals: $decimals, withCurrency: $withCurrency, postfix: $postfix),

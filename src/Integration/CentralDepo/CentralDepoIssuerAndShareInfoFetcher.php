@@ -43,13 +43,13 @@ class CentralDepoIssuerAndShareInfoFetcher
 
         /** @var HtmlNode $section */
         foreach ($sections as $section) {
-            $header = $section->parentNode()->find('h2.sub-header');
+            $header = $section->parentNode()->find('h2.sub-header')[0];
             if ($header->innertext === 'Акции') {
-                $sharesSection = $section->find('table tbody');
+                $sharesSection = $section->find('table tbody')[0];
             }
         }
 
-        if ($generalInfoTable === null || $sharesSection === null) {
+        if ($generalInfoTable === null) {
             throw new ApiNotFoundException("Не найден эмитент с УНП $pid->id");
         }
         if (count($generalInfoTables) > 1 ) {
@@ -58,7 +58,7 @@ class CentralDepoIssuerAndShareInfoFetcher
 
         $shareDtos = [];
         /** @var HtmlNode $shareRow */
-        foreach ($sharesSection->childNodes() as $shareRow) {
+        foreach ($sharesSection?->childNodes() ?: [] as $shareRow) {
             $shareDtos[] = new ShareInfoDto(
                 nationalId: $shareRow->childNodes(0)->innertext(),
                 orderedIssueId: $shareRow->childNodes(4)->innertext(),

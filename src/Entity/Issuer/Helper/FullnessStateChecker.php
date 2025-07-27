@@ -11,6 +11,14 @@ class FullnessStateChecker
     {
         $states = [];
 
+        /**
+         * Сохраняем ошибки чтобы автоматом не затерло
+         * Убираем только напрямую вручную
+         */
+        if ($issuer->hasState(IssuerFullnessState::sharesWithException)) {
+            $states[] = IssuerFullnessState::sharesWithException;
+        }
+
         if (!empty($issuer->name) && $issuer->legalStatus->isFilled()) {
             $states[] = IssuerFullnessState::nameAndStatus;
         }
