@@ -5,6 +5,7 @@ namespace app\controllers;
 use lib\BaseController;
 use src\Action\Issuer\Event\IssuerEventSearchForm;
 use src\Action\Issuer\IssuerCreateForm;
+use src\Action\Issuer\IssuerDescriptionEditForm;
 use src\Action\Issuer\IssuerSearchForm;
 use src\Action\Issuer\Rating\BusinessReputationInfoSearch;
 use src\Action\Issuer\Rating\EsgRatingInfoSearch;
@@ -20,6 +21,7 @@ use src\Integration\Egr\Event\EgrEventFetcher;
 use src\Integration\Gias\UnreliableSupplier\GiasUnreliableSupplierFetcher;
 use Yii;
 use yii\bootstrap5\ActiveForm;
+use yii\filters\AccessControl;
 use yii\web\Response;
 
 class IssuerController extends BaseController
@@ -41,6 +43,43 @@ class IssuerController extends BaseController
         $config = []
     ) {
         parent::__construct($id, $module, $config);
+    }
+
+    public function behaviors(): array
+    {
+        return [
+            'access' => [
+                'class' => AccessControl::class,
+                'only' => [
+                    'renew-business-rating',
+                    'renew-esg-rating',
+                    'renew-issuer-events',
+                    'renew-unreliable-supplier',
+                    'renew-address',
+                    'renew-type-of-activity',
+                    'edit-description',
+                    'update-issuer-info',
+                    'create',
+                ],
+                'rules' => [
+                    [
+                        'actions' => [
+                            'renew-business-rating',
+                            'renew-esg-rating',
+                            'renew-issuer-events',
+                            'renew-unreliable-supplier',
+                            'renew-address',
+                            'renew-type-of-activity',
+                            'edit-description',
+                            'update-issuer-info',
+                            'create',
+                        ],
+                        'allow' => true,
+                        'roles' => ['admin'],
+                    ],
+                ],
+            ],
+        ];
     }
 
     public function actionIndex(): string
@@ -104,6 +143,7 @@ class IssuerController extends BaseController
             'model' => $issuer,
 
             'searchForm' => $searchForm,
+            'descriptionEditForm' => new IssuerDescriptionEditForm($issuer),
             'eventDataProvider' => $eventDataProvider,
             'importantEventDataProvider' => $importantEventDataProvider,
         ]);
@@ -160,6 +200,26 @@ class IssuerController extends BaseController
 
         return $this->redirect(['index']);
     }
+
+
+    public function actionEditDescription(int $issuerId): Response
+    {
+        $issuer = Issuer::getOneById($issuerId);
+        $form = new IssuerDescriptionEditForm();
+
+        $post = Yii::$app->request->post();
+        if ($form->load($post) && $form->validate()) {
+            $issuer->description = $form->description;
+            $issuer->save();
+
+            return $this->redirect(['issuer/view', 'id' => $issuer->id]);
+        }
+
+        Yii::$app->session->addFlash('error', 'Ошибка при сохранении описания.');
+
+        return $this->redirect(['issuer/view', 'id' => $issuer->id]);
+    }
+
     public function actionUpdateIssuerInfo($id): Response
     {
         $issuer = Issuer::getOneById($id);

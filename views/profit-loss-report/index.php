@@ -9,6 +9,7 @@ use app\widgets\ShowCopyNumberColumn;
 use src\Action\Issuer\FinancialReport\FinancialReportByApiCreateForm;
 use src\Entity\Issuer\FinanceReport\ProfitLossReport\ProfitLossReport;
 use src\Entity\Issuer\Issuer;
+use src\Entity\User\UserRole;
 use yii\data\ActiveDataProvider;
 use yii\grid\GridView;
 
@@ -21,15 +22,17 @@ $this->title = 'Отчет о прибылях и убытках ' . $model->nam
 <?= $this->render('@views/_parts/issuer_tabs', [
     'model' => $model,
 ]); ?>
-<?php //= $this->render('create', [
-//    'accountingBalanceCreateForm' => $accountingBalanceCreateForm,
-//    'issuer' => $model,
-//]) ?>
-<?= $this->render('@views/_parts/create_by_api', [
-    'createForm' => $apiCreateForm,
-    'issuer' => $model,
-    'url' => '/profit-loss-report/fetch-external'
-]) ?>
+<?php if (Yii::$app->user->can(UserRole::admin->value)) : ?>
+    <?php //= $this->render('create', [
+    //    'accountingBalanceCreateForm' => $accountingBalanceCreateForm,
+    //    'issuer' => $model,
+    //]) ?>
+    <?= $this->render('@views/_parts/create_by_api', [
+        'createForm' => $apiCreateForm,
+        'issuer' => $model,
+        'url' => '/profit-loss-report/fetch-external'
+    ]) ?>
+<?php endif; ?>
 <div class="issuer-view">
     <?= GridView::widget([
         'dataProvider' => $dataProvider,

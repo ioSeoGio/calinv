@@ -24,6 +24,9 @@ use yii\web\IdentityInterface;
 
 class User extends ActiveRecord implements IdentityInterface
 {
+    public const string ROLE_ADMIN = 'admin';
+    public const string ROLE_USER = 'user';
+
 	public static function tableName(): string
     {
 		return 'user';

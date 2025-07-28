@@ -5,16 +5,20 @@
 /** @var IssuerEventSearchForm $searchForm */
 /** @var ActiveDataProvider $eventDataProvider */
 /** @var ActiveDataProvider $importantEventDataProvider */
+/** @var \yii\base\Model $descriptionEditForm */
 
+use app\widgets\EditableHtmlAreaWidget;
 use lib\FrontendHelper\DetailViewCopyHelper;
 use lib\FrontendHelper\Issuer\Share\IssuerShareFullnessStateIconPrinter;
 use lib\FrontendHelper\Issuer\Share\IssuerShareInfoModeratedIconPrinter;
 use src\Action\Issuer\Event\IssuerEventSearchForm;
 use src\Entity\Issuer\Issuer;
 use src\Entity\Issuer\IssuerEvent\IssuerEvent;
+use src\Entity\User\UserRole;
 use yii\data\ActiveDataProvider;
 use yii\grid\GridView;
 use yii\helpers\Html;
+use yii\widgets\ActiveForm;
 use yii\widgets\DetailView;
 
 $this->params['breadcrumbs.homeLink'] = false;
@@ -45,7 +49,11 @@ $this->title = $model->name;
                 'label' => '',
                 'format' => 'raw',
                 'value' => function (Issuer $model) {
-                    return Html::a('Обновить общую информацию', ['update-issuer-info', 'id' => $model->id], ['class' => 'btn btn-success']);
+                    if (Yii::$app->user->can(\src\Entity\User\UserRole::admin->value)) {
+                        return Html::a('Обновить общую информацию', ['update-issuer-info', 'id' => $model->id], ['class' => 'btn btn-success']);
+                    }
+
+                    return '';
                 }
             ],
             [
@@ -72,37 +80,49 @@ $this->title = $model->name;
                 'format' => 'raw',
                 'value' => function (Issuer $model) {
                     if ($model->dateShareInfoModerated) {
-                        return Html::tag(
+                        $result = Html::tag(
                             'span',
                             Yii::$app->formatter->asBoolean((bool) $model->dateShareInfoModerated)
                                 . ', '
                                 . Yii::$app->formatter->asRelativeTime($model->dateShareInfoModerated),
                             ['class' => 'btn btn-success']
-                        )
-                            . '<br>'
-                            . Html::a("Пометить ненадежными", ['share/toggle-moderation', 'issuerId' => $model->id], ['class' => 'btn btn-danger']);
+                        );
+
+                        if (Yii::$app->user->can(UserRole::admin->value)) {
+                            $result .= '<br>' . Html::a("Пометить ненадежными", ['share/toggle-moderation', 'issuerId' => $model->id], ['class' => 'btn btn-danger']);
+                        }
+
+                        return $result;
                     }
 
-                    return Html::tag(
+                    $result = Html::tag(
                         'span',
                         Yii::$app->formatter->asBoolean((bool) $model->dateShareInfoModerated),
                         ['class' => 'btn btn-danger']
-                    )
-                        . '<br>'
-                        . Html::a("Пометить надежными", ['share/toggle-moderation', 'issuerId' => $model->id], ['class' => 'btn btn-success']);
+                    );
+
+                    if (Yii::$app->user->can(UserRole::admin->value)) {
+                        $result .= '<br>' . Html::a("Пометить надежными", ['share/toggle-moderation', 'issuerId' => $model->id], ['class' => 'btn btn-success']);
+                    }
+
+                    return $result;
                 },
             ],
             [
                 'label' => '',
                 'format' => 'raw',
                 'value' => function (Issuer $model) {
-                    return Html::a(
-                            "Обновить акции",
-                            ['update-issuer-info', 'id' => $model->id],
-                            ['class' => 'btn btn-success']
-                        )
-                        . '<br>'
-                        . Html::a("Активные акции ({$model->getActiveShares()->count()})", ['/share', 'ShareSearchForm' => [
+                    $result = '';
+
+                    if (Yii::$app->user->can(UserRole::admin->value)) {
+                        $result .= Html::a(
+                                "Обновить акции",
+                                ['update-issuer-info', 'id' => $model->id],
+                                ['class' => 'btn btn-success']
+                            ) . '<br>';
+                    }
+
+                    return $result . Html::a("Активные акции ({$model->getActiveShares()->count()})", ['/share', 'ShareSearchForm' => [
                             'issuerId' =>  $model->id,
                         ]], ['target' => '_blank', 'class' => 'btn btn-primary'])
                         . '<br>'
@@ -129,7 +149,11 @@ $this->title = $model->name;
                 'label' => '',
                 'format' => 'raw',
                 'value' => function (Issuer $model) {
-                    return Html::a('Обновить адрес', ['renew-address', 'id' => $model->id], ['class' => 'btn btn-success']);
+                    if (Yii::$app->user->can(UserRole::admin->value)) {
+                        return Html::a('Обновить адрес', ['renew-address', 'id' => $model->id], ['class' => 'btn btn-success']);
+                    }
+
+                    return '';
                 }
             ],
             'addressInfo.fullAddress',
@@ -149,7 +173,11 @@ $this->title = $model->name;
                 'label' => '',
                 'format' => 'raw',
                 'value' => function (Issuer $model) {
-                    return Html::a('Обновить вид деятельности', ['renew-type-of-activity', 'id' => $model->id], ['class' => 'btn btn-success']);
+                    if (Yii::$app->user->can(UserRole::admin->value)) {
+                        return Html::a('Обновить вид деятельности', ['renew-type-of-activity', 'id' => $model->id], ['class' => 'btn btn-success']);
+                    }
+
+                    return '';
                 }
             ],
             'typeOfActivity.name',
@@ -158,11 +186,40 @@ $this->title = $model->name;
     ]) ?>
     <hr>
 
+    <div class="card">
+        <div class="card-body">
+            <div class="card-title">
+                <h2>Описание эмитента</h2>
+            </div>
+            <?php if (Yii::$app->user->can(UserRole::admin->value)): ?>
+                <?php $form = ActiveForm::begin([
+                    'action' => ['/issuer/edit-description', 'issuerId' => $model->id],
+                ]) ?>
+
+                <?= EditableHtmlAreaWidget::widget([
+                    'form' => $form,
+                    'model' => $descriptionEditForm,
+                    'field' => 'description',
+                ]) ?>
+
+                <?= Html::submitButton('Сохранить описание', ['class' => 'btn btn-primary']) ?>
+
+                <?php ActiveForm::end() ?>
+            <?php else: ?>
+                <?= $model->description ?>
+            <?php endif; ?>
+        </div>
+    </div>
+
+    <br>
+
     <div>
         Время последнего обновления: <?= Yii::$app->formatter->asDatetime(IssuerEvent::getLastUpdateSessionDate(['_pid' => $model->_pid])) ?>
-        <div>
-            <?= Html::a('Обновить', ['renew-issuer-events', 'id' => $model->id], ['class' => 'btn btn-success']) ?>
-        </div>
+        <?php if (Yii::$app->user->can(UserRole::admin->value)): ?>
+            <div>
+                <?= Html::a('Обновить', ['renew-issuer-events', 'id' => $model->id], ['class' => 'btn btn-success']) ?>
+            </div>
+        <?php endif; ?>
     </div>
 
     <?= GridView::widget([

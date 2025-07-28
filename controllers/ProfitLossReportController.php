@@ -8,6 +8,7 @@ use src\Action\Issuer\FinancialReport\ProfitLossReport\ProfitLossReportSearchFor
 use src\Entity\Issuer\FinanceReport\ProfitLossReport\ProfitLossReportFactory;
 use src\Entity\Issuer\Issuer;
 use Yii;
+use yii\filters\AccessControl;
 use yii\web\Response;
 
 class ProfitLossReportController extends BaseController
@@ -21,6 +22,27 @@ class ProfitLossReportController extends BaseController
         $config = []
     ) {
         parent::__construct($id, $module, $config);
+    }
+
+    public function behaviors(): array
+    {
+        return [
+            'access' => [
+                'class' => AccessControl::class,
+                'only' => [
+                    'fetch-external',
+                ],
+                'rules' => [
+                    [
+                        'actions' => [
+                            'fetch-external',
+                        ],
+                        'allow' => true,
+                        'roles' => ['admin'],
+                    ],
+                ],
+            ],
+        ];
     }
 
     public function actionIndex($issuerId): string

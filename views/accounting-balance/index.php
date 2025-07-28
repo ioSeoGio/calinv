@@ -11,6 +11,7 @@ use src\Action\Issuer\FinancialReport\AccountingBalance\AccountingBalanceCreateF
 use src\Action\Issuer\FinancialReport\FinancialReportByApiCreateForm;
 use src\Entity\Issuer\FinanceReport\AccountingBalance\AccountingBalance;
 use src\Entity\Issuer\Issuer;
+use src\Entity\User\UserRole;
 use yii\data\ActiveDataProvider;
 use yii\grid\GridView;
 
@@ -23,15 +24,17 @@ $this->title = 'Бухгалтерский баланс ' . $model->name;
 <?= $this->render('@views/_parts/issuer_tabs', [
     'model' => $model,
 ]); ?>
-<?= $this->render('create', [
-    'accountingBalanceCreateForm' => $createForm,
-    'issuer' => $model,
-]) ?>
+<?php if (Yii::$app->user->can(UserRole::admin->value)) : ?>
+    <?= $this->render('create', [
+        'accountingBalanceCreateForm' => $createForm,
+        'issuer' => $model,
+    ]) ?>
 <?= $this->render('@views/_parts/create_by_api', [
     'createForm' => $apiCreateForm,
     'issuer' => $model,
     'url' => '/accounting-balance/fetch-external'
 ]) ?>
+<?php endif; ?>
 <div class="issuer-view">
     <?= GridView::widget([
         'dataProvider' => $dataProvider,

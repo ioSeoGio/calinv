@@ -9,6 +9,7 @@ use src\Entity\Issuer\Issuer;
 use src\Entity\Share\Share;
 use Yii;
 use yii\bootstrap5\ActiveForm;
+use yii\filters\AccessControl;
 use yii\web\BadRequestHttpException;
 use yii\web\Response;
 
@@ -22,6 +23,27 @@ class ShareController extends BaseController
         $config = []
     ) {
         parent::__construct($id, $module, $config);
+    }
+
+    public function behaviors(): array
+    {
+        return [
+            'access' => [
+                'class' => AccessControl::class,
+                'only' => [
+                    'toggle-moderation',
+                ],
+                'rules' => [
+                    [
+                        'actions' => [
+                            'toggle-moderation',
+                        ],
+                        'allow' => true,
+                        'roles' => ['admin'],
+                    ],
+                ],
+            ],
+        ];
     }
 
     public function actionIndex(): string

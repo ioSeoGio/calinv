@@ -30,6 +30,9 @@ $config = [
         ],
     ],
     'components' => [
+        'authManager' => [
+            'class' => \yii\rbac\DbManager::class,
+        ],
         'request' => [
             // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
             'cookieValidationKey' => 'H9faj5kCQM',
@@ -61,6 +64,7 @@ $config = [
                 'portfolio' => '/personal-share/index',
                 'issuer' => '/issuer/index',
 				'login' => 'auth/login',
+                'site/login' => 'auth/login',
                 '' => '/issuer/index',
             ],
         ],

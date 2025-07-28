@@ -13,6 +13,7 @@ use lib\FrontendHelper\Issuer\Share\IssuerShareInfoModeratedIconPrinter;
 use src\Action\Issuer\IssuerCreateForm;
 use src\Action\Issuer\IssuerSearchForm;
 use src\Entity\Issuer\Issuer;
+use src\Entity\User\UserRole;
 use src\IssuerRatingCalculator\CapitalizationByShareCalculator;
 use src\ViewHelper\GoodBadValueViewHelper;
 use src\ViewHelper\SimpleNumberFormatter;
@@ -26,35 +27,39 @@ $this->title = 'Калькулятор эмитентов';
 ?>
 <?= $this->render('tabs', []); ?>
 <div class="calculator-index">
-    <?php $form = ActiveForm::begin([
-        'id' => 'login-form',
-        'action' => Url::to(['/issuer/create']),
-        'validationUrl' => Url::to(['/issuer/validate']),
 
-        'enableAjaxValidation'      => true,
-        'enableClientValidation'    => true,
-        'validateOnChange'          => true,
-        'validateOnSubmit'          => true,
-        'validateOnBlur'            => true,
-    ]); ?>
-        <table class="table">
-            <tr>
-                <th scope="col">
-                    УНП
-                </th>
-            </tr>
-            <tr>
-                <td>
-                    <div class="input-group mb-1">
-                        <?= $form->field($createForm, 'pid')->textInput(['class' => 'form-control'])->label(false) ?>
-                    </div>
-                </td>
-            </tr>
-            <div class="mx-auto d-flex justify-content-center">
-                <button class="btn btn-primary" type="submit">Рассчитать</button>
-            </div>
-        </table>
-    <?php ActiveForm::end() ?>
+    <?php if (Yii::$app->user->can(UserRole::admin->value)): ?>
+        <?php $form = ActiveForm::begin([
+            'id' => 'login-form',
+            'action' => Url::to(['/issuer/create']),
+            'validationUrl' => Url::to(['/issuer/validate']),
+
+            'enableAjaxValidation'      => true,
+            'enableClientValidation'    => true,
+            'validateOnChange'          => true,
+            'validateOnSubmit'          => true,
+            'validateOnBlur'            => true,
+        ]); ?>
+            <table class="table">
+                <tr>
+                    <th scope="col">
+                        УНП
+                    </th>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="input-group mb-1">
+                            <?= $form->field($createForm, 'pid')->textInput(['class' => 'form-control'])->label(false) ?>
+                        </div>
+                    </td>
+                </tr>
+                <div class="mx-auto d-flex justify-content-center">
+                    <button class="btn btn-primary" type="submit">Рассчитать</button>
+                </div>
+            </table>
+        <?php ActiveForm::end() ?>
+    <?php endif; ?>
+
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchForm,

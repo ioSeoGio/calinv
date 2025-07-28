@@ -5,15 +5,10 @@ namespace app\controllers;
 use lib\BaseController;
 use src\Action\Share\PersonalShareCreateForm;
 use src\Action\Share\PersonalShareSearchForm;
-use src\Entity\Issuer\BusinessReputationRating\BusinessReputationInfo;
-use src\Entity\Issuer\Issuer;
-use src\Entity\Issuer\PayerIdentificationNumber;
 use src\Entity\PersonalShare\PersonalShare;
-use src\Integration\Bik\BusinessReputation\BusinessReputationRatingFetcher;
-use src\Integration\Bik\EsgRating\EsgRatingFetcher;
-use src\Integration\Egr\LegalName\EgrLegalNameFetcher;
 use Yii;
 use yii\bootstrap5\ActiveForm;
+use yii\filters\AccessControl;
 use yii\web\Response;
 
 class PersonalShareController extends BaseController
@@ -27,6 +22,26 @@ class PersonalShareController extends BaseController
     ) {
         parent::__construct($id, $module, $config);
         $this->setViewPath('@app/views/portfolio');
+    }
+
+    public function behaviors(): array
+    {
+        return [
+            'access' => [
+                'class' => AccessControl::class,
+                'only' => [
+                    'index',
+                    'create',
+                ],
+                'rules' => [
+                    [
+                        'actions' => ['index', 'create'],
+                        'allow' => true,
+                        'roles' => ['@'],
+                    ],
+                ],
+            ],
+        ];
     }
 
     public function actionIndex(): string

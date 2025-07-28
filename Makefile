@@ -46,6 +46,7 @@ update:
 init: down rights build up composer-install
 
 migrate:
+	docker compose run --rm php php yii migrate --migrationPath=@yii/rbac/migrations --interactive=0
 	docker compose run --rm php php yii migrate --interactive=0
 
 migrate-prev:

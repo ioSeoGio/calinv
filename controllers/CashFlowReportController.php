@@ -9,6 +9,7 @@ use src\Action\Issuer\FinancialReport\ProfitLossReport\ProfitLossReportSearchFor
 use src\Entity\Issuer\FinanceReport\CashFlowReport\CashFlowReportFactory;
 use src\Entity\Issuer\Issuer;
 use Yii;
+use yii\filters\AccessControl;
 use yii\web\Response;
 
 class CashFlowReportController extends BaseController
@@ -22,6 +23,27 @@ class CashFlowReportController extends BaseController
         $config = []
     ) {
         parent::__construct($id, $module, $config);
+    }
+
+    public function behaviors(): array
+    {
+        return [
+            'access' => [
+                'class' => AccessControl::class,
+                'only' => [
+                    'fetch-external',
+                ],
+                'rules' => [
+                    [
+                        'actions' => [
+                            'fetch-external',
+                        ],
+                        'allow' => true,
+                        'roles' => ['admin'],
+                    ],
+                ],
+            ],
+        ];
     }
 
     public function actionIndex($issuerId): string

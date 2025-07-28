@@ -1,5 +1,6 @@
 <?php
 
+use src\Entity\User\UserRole;
 use yii\bootstrap5\Html;
 use yii\bootstrap5\Nav;
 use yii\bootstrap5\NavBar;
@@ -21,12 +22,15 @@ echo Nav::widget([
 	]
 ]);
 
+$items = [];
+if (Yii::$app->user->can(UserRole::admin->value)) {
+    $items[] = ['label' => 'Мой портфель', 'url' => ['/portfolio'], 'active' => Url::current() === '/portfolio'];
+}
+$items[] = ['label' => 'Поиск портфелей', 'url' => ['/portfolio/search'], 'active' => str_contains(Url::current(), '/portfolio/search')];
+
 echo Nav::widget([
     'options' => ['class' => 'navbar-nav'],
-    'items' => [
-		['label' => 'Мой портфель', 'url' => ['/portfolio'], 'active' => Url::current() === '/portfolio' ],
-		['label' => 'Поиск портфелей', 'url' => ['/portfolio/search'], 'active' => str_contains(Url::current(), '/portfolio/search')],
-    ]
+    'items' => $items,
 ]);
 
 if (Yii::$app->user->isGuest) {

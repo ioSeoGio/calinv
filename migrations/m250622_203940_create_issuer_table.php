@@ -10,6 +10,7 @@ class m250622_203940_create_issuer_table extends Migration
             'id' => $this->primaryKey(),
 
             'name' => $this->string()->null(),
+            'description' => $this->text()->null(),
             '_legalStatus' => $this->string()->null(),
             '_dateShareInfoModerated' => $this->string()->null(),
 

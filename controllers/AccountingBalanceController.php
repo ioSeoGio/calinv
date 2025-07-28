@@ -10,6 +10,7 @@ use src\Entity\Issuer\FinanceReport\AccountingBalance\AccountingBalanceFactory;
 use src\Entity\Issuer\Issuer;
 use Yii;
 use yii\bootstrap5\ActiveForm;
+use yii\filters\AccessControl;
 use yii\web\Response;
 
 class AccountingBalanceController extends BaseController
@@ -23,6 +24,29 @@ class AccountingBalanceController extends BaseController
         $config = []
     ) {
         parent::__construct($id, $module, $config);
+    }
+
+    public function behaviors(): array
+    {
+        return [
+            'access' => [
+                'class' => AccessControl::class,
+                'only' => [
+                    'create',
+                    'fetch-external',
+                ],
+                'rules' => [
+                    [
+                        'actions' => [
+                            'create',
+                            'fetch-external',
+                        ],
+                        'allow' => true,
+                        'roles' => ['admin'],
+                    ],
+                ],
+            ],
+        ];
     }
 
     public function actionCreate($issuerId): Response

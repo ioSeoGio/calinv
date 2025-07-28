@@ -1,5 +1,6 @@
 <?php
 
+use src\Entity\User\User;
 use yii\db\Migration;
 
 class m250622_191227_create_user_table extends Migration
@@ -17,7 +18,7 @@ class m250622_191227_create_user_table extends Migration
             'updated_at' => $this->timestamp()->notNull()->defaultExpression('CURRENT_TIMESTAMP'),
         ]);
 
-        $passwordHash = Yii::$app->getSecurity()->generatePasswordHash('12345678');
+        $passwordHash = Yii::$app->getSecurity()->generatePasswordHash('390390');
         $this->insert('{{%user}}', [
             'username' => 'seog',
             'password_hash' => $passwordHash,
@@ -28,6 +29,13 @@ class m250622_191227_create_user_table extends Migration
             'password_hash' => $passwordHash,
             'email' => 'kenris@gmail.com',
         ]);
+
+        $auth = Yii::$app->authManager;
+        $admin = $auth->createRole('admin');
+        $auth->add($admin);
+
+        $auth->assign($admin, 1);
+        $auth->assign($admin, 2);
     }
 
     public function safeDown(): void

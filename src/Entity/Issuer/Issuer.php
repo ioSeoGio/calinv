@@ -19,6 +19,7 @@ use yii\db\ActiveQuery;
  * @inheritDoc
  * @property int $id
  * @property ?string $name
+ * @property ?string $description
  *
  * @property ?BusinessReputationInfo $businessReputationInfo Рейтинг деловой репутации BIK
  * @property ?AddressInfo $addressInfo
@@ -101,8 +102,8 @@ class Issuer extends ApiFetchedActiveRecord
 
     public function hasState(IssuerFullnessState $state): bool
     {
-        return !empty(array_filter($this->fullnessState, function (array $value) use ($state) {
-            return $state->equalsString($value['value']);
+        return !empty(array_filter($this->fullnessState, function (array|IssuerFullnessState $value) use ($state) {
+            return is_array($value) ? $state->equalsString($value['value']) : $value->equals($value);
         }));
     }
 

@@ -29,7 +29,8 @@
         "phpdocumentor/reflection-docblock": "5.x-dev",
         "kartik-v/yii2-number": "^1.0@dev",
         "supplyhog/yii2-clipboardjs": "dev-master",
-      "ext-intl": "*"
+      "ext-intl": "*",
+        "vova07/yii2-imperavi-widget": "^2.0"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.1.0",
