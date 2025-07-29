@@ -128,18 +128,36 @@ $this->title = $model->name;
                 }
             ],
             [
-                'label' => 'P/CF (Price/Free Cash)',
+                'label' => 'P/OCF (Price/Operation Cash Flow)',
                 'link' => 'https://bcs-express.ru/novosti-i-analitika/mul-tiplikator-p-cf-otsenka-po-denezhnym-potokam',
-                'description' => 'Лучшая метрика для оценки способности компании выплачивать дивиденды и реализовывать программы buyback',
+                'description' => '
+                    Денежные потоки показывают, сколько на самом деле заработала компания вне зависимости 
+                    от бухгалтерских манипуляций при расчете чистой прибыли
+                    <br>Соотношение капитализации и операционного денежного потока (чистой прибыли по основной деятельности)
+                ',
                 'format' => 'raw',
                 'value' => function (Issuer $model) {
-                    return \src\ViewHelper\PCFViewHelper::render($model);
+                    return \src\ViewHelper\POCFViewHelper::render($model);
+                }
+            ],
+            [
+                'label' => 'P/FCF (Price/Free Cash Flow)',
+                'link' => 'https://bcs-express.ru/novosti-i-analitika/mul-tiplikator-p-cf-otsenka-po-denezhnym-potokam',
+                'description' => '
+                    Денежные потоки показывают, сколько на самом деле заработала компания вне зависимости 
+                    от бухгалтерских манипуляций при расчете чистой прибыли
+                    <br>FCF — лучшая метрика для оценки способности компании выплачивать дивиденды и реализовывать программы buyback.
+                    Соотношение капитализации и свободного денежного потока (чистой прибыли по всем видам деятельности)
+                ',
+                'format' => 'raw',
+                'value' => function (Issuer $model) {
+                    return \src\ViewHelper\POCFViewHelper::render($model);
                 }
             ],
             [
                 'label' => 'P/S (Price/Sales)',
                 'link' => 'https://dzengi.com/ru/chto-takoe-koeffitsient-p-s',
-                'description' => 'Этот показатель позволяет получить представление о том, сколько вы заплатите за один доллар выручки компании',
+                'description' => 'Этот показатель позволяет получить представление о том, сколько вы заплатите за один рубль выручки компании',
                 'format' => 'raw',
                 'value' => function (Issuer $model) {
                     return \src\ViewHelper\PSViewHelper::render($model);

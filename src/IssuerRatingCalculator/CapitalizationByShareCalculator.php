@@ -15,4 +15,12 @@ class CapitalizationByShareCalculator
 
         return $result;
     }
+
+    /**
+     * Считает капитализацию в тысячах рублей
+     */
+    public static function calculateInGrands(Issuer $issuer): float
+    {
+        return self::calculate($issuer) / 1000;
+    }
 }

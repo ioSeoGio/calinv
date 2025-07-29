@@ -62,7 +62,7 @@ function flashMessage(type, data, msg)
 }
 
 // In the begin of page loading
-window.onload = function(){
+$(function() {
     $('body').on('click', '.alert-point', function() {
         $(this)
             .closest('.alert')
@@ -74,27 +74,39 @@ window.onload = function(){
 
     (function IIFE(){
         setTimeout(function(){
-            $(".alert")
-                .each((index, item) => {
-                    setTimeout(function(){
-                        $(item)
-                            .css("display", "flex")
-                            .addClass('fade-in');
-                    }, (index) * 300)
-                });
+            $(".alert").each((index, item) => {
+                setTimeout(function(){
+                    $(item)
+                        .css("display", "flex")
+                        .addClass('fade-in');
+                }, (index) * 300)
+            });
         }, 300);
 
         setTimeout(function(){
-            $(".alert:not(.alert-danger)")
+            $(".alert:not(.alert-error)")
                 .each((index, item) => {
                     setTimeout(function(){
                         $(item)
                             .addClass('fade-out')
                             .on('animationend', function() {
-                                $(this).remove(); // или hide() если не нужно удалять
+                                $(this).hide(); // remove() или hide() если не нужно удалять
                             });
-                    }, (index + 1) * 3000)
+                    }, (index + 1) * 4000)
+                });
+        }, 300);
+
+        setTimeout(function(){
+            $(".alert.alert-error")
+                .each((index, item) => {
+                    setTimeout(function(){
+                        $(item)
+                            .addClass('fade-out')
+                            .on('animationend', function() {
+                                $(this).hide(); // remove() или hide() если не нужно удалять
+                            });
+                    }, (index + 1) * 8000)
                 });
         }, 300);
     })()
-}
+});

@@ -4,7 +4,6 @@ namespace src\Integration\Egr;
 
 use lib\ApiIntegrator\BaseHttpClient;
 use lib\ApiIntegrator\HttpMethod;
-use lib\ApiIntegrator\JsonHttpClient;
 use lib\Exception\UserException\ApiBadRequestException;
 use lib\Exception\UserException\ApiInternalErrorException;
 use lib\Exception\UserException\ApiNotFoundException;

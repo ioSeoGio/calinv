@@ -28,6 +28,7 @@ class IssuerFactory
     public function update(PayerIdentificationNumber $pid): Issuer
     {
         $issuer = Issuer::createOrGet($pid);
+        $issuer->save();
 
         $this->apiIssuerInfoAndSharesFactory->update($issuer);
         try {

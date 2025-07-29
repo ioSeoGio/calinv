@@ -5,6 +5,8 @@ namespace lib\ApiIntegrator;
 use lib\Exception\UserException\ApiBadRequestException;
 use lib\Exception\UserException\ApiInternalErrorException;
 use lib\Exception\UserException\ApiLightTemporaryUnavailableException;
+use Psr\Log\LoggerInterface;
+use Psr\Log\LogLevel;
 use RuntimeException;
 use Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface;
@@ -12,6 +14,7 @@ use Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 use Symfony\Contracts\HttpClient\ResponseInterface;
+use Yii;
 
 class BaseHttpClient
 {
@@ -34,6 +37,7 @@ class BaseHttpClient
             ];
 
             $response = $this->httpClient->request($method->value, $url, array_merge($defaultOptions, $options));
+            Yii::getLogger()->log('[BaseHttpClient][Response]' . $response->getContent(), LogLevel::INFO);
             $response->getStatusCode();
         } catch (TransportExceptionInterface|RedirectionExceptionInterface $e) {
             throw new ApiLightTemporaryUnavailableException(previous: $e);

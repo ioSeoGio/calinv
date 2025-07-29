@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "3f5b84c64bed2f7b6db196fb03ad6b9a",
+    "content-hash": "51a687694e9a251bb2b3f23ea4a9f467",
     "packages": [
         {
             "name": "bower-asset/bootstrap",
@@ -6856,7 +6856,8 @@
         "symfony/property-access": 20,
         "symfony/property-info": 20,
         "symfony/serializer": 20,
-        "symfony/validator": 20
+        "symfony/validator": 20,
+        "vlucas/phpdotenv": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,

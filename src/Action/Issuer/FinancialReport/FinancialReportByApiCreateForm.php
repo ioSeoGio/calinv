@@ -10,7 +10,7 @@ class FinancialReportByApiCreateForm extends Model
 
     public function __construct($config = [])
     {
-        $this->year = date('Y');
+        $this->year = (new \DateTimeImmutable('last year'))->format('Y');
 
         parent::__construct($config);
     }

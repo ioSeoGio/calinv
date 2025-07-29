@@ -9,6 +9,6 @@ class PECalculator
 {
     public static function calculate(Issuer $issuer, ProfitLossReport $profitLossReport): float
     {
-        return CapitalizationByShareCalculator::calculate($issuer) / $profitLossReport->_240;
+        return CapitalizationByShareCalculator::calculateInGrands($issuer) / $profitLossReport->_240;
     }
 }

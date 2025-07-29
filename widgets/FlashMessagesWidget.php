@@ -22,8 +22,8 @@ class FlashMessagesWidget extends Widget
             $messages = is_array($flash) ? $flash : [$flash];
             $messageClass = match ($type) {
                 FlashType::success->value => 'alert alert-success',
-                FlashType::error => 'alert alert-error',
-                FlashType::warning => 'alert alert-warning',
+                FlashType::error->value => 'alert alert-error',
+                FlashType::warning->value => 'alert alert-warning',
                 default => 'alert',
             };
 
@@ -32,7 +32,7 @@ class FlashMessagesWidget extends Widget
                     <div class=\"$messageClass\" style=\"display: none;\">
                         <div class=\"alert-message\">$message</div>
                         <div class=\"alert-point\">
-                            <p>+</p>
+                            <p><i class=\"bi bi-x-octagon\"></i></p>
                         </div>
                     </div>
                 ";

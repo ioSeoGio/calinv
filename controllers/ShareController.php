@@ -6,6 +6,7 @@ use lib\BaseController;
 use src\Action\Share\ShareCreateForm;
 use src\Action\Share\ShareSearchForm;
 use src\Entity\Issuer\Issuer;
+use src\Entity\Issuer\IssuerFullnessState;
 use src\Entity\Share\Share;
 use Yii;
 use yii\bootstrap5\ActiveForm;
@@ -79,6 +80,7 @@ class ShareController extends BaseController
         if ($issuer->dateShareInfoModerated !== null) {
             $issuer->markShareInfoNotModerated();
         } else {
+            $issuer->removeFullnessState(IssuerFullnessState::sharesWithException);
             $issuer->dateShareInfoModerated = new \DateTimeImmutable();
         }
         $issuer->save();

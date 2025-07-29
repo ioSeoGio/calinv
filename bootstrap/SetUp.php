@@ -6,6 +6,7 @@ namespace app\bootstrap;
 use lib\ApiIntegrator\BaseHttpClient;
 use lib\EnvGetter;
 use lib\Serializer\EnumDenormalizer;
+use Psr\Log\LoggerInterface;
 use src\Integration\FinanceReport\FinanceReportFetcherInterface;
 use src\Integration\FinanceReport\Legat\LegatFinanceReportFetcher;
 use src\Integration\FinanceReport\Mock\MockFinanceReportFetcher;
@@ -96,7 +97,7 @@ class SetUp implements BootstrapInterface
                 $container->get(HttpClientInterface::class)->withOptions([
                     'verify_peer' => false,
                     'verify_host' => false,
-                ])
+                ]),
             );
         });
 

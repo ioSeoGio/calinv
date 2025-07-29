@@ -3,17 +3,16 @@
 namespace src\ViewHelper;
 
 use src\Entity\Issuer\Issuer;
-use src\IssuerRatingCalculator\PBCalculator;
-use src\IssuerRatingCalculator\PCFCalculator;
+use src\IssuerRatingCalculator\PFCFCalculator;
 
-class PCFViewHelper
+class PFCFViewHelper
 {
     public static function render(Issuer $model): string
     {
         $result = '';
 
         foreach ($model->cashFlowReports as $cashFlowReport) {
-            $value = PCFCalculator::calculate($model, $cashFlowReport);
+            $value = PFCFCalculator::calculate($model, $cashFlowReport);
 
             $result .= "$cashFlowReport->_year: ";
             $result .= $value

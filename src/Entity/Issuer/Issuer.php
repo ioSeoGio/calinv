@@ -116,8 +116,9 @@ class Issuer extends ApiFetchedActiveRecord
 
     public function removeFullnessState(IssuerFullnessState $state): void
     {
-        $this->fullnessState = array_filter($this->fullnessState, function ($value) use ($state) {
-            return $value !== $state;
+        $this->fullnessState = array_filter($this->fullnessState, function (array|IssuerFullnessState $value) use ($state) {
+            $isEquals = is_array($value) ? $state->equalsString($value['value']) : $value->equals($value);
+            return $isEquals === false;
         });
     }
 

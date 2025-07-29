@@ -1,4 +1,4 @@
-window.onload = function() {
+$(function() {
     $(document).on('afterValidateAttribute', function (event, attribute, messages) {
         var displayInputId = '#' + attribute.id + '-disp'; // ID видимого поля ввода
         var displayInput = $(displayInputId);
@@ -21,4 +21,4 @@ window.onload = function() {
             }
         }
     });
-};
+});

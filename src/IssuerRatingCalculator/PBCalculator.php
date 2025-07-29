@@ -9,6 +9,6 @@ class PBCalculator
 {
     public static function calculate(Issuer $issuer, AccountingBalance $report): float
     {
-        return CapitalizationByShareCalculator::calculate($issuer) / ($report->_700 * 1000);
+        return CapitalizationByShareCalculator::calculateInGrands($issuer) / $report->_700;
     }
 }

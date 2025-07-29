@@ -53,13 +53,7 @@
     animation: fadeOutAlert 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
 }
 
-.alert-point{
-	cursor: pointer !important;
-	border: 2px solid #fdfdfd !important;
-	transition: 0.3s !important;
-}
-
-.alert-point:hover{
+.alert-point:hover {
 	opacity: 0.8
 }
 
@@ -84,7 +78,7 @@
 	right: 15px !important;
 	width: 20px !important;
 	height: 20px !important;
-	border-radius: 50px !important;
+	/*border-radius: 50px !important;*/
 	transition: 0.3s !important;
 	margin-left: 10px !important;
 
@@ -98,36 +92,30 @@
 	opacity: 0.8
 }
 
-.alert-point p{
+.alert-point p {
 	user-select: none !important;
 	font-weight: bold !important;
-	font-size: 1.2em !important;
+	font-size: 1.5em !important;
 	color: #fdfdfd !important;
 	margin: 0 !important;
-	transform: rotate(45deg) !important;
 }
 
 .alert-success .alert-point {
 	background-color: inherit !important;
-    border: 2px solid #fdfdfd !important;
+    /*border: 2px solid #fdfdfd !important;*/
     transition: 0.3s !important;
 }
-.alert-error .alert-point {
-	background-color: inherit !important;
-    border: 2px solid #fdfdfd !important;
-    transition: 0.3s !important;
-}
-.alert-error .alert-point:hover{
+.alert-error .alert-point:hover {
 	opacity: 0.8 !important;
 }
-.alert-point{
+.alert-point {
 	margin-right: 10px !important;
 }
-.alert-success .alert-point{
+.alert-success .alert-point {
 	transition: 0.3s !important;
 }
 
-.alert-success .alert-point:hover{
+.alert-success .alert-point:hover {
 	opacity: 0.8
 }
 

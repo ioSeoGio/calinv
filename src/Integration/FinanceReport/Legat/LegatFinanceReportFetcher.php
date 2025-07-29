@@ -16,7 +16,7 @@ class LegatFinanceReportFetcher implements FinanceReportFetcherInterface
 {
     public const string ACCOUNTING_BALANCE = 'financeBalance';
     public const string PROFIT_LOSS = 'financeProfitLoss';
-    public const string CAPITAL = 'financeCapital';
+    public const string TRAFFIC = 'financeTraffic';
 
     public function __construct(
         private LegatApiHttpClient $client,
@@ -56,7 +56,7 @@ class LegatFinanceReportFetcher implements FinanceReportFetcherInterface
 
     public function getCashFlowReport(PayerIdentificationNumber $pid, \DateTimeImmutable $year): FinanceReportCashFlowDto
     {
-        $response = $this->client->request(HttpMethod::GET, self::CAPITAL, $pid, $year);
+        $response = $this->client->request(HttpMethod::GET, self::TRAFFIC, $pid, $year);
 
         return $this->serializer->deserialize(
             $response->getContent(),

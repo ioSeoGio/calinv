@@ -57,11 +57,12 @@ class ErrorHandler extends YiiErrorHandler
 
     private function printError(\Throwable $e, FlashType $flashType, string $defaultMessage): void
     {
-        Yii::$app->session->addFlash($flashType->value, $e->getMessage() ?: $defaultMessage);
+        Yii::$app->session->setFlash('error', 'govno');
+        Yii::$app->session->setFlash($flashType->value, $e->getMessage() ?: $defaultMessage);
     }
 
     private function redirect(): Response
     {
-        return Yii::$app->getResponse()->redirect(['/portfolio']);
+        return Yii::$app->getResponse()->redirect(Yii::$app->request->referrer ?: Yii::$app->homeUrl);
     }
 }
