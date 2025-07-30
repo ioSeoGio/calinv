@@ -2,6 +2,7 @@
 
 namespace src\Entity\User;
 
+use lib\Database\BaseActiveRecord;
 use src\Entity\PersonalShare\PersonalShare;
 use Yii;
 use yii\db\ActiveQuery;
@@ -22,7 +23,7 @@ use yii\web\IdentityInterface;
  * @property array<PersonalShare> $personalShares
  */
 
-class User extends ActiveRecord implements IdentityInterface
+class User extends BaseActiveRecord implements IdentityInterface
 {
     public const string ROLE_ADMIN = 'admin';
     public const string ROLE_USER = 'user';
