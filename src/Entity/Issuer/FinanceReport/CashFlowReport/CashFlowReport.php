@@ -37,19 +37,19 @@ use yii\db\ActiveQuery;
  * @property float $_040 Результат ДДС по текущей деятельности
  *
  * ИНВЕСТИЦИОННАЯ ДЕЯТЕЛЬНОСТЬ
- * @property float $_050 Поступило по инвестиционной деятельности (всего)
+ * @property ?float $_050 Поступило по инвестиционной деятельности (всего)
  * @property ?float $_051 в том числе: от покупателей основных средств, нематериальных активов и других долгосрочных активов
  * @property ?float $_052 в том числе: возврат предоставленных займов
  * @property ?float $_053 в том числе: доходы от участия в уставных капиталах других организаций
  * @property ?float $_054 в том числе: проценты
  * @property ?float $_055 в том числе: прочие поступления
  *
- * @property float $_060 Направлено по инвестиционной деятельности (всего)
+ * @property ?float $_060 Направлено по инвестиционной деятельности (всего)
  * @property ?float $_061 в том числе: на приобретение и создание основных средств, нематериальных активов и других долгосрочных активов
  * @property ?float $_062 в том числе: на предоставление займов
  * @property ?float $_063 в том числе: на вклады в уставные капиталы других организаций
  * @property ?float $_064 в том числе: прочие выплаты
- * @property float $_070 Результат ДДС по инвестиционной деятельности
+ * @property ?float $_070 Результат ДДС по инвестиционной деятельности
  *
  * ФИНАНСОВАЯ ДЕЯТЕЛЬНОСТЬ
  * @property float $_080 Поступило по финансовой деятельности (всего)
@@ -70,7 +70,7 @@ use yii\db\ActiveQuery;
  *
  * @property float $_120 Остаток ДС на (31.12.year-2)
  * @property float $_130 Остаток ДС на (31.12.year-1)
- * @property float $_140 Влияние изменений курсов иностранных валют
+ * @property ?float $_140 Влияние изменений курсов иностранных валют
  *
  * @property Issuer $issuer
  */
@@ -98,7 +98,7 @@ class CashFlowReport extends ApiFetchedActiveRecord
     public static function createOrUpdate(
         Issuer $issuer,
         DateTimeImmutable $date,
-        FinanceReportCashFlowDto $dto,
+        CashFlowReportDto $dto,
         DataTypeEnum $dataType,
         FinanceTermType $termType = FinanceTermType::year,
     ): self {
@@ -120,7 +120,7 @@ class CashFlowReport extends ApiFetchedActiveRecord
         return $self;
     }
 
-    private function updateFieldsFromDto(FinanceReportCashFlowDto $dto): void
+    private function updateFieldsFromDto(CashFlowReportDto $dto): void
     {
         $this->_020 = $dto->_020;
         $this->_021 = $dto->_021;

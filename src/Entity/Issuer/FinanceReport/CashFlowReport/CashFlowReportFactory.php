@@ -2,6 +2,7 @@
 
 namespace src\Entity\Issuer\FinanceReport\CashFlowReport;
 
+use DateInterval;
 use DateTimeImmutable;
 use src\Entity\DataTypeEnum;
 use src\Entity\Issuer\Issuer;
@@ -22,12 +23,20 @@ class CashFlowReportFactory
 
         $accountingBalance = CashFlowReport::createOrUpdate(
             issuer: $issuer,
-            date: $date,
-            dto: $dto,
+            date: DateTimeImmutable::createFromFormat('!Y', $dto->year)->sub(DateInterval::createFromDateString('1 year')),
+            dto: CashFlowReportDto::fromApiLastYear($dto),
             dataType: $dto->isMock ? DataTypeEnum::mockData : DataTypeEnum::fetchedFromApi,
         );
-
         $accountingBalance->save();
+
+        $accountingBalance = CashFlowReport::createOrUpdate(
+            issuer: $issuer,
+            date: $date,
+            dto: CashFlowReportDto::fromApiCurrentYear($dto),
+            dataType: $dto->isMock ? DataTypeEnum::mockData : DataTypeEnum::fetchedFromApi,
+        );
+        $accountingBalance->save();
+
         return $accountingBalance;
     }
 }

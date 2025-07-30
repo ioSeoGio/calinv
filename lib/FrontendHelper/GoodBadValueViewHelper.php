@@ -1,6 +1,6 @@
 <?php
 
-namespace src\ViewHelper;
+namespace lib\FrontendHelper;
 
 use yii\bootstrap5\Html;
 

@@ -1,11 +1,10 @@
 <?php
 
-namespace lib\FrontendHelper\Issuer\Share;
+namespace src\ViewHelper\Issuer\Share;
 
 use lib\FrontendHelper\Icon;
 use src\Entity\Issuer\Issuer;
 use src\Entity\Issuer\IssuerFullnessState;
-use Yii;
 use yii\helpers\Html;
 
 class IssuerShareFullnessStateIconPrinter

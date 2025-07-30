@@ -2,8 +2,8 @@
 
 namespace src\ViewHelper;
 
+use lib\FrontendHelper\GoodBadValueViewHelper;
 use src\Entity\Issuer\Issuer;
-use src\IssuerRatingCalculator\K2Calculator;
 use src\IssuerRatingCalculator\K3Calculator;
 
 class K3ViewHelper

@@ -132,4 +132,122 @@ class FinanceReportCashFlowDto
 
     #[SerializedPath('[traffic][140_actual]')]
     public ?float $_140 = null;
+
+
+    #[SerializedPath('[traffic][020_last]')]
+    public ?float $last_020 = null;
+
+    #[SerializedPath('[traffic][021_last]')]
+    public ?float $last_021 = null;
+
+    #[SerializedPath('[traffic][022_last]')]
+    public ?float $last_022 = null;
+
+    #[SerializedPath('[traffic][023_last]')]
+    public ?float $last_023 = null;
+
+    #[SerializedPath('[traffic][024_last]')]
+    public ?float $last_024 = null;
+
+    #[SerializedPath('[traffic][030_last]')]
+    public ?float $last_030 = null;
+
+    #[SerializedPath('[traffic][031_last]')]
+    public ?float $last_031 = null;
+
+    #[SerializedPath('[traffic][032_last]')]
+    public ?float $last_032 = null;
+
+    #[SerializedPath('[traffic][033_last]')]
+    public ?float $last_033 = null;
+
+    #[SerializedPath('[traffic][034_last]')]
+    public ?float $last_034 = null;
+
+    #[SerializedPath('[traffic][040_last]')]
+    public ?float $last_040 = null;
+
+    #[SerializedPath('[traffic][050_last]')]
+    public ?float $last_050 = null;
+
+    #[SerializedPath('[traffic][051_last]')]
+    public ?float $last_051 = null;
+
+    #[SerializedPath('[traffic][052_last]')]
+    public ?float $last_052 = null;
+
+    #[SerializedPath('[traffic][053_last]')]
+    public ?float $last_053 = null;
+
+    #[SerializedPath('[traffic][054_last]')]
+    public ?float $last_054 = null;
+
+    #[SerializedPath('[traffic][055_last]')]
+    public ?float $last_055 = null;
+
+    #[SerializedPath('[traffic][060_last]')]
+    public ?float $last_060 = null;
+
+    #[SerializedPath('[traffic][061_last]')]
+    public ?float $last_061 = null;
+
+    #[SerializedPath('[traffic][062_last]')]
+    public ?float $last_062 = null;
+
+    #[SerializedPath('[traffic][063_last]')]
+    public ?float $last_063 = null;
+
+    #[SerializedPath('[traffic][064_last]')]
+    public ?float $last_064 = null;
+
+    #[SerializedPath('[traffic][070_last]')]
+    public ?float $last_070 = null;
+
+    #[SerializedPath('[traffic][080_last]')]
+    public ?float $last_080 = null;
+
+    #[SerializedPath('[traffic][081_last]')]
+    public ?float $last_081 = null;
+
+    #[SerializedPath('[traffic][082_last]')]
+    public ?float $last_082 = null;
+
+    #[SerializedPath('[traffic][083_last]')]
+    public ?float $last_083 = null;
+
+    #[SerializedPath('[traffic][084_last]')]
+    public ?float $last_084 = null;
+
+    #[SerializedPath('[traffic][090_last]')]
+    public ?float $last_090 = null;
+
+    #[SerializedPath('[traffic][091_last]')]
+    public ?float $last_091 = null;
+
+    #[SerializedPath('[traffic][092_last]')]
+    public ?float $last_092 = null;
+
+    #[SerializedPath('[traffic][093_last]')]
+    public ?float $last_093 = null;
+
+    #[SerializedPath('[traffic][094_last]')]
+    public ?float $last_094 = null;
+
+    #[SerializedPath('[traffic][095_last]')]
+    public ?float $last_095 = null;
+
+    #[SerializedPath('[traffic][100_last]')]
+    public ?float $last_100 = null;
+
+    #[SerializedPath('[traffic][110_last]')]
+    public ?float $last_110 = null;
+
+    #[SerializedPath('[traffic][120_last]')]
+    public ?float $last_120 = null;
+
+    #[SerializedPath('[traffic][130_last]')]
+    public ?float $last_130 = null;
+
+    #[SerializedPath('[traffic][140_last]')]
+    public ?float $last_140 = null;
 }

@@ -57,6 +57,7 @@ class LegatFinanceReportFetcher implements FinanceReportFetcherInterface
     public function getCashFlowReport(PayerIdentificationNumber $pid, \DateTimeImmutable $year): FinanceReportCashFlowDto
     {
         $response = $this->client->request(HttpMethod::GET, self::TRAFFIC, $pid, $year);
+        dd($response->getContent());
 
         return $this->serializer->deserialize(
             $response->getContent(),

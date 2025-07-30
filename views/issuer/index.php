@@ -7,16 +7,15 @@
 
 use app\widgets\GuardedActionColumn;
 use lib\FrontendHelper\DetailViewCopyHelper;
-use lib\FrontendHelper\Icon;
-use lib\FrontendHelper\Issuer\Share\IssuerShareFullnessStateIconPrinter;
-use lib\FrontendHelper\Issuer\Share\IssuerShareInfoModeratedIconPrinter;
+use lib\FrontendHelper\GoodBadValueViewHelper;
+use lib\FrontendHelper\SimpleNumberFormatter;
 use src\Action\Issuer\IssuerCreateForm;
 use src\Action\Issuer\IssuerSearchForm;
 use src\Entity\Issuer\Issuer;
 use src\Entity\User\UserRole;
 use src\IssuerRatingCalculator\CapitalizationByShareCalculator;
-use src\ViewHelper\GoodBadValueViewHelper;
-use src\ViewHelper\SimpleNumberFormatter;
+use src\ViewHelper\Issuer\Share\IssuerShareFullnessStateIconPrinter;
+use src\ViewHelper\Issuer\Share\IssuerShareInfoModeratedIconPrinter;
 use yii\bootstrap5\ActiveForm;
 use yii\data\ActiveDataProvider;
 use yii\grid\GridView;

@@ -9,12 +9,12 @@
 
 use app\widgets\EditableHtmlAreaWidget;
 use lib\FrontendHelper\DetailViewCopyHelper;
-use lib\FrontendHelper\Issuer\Share\IssuerShareFullnessStateIconPrinter;
-use lib\FrontendHelper\Issuer\Share\IssuerShareInfoModeratedIconPrinter;
 use src\Action\Issuer\Event\IssuerEventSearchForm;
 use src\Entity\Issuer\Issuer;
 use src\Entity\Issuer\IssuerEvent\IssuerEvent;
 use src\Entity\User\UserRole;
+use src\ViewHelper\Issuer\Share\IssuerShareFullnessStateIconPrinter;
+use src\ViewHelper\Issuer\Share\IssuerShareInfoModeratedIconPrinter;
 use yii\data\ActiveDataProvider;
 use yii\grid\GridView;
 use yii\helpers\Html;

@@ -74,6 +74,7 @@ use yii\db\ActiveQuery;
  * @property ?float $_650 Доходы будущих периодов
  * @property ?float $_670 Прочие краткосрочные обязательства
  * @property float $_690 Краткосрочные обязательства (всего)
+ *
  * @property float $_700 Итоговый баланс (всего)
  *
  * @property Issuer $issuer
@@ -104,7 +105,7 @@ class AccountingBalance extends ApiFetchedActiveRecord
     public static function createOrUpdate(
         Issuer $issuer,
         DateTimeImmutable $date,
-        FinanceReportAccountingBalanceDto $dto,
+        AccountingBalanceDto $dto,
         DataTypeEnum $dataType,
         FinanceTermType $termType = FinanceTermType::year,
     ): self {
@@ -126,7 +127,7 @@ class AccountingBalance extends ApiFetchedActiveRecord
         return $self;
     }
 
-    private function setFieldsFromDto(FinanceReportAccountingBalanceDto $dto): void
+    private function setFieldsFromDto(AccountingBalanceDto $dto): void
     {
         $this->_110 = $dto->_110;
         $this->_120 = $dto->_120;

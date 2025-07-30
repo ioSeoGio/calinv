@@ -2,11 +2,11 @@
 
 namespace src\Entity\Issuer\FinanceReport\AccountingBalance;
 
+use DateInterval;
 use DateTimeImmutable;
 use src\Action\Issuer\FinancialReport\AccountingBalance\AccountingBalanceCreateForm;
 use src\Entity\DataTypeEnum;
 use src\Entity\Issuer\Issuer;
-use src\Integration\FinanceReport\Dto\FinanceReportAccountingBalanceDto;
 use src\Integration\FinanceReport\FinanceReportFetcherInterface;
 
 class AccountingBalanceFactory
@@ -20,12 +20,15 @@ class AccountingBalanceFactory
         Issuer $issuer,
         AccountingBalanceCreateForm $form,
     ): AccountingBalance {
-        $dto = new FinanceReportAccountingBalanceDto();
-        $dto->_190 = $form->longAsset;
-        $dto->_290 = $form->shortAsset;
-        $dto->_490 = $form->capital;
-        $dto->_590 = $form->longDebt;
-        $dto->_690 = $form->shortDebt;
+        $dto = new AccountingBalanceDto(
+            _190: $form->longAsset,
+            _290: $form->shortAsset,
+            _300: $form->longAsset + $form->shortAsset,
+            _490: $form->capital,
+            _590: $form->longDebt,
+            _690: $form->shortDebt,
+            _700: $form->shortAsset + $form->longAsset - ($form->shortDebt + $form->longDebt),
+        );
 
         $accountingBalance = AccountingBalance::createOrUpdate(
             issuer: $issuer,
@@ -46,12 +49,20 @@ class AccountingBalanceFactory
 
         $accountingBalance = AccountingBalance::createOrUpdate(
             issuer: $issuer,
-            date: $date,
-            dto: $dto,
+            date: DateTimeImmutable::createFromFormat('!Y', $dto->year)->sub(DateInterval::createFromDateString('1 year')),
+            dto: AccountingBalanceDto::fromApiLastYear($dto),
             dataType: $dto->isMock ? DataTypeEnum::mockData : DataTypeEnum::fetchedFromApi,
         );
-
         $accountingBalance->save();
+
+        $accountingBalance = AccountingBalance::createOrUpdate(
+            issuer: $issuer,
+            date: DateTimeImmutable::createFromFormat('!Y', $dto->year),
+            dto: AccountingBalanceDto::fromApiCurrentYear($dto),
+            dataType: $dto->isMock ? DataTypeEnum::mockData : DataTypeEnum::fetchedFromApi,
+        );
+        $accountingBalance->save();
+
         return $accountingBalance;
     }
 }

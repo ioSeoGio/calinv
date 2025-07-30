@@ -84,7 +84,7 @@ class ProfitLossReport extends ApiFetchedActiveRecord
     public static function createOrUpdate(
         Issuer $issuer,
         DateTimeImmutable $date,
-        FinanceReportProfitLossDto $dto,
+        ProfitLossReportDto $dto,
         DataTypeEnum $dataType,
         FinanceTermType $termType = FinanceTermType::year,
     ): self {
@@ -106,7 +106,7 @@ class ProfitLossReport extends ApiFetchedActiveRecord
         return $self;
     }
 
-    private function updateFieldsFromDto(FinanceReportProfitLossDto $dto): void
+    private function updateFieldsFromDto(ProfitLossReportDto $dto): void
     {
         $this->_010 = $dto->_010;
         $this->_020 = $dto->_020;

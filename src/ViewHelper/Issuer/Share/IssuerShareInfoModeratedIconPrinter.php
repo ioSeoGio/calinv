@@ -1,6 +1,6 @@
 <?php
 
-namespace lib\FrontendHelper\Issuer\Share;
+namespace src\ViewHelper\Issuer\Share;
 
 use lib\FrontendHelper\Icon;
 use src\Entity\Issuer\Issuer;
