@@ -27,7 +27,7 @@ class m250622_191227_create_user_table extends Migration
         $this->insert('{{%user}}', [
             'username' => 'kenris',
             'password_hash' => $passwordHash,
-            'email' => 'kenris@gmail.com',
+            'email' => 'vladislavdistant@mail.ru',
         ]);
 
         $auth = Yii::$app->authManager;

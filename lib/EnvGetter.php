@@ -13,4 +13,9 @@ class EnvGetter
     {
         return (bool) self::get($env, $default);
     }
+
+    public static function getInt(string $env, mixed $default = null): bool
+    {
+        return (int) self::get($env, $default);
+    }
 }

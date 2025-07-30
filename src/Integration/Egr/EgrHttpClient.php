@@ -4,6 +4,7 @@ namespace src\Integration\Egr;
 
 use lib\ApiIntegrator\BaseHttpClient;
 use lib\ApiIntegrator\HttpMethod;
+use lib\EnvGetter;
 use lib\Exception\UserException\ApiBadRequestException;
 use lib\Exception\UserException\ApiInternalErrorException;
 use lib\Exception\UserException\ApiNotFoundException;
@@ -59,7 +60,7 @@ class EgrHttpClient
 
         try {
             $response = $this->httpClient->request($method, $url, [
-                'timeout' => 1,
+                'timeout' => EnvGetter::getInt('EGR_API_TIMEOUT'),
             ]);
 
             if ($response->getStatusCode() === 204) {
