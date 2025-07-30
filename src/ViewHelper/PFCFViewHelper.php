@@ -17,7 +17,7 @@ class PFCFViewHelper
 
             $result .= "$cashFlowReport->_year: ";
             $result .= $value
-                ? GoodBadValueViewHelper::inRange($value, min: 10, max: 20)
+                ? GoodBadValueViewHelper::inRange($value, min: 0, max: 20)
                 : null;
             $result .= '<br>';
         }
