@@ -88,7 +88,7 @@ class AccountingBalanceDto
             _300: $dto->_300,
             _410: $dto->_410,
             _440: $dto->_440,
-            _450: $dto->_440,
+            _450: $dto->_450,
             _460: $dto->_460,
             _490: $dto->_490,
             _510: $dto->_510,
@@ -106,8 +106,8 @@ class AccountingBalanceDto
             _637: $dto->_637,
             _638: $dto->_638,
             _650: $dto->_650,
-            _670: $dto->_700,
-            _690: $dto->_700,
+            _670: $dto->_670,
+            _690: $dto->_690,
             _700: $dto->_700,
         );
     }
@@ -140,7 +140,7 @@ class AccountingBalanceDto
             _300: $dto->last_300,
             _410: $dto->last_410,
             _440: $dto->last_440,
-            _450: $dto->last_440,
+            _450: $dto->last_450,
             _460: $dto->last_460,
             _490: $dto->last_490,
             _510: $dto->last_510,
@@ -158,8 +158,8 @@ class AccountingBalanceDto
             _637: $dto->last_637,
             _638: $dto->last_638,
             _650: $dto->last_650,
-            _670: $dto->last_700,
-            _690: $dto->last_700,
+            _670: $dto->last_670,
+            _690: $dto->last_690,
             _700: $dto->last_700,
         );
     }
