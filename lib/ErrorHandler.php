@@ -63,6 +63,10 @@ class ErrorHandler extends YiiErrorHandler
 
     private function redirect(): Response
     {
-        return Yii::$app->getResponse()->redirect(Yii::$app->request->referrer ?: Yii::$app->homeUrl);
+        if (Yii::$app->request->referrer !== Yii::$app->homeUrl) {
+            return Yii::$app->getResponse()->redirect(Yii::$app->request->referrer ?: Yii::$app->homeUrl);
+        }
+
+        return Yii::$app->getResponse();
     }
 }
