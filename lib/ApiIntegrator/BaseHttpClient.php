@@ -2,6 +2,7 @@
 
 namespace lib\ApiIntegrator;
 
+use lib\EnvGetter;
 use lib\Exception\UserException\ApiBadRequestException;
 use lib\Exception\UserException\ApiInternalErrorException;
 use lib\Exception\UserException\ApiLightTemporaryUnavailableException;
