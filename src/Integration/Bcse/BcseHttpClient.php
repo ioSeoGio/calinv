@@ -4,6 +4,7 @@ namespace src\Integration\Bcse;
 
 use lib\ApiIntegrator\BaseHttpClient;
 use lib\ApiIntegrator\HttpMethod;
+use lib\EnvGetter;
 use lib\UrlGenerator;
 use Symfony\Contracts\HttpClient\ResponseInterface;
 
@@ -26,6 +27,7 @@ class BcseHttpClient
                 'Content-Type' => 'application/x-www-form-urlencoded',
             ],
             'body' => $data,
+            'timeout' => EnvGetter::get('BCSE_API_TIMEOUT'),
         ]);
 
         return $response;
