@@ -46,7 +46,7 @@ class SetUp implements BootstrapInterface
             return new RetryableHttpClient(
                 $container->get(CurlHttpClient::class),
                 null,
-                3
+                EnvGetter::getInt('API_RETRIES')
             );
         });
         $container->setSingleton(ValidatorInterface::class, function () use ($container) {

@@ -27,7 +27,7 @@ class BcseHttpClient
                 'Content-Type' => 'application/x-www-form-urlencoded',
             ],
             'body' => $data,
-            'timeout' => EnvGetter::get('BCSE_API_TIMEOUT'),
+            'timeout' => EnvGetter::getInt('BCSE_API_TIMEOUT'),
         ]);
 
         return $response;
