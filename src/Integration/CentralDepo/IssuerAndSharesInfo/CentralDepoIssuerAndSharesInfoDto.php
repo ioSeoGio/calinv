@@ -17,10 +17,10 @@ class CentralDepoIssuerAndSharesInfoDto
         #[NotBlank]
         public string $pid,
         public string $address,
-        public ?string $phone = null,
         public string $depo,
         public float $authorizedCapital,
         public IssuerLegalStatus $legalStatus,
+        public ?string $phone = null,
         #[Valid]
         /** @var ShareInfoDto[] */
         public array $shareDtos = [],

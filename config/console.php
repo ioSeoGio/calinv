@@ -1,5 +1,6 @@
 <?php
 
+use app\bootstrap\SetUp;
 use yii\console\controllers\MigrateController;
 
 $params = require __DIR__ . '/params.php';
@@ -8,7 +9,10 @@ $db = require __DIR__ . '/db.php';
 $config = [
     'id' => 'basic-console',
     'basePath' => dirname(__DIR__),
-    'bootstrap' => ['log'],
+    'bootstrap' => [
+        'log',
+        SetUp::class,
+    ],
     'controllerNamespace' => 'app\commands',
     'aliases' => [
         '@bower' => '@vendor/bower-asset',
