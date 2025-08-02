@@ -16,6 +16,7 @@ class BulkIssuerEventFactory
     public function update(PayerIdentificationNumber $pid): void
     {
         $eventsDto = $this->legatEgrEventsFetcher->getEvents($pid);
+        IssuerEvent::deleteAll();
 
         /** @var LegatEgrEventDto $dto */
         foreach ($eventsDto->events as $dto) {
