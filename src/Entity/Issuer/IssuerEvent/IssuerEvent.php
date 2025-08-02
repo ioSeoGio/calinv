@@ -22,6 +22,11 @@ class IssuerEvent extends ApiFetchedActiveRecord
     public const array IMPORTANT_EVENTS = [
         'руководителя',
         'задолженности',
+        'банкротом',
+        'банкрот',
+        'ликвидацией',
+        'ликвидация',
+        'ликвидации',
     ];
 
     public static function tableName(): string
