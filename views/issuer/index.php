@@ -69,18 +69,13 @@ $this->title = 'Калькулятор эмитентов';
         'filterModel' => $searchForm,
         'columns' => [
             [
-                'label' => 'важное',
-                'format' => 'raw',
-                'value' => function (Issuer $model) {
-                    return IssuerStateIconsPrinter::printMany($model);
-                }
-            ],
-            [
                 'label' => 'эмитент',
                 'attribute' => 'name',
                 'format' => 'raw',
                 'value' => function (Issuer $model) {
-                    return Html::a($model->name, ['/issuer/view', 'id' => $model->id]);
+                    return
+                        IssuerStateIconsPrinter::printMany($model)
+                        . Html::a($model->name, ['/issuer/view', 'id' => $model->id]);
                 }
             ],
             '_legalStatus',
