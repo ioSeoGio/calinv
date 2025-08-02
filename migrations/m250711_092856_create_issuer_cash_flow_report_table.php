@@ -38,7 +38,7 @@ class m250711_092856_create_issuer_cash_flow_report_table extends Migration
             '_062' => $this->float()->null(),
             '_063' => $this->float()->null(),
             '_064' => $this->float()->null(),
-            '_070' => $this->float()->notNull(),
+            '_070' => $this->float()->null(),
 
             '_080' => $this->float()->notNull(),
             '_081' => $this->float()->null(),
