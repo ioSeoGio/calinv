@@ -4,15 +4,15 @@ namespace src\Integration\Legat\Api;
 
 use lib\ApiIntegrator\HttpMethod;
 use src\Entity\Issuer\PayerIdentificationNumber;
-use src\Integration\Legat\Dto\egrEventDto\LegatEgrEventsDto;
-use src\Integration\Legat\LegatEgrEventsFetcherInterface;
+use src\Integration\Legat\Dto\EmployeeAmount\EmployeeAmountDto;
+use src\Integration\Legat\EmployeeAmountFetcherInterface;
 use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
 use Symfony\Component\Serializer\Normalizer\AbstractObjectNormalizer;
 use Symfony\Component\Serializer\SerializerInterface;
 
-class LegatLegatEgrEventFetcher implements LegatEgrEventsFetcherInterface
+class LegatEmployeeAmountFetcher implements EmployeeAmountFetcherInterface
 {
-    public const string PATH = 'change';
+    public const string PATH = 'employees';
 
     public function __construct(
         private LegatApiHttpClient $client,
@@ -20,13 +20,13 @@ class LegatLegatEgrEventFetcher implements LegatEgrEventsFetcherInterface
     ) {
     }
 
-    public function getEvents(PayerIdentificationNumber $pid): LegatEgrEventsDto
+    public function getEmployeeAmount(PayerIdentificationNumber $pid): EmployeeAmountDto
     {
         $response = $this->client->request(HttpMethod::GET, self::PATH, $pid);
 
         return $this->serializer->deserialize(
             $response->getContent(),
-            LegatEgrEventsDto::class,
+            EmployeeAmountDto::class,
             'json',
             [
                 AbstractObjectNormalizer::DISABLE_TYPE_ENFORCEMENT => true,

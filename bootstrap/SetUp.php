@@ -8,8 +8,10 @@ use lib\EnvGetter;
 use lib\Serializer\EnumDenormalizer;
 use Psr\Log\LoggerInterface;
 use src\Integration\Legat\Api\LegatCommonIssuerInfoFetcher;
-use src\Integration\Legat\Api\LegatLegatEgrEventFetcher;
+use src\Integration\Legat\Api\LegatEgrEventFetcher;
+use src\Integration\Legat\Api\LegatEmployeeAmountFetcher;
 use src\Integration\Legat\CommonIssuerInfoFetcherInterface;
+use src\Integration\Legat\EmployeeAmountFetcherInterface;
 use src\Integration\Legat\LegatEgrEventsFetcherInterface;
 use src\Integration\Legat\FinanceReportFetcherInterface;
 use src\Integration\Legat\Api\LegatFinanceReportFetcher;
@@ -120,7 +122,13 @@ class SetUp implements BootstrapInterface
         $container->setSingleton(LegatEgrEventsFetcherInterface::class, function () use ($container) {
             return EnvGetter::getBool('LEGAT_TEST_MODE', true)
                 ? $container->get(MockLegatFetcherLegat::class)
-                : $container->get(LegatLegatEgrEventFetcher::class);
+                : $container->get(LegatEgrEventFetcher::class);
+        });
+
+        $container->setSingleton(EmployeeAmountFetcherInterface::class, function () use ($container) {
+            return EnvGetter::getBool('LEGAT_TEST_MODE', true)
+                ? $container->get(MockLegatFetcherLegat::class)
+                : $container->get(LegatEmployeeAmountFetcher::class);
         });
     }
 }

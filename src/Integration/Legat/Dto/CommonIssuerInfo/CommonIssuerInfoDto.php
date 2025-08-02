@@ -1,6 +1,6 @@
 <?php
 
-namespace src\Integration\Legat\Dto\commonIssuerInfo;
+namespace src\Integration\Legat\Dto\CommonIssuerInfo;
 
 use Symfony\Component\Serializer\Annotation\SerializedPath;
 use Symfony\Component\Validator\Constraints as Assert;

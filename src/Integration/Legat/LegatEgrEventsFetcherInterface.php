@@ -3,7 +3,7 @@
 namespace src\Integration\Legat;
 
 use src\Entity\Issuer\PayerIdentificationNumber;
-use src\Integration\Legat\Dto\egrEventDto\LegatEgrEventsDto;
+use src\Integration\Legat\Dto\EgrEventDto\LegatEgrEventsDto;
 
 interface LegatEgrEventsFetcherInterface
 {

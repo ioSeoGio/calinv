@@ -5,6 +5,7 @@
 /** @var IssuerEventSearchForm $searchForm */
 /** @var ActiveDataProvider $eventDataProvider */
 /** @var ActiveDataProvider $importantEventDataProvider */
+/** @var ActiveDataProvider $employeeAmountDataProvider */
 /** @var \yii\base\Model $descriptionEditForm */
 
 use app\widgets\EditableHtmlAreaWidget;
@@ -13,10 +14,12 @@ use lib\FrontendHelper\NullableValue;
 use src\Action\Issuer\Event\IssuerEventSearchForm;
 use src\Entity\Issuer\AdditionalInfo\IssuerAdditionalInfo;
 use src\Entity\Issuer\AdditionalInfo\IssuerLiquidationInfo;
+use src\Entity\Issuer\EmployeeAmount\EmployeeAmountRecord;
 use src\Entity\Issuer\Issuer;
 use src\Entity\Issuer\IssuerEvent\IssuerEvent;
 use src\Entity\User\UserRole;
 use src\ViewHelper\Issuer\IssuerBankruptOrLiquidationIconPrinter;
+use src\ViewHelper\Issuer\IssuerStateIconsPrinter;
 use src\ViewHelper\Issuer\Share\IssuerShareFullnessStateIconPrinter;
 use src\ViewHelper\Issuer\Share\IssuerShareInfoModeratedIconPrinter;
 use yii\data\ActiveDataProvider;
@@ -153,9 +156,7 @@ $this->title = $model->name;
                 'format' => 'raw',
                 'value' => function (Issuer $model) {
                     return
-                        IssuerBankruptOrLiquidationIconPrinter::print($model)
-                        . IssuerShareFullnessStateIconPrinter::print($model)
-                        . IssuerShareInfoModeratedIconPrinter::print($model)
+                        IssuerStateIconsPrinter::printMany($model)
                         . DetailViewCopyHelper::render($model, 'name');
                 }
             ],
@@ -419,6 +420,23 @@ $this->title = $model->name;
     ]) ?>
     <hr>
 
+    <div>
+        Время последнего обновления: <?= Yii::$app->formatter->asDatetime(EmployeeAmountRecord::getLastUpdateSessionDate(['issuerId' => $model->id])) ?>
+        <?php if (Yii::$app->user->can(UserRole::admin->value)): ?>
+            <div>
+                <?= Html::a('Обновить', ['renew-employee-amount', 'id' => $model->id], ['class' => 'btn btn-success']) ?>
+            </div>
+        <?php endif; ?>
+    </div>
+    <?= GridView::widget([
+        'dataProvider' => $employeeAmountDataProvider,
+        'columns' => [
+            'amount',
+            '_date:date',
+        ],
+    ]) ?>
+
+    <hr>
     <div>
         Время последнего обновления: <?= Yii::$app->formatter->asDatetime(IssuerEvent::getLastUpdateSessionDate(['_pid' => $model->_pid])) ?>
         <?php if (Yii::$app->user->can(UserRole::admin->value)): ?>

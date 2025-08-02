@@ -15,7 +15,7 @@ use src\Entity\Issuer\FinanceReport\ProfitLossReport\ProfitLossReport;
 use src\Entity\Issuer\TypeOfActivity\TypeOfActivity;
 use src\Entity\Issuer\UnreliableSupplier\UnreliableSupplier;
 use src\Entity\Share\Share;
-use src\Integration\Legat\Dto\commonIssuerInfo\LiquidationDto;
+use src\Integration\Legat\Dto\CommonIssuerInfo\LiquidationDto;
 use yii\db\ActiveQuery;
 
 /**

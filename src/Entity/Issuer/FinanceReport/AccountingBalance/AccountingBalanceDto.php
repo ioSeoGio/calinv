@@ -2,7 +2,7 @@
 
 namespace src\Entity\Issuer\FinanceReport\AccountingBalance;
 
-use src\Integration\Legat\Dto\commonIssuerInfo\FinanceReportAccountingBalanceDto;
+use src\Integration\Legat\Dto\CommonIssuerInfo\FinanceReportAccountingBalanceDto;
 
 class AccountingBalanceDto
 {

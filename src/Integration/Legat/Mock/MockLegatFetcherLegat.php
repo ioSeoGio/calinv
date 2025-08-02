@@ -4,18 +4,24 @@ namespace src\Integration\Legat\Mock;
 
 use src\Entity\Issuer\PayerIdentificationNumber;
 use src\Integration\Legat\CommonIssuerInfoFetcherInterface;
-use src\Integration\Legat\Dto\commonIssuerInfo\CommonIssuerInfoDto;
-use src\Integration\Legat\Dto\egrEventDto\LegatEgrEventsDto;
+use src\Integration\Legat\Dto\CommonIssuerInfo\CommonIssuerInfoDto;
+use src\Integration\Legat\Dto\EgrEventDto\LegatEgrEventsDto;
+use src\Integration\Legat\Dto\EmployeeAmount\EmployeeAmountDto;
 use src\Integration\Legat\Dto\FinanceReportAccountingBalanceDto;
 use src\Integration\Legat\Dto\FinanceReportCashFlowDto;
 use src\Integration\Legat\Dto\FinanceReportProfitLossDto;
+use src\Integration\Legat\EmployeeAmountFetcherInterface;
 use src\Integration\Legat\LegatEgrEventsFetcherInterface;
 use src\Integration\Legat\FinanceReportFetcherInterface;
 use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
 use Symfony\Component\Serializer\Normalizer\AbstractObjectNormalizer;
 use Symfony\Component\Serializer\SerializerInterface;
 
-class MockLegatFetcherLegat implements FinanceReportFetcherInterface, CommonIssuerInfoFetcherInterface, LegatEgrEventsFetcherInterface
+class MockLegatFetcherLegat implements
+    FinanceReportFetcherInterface,
+    CommonIssuerInfoFetcherInterface,
+    LegatEgrEventsFetcherInterface,
+    EmployeeAmountFetcherInterface
 {
     public function __construct(
         private SerializerInterface $serializer,
@@ -79,6 +85,19 @@ class MockLegatFetcherLegat implements FinanceReportFetcherInterface, CommonIssu
         return $this->serializer->deserialize(
             file_get_contents(__DIR__ . '/egr-events.json'),
             LegatEgrEventsDto::class,
+            'json',
+            [
+                AbstractObjectNormalizer::DISABLE_TYPE_ENFORCEMENT => true,
+                AbstractNormalizer::ALLOW_EXTRA_ATTRIBUTES => true,
+            ],
+        );
+    }
+
+    public function getEmployeeAmount(PayerIdentificationNumber $pid): EmployeeAmountDto
+    {
+        return $this->serializer->deserialize(
+            file_get_contents(__DIR__ . '/employee-amount.json'),
+            EmployeeAmountDto::class,
             'json',
             [
                 AbstractObjectNormalizer::DISABLE_TYPE_ENFORCEMENT => true,

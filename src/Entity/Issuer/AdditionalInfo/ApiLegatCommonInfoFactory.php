@@ -4,7 +4,7 @@ namespace src\Entity\Issuer\AdditionalInfo;
 
 use src\Entity\Issuer\AddressInfo\AddressInfo;
 use src\Entity\Issuer\Issuer;
-use src\Integration\Legat\Dto\commonIssuerInfo\CommonIssuerInfoDto;
+use src\Integration\Legat\Dto\CommonIssuerInfo\CommonIssuerInfoDto;
 use Yii;
 
 class ApiLegatCommonInfoFactory

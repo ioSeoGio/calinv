@@ -3,7 +3,7 @@
 namespace src\Integration\Legat;
 
 use src\Entity\Issuer\PayerIdentificationNumber;
-use src\Integration\Legat\Dto\commonIssuerInfo\CommonIssuerInfoDto;
+use src\Integration\Legat\Dto\CommonIssuerInfo\CommonIssuerInfoDto;
 
 interface CommonIssuerInfoFetcherInterface
 {

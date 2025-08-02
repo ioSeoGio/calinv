@@ -1,0 +1,32 @@
+{
+    "isMock": true,
+    "error": null,
+    "total": 5,
+    "employees": [
+        {
+            "strength": 2958,
+            "year": 2025,
+            "date": "2025-07-31"
+        },
+        {
+            "strength": 2846,
+            "year": 2024,
+            "date": "2024-12-31"
+        },
+        {
+            "strength": 2875,
+            "year": 2023,
+            "date": "2023-12-31"
+        },
+        {
+            "strength": 2801,
+            "year": 2022,
+            "date": "2022-12-31"
+        },
+        {
+            "strength": 2816,
+            "year": 2021,
+            "date": "2021-12-31"
+        }
+    ]
+}

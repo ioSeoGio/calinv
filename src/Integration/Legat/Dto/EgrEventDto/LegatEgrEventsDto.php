@@ -1,6 +1,6 @@
 <?php
 
-namespace src\Integration\Legat\Dto\egrEventDto;
+namespace src\Integration\Legat\Dto\EgrEventDto;
 
 use src\Integration\Egr\Event\EgrEventDto;
 use Symfony\Component\Serializer\Annotation\SerializedPath;

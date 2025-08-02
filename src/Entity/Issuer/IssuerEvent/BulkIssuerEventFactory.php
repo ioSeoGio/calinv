@@ -3,7 +3,7 @@
 namespace src\Entity\Issuer\IssuerEvent;
 
 use src\Entity\Issuer\PayerIdentificationNumber;
-use src\Integration\Legat\Dto\egrEventDto\LegatEgrEventDto;
+use src\Integration\Legat\Dto\EgrEventDto\LegatEgrEventDto;
 use src\Integration\Legat\LegatEgrEventsFetcherInterface;
 
 class BulkIssuerEventFactory

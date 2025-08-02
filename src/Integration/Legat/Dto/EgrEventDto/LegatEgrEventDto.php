@@ -1,6 +1,6 @@
 <?php
 
-namespace src\Integration\Legat\Dto\egrEventDto;
+namespace src\Integration\Legat\Dto\EgrEventDto;
 
 use Symfony\Component\Serializer\Annotation\SerializedPath;
 use Symfony\Component\Validator\Constraints as Assert;

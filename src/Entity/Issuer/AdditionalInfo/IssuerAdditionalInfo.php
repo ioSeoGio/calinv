@@ -4,8 +4,8 @@ namespace src\Entity\Issuer\AdditionalInfo;
 
 use lib\Database\ApiFetchedActiveRecord;
 use src\Entity\Issuer\Issuer;
-use src\Integration\Legat\Dto\commonIssuerInfo\CommonIssuerInfoDto;
-use src\Integration\Legat\Dto\commonIssuerInfo\RetailFacilityDto;
+use src\Integration\Legat\Dto\CommonIssuerInfo\CommonIssuerInfoDto;
+use src\Integration\Legat\Dto\CommonIssuerInfo\RetailFacilityDto;
 use yii\db\ActiveQuery;
 
 /**

@@ -3,17 +3,21 @@
 namespace app\controllers;
 
 use lib\BaseController;
+use src\Action\Issuer\EmployeeAmount\EmployeeAmountSearchForm;
 use src\Action\Issuer\Event\IssuerEventSearchForm;
 use src\Action\Issuer\IssuerCreateForm;
 use src\Action\Issuer\IssuerDescriptionEditForm;
 use src\Action\Issuer\IssuerSearchForm;
 use src\Entity\Issuer\AdditionalInfo\ApiLegatCommonInfoFactory;
 use src\Entity\Issuer\ApiIssuerInfoAndSharesFactory;
+use src\Entity\Issuer\EmployeeAmount\EmployeeAmountRecord;
+use src\Entity\Issuer\EmployeeAmount\EmployeeAmountRecordFactory;
 use src\Entity\Issuer\Issuer;
 use src\Entity\Issuer\IssuerEvent\BulkIssuerEventFactory;
 use src\Entity\Issuer\IssuerFactory;
 use src\Entity\Issuer\TypeOfActivity\ApiTypeOfActivityFactory;
 use src\Integration\Legat\CommonIssuerInfoFetcherInterface;
+use src\Integration\Legat\EmployeeAmountFetcherInterface;
 use Yii;
 use yii\bootstrap5\ActiveForm;
 use yii\filters\AccessControl;
@@ -32,6 +36,8 @@ class IssuerController extends BaseController
         private BulkIssuerEventFactory $bulkIssuerEventFactory,
         private ApiLegatCommonInfoFactory $apiLegatCommonInfoFactory,
         private CommonIssuerInfoFetcherInterface $commonIssuerInfoFetcher,
+        private EmployeeAmountFetcherInterface $employeeAmountFetcher,
+        private EmployeeAmountRecordFactory $employeeAmountRecordFactory,
 
         $config = []
     ) {
@@ -53,6 +59,7 @@ class IssuerController extends BaseController
                     'update-issuer-info',
                     'create',
                     'renew-legat-issuer-info',
+                    'renew-employee-amount',
                 ],
                 'rules' => [
                     [
@@ -66,6 +73,7 @@ class IssuerController extends BaseController
                             'update-issuer-info',
                             'create',
                             'renew-legat-issuer-info',
+                            'renew-employee-amount',
                         ],
                         'allow' => true,
                         'roles' => ['admin'],
@@ -88,6 +96,14 @@ class IssuerController extends BaseController
         ]);
     }
 
+    public function actionRenewEmployeeAmount($id): Response
+    {
+        $issuer = Issuer::getOneById($id);
+        $dto = $this->employeeAmountFetcher->getEmployeeAmount($issuer->pid);
+        $this->employeeAmountRecordFactory->createMany($issuer, $dto);
+
+        return $this->redirect(['issuer/view', 'id' => $issuer->id]);
+    }
 
     public function actionRenewLegatIssuerInfo($id): Response
     {
@@ -107,6 +123,9 @@ class IssuerController extends BaseController
         $eventDataProvider = $searchForm->search($issuer, Yii::$app->request->queryParams);
         $importantEventDataProvider = $searchForm->searchImportant($issuer);
 
+        $employeeSearchForm = new EmployeeAmountSearchForm();
+        $employeeAmountDataProvider = $employeeSearchForm->search($issuer, Yii::$app->request->queryParams);
+
         return $this->render('view', [
             'model' => $issuer,
 
@@ -114,6 +133,7 @@ class IssuerController extends BaseController
             'descriptionEditForm' => new IssuerDescriptionEditForm($issuer),
             'eventDataProvider' => $eventDataProvider,
             'importantEventDataProvider' => $importantEventDataProvider,
+            'employeeAmountDataProvider' => $employeeAmountDataProvider,
         ]);
     }
 
