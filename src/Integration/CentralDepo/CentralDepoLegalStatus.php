@@ -7,12 +7,14 @@ use src\Entity\Issuer\IssuerLegalStatus;
 enum CentralDepoLegalStatus: string
 {
     case active = 'Действующий';
+    case liquidation = 'В стадии ликвидации';
     case unknown = 'Неизвестный';
 
     public function toLegalStatus(): IssuerLegalStatus
     {
         return match ($this) {
             self::active => IssuerLegalStatus::active,
+            self::liquidation => IssuerLegalStatus::liquidation,
             default => IssuerLegalStatus::unknown,
         };
     }
@@ -21,6 +23,7 @@ enum CentralDepoLegalStatus: string
     {
         return match ($value) {
             self::active->value => self::active,
+            self::liquidation->value => self::liquidation,
             default => self::unknown,
         };
     }
