@@ -14,10 +14,7 @@ use src\Action\Issuer\IssuerSearchForm;
 use src\Entity\Issuer\Issuer;
 use src\Entity\User\UserRole;
 use src\IssuerRatingCalculator\CapitalizationByShareCalculator;
-use src\ViewHelper\Issuer\IssuerBankruptOrLiquidationIconPrinter;
-use src\ViewHelper\Issuer\IssuerStateIconsPrinter;
-use src\ViewHelper\Issuer\Share\IssuerShareFullnessStateIconPrinter;
-use src\ViewHelper\Issuer\Share\IssuerShareInfoModeratedIconPrinter;
+use src\ViewHelper\IssuerIcon\IssuerStateIconsPrinter;
 use yii\bootstrap5\ActiveForm;
 use yii\data\ActiveDataProvider;
 use yii\grid\GridView;
@@ -120,21 +117,21 @@ $this->title = 'Калькулятор эмитентов';
                 'label' => 'k1',
                 'format' => 'raw',
                 'value' => function (Issuer $model) {
-                    return \src\ViewHelper\K1ViewHelper::render($model);
+                    return \src\ViewHelper\IssuerCoefficient\K1ViewHelper::render($model);
                 }
             ],
             [
                 'label' => 'k2',
                 'format' => 'raw',
                 'value' => function (Issuer $model) {
-                    return \src\ViewHelper\K2ViewHelper::render($model);
+                    return \src\ViewHelper\IssuerCoefficient\K2ViewHelper::render($model);
                 }
             ],
             [
                 'label' => 'k3',
                 'format' => 'raw',
                 'value' => function (Issuer $model) {
-                    return \src\ViewHelper\K3ViewHelper::render($model);
+                    return \src\ViewHelper\IssuerCoefficient\K3ViewHelper::render($model);
                 }
             ],
             [

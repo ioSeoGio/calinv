@@ -68,7 +68,7 @@ $this->title = $model->name;
                 ,
                 'format' => 'raw',
                 'value' => function (Issuer $model) {
-                    return \src\ViewHelper\PEViewHelper::render($model);
+                    return \src\ViewHelper\IssuerCoefficient\PEViewHelper::render($model);
                 }
             ],
             [
@@ -77,7 +77,7 @@ $this->title = $model->name;
                 'description' => 'Коэффициент P/B был введён для того, чтобы инвесторам было проще оценивать разницу между рыночной и бухгалтерской оценкой.',
                 'format' => 'raw',
                 'value' => function (Issuer $model) {
-                    return \src\ViewHelper\PBViewHelper::render($model);
+                    return \src\ViewHelper\IssuerCoefficient\PBViewHelper::render($model);
                 }
             ],
             [
@@ -86,7 +86,7 @@ $this->title = $model->name;
                 'description' => 'Коэффициент текущей ликвидности',
                 'format' => 'raw',
                 'value' => function (Issuer $model) {
-                    return \src\ViewHelper\K1ViewHelper::render($model);
+                    return \src\ViewHelper\IssuerCoefficient\K1ViewHelper::render($model);
                 }
             ],
             [
@@ -95,7 +95,7 @@ $this->title = $model->name;
                 'link' => 'https://ilex.by/raschet-koeffitsientov-platezhesposobnosti/',
                 'format' => 'raw',
                 'value' => function (Issuer $model) {
-                    return \src\ViewHelper\K2ViewHelper::render($model);
+                    return \src\ViewHelper\IssuerCoefficient\K2ViewHelper::render($model);
                 }
             ],
             [
@@ -104,7 +104,7 @@ $this->title = $model->name;
                 'link' => 'https://ilex.by/raschet-koeffitsientov-platezhesposobnosti/',
                 'format' => 'raw',
                 'value' => function (Issuer $model) {
-                    return \src\ViewHelper\K3ViewHelper::render($model);
+                    return \src\ViewHelper\IssuerCoefficient\K3ViewHelper::render($model);
                 }
             ],
             [
@@ -114,7 +114,7 @@ $this->title = $model->name;
                         <br>ROE дает оценку тому, сколько рублей прибыли генерируется на каждый рубль акционерного капитала.',
                 'format' => 'raw',
                 'value' => function (Issuer $model) {
-                    return \src\ViewHelper\ROEViewHelper::render($model);
+                    return \src\ViewHelper\IssuerCoefficient\ROEViewHelper::render($model);
                 }
             ],
             [
@@ -124,7 +124,7 @@ $this->title = $model->name;
                         <br>Другими словами, этот показатель указывает на то, сколько денег компания заимствует от кредиторов (через облигации, кредиты и т. д.) по отношению к средствам, вложенным ею самой (через акции и другие формы собственного капитала).',
                 'format' => 'raw',
                 'value' => function (Issuer $model) {
-                    return \src\ViewHelper\DEViewHelper::render($model);
+                    return \src\ViewHelper\IssuerCoefficient\DEViewHelper::render($model);
                 }
             ],
             [
@@ -137,7 +137,7 @@ $this->title = $model->name;
                 ',
                 'format' => 'raw',
                 'value' => function (Issuer $model) {
-                    return \src\ViewHelper\POCFViewHelper::render($model);
+                    return \src\ViewHelper\IssuerCoefficient\POCFViewHelper::render($model);
                 }
             ],
             [
@@ -151,7 +151,7 @@ $this->title = $model->name;
                 ',
                 'format' => 'raw',
                 'value' => function (Issuer $model) {
-                    return \src\ViewHelper\POCFViewHelper::render($model);
+                    return \src\ViewHelper\IssuerCoefficient\POCFViewHelper::render($model);
                 }
             ],
             [
@@ -160,7 +160,7 @@ $this->title = $model->name;
                 'description' => 'Этот показатель позволяет получить представление о том, сколько вы заплатите за один рубль выручки компании',
                 'format' => 'raw',
                 'value' => function (Issuer $model) {
-                    return \src\ViewHelper\PSViewHelper::render($model);
+                    return \src\ViewHelper\IssuerCoefficient\PSViewHelper::render($model);
                 }
             ],
         ],

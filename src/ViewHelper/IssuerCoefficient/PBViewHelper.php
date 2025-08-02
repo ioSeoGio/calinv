@@ -1,6 +1,6 @@
 <?php
 
-namespace src\ViewHelper;
+namespace src\ViewHelper\IssuerCoefficient;
 
 use lib\FrontendHelper\GoodBadValueViewHelper;
 use src\Entity\Issuer\Issuer;

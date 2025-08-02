@@ -1,23 +1,23 @@
 <?php
 
-namespace src\ViewHelper;
+namespace src\ViewHelper\IssuerCoefficient;
 
 use lib\FrontendHelper\GoodBadValueViewHelper;
 use src\Entity\Issuer\Issuer;
-use src\IssuerRatingCalculator\PECalculator;
+use src\IssuerRatingCalculator\PSCalculator;
 
-class PEViewHelper
+class PSViewHelper
 {
     public static function render(Issuer $model): string
     {
         $result = '';
 
         foreach ($model->profitLossReports as $profitLossReport) {
-            $pe = PECalculator::calculate($model, $profitLossReport);
+            $value = PSCalculator::calculate($model, $profitLossReport);
 
             $result .= "$profitLossReport->_year: ";
-            $result .= $pe
-                ? GoodBadValueViewHelper::execute($pe, line: 10, moreBetter: false)
+            $result .= $value
+                ? GoodBadValueViewHelper::inRange($value, min: 0, max: 2)
                 : null;
             $result .= '<br>';
         }

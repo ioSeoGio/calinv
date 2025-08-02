@@ -1,6 +1,6 @@
 <?php
 
-namespace src\ViewHelper\Issuer;
+namespace src\ViewHelper\IssuerIcon;
 
 use lib\EnvGetter;
 use lib\FrontendHelper\Icon;

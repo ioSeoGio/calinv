@@ -17,7 +17,7 @@ use src\Entity\Issuer\EmployeeAmount\EmployeeAmountRecord;
 use src\Entity\Issuer\Issuer;
 use src\Entity\Issuer\IssuerEvent\IssuerEvent;
 use src\Entity\User\UserRole;
-use src\ViewHelper\Issuer\IssuerStateIconsPrinter;
+use src\ViewHelper\IssuerIcon\IssuerStateIconsPrinter;
 use yii\data\ActiveDataProvider;
 use yii\grid\GridView;
 use yii\helpers\Html;
@@ -103,18 +103,7 @@ $this->title = $model->name;
                     'attribute' => 'liquidatorPhone',
                     'format' => 'raw',
                     'value' => function (IssuerLiquidationInfo $model) {
-                        $phones = explode(',', $model->liquidatorPhone);
-
-                        if (is_array($phones)) {
-                            $result = '';
-                            foreach ($phones as $phone) {
-                                $result .= DetailViewCopyHelper::renderValue($phone);
-                            }
-                        } else {
-                            $result = DetailViewCopyHelper::renderValue($model->liquidatorPhone);
-                        }
-
-                        return $result;
+                        return \src\ViewHelper\IssuerPhonesViewHelper::render($model->liquidatorPhone);
                     }
                 ],
                 '_beginDate:date',
@@ -267,7 +256,13 @@ $this->title = $model->name;
         if ($model->addressInfo !== null) {
             $attributes = array_merge($attributes, [
                 'addressInfo.fullAddress',
-                'addressInfo.phones',
+                [
+                    'attribute' => 'addressInfo.phones',
+                    'format' => 'raw',
+                    'value' => function (Issuer $model) {
+                        return \src\ViewHelper\IssuerPhonesViewHelper::render($model->addressInfo->phones);
+                    }
+                ],
                 'addressInfo.email',
                 [
                     'attribute' => 'addressInfo.site',

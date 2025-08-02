@@ -1,23 +1,24 @@
 <?php
 
-namespace src\ViewHelper;
+namespace src\ViewHelper\IssuerCoefficient;
 
 use lib\FrontendHelper\GoodBadValueViewHelper;
 use src\Entity\Issuer\Issuer;
-use src\IssuerRatingCalculator\DECalculator;
+use src\IssuerRatingCalculator\K2Calculator;
 
-class DEViewHelper
+class K2ViewHelper
 {
     public static function render(Issuer $issuer): string
     {
         $result = '';
 
         foreach ($issuer->accountBalanceReports as $accountBalanceReport) {
-            $value = DECalculator::calculate($accountBalanceReport);
+            $value = K2Calculator::calculate($accountBalanceReport);
             $result .= "$accountBalanceReport->_year: ";
-            $result .= GoodBadValueViewHelper::execute($value, line: 1, moreBetter: false);
+            $result .= GoodBadValueViewHelper::execute($value, line: 0.15, moreBetter: true);
             $result .= '<br>';
         }
+
         return $result;
     }
 }
