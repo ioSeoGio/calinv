@@ -18,7 +18,7 @@ class IssuerBankruptOrLiquidationIconPrinter
             'span',
             Icon::print('bi bi-x-octagon-fill'),
             [
-                'class' => 'btn btn-sm btn-outline-danger m-1',
+                'class' => 'btn btn-sm btn-outline-danger me-1',
                 'title' => 'Эмитент банкрот/ликвидирован или находится в процессе ликвидации',
             ]
         );

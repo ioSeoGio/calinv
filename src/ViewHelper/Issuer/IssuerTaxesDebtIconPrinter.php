@@ -18,7 +18,7 @@ class IssuerTaxesDebtIconPrinter
             'span',
             Icon::print('bi bi-coin'),
             [
-                'class' => 'btn btn-sm btn-outline-danger m-1',
+                'class' => 'btn btn-sm btn-outline-danger me-1',
                 'title' => 'Эмитент имеет задолженности перед ФСЗН или МНС',
             ]
         );
