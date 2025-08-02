@@ -1,6 +1,6 @@
 <?php
 
-namespace src\Integration\FinanceReport\Dto;
+namespace src\Integration\Legat\Dto;
 
 use Symfony\Component\Serializer\Annotation\SerializedPath;
 use Symfony\Component\Validator\Constraints as Assert;

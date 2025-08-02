@@ -1,13 +1,13 @@
 <?php
 
-namespace src\Integration\FinanceReport\Legat;
+namespace src\Integration\Legat\Api;
 
 use lib\ApiIntegrator\HttpMethod;
 use src\Entity\Issuer\PayerIdentificationNumber;
-use src\Integration\FinanceReport\Dto\FinanceReportAccountingBalanceDto;
-use src\Integration\FinanceReport\Dto\FinanceReportCashFlowDto;
-use src\Integration\FinanceReport\Dto\FinanceReportProfitLossDto;
-use src\Integration\FinanceReport\FinanceReportFetcherInterface;
+use src\Integration\Legat\Dto\FinanceReportAccountingBalanceDto;
+use src\Integration\Legat\Dto\FinanceReportCashFlowDto;
+use src\Integration\Legat\Dto\FinanceReportProfitLossDto;
+use src\Integration\Legat\FinanceReportFetcherInterface;
 use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
 use Symfony\Component\Serializer\Normalizer\AbstractObjectNormalizer;
 use Symfony\Component\Serializer\SerializerInterface;
@@ -26,7 +26,9 @@ class LegatFinanceReportFetcher implements FinanceReportFetcherInterface
 
     public function getAccountingBalance(PayerIdentificationNumber $pid, \DateTimeImmutable $year): FinanceReportAccountingBalanceDto
     {
-        $response = $this->client->request(HttpMethod::GET, self::ACCOUNTING_BALANCE, $pid, $year);
+        $response = $this->client->request(HttpMethod::GET, self::ACCOUNTING_BALANCE, $pid, [
+            'year' => $year->format('Y'),
+        ]);
 
         return $this->serializer->deserialize(
             $response->getContent(),
@@ -41,7 +43,9 @@ class LegatFinanceReportFetcher implements FinanceReportFetcherInterface
 
     public function getProfitLoss(PayerIdentificationNumber $pid, \DateTimeImmutable $year): FinanceReportProfitLossDto
     {
-        $response = $this->client->request(HttpMethod::GET, self::PROFIT_LOSS, $pid, $year);
+        $response = $this->client->request(HttpMethod::GET, self::PROFIT_LOSS, $pid, [
+            'year' => $year->format('Y'),
+        ]);
 
         return $this->serializer->deserialize(
             $response->getContent(),
@@ -56,7 +60,9 @@ class LegatFinanceReportFetcher implements FinanceReportFetcherInterface
 
     public function getCashFlowReport(PayerIdentificationNumber $pid, \DateTimeImmutable $year): FinanceReportCashFlowDto
     {
-        $response = $this->client->request(HttpMethod::GET, self::TRAFFIC, $pid, $year);
+        $response = $this->client->request(HttpMethod::GET, self::TRAFFIC, $pid, [
+            'year' => $year->format('Y'),
+        ]);
 
         return $this->serializer->deserialize(
             $response->getContent(),

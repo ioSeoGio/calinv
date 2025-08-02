@@ -14,6 +14,7 @@ use src\Action\Issuer\IssuerSearchForm;
 use src\Entity\Issuer\Issuer;
 use src\Entity\User\UserRole;
 use src\IssuerRatingCalculator\CapitalizationByShareCalculator;
+use src\ViewHelper\Issuer\IssuerBankruptOrLiquidationIconPrinter;
 use src\ViewHelper\Issuer\Share\IssuerShareFullnessStateIconPrinter;
 use src\ViewHelper\Issuer\Share\IssuerShareInfoModeratedIconPrinter;
 use yii\bootstrap5\ActiveForm;
@@ -69,7 +70,8 @@ $this->title = 'Калькулятор эмитентов';
                 'format' => 'raw',
                 'value' => function (Issuer $model) {
                     return
-                        IssuerShareFullnessStateIconPrinter::print($model)
+                        IssuerBankruptOrLiquidationIconPrinter::print($model)
+                        . IssuerShareFullnessStateIconPrinter::print($model)
                         . IssuerShareInfoModeratedIconPrinter::print($model)
                         . Html::a($model->name, ['/issuer/view', 'id' => $model->id]);
                 }

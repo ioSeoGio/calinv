@@ -2,7 +2,7 @@
 
 namespace src\Entity\Issuer\FinanceReport\ProfitLossReport;
 
-use src\Integration\FinanceReport\Dto\FinanceReportProfitLossDto;
+use src\Integration\Legat\Dto\FinanceReportProfitLossDto;
 
 class ProfitLossReportDto
 {

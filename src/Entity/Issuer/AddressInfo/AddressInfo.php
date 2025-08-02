@@ -15,15 +15,6 @@ use yii\db\ActiveRecord;
  *
  * @property string $fullAddress;
  *
- * @property string $country;
- * @property string $settlementType;
- * @property string $settlementName;
- * @property ?string $placeType;
- * @property string $placeName;
- * @property string $houseNumber;
- * @property string $roomType;
- * @property string $roomNumber;
- *
  * @property ?string $email;
  * @property ?string $site;
  * @property ?string $phones;
@@ -48,29 +39,15 @@ class AddressInfo extends ApiFetchedActiveRecord
 
     public static function createOrUpdate(
         PayerIdentificationNumber $pid,
-        string $country,
-        string $settlementType,
-        string $settlementName,
-        string $placeType,
-        string $placeName,
-        string $houseNumber,
-        ?string $roomType,
-        ?string $roomNumber,
-        ?string $email,
-        ?string $site,
+        string $fullAddress,
         ?string $phoneNumbers,
+        ?string $email = null,
+        ?string $site = null,
     ): self {
-        $self = self::findOne(['_pid' => $pid->id]) ?:  new self();
+        $self = self::findOne(['_pid' => $pid->id]) ?: new self();
 
         $self->_pid = $pid->id;
-        $self->country = $country;
-        $self->settlementType = $settlementType;
-        $self->settlementName = $settlementName;
-        $self->placeType = $placeType;
-        $self->placeName = $placeName;
-        $self->houseNumber = $houseNumber;
-        $self->roomType = $roomType;
-        $self->roomNumber = $roomNumber;
+        $self->fullAddress = $fullAddress;
         $self->email = $email;
         $self->site = $site;
         $self->phones = $phoneNumbers;
@@ -80,17 +57,25 @@ class AddressInfo extends ApiFetchedActiveRecord
         return $self;
     }
 
-    public function getFullAddress(): string
-    {
-        return implode(' ', [
-            $this->settlementType,
-            $this->settlementName,
-            $this->placeType,
-            $this->placeName,
-            $this->houseNumber,
-            $this->roomType,
-            $this->roomNumber
-        ]);
+    public function updateFields(
+        string $fullAddress,
+        ?string $phoneNumbers,
+        ?string $email,
+        ?string $site,
+    ): self {
+        $this->fullAddress = $fullAddress;
+        $this->site = $site;
+        $this->email = $email;
+
+        if ($this->phones === null) {
+            $this->phones = $phoneNumbers;
+        } elseif ($phoneNumbers !== null && !str_contains($this->phones, $phoneNumbers)) {
+            $this->phones = $this->phones !== null
+                ? $this->phones . ' ' . $phoneNumbers
+                : $phoneNumbers;
+        }
+
+        return $this;
     }
 
     public static function findByPid(PayerIdentificationNumber $pid): ?self

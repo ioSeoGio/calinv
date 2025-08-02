@@ -8,7 +8,7 @@ use src\Entity\DataTypeEnum;
 use src\Entity\DataTypeTrait;
 use src\Entity\Issuer\FinanceTermType;
 use src\Entity\Issuer\Issuer;
-use src\Integration\FinanceReport\Dto\FinanceReportCashFlowDto;
+use src\Integration\Legat\Dto\FinanceReportCashFlowDto;
 use yii\db\ActiveQuery;
 
 /**

@@ -1,12 +1,11 @@
 <?php
 
-namespace src\Integration\FinanceReport;
+namespace src\Integration\Legat;
 
-use src\Entity\Issuer\FinanceReport\CashFlowReport\CashFlowReport;
 use src\Entity\Issuer\PayerIdentificationNumber;
-use src\Integration\FinanceReport\Dto\FinanceReportAccountingBalanceDto;
-use src\Integration\FinanceReport\Dto\FinanceReportCashFlowDto;
-use src\Integration\FinanceReport\Dto\FinanceReportProfitLossDto;
+use src\Integration\Legat\Dto\FinanceReportAccountingBalanceDto;
+use src\Integration\Legat\Dto\FinanceReportCashFlowDto;
+use src\Integration\Legat\Dto\FinanceReportProfitLossDto;
 
 interface FinanceReportFetcherInterface
 {

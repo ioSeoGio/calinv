@@ -10,7 +10,7 @@ use yii\helpers\Url;
 <?= $form->field($model, $field)->widget(\vova07\imperavi\Widget::class, [
     'settings' => [
         'lang' => 'ru',
-        'minHeight' => 200,
+        'minHeight' => 100,
 
 //        'imageUpload' => Url::to(['/admin/widget-image/image-upload']),
 //        'imageDelete' => Url::to(['/admin/widget-image/image-delete']),

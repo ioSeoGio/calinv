@@ -37,4 +37,15 @@ class DetailViewCopyHelper
             'successText' => $formattedValue . ' <i class="bi bi-check2-all"></i>',
         ]);
     }
+
+    public static function renderValue(mixed $value): string
+    {
+        return ClipboardJsWidget::widget([
+            'text' => $value,
+            'tag' => 'span',
+            'htmlOptions' => ['class' => 'btn btn-m btn-default', 'type' => 'span', 'title' => ''],
+            'label' => $value,
+            'successText' => $value . ' <i class="bi bi-check2-all"></i>',
+        ]);
+    }
 }

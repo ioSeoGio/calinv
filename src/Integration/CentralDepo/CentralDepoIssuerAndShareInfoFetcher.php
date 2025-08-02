@@ -78,10 +78,10 @@ class CentralDepoIssuerAndShareInfoFetcher
             issuerCode: $generalInfoTable->childNodes(2)->childNodes(1)->innertext(),
             pid: $generalInfoTable->childNodes(3)->childNodes(1)->innertext(),
             address: $generalInfoTable->childNodes(4)->childNodes(1)->innertext(),
-            phone: $generalInfoTable->childNodes(5)->childNodes(1)->innertext(),
             depo: $generalInfoTable->childNodes(6)->childNodes(1)->innertext(),
             authorizedCapital: $generalInfoTable->childNodes(7)->childNodes(1)->innertext(),
             legalStatus: CentralDepoLegalStatus::makeFrom($generalInfoTable->childNodes(8)->childNodes(1)->innertext())->toLegalStatus(),
+            phone: $generalInfoTable->childNodes(5)->childNodes(1)->innertext(),
             shareDtos: $shareDtos,
         );
         $this->validator->validate($dto);

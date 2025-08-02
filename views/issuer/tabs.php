@@ -16,18 +16,18 @@ $url = Url::current();
         ],
         [
             'label' => 'Рейтинг деловой репутации BIK',
-            'url' => ['/issuer/business-rating'],
-            'active' => str_contains($url, '/issuer/business-rating'),
+            'url' => ['/issuer-rating/business-rating'],
+            'active' => str_contains($url, '/issuer-rating/business-rating'),
         ],
         [
             'label' => 'ESG рейтинг BIK',
-            'url' => ['/issuer/esg-rating'],
-            'active' => str_contains($url, '/issuer/esg-rating'),
+            'url' => ['/issuer-rating/esg-rating'],
+            'active' => str_contains($url, '/issuer-rating/esg-rating'),
         ],
         [
             'label' => 'Реестр недобросовестных поставщиков',
-            'url' => ['/issuer/unreliable-supplier'],
-            'active' => str_contains($url, '/issuer/unreliable-supplier'),
+            'url' => ['/issuer-rating/unreliable-supplier'],
+            'active' => str_contains($url, '/issuer-rating/unreliable-supplier'),
         ],
     ]
 ]) ?>

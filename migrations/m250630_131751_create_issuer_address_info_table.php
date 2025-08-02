@@ -11,15 +11,7 @@ class m250630_131751_create_issuer_address_info_table extends Migration
 
             '_pid' => $this->string()->notNull(),
 
-            'country' => $this->string()->notNull(),
-            'settlementType' => $this->string()->notNull(),
-            'settlementName' => $this->string()->notNull(),
-            'placeType' => $this->string()->notNull(),
-            'placeName' => $this->string()->notNull(),
-            'houseNumber' => $this->string()->notNull(),
-            'roomType' => $this->string()->null(),
-            'roomNumber' => $this->string()->null(),
-
+            'fullAddress' => $this->string()->notNull(),
             'email' => $this->string()->null(),
             'site' => $this->string()->null(),
             'phones' => $this->string()->null(),

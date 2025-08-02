@@ -6,7 +6,7 @@ namespace lib;
 
 final class UrlGenerator
 {
-    public function addProtocolIfNeeded(string $url): string
+    public static function addProtocolIfNeeded(string $url): string
     {
         $hostWithoutProtocol = !preg_match('~http(s)?://~', $url);
         return $hostWithoutProtocol ? 'https://' . $url : $url;

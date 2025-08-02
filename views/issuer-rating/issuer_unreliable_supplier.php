@@ -13,7 +13,7 @@ use yii\helpers\Html;
 
 $this->title = 'Недобросовестные поставщики';
 ?>
-<?= $this->render('tabs', []); ?>
+<?= $this->render('@views/issuer/tabs', []); ?>
 <?php if (Yii::$app->user->can(UserRole::admin->value)) : ?>
 <div>
     Время последнего обновления: <?= Yii::$app->formatter->asDatetime(UnreliableSupplier::getLastUpdateSessionDate()) ?>

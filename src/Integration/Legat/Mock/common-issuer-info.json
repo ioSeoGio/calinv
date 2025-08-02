@@ -1,0 +1,147 @@
+{
+    "error": null,
+    "details": {
+        "type": 1,
+        "unp": "200050520",
+        "short": "СП ОАО \"Брестгазоаппарат\"",
+        "full": "Белорусско-российское совместное предприятие \"Брестгазоаппарат\" открытое акционерное общество",
+        "address": "Брестская обл.,г. Брест,ул. Орджоникидзе, д.22",
+        "insp_code": 233,
+        "insp_name": "Инспекция МНС по Московскому району г.Бреста ",
+        "fund": [
+            {
+                "unpf": "151000330",
+                "type": 1,
+                "fund_code": 151,
+                "fund_name": "Ленинский районный отдел ФСЗН г.Бреста",
+                "fund_date": "1992-01-10"
+            }
+        ],
+        "add_date": "1994-01-11",
+        "status_mns": "Действующий",
+        "del_date": "0000-00-00",
+        "del_date_egr": "0000-00-00",
+        "likv": "",
+        "status_id": 1,
+        "date_reg": "1991-04-24",
+        "reg_name": "Брестский областной исполнительный комитет",
+        "alienation": false,
+        "status_egr": "Действующий",
+        "status_egr_id": 1,
+        "okpo": null,
+        "organization": null,
+        "post_code": "224016",
+        "transformation": null
+    },
+    "courts": {
+        "claimant": 5,
+        "debtor": null
+    },
+    "actional": {
+        "ist": 46,
+        "otv": 2,
+        "dr": 15
+    },
+    "agreements": {
+        "supplier": 13,
+        "customer": 1567,
+        "other": 32
+    },
+    "contracts": {
+        "provider": 13,
+        "client": null
+    },
+    "zakupki": {
+        "declared": null,
+        "results": null,
+        "end": null
+    },
+    "sales": [
+        {
+            "objects": "Объект общественного питания",
+            "object_id": 2,
+            "count": 3
+        },
+        {
+            "objects": "Розничный торговый объект",
+            "object_id": 8,
+            "count": 2
+        }
+    ],
+    "consumer": {
+        "obo": null,
+        "sbo": null
+    },
+    "kgk": {
+        "plan": null,
+        "end": 34
+    },
+    "bankrupt": {
+        "status": 0,
+        "file_status": null
+    },
+    "liquidation": null,
+    "debt": null,
+    "fszn": null,
+    "ngb": null,
+    "nbrb": {
+        "principal": 4,
+        "beneficiary": 72
+    },
+    "finance": {
+        "year": 2024,
+        "proceeds": 378074,
+        "profit_all": 33550
+    },
+    "tenant": null,
+    "unscrupulous": null,
+    "sez": null,
+    "lic": {
+        "license": 6,
+        "permission": null
+    },
+    "att": 1,
+    "beltpp": {
+        "director": "Кузьминчук Виктор Александрович, генеральный директор",
+        "tel": "+375 162 276-677",
+        "fax": "",
+        "email": "brest@gefest.org",
+        "site": "www.gefest.com,                                                                                 www.gefest.by"
+    },
+    "cert": [
+        {
+            "type_id": 1,
+            "description": "Сертификаты соответствия ТР ЕАЭС",
+            "count": 66
+        },
+        {
+            "type_id": 2,
+            "description": "Декларации о соответствии ТР ЕАЭС",
+            "count": 36
+        },
+        {
+            "type_id": 3,
+            "description": "Сертификаты соответствия по единой форме ЕАЭС",
+            "count": 5
+        },
+        {
+            "type_id": 7,
+            "description": "Сертификаты соответствия",
+            "count": 109
+        },
+        {
+            "type_id": 8,
+            "description": "Декларации о соответствии",
+            "count": 25
+        },
+        {
+            "type_id": 9,
+            "description": "Сертификаты компетентности",
+            "count": 2
+        }
+    ],
+    "signs": 7,
+    "foreign_branch_rf": 0,
+    "industrial_products": 0,
+    "soft_registry": 0
+}

@@ -25,14 +25,9 @@ class EgrEventFetcher
         /** @var EgrEventDto $dto */
         foreach ($dtos as $dto) {
             $issuerEvent = IssuerEvent::createOrUpdate(
-                externalId: $dto->id,
                 pid: new PayerIdentificationNumber($dto->pid),
-                eventDate: new \DateTimeImmutable($dto->dateFrom),
-                eventCancelDate: $dto->dateTo ? new \DateTimeImmutable($dto->dateTo) : null,
-                currentAccountingAgency: $dto->currentAccountingAgency,
-                decideAccountingAgency: $dto->decideAccountingAgency,
-                reason: $dto->reason,
                 eventName: $dto->eventName ?: '-',
+                eventDate: new \DateTimeImmutable($dto->dateFrom),
             );
             $issuerEvent->save();
         }

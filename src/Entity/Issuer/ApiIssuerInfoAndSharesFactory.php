@@ -3,10 +3,10 @@
 namespace src\Entity\Issuer;
 
 use lib\Logger\ApplicationLogger;
+use src\Entity\Issuer\AddressInfo\AddressInfo;
 use src\Entity\Issuer\Helper\FullnessStateChecker;
 use src\Entity\Share\ShareFactory;
 use src\Integration\CentralDepo\CentralDepoIssuerAndShareInfoFetcher;
-use Yii;
 
 class ApiIssuerInfoAndSharesFactory
 {
@@ -24,6 +24,12 @@ class ApiIssuerInfoAndSharesFactory
                 name: $dto->shortName,
                 legalStatus: $dto->legalStatus,
             );
+            $addressInfo = AddressInfo::createOrUpdate(
+                pid: $issuer->pid,
+                fullAddress: $dto->address,
+                phoneNumbers: $dto->phone,
+            );
+            $addressInfo->save();
 
             foreach ($dto->shareDtos as $shareDto) {
                 $this->shareFactory->create($shareDto, $issuer);

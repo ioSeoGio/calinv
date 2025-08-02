@@ -2,7 +2,7 @@
 
 namespace src\Entity\Issuer\FinanceReport\CashFlowReport;
 
-use src\Integration\FinanceReport\Dto\FinanceReportCashFlowDto;
+use src\Integration\Legat\Dto\FinanceReportCashFlowDto;
 
 class CashFlowReportDto
 {

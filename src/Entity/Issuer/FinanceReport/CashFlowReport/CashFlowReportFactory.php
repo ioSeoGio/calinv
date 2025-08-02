@@ -6,7 +6,7 @@ use DateInterval;
 use DateTimeImmutable;
 use src\Entity\DataTypeEnum;
 use src\Entity\Issuer\Issuer;
-use src\Integration\FinanceReport\FinanceReportFetcherInterface;
+use src\Integration\Legat\FinanceReportFetcherInterface;
 
 class CashFlowReportFactory
 {

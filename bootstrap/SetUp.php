@@ -7,9 +7,13 @@ use lib\ApiIntegrator\BaseHttpClient;
 use lib\EnvGetter;
 use lib\Serializer\EnumDenormalizer;
 use Psr\Log\LoggerInterface;
-use src\Integration\FinanceReport\FinanceReportFetcherInterface;
-use src\Integration\FinanceReport\Legat\LegatFinanceReportFetcher;
-use src\Integration\FinanceReport\Mock\MockFinanceReportFetcher;
+use src\Integration\Legat\Api\LegatCommonIssuerInfoFetcher;
+use src\Integration\Legat\Api\LegatLegatEgrEventFetcher;
+use src\Integration\Legat\CommonIssuerInfoFetcherInterface;
+use src\Integration\Legat\LegatEgrEventsFetcherInterface;
+use src\Integration\Legat\FinanceReportFetcherInterface;
+use src\Integration\Legat\Api\LegatFinanceReportFetcher;
+use src\Integration\Legat\Mock\MockLegatFetcherLegat;
 use Symfony\Component\HttpClient\CurlHttpClient;
 use Symfony\Component\HttpClient\RetryableHttpClient;
 use Symfony\Component\PropertyAccess\PropertyAccessor;
@@ -102,9 +106,21 @@ class SetUp implements BootstrapInterface
         });
 
         $container->setSingleton(FinanceReportFetcherInterface::class, function () use ($container) {
-            return EnvGetter::getBool('FINANCE_REPORT_TEST_MODE', true)
-                ? $container->get(MockFinanceReportFetcher::class)
+            return EnvGetter::getBool('LEGAT_TEST_MODE', true)
+                ? $container->get(MockLegatFetcherLegat::class)
                 : $container->get(LegatFinanceReportFetcher::class);
+        });
+
+        $container->setSingleton(CommonIssuerInfoFetcherInterface::class, function () use ($container) {
+            return EnvGetter::getBool('LEGAT_TEST_MODE', true)
+                ? $container->get(MockLegatFetcherLegat::class)
+                : $container->get(LegatCommonIssuerInfoFetcher::class);
+        });
+
+        $container->setSingleton(LegatEgrEventsFetcherInterface::class, function () use ($container) {
+            return EnvGetter::getBool('LEGAT_TEST_MODE', true)
+                ? $container->get(MockLegatFetcherLegat::class)
+                : $container->get(LegatLegatEgrEventFetcher::class);
         });
     }
 }

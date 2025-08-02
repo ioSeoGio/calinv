@@ -8,7 +8,6 @@ use src\Entity\DataTypeEnum;
 use src\Entity\DataTypeTrait;
 use src\Entity\Issuer\FinanceTermType;
 use src\Entity\Issuer\Issuer;
-use src\Integration\FinanceReport\Dto\FinanceReportAccountingBalanceDto;
 use yii\db\ActiveQuery;
 
 /**

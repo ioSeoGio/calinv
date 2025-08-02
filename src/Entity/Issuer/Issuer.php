@@ -4,6 +4,8 @@ namespace src\Entity\Issuer;
 
 use DateTimeImmutable;
 use lib\Database\ApiFetchedActiveRecord;
+use src\Entity\Issuer\AdditionalInfo\IssuerAdditionalInfo;
+use src\Entity\Issuer\AdditionalInfo\IssuerLiquidationInfo;
 use src\Entity\Issuer\AddressInfo\AddressInfo;
 use src\Entity\Issuer\BusinessReputationRating\BusinessReputationInfo;
 use src\Entity\Issuer\EsgRating\EsgRatingInfo;
@@ -13,6 +15,7 @@ use src\Entity\Issuer\FinanceReport\ProfitLossReport\ProfitLossReport;
 use src\Entity\Issuer\TypeOfActivity\TypeOfActivity;
 use src\Entity\Issuer\UnreliableSupplier\UnreliableSupplier;
 use src\Entity\Share\Share;
+use src\Integration\Legat\Dto\commonIssuerInfo\LiquidationDto;
 use yii\db\ActiveQuery;
 
 /**
@@ -30,6 +33,8 @@ use yii\db\ActiveQuery;
  * @property ProfitLossReport[] $profitLossReports Отчеты о прибылях и убытках
  * @property AccountingBalance[] $accountBalanceReports Бухгалтерские отчеты
  * @property CashFlowReport[] $cashFlowReports Отчеты о движении денежных средств
+ * @property ?IssuerAdditionalInfo $additionalInfo Дополнительные данные
+ * @property ?IssuerLiquidationInfo $liquidationInfo Сведения о ликвидации
  *
  * @property string[] $fullnessState
  *
@@ -202,5 +207,15 @@ class Issuer extends ApiFetchedActiveRecord
         return BusinessReputationInfo::find()
             ->orWhere(['issuerName' => $this->name])
             ->orWhere(['_pid' => $this->_pid]);
+    }
+
+    public function getAdditionalInfo(): ActiveQuery
+    {
+        return $this->hasOne(IssuerAdditionalInfo::class, ['issuerId' => 'id']);
+    }
+
+    public function getLiquidationInfo(): ActiveQuery
+    {
+        return $this->hasOne(IssuerLiquidationInfo::class, ['issuerId' => 'id']);
     }
 }

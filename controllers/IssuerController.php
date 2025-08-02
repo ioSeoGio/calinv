@@ -7,18 +7,13 @@ use src\Action\Issuer\Event\IssuerEventSearchForm;
 use src\Action\Issuer\IssuerCreateForm;
 use src\Action\Issuer\IssuerDescriptionEditForm;
 use src\Action\Issuer\IssuerSearchForm;
-use src\Action\Issuer\Rating\BusinessReputationInfoSearch;
-use src\Action\Issuer\Rating\EsgRatingInfoSearch;
-use src\Action\Issuer\UnreliableSupplier\UnreliableSupplierSearchForm;
-use src\Entity\Issuer\AddressInfo\ApiAddressInfoFactory;
+use src\Entity\Issuer\AdditionalInfo\ApiLegatCommonInfoFactory;
 use src\Entity\Issuer\ApiIssuerInfoAndSharesFactory;
 use src\Entity\Issuer\Issuer;
+use src\Entity\Issuer\IssuerEvent\BulkIssuerEventFactory;
 use src\Entity\Issuer\IssuerFactory;
 use src\Entity\Issuer\TypeOfActivity\ApiTypeOfActivityFactory;
-use src\Integration\Bik\BusinessReputation\BusinessReputationRatingFetcher;
-use src\Integration\Bik\EsgRating\EsgRatingFetcher;
-use src\Integration\Egr\Event\EgrEventFetcher;
-use src\Integration\Gias\UnreliableSupplier\GiasUnreliableSupplierFetcher;
+use src\Integration\Legat\CommonIssuerInfoFetcherInterface;
 use Yii;
 use yii\bootstrap5\ActiveForm;
 use yii\filters\AccessControl;
@@ -32,13 +27,11 @@ class IssuerController extends BaseController
         $id,
         $module,
         private IssuerFactory $factory,
-        private BusinessReputationRatingFetcher $businessReputationRatingFetcher,
-        private EsgRatingFetcher $esgRatingFetcher,
-        private EgrEventFetcher $egrEventFetcher,
-        private GiasUnreliableSupplierFetcher $giasUnreliableSupplierFetcher,
-        private ApiAddressInfoFactory $apiAddressInfoFactory,
         private ApiTypeOfActivityFactory $apiTypeOfActivityFactory,
         private ApiIssuerInfoAndSharesFactory $apiIssuerInfoAndSharesFactory,
+        private BulkIssuerEventFactory $bulkIssuerEventFactory,
+        private ApiLegatCommonInfoFactory $apiLegatCommonInfoFactory,
+        private CommonIssuerInfoFetcherInterface $commonIssuerInfoFetcher,
 
         $config = []
     ) {
@@ -55,11 +48,11 @@ class IssuerController extends BaseController
                     'renew-esg-rating',
                     'renew-issuer-events',
                     'renew-unreliable-supplier',
-                    'renew-address',
                     'renew-type-of-activity',
                     'edit-description',
                     'update-issuer-info',
                     'create',
+                    'renew-legat-issuer-info',
                 ],
                 'rules' => [
                     [
@@ -68,11 +61,11 @@ class IssuerController extends BaseController
                             'renew-esg-rating',
                             'renew-issuer-events',
                             'renew-unreliable-supplier',
-                            'renew-address',
                             'renew-type-of-activity',
                             'edit-description',
                             'update-issuer-info',
                             'create',
+                            'renew-legat-issuer-info',
                         ],
                         'allow' => true,
                         'roles' => ['admin'],
@@ -95,41 +88,16 @@ class IssuerController extends BaseController
         ]);
     }
 
-    public function actionBusinessRating(): string
-    {
-        $searchForm = new BusinessReputationInfoSearch();
-        $dataProvider = $searchForm->search(Yii::$app->request->queryParams);
 
-        return $this->render('issuer_business_rating', [
-            'searchForm' => $searchForm,
-            'dataProvider' => $dataProvider,
-        ]);
+    public function actionRenewLegatIssuerInfo($id): Response
+    {
+        $issuer = Issuer::getOneById($id);
+        $dto = $this->commonIssuerInfoFetcher->getCommonInfo($issuer->getPid());
+        $this->apiLegatCommonInfoFactory->update($issuer, $dto);
+
+        return $this->redirect(['issuer/view', 'id' => $issuer->id]);
     }
 
-    public function actionRenewBusinessRating(): Response
-    {
-        $this->businessReputationRatingFetcher->updateRatings();
-
-        return $this->redirect(['/issuer/business-rating']);
-    }
-
-    public function actionEsgRating(): string
-    {
-        $searchForm = new EsgRatingInfoSearch();
-        $dataProvider = $searchForm->search(Yii::$app->request->queryParams);
-
-        return $this->render('issuer_esg_rating', [
-            'searchForm' => $searchForm,
-            'dataProvider' => $dataProvider,
-        ]);
-    }
-
-    public function actionRenewEsgRating(): Response
-    {
-        $this->esgRatingFetcher->updateRatings();
-
-        return $this->redirect(['/issuer/esg-rating']);
-    }
 
     public function actionView($id): string
     {
@@ -152,34 +120,9 @@ class IssuerController extends BaseController
     public function actionRenewIssuerEvents($id): Response
     {
         $issuer = Issuer::getOneById($id);
-        $this->egrEventFetcher->update($issuer->pid);
+        $this->bulkIssuerEventFactory->update($issuer->pid);
 
         return $this->redirect(['issuer/view', 'id' => $issuer->id]);
-    }
-
-    public function actionUnreliableSupplier(): string
-    {
-        $searchForm = new UnreliableSupplierSearchForm();
-        $dataProvider = $searchForm->search(Yii::$app->request->queryParams);
-
-        return $this->render('issuer_unreliable_supplier', [
-            'searchForm' => $searchForm,
-            'dataProvider' => $dataProvider,
-        ]);
-    }
-
-    public function actionRenewUnreliableSupplier(): Response
-    {
-        $this->giasUnreliableSupplierFetcher->update();
-
-        return $this->redirect(['issuer/unreliable-supplier']);
-    }
-
-    public function actionRenewAddress($id): Response
-    {
-        $this->apiAddressInfoFactory->createOrUpdate(Issuer::getOneById($id));
-
-        return $this->redirect(['issuer/view', 'id' => $id]);
     }
 
     public function actionRenewTypeOfActivity($id): Response
