@@ -36,6 +36,9 @@ $this->title = 'Отчет о прибылях и убытках ' . $model->nam
 <div class="issuer-view">
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
+        'pager' => [
+            'class' => \yii\bootstrap5\LinkPager::class,
+        ],
         'columns' => [
             '_year',
             [

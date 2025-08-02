@@ -25,6 +25,9 @@ $queryParamUserId = Yii::$app->request->queryParams['userId'] ?? null;
 } ?>
 <?= $sharesContent = GridView::widget([
     'dataProvider' => $personalShareDataProvider,
+    'pager' => [
+        'class' => \yii\bootstrap5\LinkPager::class,
+    ],
 //    'filterModel' => $personalShareSearchForm,
     'columns' => [
         [

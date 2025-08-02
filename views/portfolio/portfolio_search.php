@@ -16,6 +16,9 @@ $this->title = 'Поиск по портфелям';
 <div class="profiles-portfolio-search">
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
+        'pager' => [
+            'class' => \yii\bootstrap5\LinkPager::class,
+        ],
         'filterModel' => $searchModel,
         'columns' => [
             [

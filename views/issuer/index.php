@@ -63,6 +63,9 @@ $this->title = 'Калькулятор эмитентов';
 
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
+        'pager' => [
+            'class' => \yii\bootstrap5\LinkPager::class,
+        ],
         'filterModel' => $searchForm,
         'columns' => [
             [

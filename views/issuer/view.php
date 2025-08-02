@@ -36,6 +36,9 @@ $this->title = $model->name;
 <div class="issuer-view">
     <?= GridView::widget([
         'dataProvider' => $importantEventDataProvider,
+        'pager' => [
+            'class' => \yii\bootstrap5\LinkPager::class,
+        ],
         'columns' => [
             [
                 'label' => 'Важное событие за последние 2 года',
@@ -426,6 +429,9 @@ $this->title = $model->name;
     </div>
     <?= GridView::widget([
         'dataProvider' => $employeeAmountDataProvider,
+        'pager' => [
+            'class' => \yii\bootstrap5\LinkPager::class,
+        ],
         'columns' => [
             'amount',
             '_date:date',
@@ -444,6 +450,9 @@ $this->title = $model->name;
 
     <?= GridView::widget([
         'dataProvider' => $eventDataProvider,
+        'pager' => [
+            'class' => \yii\bootstrap5\LinkPager::class,
+        ],
         'filterModel' => $searchForm,
         'columns' => [
             'eventName',

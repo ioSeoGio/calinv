@@ -36,6 +36,9 @@ $this->title = 'Отчет о движении денежных средств (
 <div class="issuer-view">
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
+        'pager' => [
+            'class' => \yii\bootstrap5\LinkPager::class,
+        ],
         'columns' => [
             '_year',
             [

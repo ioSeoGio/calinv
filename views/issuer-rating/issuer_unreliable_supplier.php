@@ -25,6 +25,9 @@ $this->title = 'Недобросовестные поставщики';
 <div class="unreliable-supplier-index">
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
+        'pager' => [
+            'class' => \yii\bootstrap5\LinkPager::class,
+        ],
         'filterModel' => $searchForm,
         'columns' => [
             '_pid',

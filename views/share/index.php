@@ -21,6 +21,9 @@ use yii\helpers\ArrayHelper;
 <?= $this->render('../_parts/_tabs', []); ?>
 <?= $sharesContent = GridView::widget([
     'dataProvider' => $shareDataProvider,
+    'pager' => [
+        'class' => \yii\bootstrap5\LinkPager::class,
+    ],
     'filterModel' => $shareSearchForm,
     'columns' => [
         [

@@ -38,6 +38,9 @@ $this->title = 'Бухгалтерский баланс ' . $model->name;
 <div class="issuer-view">
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
+        'pager' => [
+            'class' => \yii\bootstrap5\LinkPager::class,
+        ],
         'columns' => [
             '_year',
             [

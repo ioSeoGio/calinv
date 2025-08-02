@@ -26,6 +26,9 @@ $this->title = 'ESG Рейтинг BIK';
 <div class="esg-rating-index">
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
+        'pager' => [
+            'class' => \yii\bootstrap5\LinkPager::class,
+        ],
         'filterModel' => $searchForm,
         'columns' => [
             'issuerName',
