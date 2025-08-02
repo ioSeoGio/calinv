@@ -21,22 +21,22 @@ class CashFlowReportFactory
     ): CashFlowReport {
         $dto = $this->financeReportFetcher->getCashFlowReport($issuer->pid, $date);
 
-        $accountingBalance = CashFlowReport::createOrUpdate(
+        $cashFlowReport = CashFlowReport::createOrUpdate(
             issuer: $issuer,
             date: DateTimeImmutable::createFromFormat('!Y', $dto->year)->sub(DateInterval::createFromDateString('1 year')),
             dto: CashFlowReportDto::fromApiLastYear($dto),
             dataType: $dto->isMock ? DataTypeEnum::mockData : DataTypeEnum::fetchedFromApi,
         );
-        $accountingBalance->save();
+        $cashFlowReport->save();
 
-        $accountingBalance = CashFlowReport::createOrUpdate(
+        $cashFlowReport = CashFlowReport::createOrUpdate(
             issuer: $issuer,
             date: $date,
             dto: CashFlowReportDto::fromApiCurrentYear($dto),
             dataType: $dto->isMock ? DataTypeEnum::mockData : DataTypeEnum::fetchedFromApi,
         );
-        $accountingBalance->save();
+        $cashFlowReport->save();
 
-        return $accountingBalance;
+        return $cashFlowReport;
     }
 }
