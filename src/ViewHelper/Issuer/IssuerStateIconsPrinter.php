@@ -11,6 +11,7 @@ class IssuerStateIconsPrinter
     public static function printMany(Issuer $model): string
     {
         return ''
+            . IssuerEmployeeRetiredMoreThanAllowedPercentIconPrinter::print($model)
             . IssuerDebtIconPrinter::print($model)
             . IssuerTaxesDebtIconPrinter::print($model)
             . IssuerBankruptOrLiquidationIconPrinter::print($model)
