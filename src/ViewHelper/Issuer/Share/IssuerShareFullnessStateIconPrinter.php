@@ -16,7 +16,7 @@ class IssuerShareFullnessStateIconPrinter
                 'span',
                 Icon::print('bi bi-exclamation-octagon'),
                 [
-                    'class' => 'btn btn-sm btn-outline-danger me-1',
+                    'class' => 'btn btn-sm btn-outline-danger m-1',
                     'title' => '
                         Информация о акциях не была получена, или получена не полностью от удаленного API. 
                         Расчеты коэффициентов и капитала могут быть неточными

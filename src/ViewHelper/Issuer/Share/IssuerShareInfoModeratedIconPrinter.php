@@ -16,7 +16,7 @@ class IssuerShareInfoModeratedIconPrinter
                 'span',
                 Icon::print('bi bi-piggy-bank-fill'),
                 [
-                    'class' => 'btn btn-sm btn-outline-success me-1',
+                    'class' => 'btn btn-sm btn-outline-success m-1',
                     'title' => 'Информация о акциях эмитента была проверена вручную модератором '
                         . "(" . Yii::$app->formatter->asRelativeTime($issuer->dateShareInfoModerated) . ")",
                 ]
@@ -27,7 +27,7 @@ class IssuerShareInfoModeratedIconPrinter
             'span',
             Icon::print('bi bi-piggy-bank'),
             [
-                'class' => 'btn btn-sm btn-outline-danger me-1',
+                'class' => 'btn btn-sm btn-outline-danger m-1',
                 'title' => 'Информация о акциях эмитента не подтверждена модератором, расчеты коэффициентов и капитала могут быть неточными',
             ]
         );

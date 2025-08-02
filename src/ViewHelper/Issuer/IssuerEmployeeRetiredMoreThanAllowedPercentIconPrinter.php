@@ -55,7 +55,7 @@ class IssuerEmployeeRetiredMoreThanAllowedPercentIconPrinter
             'span',
             Icon::print('bi bi-person-dash'),
             [
-                'class' => 'btn btn-sm btn-outline-danger me-1',
+                'class' => 'btn btn-sm btn-outline-danger m-1',
                 'title' => $title,
             ]
         );
