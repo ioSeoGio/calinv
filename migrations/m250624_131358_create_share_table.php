@@ -21,9 +21,9 @@ class m250624_131358_create_share_table extends Migration
             'registerNumber' => $this->string()->notNull(),
             'denomination' => $this->float()->notNull(),
 
-            'simpleIssuedAmount' => $this->integer()->notNull(),
-            'privilegedIssuedAmount' => $this->integer()->notNull(),
-            'totalIssuedAmount' => $this->integer()->notNull(),
+            'simpleIssuedAmount' => $this->bigInteger()->notNull(),
+            'privilegedIssuedAmount' => $this->bigInteger()->notNull(),
+            'totalIssuedAmount' => $this->bigInteger()->notNull(),
 
             'issueDate' => $this->string()->notNull(),
             'closingDate' => $this->string()->null(),
