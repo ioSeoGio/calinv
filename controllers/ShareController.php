@@ -54,6 +54,7 @@ class ShareController extends BaseController
         $shareDataProvider = $shareSearchForm->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
+            'showClosingDate' => false,
             'shareCreateForm' => new ShareCreateForm(),
             'shareSearchForm' => $shareSearchForm,
             'shareDataProvider' => $shareDataProvider,
@@ -67,6 +68,7 @@ class ShareController extends BaseController
         $shareDataProvider = $shareSearchForm->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
+            'showClosingDate' => true,
             'shareCreateForm' => new ShareCreateForm(),
             'shareSearchForm' => $shareSearchForm,
             'shareDataProvider' => $shareDataProvider,

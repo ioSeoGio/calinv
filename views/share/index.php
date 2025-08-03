@@ -16,82 +16,78 @@ use yii\helpers\ArrayHelper;
 /** @var ArrayDataProvider $shareDataProvider */
 /** @var ShareSearchForm $shareSearchForm */
 /** @var ShareCreateForm $shareCreateForm */
+/** @var bool $showClosingDate */
 
 ?>
 <?= $this->render('../_parts/_tabs', []); ?>
-<?= $sharesContent = GridView::widget([
-    'dataProvider' => $shareDataProvider,
-    'pager' => [
-        'class' => \yii\bootstrap5\LinkPager::class,
+
+<?php $columns = [
+    [
+        'label' => 'эмитент',
+        'attribute' => 'issuer.name',
+        'format' => 'raw',
+        'value' => function (Share $model) {
+            return Html::a($model->issuer->name, ['/issuer/view', 'id' => $model->issuer->id]);
+        },
+        'filter' => Html::activeDropDownList(
+            $shareSearchForm,
+            'issuerId',
+            ['All' => 'Все'] + ArrayHelper::map(Issuer::find()->all(), 'id', 'name'),
+            ['class' => 'form-control']
+        ),
     ],
-    'filterModel' => $shareSearchForm,
-    'columns' => [
-        [
-            'label' => 'эмитент',
-            'attribute' => 'issuer.name',
-            'format' => 'raw',
-            'value' => function (Share $model) {
-                return Html::a($model->issuer->name, ['/issuer/view', 'id' => $model->issuer->id]);
-            },
-            'filter' => Html::activeDropDownList(
-                $shareSearchForm,
-                'issuerId',
-                ['All' => 'Все'] + ArrayHelper::map(Issuer::find()->all(), 'id', 'name'),
-                ['class' => 'form-control']
-            ),
-        ],
-        [
-            'label' => 'Выпуск',
-            'attribute' => 'formattedName',
-            'format' => 'raw',
-            'value' => function (Share $model) {
-                return DetailViewCopyHelper::render($model, 'formattedName');
-            },
-        ],
-        [
-            'attribute' => 'registerNumber',
-            'format' => 'raw',
-            'value' => function (Share $model) {
-                return DetailViewCopyHelper::render($model, 'registerNumber');
-            },
-        ],
-        [
-            'attribute' => 'lastDealDate',
-            'format' => 'raw',
-            'value' => function (Share $model) {
-                return $model->lastDealDate
-                    ? Html::a(Yii::$app->formatter->asDatetime($model->lastDealDate), BcseUrlHelper::getShareUrl($model), ['target' => '_blank'])
-                    : null;
-            }
-        ],
-        [
-            'attribute' => 'lastDealChangePercent',
-            'format' => 'raw',
-            'value' => function (Share $model) {
-                return $model->lastDealChangePercent !== null
-                    ? GoodBadValueViewHelper::execute($model->lastDealChangePercent, 0, postfix: '%')
-                    : 'Не задано';
-            }
-        ],
-        [
-            'attribute' => 'currentPrice',
-            'format' => 'html',
-            'value' => function (Share $model) {
-                return Html::tag(
-                    name: 'span',
-                    content: $model->currentPrice ? SimpleNumberFormatter::toView($model->currentPrice) . ' р.' : 'Не задано',
-                    options: ['class' => 'text-primary']
-                );
-            }
-        ],
-        [
-            'attribute' => 'denomination',
-            'value' => function (Share $model) {
-                return SimpleNumberFormatter::toView($model->denomination);
+    [
+        'label' => 'Выпуск',
+        'attribute' => 'formattedName',
+        'format' => 'raw',
+        'value' => function (Share $model) {
+            return DetailViewCopyHelper::render($model, 'formattedName');
+        },
+    ],
+    [
+        'attribute' => 'registerNumber',
+        'format' => 'raw',
+        'value' => function (Share $model) {
+            return DetailViewCopyHelper::render($model, 'registerNumber');
+        },
+    ],
+    [
+        'attribute' => 'lastDealDate',
+        'format' => 'raw',
+        'value' => function (Share $model) {
+            return $model->lastDealDate
+                ? Html::a(Yii::$app->formatter->asDatetime($model->lastDealDate), BcseUrlHelper::getShareUrl($model), ['target' => '_blank'])
+                : null;
+        }
+    ],
+    [
+        'attribute' => 'lastDealChangePercent',
+        'format' => 'raw',
+        'value' => function (Share $model) {
+            return $model->lastDealChangePercent !== null
+                ? GoodBadValueViewHelper::execute($model->lastDealChangePercent, 0, postfix: '%')
+                : 'Не задано';
+        }
+    ],
+    [
+        'attribute' => 'currentPrice',
+        'format' => 'html',
+        'value' => function (Share $model) {
+            return Html::tag(
+                name: 'span',
+                content: $model->currentPrice ? SimpleNumberFormatter::toView($model->currentPrice) . ' р.' : 'Не задано',
+                options: ['class' => 'text-primary']
+            );
+        }
+    ],
+    [
+        'attribute' => 'denomination',
+        'value' => function (Share $model) {
+            return SimpleNumberFormatter::toView($model->denomination);
 //                    . ' '
 //                    . ($model->issueDate <= new DateTimeImmutable(2016) ? 'BYR (до деноминации)' : 'BYN');
-            }
-        ],
+        }
+    ],
 //        [
 //            'label' => 'справедливая цена к ликвидации',
 //            'format' => 'raw',
@@ -140,19 +136,32 @@ use yii\helpers\ArrayHelper;
 //                return $values;
 //            }
 //        ],
-        [
-            'attribute' => 'totalIssuedAmount',
-            'value' => function (Share $model) {
-                return SimpleNumberFormatter::toView($model->totalIssuedAmount, 0) . ' шт.';
-            }
-        ],
-        [
-            'attribute' => 'issueDate',
-            'format' => 'date',
-        ],
+    [
+        'attribute' => 'totalIssuedAmount',
+        'value' => function (Share $model) {
+            return SimpleNumberFormatter::toView($model->totalIssuedAmount, 0) . ' шт.';
+        }
+    ],
+    [
+        'attribute' => 'issueDate',
+        'format' => 'date',
+    ],
+] ?>
+
+<?php if ($showClosingDate): ?>
+    <?php $columns = array_merge($columns, [
         [
             'attribute' => 'closingDate',
             'format' => 'date',
         ],
+    ]); ?>
+<?php endif ?>
+
+<?= $sharesContent = GridView::widget([
+    'dataProvider' => $shareDataProvider,
+    'pager' => [
+        'class' => \yii\bootstrap5\LinkPager::class,
     ],
+    'filterModel' => $shareSearchForm,
+    'columns' => $columns,
 ]) ?>
