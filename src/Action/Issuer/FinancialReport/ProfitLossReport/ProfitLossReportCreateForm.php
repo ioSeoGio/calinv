@@ -1,40 +1,37 @@
 <?php
 
-namespace src\Action\Issuer\FinancialReport\AccountingBalance;
+namespace src\Action\Issuer\FinancialReport\ProfitLossReport;
 
 use src\Entity\Issuer\FinanceReport\AccountingBalance\AccountingBalance;
+use src\Entity\Issuer\FinanceReport\ProfitLossReport\ProfitLossReport;
 use src\Entity\Issuer\Issuer;
 use yii\base\Model;
 
-class AccountingBalanceCreateForm extends Model
+class ProfitLossReportCreateForm extends Model
 {
     public int $issuerId;
     public $year;
 
-    public $_190;
-    public $_290;
-    public $_490;
-    public $_590;
-    public $_690;
-    public $_700;
+    public $_010;
+    public $_090;
+    public $_210;
+    public $_240;
 
     public function __construct(Issuer $issuer, ?int $year, $config = [])
     {
         $this->year = $year ?: (new \DateTimeImmutable('last year'))->format('Y');
         $this->issuerId = $issuer->id;
 
-        $report = $year === null ? null : AccountingBalance::getOneByCriteria([
+        $report = $year === null ? null : ProfitLossReport::getOneByCriteria([
             'issuer_id' => $issuer->id,
             '_year' => $this->year,
         ]);
 
         if ($report !== null) {
-            $this->_190 = $report->_190;
-            $this->_290 = $report->_290;
-            $this->_490 = $report->_490;
-            $this->_590 = $report->_590;
-            $this->_690 = $report->_690;
-            $this->_700 = $report->_700;
+            $this->_010 = $report->_010;
+            $this->_090 = $report->_090;
+            $this->_210 = $report->_210;
+            $this->_240 = $report->_240;
         }
 
         parent::__construct($config);
@@ -48,20 +45,16 @@ class AccountingBalanceCreateForm extends Model
             [['year'], 'date', 'format' => 'php:Y'],
 
             [[
-                '_190',
-                '_290',
-                '_490',
-                '_590',
-                '_690',
-                '_700',
+                '_010',
+                '_090',
+                '_210',
+                '_240',
             ], 'double'],
             [[
-                '_190',
-                '_290',
-                '_490',
-                '_590',
-                '_690',
-                '_700',
+                '_010',
+                '_090',
+                '_210',
+                '_240',
             ], 'required', 'message' => 'Заполните.'],
         ];
     }

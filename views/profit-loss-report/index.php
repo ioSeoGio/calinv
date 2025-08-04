@@ -4,14 +4,14 @@
 /** @var Issuer $model */
 /** @var ActiveDataProvider $dataProvider */
 /** @var FinancialReportByApiCreateForm $apiCreateForm */
+/** @var ProfitLossReportCreateForm $createForm */
 
-use app\widgets\ShowCopyNumberColumn;
 use src\Action\Issuer\FinancialReport\FinancialReportByApiCreateForm;
-use src\Entity\Issuer\FinanceReport\ProfitLossReport\ProfitLossReport;
+use src\Action\Issuer\FinancialReport\ProfitLossReport\ProfitLossReportCreateForm;
 use src\Entity\Issuer\Issuer;
 use src\Entity\User\UserRole;
 use yii\data\ActiveDataProvider;
-use yii\grid\GridView;
+use yii\helpers\Url;
 
 $this->params['breadcrumbs.homeLink'] = false;
 $this->params['breadcrumbs'][] = ['label' => 'Эмитенты', 'url' => ['issuer/index']];
@@ -23,45 +23,18 @@ $this->title = 'Отчет о прибылях и убытках ' . $model->nam
     'model' => $model,
 ]); ?>
 <?php if (Yii::$app->user->can(UserRole::admin->value)) : ?>
-    <?php //= $this->render('create', [
-    //    'accountingBalanceCreateForm' => $accountingBalanceCreateForm,
-    //    'issuer' => $model,
-    //]) ?>
     <?= $this->render('@views/_parts/create_by_api', [
         'createForm' => $apiCreateForm,
         'issuer' => $model,
         'url' => '/profit-loss-report/fetch-external'
     ]) ?>
 <?php endif; ?>
+
 <div class="issuer-view">
-    <?= GridView::widget([
-        'dataProvider' => $dataProvider,
-        'pager' => [
-            'class' => \yii\bootstrap5\LinkPager::class,
-        ],
-        'columns' => [
-            '_year',
-            [
-                'attribute' => '_termType',
-                'value' => function (ProfitLossReport $model) {
-                    return $model->termType->value;
-                }
-            ],
-            [
-                'class' => ShowCopyNumberColumn::class,
-                'attribute' => '_210',
-                'format' => 'decimal',
-            ],
-            [
-                'class' => ShowCopyNumberColumn::class,
-                'attribute' => '_240',
-                'format' => 'decimal',
-            ],
-        ],
+    <?= \app\widgets\ReversedFinancialReportTableWidget::widget([
+        'models' => $dataProvider->getModels(),
+        'saveAction' => Url::to(['/profit-loss-report/create', 'issuerId' => $model->id]),
+        'createForm' => $createForm,
     ]) ?>
 </div>
 
-<?php $this->registerJs('
-    $(document).ready(function() {
-    });
-');

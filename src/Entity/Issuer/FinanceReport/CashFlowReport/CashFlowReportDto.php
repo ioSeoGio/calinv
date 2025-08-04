@@ -8,16 +8,22 @@ class CashFlowReportDto
 {
     public function __construct(
         public float $_020,
+        public float $_030,
+        public float $_040,
+        public float $_080,
+        public float $_090,
+
+        public float $_100,
+        public float $_110,
+
         public ?float $_021 = null,
         public ?float $_022 = null,
         public ?float $_023 = null,
         public ?float $_024 = null,
 
-        public float $_030,
         public ?float $_031 = null,
         public ?float $_032 = null,
         public ?float $_033 = null,
-        public float $_040,
 
         public ?float $_050 = null,
         public ?float $_051 = null,
@@ -33,24 +39,19 @@ class CashFlowReportDto
         public ?float $_064 = null,
         public ?float $_070 = null,
 
-        public float $_080,
         public ?float $_081 = null,
         public ?float $_082 = null,
         public ?float $_083 = null,
         public ?float $_084 = null,
 
-        public float $_090,
         public ?float $_091 = null,
         public ?float $_092 = null,
         public ?float $_093 = null,
         public ?float $_094 = null,
         public ?float $_095 = null,
-        public float $_100,
 
-        public float $_110,
-
-        public float $_120,
-        public float $_130,
+        public ?float $_120 = null,
+        public ?float $_130 = null,
         public ?float $_140 = null,
     ) {
     }

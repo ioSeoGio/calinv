@@ -78,6 +78,7 @@ use yii\db\ActiveQuery;
  * @property float $_700 Итоговый баланс (всего)
  *
  * @property Issuer $issuer
+ * @property int $issuer_id
  */
 class AccountingBalance extends ApiFetchedActiveRecord implements FinancialReportInterface
 {

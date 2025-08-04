@@ -22,7 +22,8 @@ class AccountingBalanceSearchForm extends Model
     {
         $query = AccountingBalance::find()
             ->joinWith('issuer')
-            ->andWhere([Issuer::tableName() . '.id' => $issuer->id]);
+            ->andWhere([Issuer::tableName() . '.id' => $issuer->id])
+            ->addOrderBy(['_year' => SORT_DESC]);
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,

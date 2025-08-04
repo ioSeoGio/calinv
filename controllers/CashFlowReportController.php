@@ -3,9 +3,9 @@
 namespace app\controllers;
 
 use lib\BaseController;
+use src\Action\Issuer\FinancialReport\CashFlowReport\CashFlowReportCreateForm;
 use src\Action\Issuer\FinancialReport\CashFlowReport\CashFlowReportSearchForm;
 use src\Action\Issuer\FinancialReport\FinancialReportByApiCreateForm;
-use src\Action\Issuer\FinancialReport\ProfitLossReport\ProfitLossReportSearchForm;
 use src\Entity\Issuer\FinanceReport\CashFlowReport\CashFlowReportFactory;
 use src\Entity\Issuer\Issuer;
 use Yii;
@@ -31,11 +31,13 @@ class CashFlowReportController extends BaseController
             'access' => [
                 'class' => AccessControl::class,
                 'only' => [
+                    'create',
                     'fetch-external',
                 ],
                 'rules' => [
                     [
                         'actions' => [
+                            'create',
                             'fetch-external',
                         ],
                         'allow' => true,
@@ -46,7 +48,20 @@ class CashFlowReportController extends BaseController
         ];
     }
 
-    public function actionIndex($issuerId): string
+    public function actionCreate($issuerId): Response
+    {
+        $issuer = Issuer::getOneById($issuerId);
+        $form = new CashFlowReportCreateForm($issuer, null);
+
+        $post = Yii::$app->request->post();
+        if ($form->load($post) && $form->validate()) {
+            $this->factory->createOrUpdate($issuer, $form);
+        }
+
+        return $this->redirect(['index', 'issuerId' => $issuerId]);
+    }
+
+    public function actionIndex(int $issuerId, ?int $year = null): string
     {
         $issuer = Issuer::getOneById($issuerId);
 
@@ -57,6 +72,7 @@ class CashFlowReportController extends BaseController
             'model' => $issuer,
             'dataProvider' => $dataProvider,
             'apiCreateForm' => new FinancialReportByApiCreateForm(),
+            'createForm' => new CashFlowReportCreateForm($issuer, $year),
         ]);
     }
 

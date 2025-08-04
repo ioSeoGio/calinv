@@ -4,6 +4,7 @@ namespace app\controllers;
 
 use lib\BaseController;
 use src\Action\Issuer\FinancialReport\FinancialReportByApiCreateForm;
+use src\Action\Issuer\FinancialReport\ProfitLossReport\ProfitLossReportCreateForm;
 use src\Action\Issuer\FinancialReport\ProfitLossReport\ProfitLossReportSearchForm;
 use src\Entity\Issuer\FinanceReport\ProfitLossReport\ProfitLossReportFactory;
 use src\Entity\Issuer\Issuer;
@@ -30,11 +31,13 @@ class ProfitLossReportController extends BaseController
             'access' => [
                 'class' => AccessControl::class,
                 'only' => [
+                    'create',
                     'fetch-external',
                 ],
                 'rules' => [
                     [
                         'actions' => [
+                            'create',
                             'fetch-external',
                         ],
                         'allow' => true,
@@ -45,7 +48,20 @@ class ProfitLossReportController extends BaseController
         ];
     }
 
-    public function actionIndex($issuerId): string
+    public function actionCreate($issuerId): Response
+    {
+        $issuer = Issuer::getOneById($issuerId);
+        $form = new ProfitLossReportCreateForm($issuer, null);
+
+        $post = Yii::$app->request->post();
+        if ($form->load($post) && $form->validate()) {
+            $this->factory->createOrUpdate($issuer, $form);
+        }
+
+        return $this->redirect(['index', 'issuerId' => $issuerId]);
+    }
+
+    public function actionIndex(int $issuerId, ?int $year = null): string
     {
         $issuer = Issuer::getOneById($issuerId);
 
@@ -56,6 +72,7 @@ class ProfitLossReportController extends BaseController
             'model' => $issuer,
             'dataProvider' => $dataProvider,
             'apiCreateForm' => new FinancialReportByApiCreateForm(),
+            'createForm' => new ProfitLossReportCreateForm($issuer, $year),
         ]);
     }
 

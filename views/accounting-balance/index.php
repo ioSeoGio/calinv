@@ -6,43 +6,36 @@
 /** @var AccountingBalanceCreateForm $createForm */
 /** @var FinancialReportByApiCreateForm $apiCreateForm */
 
-use app\widgets\ReversedFinancialReportTableWidget;
-use app\widgets\ShowCopyNumberColumn;
 use src\Action\Issuer\FinancialReport\AccountingBalance\AccountingBalanceCreateForm;
 use src\Action\Issuer\FinancialReport\FinancialReportByApiCreateForm;
-use src\Entity\Issuer\FinanceReport\AccountingBalance\AccountingBalance;
 use src\Entity\Issuer\Issuer;
 use src\Entity\User\UserRole;
 use yii\data\ActiveDataProvider;
-use yii\grid\GridView;
+use yii\helpers\Url;
 
 $this->params['breadcrumbs.homeLink'] = false;
 $this->params['breadcrumbs'][] = ['label' => 'Эмитенты', 'url' => ['issuer/index']];
 $this->params['breadcrumbs'][] = $model->name;
 $this->title = 'Бухгалтерский баланс ' . $model->name;
+
 ?>
 
 <?= $this->render('@views/_parts/issuer_tabs', [
     'model' => $model,
 ]); ?>
 <?php if (Yii::$app->user->can(UserRole::admin->value)) : ?>
-    <?= $this->render('create', [
-        'accountingBalanceCreateForm' => $createForm,
+    <?= $this->render('@views/_parts/create_by_api', [
+        'createForm' => $apiCreateForm,
         'issuer' => $model,
+        'url' => '/accounting-balance/fetch-external'
     ]) ?>
-<?= $this->render('@views/_parts/create_by_api', [
-    'createForm' => $apiCreateForm,
-    'issuer' => $model,
-    'url' => '/accounting-balance/fetch-external'
-]) ?>
 <?php endif; ?>
 
-
 <div class="issuer-view">
-    <?= ReversedFinancialReportTableWidget::widget(['models' => $dataProvider->getModels()]) ?>
+    <?= \app\widgets\ReversedFinancialReportTableWidget::widget([
+        'models' => $dataProvider->getModels(),
+        'saveAction' => Url::to(['/accounting-balance/create', 'issuerId' => $model->id]),
+        'createForm' => $createForm,
+    ]) ?>
 </div>
 
-<?php $this->registerJs('
-    $(document).ready(function() {
-    });
-');

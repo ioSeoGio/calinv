@@ -6,6 +6,7 @@ use DateTimeImmutable;
 use lib\Database\ApiFetchedActiveRecord;
 use src\Entity\DataTypeEnum;
 use src\Entity\DataTypeTrait;
+use src\Entity\Issuer\FinanceReport\FinancialReportInterface;
 use src\Entity\Issuer\FinanceTermType;
 use src\Entity\Issuer\Issuer;
 use src\Integration\Legat\Dto\FinanceReportProfitLossDto;
@@ -28,7 +29,7 @@ use yii\db\ActiveQuery;
  * @property ?float $_060 Прибыль (убыток) от реализации продукции, товаров, работ, услуг
  * @property ?float $_070 Прочие доходы по текущей деятельности
  * @property ?float $_080 Прочие расходы по текущей деятельности
- * @property ?float $_090 Прибыль (убыток) от текущей деятельности
+ * @property float $_090 Прибыль (убыток) от текущей деятельности
  *
  * @property ?float $_100 Доходы по инвестиционной деятельности:
  * @property ?float $_101 В том числе: доходы от выбытия основных средств, нематериальных активов и других долгосрочных активов
@@ -62,7 +63,7 @@ use yii\db\ActiveQuery;
  *
  * @property Issuer $issuer
  */
-class ProfitLossReport extends ApiFetchedActiveRecord
+class ProfitLossReport extends ApiFetchedActiveRecord implements FinancialReportInterface
 {
     use DataTypeTrait;
 
@@ -73,9 +74,22 @@ class ProfitLossReport extends ApiFetchedActiveRecord
 
     public function attributeLabels(): array
     {
-        return [
+        return array_merge([
             '_year' => 'Год',
             '_termType' => 'Тип отчета',
+        ], $this->financialAttributes());
+    }
+
+    public function getAttributesToShow(): array
+    {
+        return array_keys($this->financialAttributes());
+    }
+
+    private function financialAttributes(): array
+    {
+        return [
+            '_010' => 'Выручка от реализации продукции, товаров, работ, услуг',
+            '_090' => 'Прибыль (убыток) от текущей деятельности',
             '_210' => 'Чистая прибыль (убыток)',
             '_240' => 'Совокупная прибыль (убыток)',
         ];
@@ -151,7 +165,7 @@ class ProfitLossReport extends ApiFetchedActiveRecord
 
     public function getYear(): DateTimeImmutable
     {
-        return new DateTimeImmutable($this->_year);
+        return DateTimeImmutable::createFromFormat('Y', $this->_year);
     }
 
     public function getTermType(): FinanceTermType

@@ -21,18 +21,18 @@ class AccountingBalanceFactory
         AccountingBalanceCreateForm $form,
     ): AccountingBalance {
         $dto = new AccountingBalanceDto(
-            _190: $form->longAsset,
-            _290: $form->shortAsset,
-            _300: $form->longAsset + $form->shortAsset,
-            _490: $form->capital,
-            _590: $form->longDebt,
-            _690: $form->shortDebt,
-            _700: $form->shortAsset + $form->longAsset - ($form->shortDebt + $form->longDebt),
+            _190: $form->_190,
+            _290: $form->_290,
+            _300: $form->_190 + $form->_290,
+            _490: $form->_490,
+            _590: $form->_590,
+            _690: $form->_690,
+            _700: $form->_700,
         );
 
         $accountingBalance = AccountingBalance::createOrUpdate(
             issuer: $issuer,
-            date: new \DateTimeImmutable($form->year),
+            date: DateTimeImmutable::createFromFormat('Y', $form->year),
             dto: $dto,
             dataType: DataTypeEnum::createdManually,
         );

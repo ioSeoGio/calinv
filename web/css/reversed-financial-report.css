@@ -1,0 +1,17 @@
+.reversed-report-table th:first-child,
+.reversed-report-table td:first-child {
+    width: 250px; /* Укажите желаемую ширину */
+}
+.reversed-report-table th:nth-child(2),
+.reversed-report-table td:nth-child(2) {
+    width: 70px; /* Укажите желаемую ширину */
+    text-align: center;
+}
+.reversed-report-table td:not(:first-child),
+.reversed-report-table th:not(:first-child) {
+    text-align: center;
+}
+
+.reversed-report-table .create-data-row {
+    width: 170px;
+}

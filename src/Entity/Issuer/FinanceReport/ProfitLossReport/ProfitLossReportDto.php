@@ -8,6 +8,10 @@ class ProfitLossReportDto
 {
     public function __construct(
         public float $_010,
+        public float $_090,
+        public float $_210,
+        public float $_240,
+
         public ?float $_020 = null,
         public ?float $_030 = null,
         public ?float $_040 = null,
@@ -15,7 +19,6 @@ class ProfitLossReportDto
         public ?float $_060 = null,
         public ?float $_070 = null,
         public ?float $_080 = null,
-        public ?float $_090 = null,
 
         public ?float $_100 = null,
         public ?float $_101 = null,
@@ -42,10 +45,8 @@ class ProfitLossReportDto
         public ?float $_170 = null,
         public ?float $_180 = null,
         public ?float $_190 = null,
-        public float $_210,
         public ?float $_220 = null,
         public ?float $_230 = null,
-        public float $_240,
     ) {
     }
 

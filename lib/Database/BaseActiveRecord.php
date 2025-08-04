@@ -17,4 +17,15 @@ class BaseActiveRecord extends ActiveRecord
 
         return $result;
     }
+
+    public static function getOneByCriteria(array $criteria = []): static
+    {
+        $result = static::findOne($criteria);
+
+        if ($result === null) {
+            throw new NotFoundHttpException("Запись не найдена.");
+        }
+
+        return $result;
+    }
 }

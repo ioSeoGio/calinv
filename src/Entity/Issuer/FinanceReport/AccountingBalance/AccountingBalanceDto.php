@@ -7,6 +7,14 @@ use src\Integration\Legat\Dto\FinanceReportAccountingBalanceDto;
 class AccountingBalanceDto
 {
     public function __construct(
+        public float $_190,
+        public float $_290,
+        public float $_300,
+        public float $_490,
+        public float $_590,
+        public float $_690,
+        public float $_700,
+
         public ?float $_110 = null,
         public ?float $_120 = null,
         public ?float $_130 = null,
@@ -16,7 +24,6 @@ class AccountingBalanceDto
         public ?float $_160 = null,
         public ?float $_170 = null,
         public ?float $_180 = null,
-        public float $_190,
 
         public ?float $_210 = null,
         public ?float $_211 = null,
@@ -29,18 +36,14 @@ class AccountingBalanceDto
         public ?float $_260 = null,
         public ?float $_270 = null,
         public ?float $_280 = null,
-        public float $_290,
-        public float $_300,
 
         public ?float $_410 = null,
         public ?float $_440 = null,
         public ?float $_450 = null,
         public ?float $_460 = null,
-        public float $_490,
 
         public ?float $_510 = null,
         public ?float $_540 = null,
-        public float $_590,
 
         public ?float $_610 = null,
         public ?float $_620 = null,
@@ -55,8 +58,6 @@ class AccountingBalanceDto
         public ?float $_638 = null,
         public ?float $_650 = null,
         public ?float $_670 = null,
-        public float $_690,
-        public float $_700,
     ) {
     }
 

@@ -4,14 +4,13 @@
 /** @var Issuer $model */
 /** @var ActiveDataProvider $dataProvider */
 /** @var FinancialReportByApiCreateForm $apiCreateForm */
+/** @var \src\Action\Issuer\FinancialReport\CashFlowReport\CashFlowReportCreateForm $createForm */
 
-use app\widgets\ShowCopyNumberColumn;
 use src\Action\Issuer\FinancialReport\FinancialReportByApiCreateForm;
-use src\Entity\Issuer\FinanceReport\CashFlowReport\CashFlowReport;
 use src\Entity\Issuer\Issuer;
 use src\Entity\User\UserRole;
 use yii\data\ActiveDataProvider;
-use yii\grid\GridView;
+use yii\helpers\Url;
 
 $this->params['breadcrumbs.homeLink'] = false;
 $this->params['breadcrumbs'][] = ['label' => 'Эмитенты', 'url' => ['issuer/index']];
@@ -23,55 +22,17 @@ $this->title = 'Отчет о движении денежных средств (
     'model' => $model,
 ]); ?>
 <?php if (Yii::$app->user->can(UserRole::admin->value)) : ?>
-    <?php //= $this->render('create', [
-    //    'accountingBalanceCreateForm' => $accountingBalanceCreateForm,
-    //    'issuer' => $model,
-    //]) ?>
     <?= $this->render('@views/_parts/create_by_api', [
         'createForm' => $apiCreateForm,
         'issuer' => $model,
         'url' => '/cash-flow-report/fetch-external'
     ]) ?>
 <?php endif; ?>
+
 <div class="issuer-view">
-    <?= GridView::widget([
-        'dataProvider' => $dataProvider,
-        'pager' => [
-            'class' => \yii\bootstrap5\LinkPager::class,
-        ],
-        'columns' => [
-            '_year',
-            [
-                'attribute' => '_termType',
-                'value' => function (CashFlowReport $model) {
-                    return $model->termType->value;
-                }
-            ],
-            [
-                'class' => ShowCopyNumberColumn::class,
-                'attribute' => '_040',
-                'format' => 'decimal',
-            ],
-            [
-                'class' => ShowCopyNumberColumn::class,
-                'attribute' => '_070',
-                'format' => 'decimal',
-            ],
-            [
-                'class' => ShowCopyNumberColumn::class,
-                'attribute' => '_100',
-                'format' => 'decimal',
-            ],
-            [
-                'class' => ShowCopyNumberColumn::class,
-                'attribute' => '_110',
-                'format' => 'decimal',
-            ],
-        ],
+    <?= \app\widgets\ReversedFinancialReportTableWidget::widget([
+        'models' => $dataProvider->getModels(),
+        'saveAction' => Url::to(['/cash-flow-report/create', 'issuerId' => $model->id]),
+        'createForm' => $createForm,
     ]) ?>
 </div>
-
-<?php $this->registerJs('
-    $(document).ready(function() {
-    });
-');

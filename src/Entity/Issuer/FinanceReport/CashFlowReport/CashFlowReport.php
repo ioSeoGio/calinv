@@ -6,6 +6,7 @@ use DateTimeImmutable;
 use lib\Database\ApiFetchedActiveRecord;
 use src\Entity\DataTypeEnum;
 use src\Entity\DataTypeTrait;
+use src\Entity\Issuer\FinanceReport\FinancialReportInterface;
 use src\Entity\Issuer\FinanceTermType;
 use src\Entity\Issuer\Issuer;
 use src\Integration\Legat\Dto\FinanceReportCashFlowDto;
@@ -68,13 +69,13 @@ use yii\db\ActiveQuery;
  *
  * @property float $_110 Результат ДДС по текущей, инвестиционной и финансовой деятельности
  *
- * @property float $_120 Остаток ДС на (31.12.year-2)
- * @property float $_130 Остаток ДС на (31.12.year-1)
+ * @property ?float $_120 Остаток ДС на (31.12.year-2)
+ * @property ?float $_130 Остаток ДС на (31.12.year-1)
  * @property ?float $_140 Влияние изменений курсов иностранных валют
  *
  * @property Issuer $issuer
  */
-class CashFlowReport extends ApiFetchedActiveRecord
+class CashFlowReport extends ApiFetchedActiveRecord implements FinancialReportInterface
 {
     use DataTypeTrait;
 
@@ -85,11 +86,26 @@ class CashFlowReport extends ApiFetchedActiveRecord
 
     public function attributeLabels(): array
     {
-        return [
+        return array_merge([
             '_year' => 'Год',
             '_termType' => 'Тип отчета',
+        ], $this->financialAttributes());
+    }
+
+    public function getAttributesToShow(): array
+    {
+        return array_keys($this->financialAttributes());
+    }
+
+    private function financialAttributes(): array
+    {
+        return [
+            '_020' => 'Поступило по текущей деятельности (всего)',
+            '_030' => 'Направлено по текущей деятельности (всего)',
             '_040' => 'Результат ДДС по текущей деятельности',
             '_070' => 'Результат ДДС по инвестиционной деятельности',
+            '_080' => 'Результат ДДС по инвестиционной деятельности',
+            '_090' => 'Результат ДДС по инвестиционной деятельности',
             '_100' => 'Результат ДДС по финансовой деятельности',
             '_110' => 'Результат ДДС по текущей, инвестиционной и финансовой',
         ];
@@ -171,7 +187,7 @@ class CashFlowReport extends ApiFetchedActiveRecord
 
     public function getYear(): DateTimeImmutable
     {
-        return new DateTimeImmutable($this->_year);
+        return DateTimeImmutable::createFromFormat('Y', $this->_year);
     }
 
     public function getTermType(): FinanceTermType

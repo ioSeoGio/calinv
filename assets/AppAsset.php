@@ -25,6 +25,8 @@ class AppAsset extends AssetBundle
     public $css = [
         'css/site.css',
         'css/alert-messages.css',
+        'css/reversed-financial-report.css',
+
         'https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css',
     ];
 

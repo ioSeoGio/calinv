@@ -6,6 +6,7 @@ use lib\BaseController;
 use src\Action\Issuer\FinancialReport\AccountingBalance\AccountingBalanceCreateForm;
 use src\Action\Issuer\FinancialReport\AccountingBalance\AccountingBalanceSearchForm;
 use src\Action\Issuer\FinancialReport\FinancialReportByApiCreateForm;
+use src\Entity\Issuer\FinanceReport\AccountingBalance\AccountingBalance;
 use src\Entity\Issuer\FinanceReport\AccountingBalance\AccountingBalanceFactory;
 use src\Entity\Issuer\Issuer;
 use Yii;
@@ -52,7 +53,7 @@ class AccountingBalanceController extends BaseController
     public function actionCreate($issuerId): Response
     {
         $issuer = Issuer::getOneById($issuerId);
-        $form = new AccountingBalanceCreateForm($issuer);
+        $form = new AccountingBalanceCreateForm($issuer, null);
 
         $post = Yii::$app->request->post();
         if ($form->load($post) && $form->validate()) {
@@ -62,7 +63,7 @@ class AccountingBalanceController extends BaseController
         return $this->redirect(['index', 'issuerId' => $issuerId]);
     }
 
-    public function actionIndex($issuerId): string
+    public function actionIndex(int $issuerId, ?int $year = null): string
     {
         $issuer = Issuer::getOneById($issuerId);
 
@@ -72,7 +73,7 @@ class AccountingBalanceController extends BaseController
         return $this->render('index', [
             'model' => $issuer,
             'dataProvider' => $dataProvider,
-            'createForm' => new AccountingBalanceCreateForm($issuer),
+            'createForm' => new AccountingBalanceCreateForm($issuer, $year),
             'apiCreateForm' => new FinancialReportByApiCreateForm(),
         ]);
     }
@@ -87,19 +88,5 @@ class AccountingBalanceController extends BaseController
         }
 
         return $this->redirect(['index', 'issuerId' => $issuerId]);
-    }
-
-    public function actionValidate($issuerId): array
-    {
-        Yii::$app->response->format = Response::FORMAT_JSON;
-        $issuer = Issuer::getOneById($issuerId);
-
-        if ($post = Yii::$app->request->post()) {
-            $simpleForm = new AccountingBalanceCreateForm($issuer);
-            $simpleForm->load($post);
-
-            return ActiveForm::validate($simpleForm);
-        }
-        return [];
     }
 }

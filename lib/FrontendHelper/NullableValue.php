@@ -8,6 +8,11 @@ class NullableValue
 {
     public static function print(mixed $value): string
     {
-        return $value ?: Html::tag('span', '(не задано)', ['class' => 'not-set']);
+        return $value ?: self::printNull();
+    }
+
+    public static function printNull(): string
+    {
+        return Html::tag('span', '(не задано)', ['class' => 'not-set']);
     }
 }

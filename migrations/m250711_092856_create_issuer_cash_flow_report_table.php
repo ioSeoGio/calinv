@@ -55,8 +55,8 @@ class m250711_092856_create_issuer_cash_flow_report_table extends Migration
             '_100' => $this->float()->notNull(),
 
             '_110' => $this->float()->notNull(),
-            '_120' => $this->float()->notNull(),
-            '_130' => $this->float()->notNull(),
+            '_120' => $this->float()->null(),
+            '_130' => $this->float()->null(),
             '_140' => $this->float()->null(),
 
             '_lastApiUpdateDate' =>  $this->string()->notNull(),
