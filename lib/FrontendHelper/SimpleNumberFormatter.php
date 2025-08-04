@@ -18,4 +18,9 @@ class SimpleNumberFormatter
 
         return $result;
     }
+
+    public static function toViewWithSpaces(float|int $value, int $decimals = 2): mixed
+    {
+        return number_format($value, $decimals, ',', ' ');
+    }
 }

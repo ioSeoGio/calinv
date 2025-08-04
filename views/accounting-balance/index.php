@@ -6,6 +6,7 @@
 /** @var AccountingBalanceCreateForm $createForm */
 /** @var FinancialReportByApiCreateForm $apiCreateForm */
 
+use app\widgets\ReversedFinancialReportTableWidget;
 use app\widgets\ShowCopyNumberColumn;
 use src\Action\Issuer\FinancialReport\AccountingBalance\AccountingBalanceCreateForm;
 use src\Action\Issuer\FinancialReport\FinancialReportByApiCreateForm;
@@ -35,52 +36,10 @@ $this->title = 'Бухгалтерский баланс ' . $model->name;
     'url' => '/accounting-balance/fetch-external'
 ]) ?>
 <?php endif; ?>
+
+
 <div class="issuer-view">
-    <?= GridView::widget([
-        'dataProvider' => $dataProvider,
-        'pager' => [
-            'class' => \yii\bootstrap5\LinkPager::class,
-        ],
-        'columns' => [
-            '_year',
-            [
-                'attribute' => '_termType',
-                'value' => function (AccountingBalance $model) {
-                    return $model->termType->value;
-                }
-            ],
-            [
-                'class' => ShowCopyNumberColumn::class,
-                'attribute' => '_190',
-                'format' => 'decimal',
-            ],
-            [
-                'class' => ShowCopyNumberColumn::class,
-                'attribute' => '_290',
-                'format' => 'decimal',
-            ],
-            [
-                'class' => ShowCopyNumberColumn::class,
-                'attribute' => '_590',
-                'format' => 'decimal',
-            ],
-            [
-                'class' => ShowCopyNumberColumn::class,
-                'attribute' => '_690',
-                'format' => 'decimal',
-            ],
-            [
-                'class' => ShowCopyNumberColumn::class,
-                'attribute' => '_490',
-                'format' => 'decimal',
-            ],
-            [
-                'class' => ShowCopyNumberColumn::class,
-                'attribute' => '_700',
-                'format' => 'decimal',
-            ],
-        ],
-    ]) ?>
+    <?= ReversedFinancialReportTableWidget::widget(['models' => $dataProvider->getModels()]) ?>
 </div>
 
 <?php $this->registerJs('
