@@ -4,11 +4,11 @@
     --light-light-dark-color: #a9a9a9;
 }
 
-.redactor-editor, .redactor-box {
+.redactor-editor.dark, .redactor-box.dark {
     background-color: var(--dark-color);
     color: var(--light-light-dark-color);
 }
 
-.redactor-toolbar {
+.redactor-toolbar.dark {
     background-color: var(--light-light-dark-color);
 }

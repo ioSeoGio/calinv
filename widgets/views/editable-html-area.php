@@ -8,6 +8,9 @@ use yii\helpers\Url;
 ?>
 
 <?= $form->field($model, $field)->widget(\vova07\imperavi\Widget::class, [
+    'options' => [
+        'class' => 'redactor-editor dark',
+    ],
     'settings' => [
         'lang' => 'ru',
         'minHeight' => 100,
