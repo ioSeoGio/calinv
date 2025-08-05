@@ -44,7 +44,8 @@ if (Yii::$app->user->isGuest) {
 	echo Nav::widget([
 		'options' => ['class' => 'navbar-nav'],
 		'items' => [
-			['label' => 'Вход', 'url' => ['/login']],
+            $themeSwitcher
+            . Html::a('Вход', ['/login'], ['class' => 'nav-link'])
 //			['label' => 'Регистрация', 'url' => ['/auth/signup']],
 		]
 	]);
