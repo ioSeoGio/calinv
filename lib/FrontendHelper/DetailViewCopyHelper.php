@@ -48,4 +48,15 @@ class DetailViewCopyHelper
             'successText' => $value . ' <i class="bi bi-check2-all"></i>',
         ]);
     }
+
+    public static function renderValueColored(mixed $value): string
+    {
+        return ClipboardJsWidget::widget([
+            'text' => $value,
+            'tag' => 'span',
+            'htmlOptions' => ['class' => 'btn btn-m btn-default', 'type' => 'span', 'title' => ''],
+            'label' => $value,
+            'successText' => "<b style='color: dodgerblue'>$value</b>",
+        ]);
+    }
 }

@@ -67,12 +67,12 @@ $isAdmin = Yii::$app->user->can(UserRole::admin->value);
                         )->label(false); ?>
                     </td>
                 <?php endif; ?>
-                <?php foreach ($models as $model) : ?>
+                <?php foreach ($models as $model): ?>
                     <td>
                         <?=
                             $model->$attribute === null
                                 ? NullableValue::printNull()
-                                : DetailViewCopyHelper::renderValue(
+                                : DetailViewCopyHelper::renderValueColored(
                                         SimpleNumberFormatter::toViewWithSpaces($model->$attribute, 0)
                                 )
                         ?>
@@ -84,6 +84,7 @@ $isAdmin = Yii::$app->user->can(UserRole::admin->value);
             <tr>
                 <td colspan="2"></td>
                 <td><?= \yii\helpers\Html::submitButton('Сохранить', ['class' => 'btn btn-primary btn-block']) ?></td>
+                <td colspan="<?= count($models) ?>"></td>
             </tr>
         <?php endif; ?>
     </tbody>

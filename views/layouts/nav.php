@@ -1,5 +1,6 @@
 <?php
 
+use lib\FrontendHelper\Icon;
 use src\Entity\User\UserRole;
 use yii\bootstrap5\Html;
 use yii\bootstrap5\Nav;
@@ -33,6 +34,12 @@ echo Nav::widget([
     'items' => $items,
 ]);
 
+$darkThemeEnabled = Yii::$app->request->cookies->getValue('darkTheme', false);
+$themeSwitcher =
+     "<div id='theme-switcher' style='color:whitesmoke; display: flex; align-items: center; justify-content: center;'>"
+    . ($darkThemeEnabled ? Icon::print('bi bi-lightbulb') : Icon::print('bi bi-lightbulb-off'))
+    . "</div>";
+
 if (Yii::$app->user->isGuest) {
 	echo Nav::widget([
 		'options' => ['class' => 'navbar-nav'],
@@ -46,7 +53,8 @@ if (Yii::$app->user->isGuest) {
 		'options' => ['class' => 'navbar-nav'],
 		'items' => [
 //			['label' => 'Профиль', 'url' => ['/profile/index']],
-			'<li>'
+            $themeSwitcher
+			. '<li>'
 			. Html::beginForm(['/auth/logout'], 'post', ['class' => 'form-inline'])
 			. Html::submitButton(
 				'Выход (' . Yii::$app->user->identity->username . ')',

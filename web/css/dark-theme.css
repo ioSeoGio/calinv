@@ -1,0 +1,14 @@
+:root {
+    --dark-color: #181a1b;
+    --light-dark-color: #212528;
+    --light-light-dark-color: #a9a9a9;
+}
+
+.redactor-editor, .redactor-box {
+    background-color: var(--dark-color);
+    color: var(--light-light-dark-color);
+}
+
+.redactor-toolbar {
+    background-color: var(--light-light-dark-color);
+}

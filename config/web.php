@@ -34,9 +34,13 @@ $config = [
         'authManager' => [
             'class' => \yii\rbac\DbManager::class,
         ],
+        'session' => [
+            'class' => \yii\web\CacheSession::class,
+        ],
         'request' => [
             // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
             'cookieValidationKey' => 'H9faj5kCQM',
+            'enableCookieValidation' => false,
         ],
         'cache' => [
             'class' => 'yii\caching\FileCache',

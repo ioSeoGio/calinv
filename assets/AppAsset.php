@@ -23,6 +23,7 @@ class AppAsset extends AssetBundle
     public $basePath = '@webroot';
     public $baseUrl = '@web';
     public $css = [
+        'css/dark-theme.css',
         'css/site.css',
         'css/alert-messages.css',
         'css/reversed-financial-report.css',
@@ -33,6 +34,9 @@ class AppAsset extends AssetBundle
     public $js = [
         'js/alert-messages.js',
         'js/fix-kartik-masked-input.js',
+
+        'js/jquery-cookie.js',
+        'js/theme-switcher.js',
     ];
     public $jsOptions = ['position' => View::POS_HEAD];
 
