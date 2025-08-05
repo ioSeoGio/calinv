@@ -89,4 +89,19 @@ class AccountingBalanceController extends BaseController
 
         return $this->redirect(['index', 'issuerId' => $issuerId]);
     }
+
+    public function actionValidate(int $issuerId): array
+    {
+        Yii::$app->response->format = Response::FORMAT_JSON;
+        $issuer = Issuer::getOneById($issuerId);
+
+        if ($post = Yii::$app->request->post()) {
+            $simpleForm = new AccountingBalanceCreateForm($issuer, null);
+            $simpleForm->load($post);
+
+            $r = ActiveForm::validate($simpleForm);
+            return $r;
+        }
+        return [];
+    }
 }

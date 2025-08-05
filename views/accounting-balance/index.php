@@ -35,6 +35,7 @@ $this->title = 'Бухгалтерский баланс ' . $model->name;
     <?= \app\widgets\ReversedFinancialReportTableWidget::widget([
         'models' => $dataProvider->getModels(),
         'saveAction' => Url::to(['/accounting-balance/create', 'issuerId' => $model->id]),
+        'validateAction' => Url::to(['/accounting-balance/validate', 'issuerId' => $model->id]),
         'createForm' => $createForm,
     ]) ?>
 </div>

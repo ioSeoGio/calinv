@@ -12,17 +12,26 @@ use yii\widgets\ActiveForm;
 
 /** @var FinancialReportInterface[] $models */
 /** @var string $saveAction */
+/** @var string $validateAction */
 /** @var \yii\base\Model $createForm */
 
 $isAdmin = Yii::$app->user->can(UserRole::admin->value);
 ?>
 
 <?php if (!empty($models)): ?>
+<?php $form = ActiveForm::begin([
+    'id' => 'finance-report-form',
+
+    'action' => $saveAction,
+    'validationUrl' => $validateAction,
+
+    'enableAjaxValidation'      => true,
+    'enableClientValidation'    => true,
+    'validateOnChange'          => true,
+    'validateOnSubmit'          => true,
+    'validateOnBlur'            => true,
+]); ?>
 <table class="reversed-report-table table table-striped table-bordered">
-    <?php $form = ActiveForm::begin([
-        'id' => 'finance-report-form',
-        'action' => $saveAction,
-    ]); ?>
     <thead>
         <tr>
             <th>Описание</th>
@@ -88,6 +97,6 @@ $isAdmin = Yii::$app->user->can(UserRole::admin->value);
             </tr>
         <?php endif; ?>
     </tbody>
-    <?php ActiveForm::end() ?>
 </table>
+<?php ActiveForm::end() ?>
 <?php endif; ?>

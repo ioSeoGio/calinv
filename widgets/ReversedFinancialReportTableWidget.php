@@ -11,6 +11,7 @@ class ReversedFinancialReportTableWidget extends Widget
     /** @var FinancialReportInterface[] $models */
     public array $models;
     public string $saveAction;
+    public string $validateAction;
     public Model $createForm;
 
     public function run()
@@ -18,6 +19,7 @@ class ReversedFinancialReportTableWidget extends Widget
         return $this->render('reversed-financial-report-table', [
             'models' => $this->models,
             'saveAction' => $this->saveAction,
+            'validateAction' => $this->validateAction,
             'createForm' => $this->createForm,
         ]);
     }

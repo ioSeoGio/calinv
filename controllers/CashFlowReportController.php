@@ -3,6 +3,7 @@
 namespace app\controllers;
 
 use lib\BaseController;
+use src\Action\Issuer\FinancialReport\AccountingBalance\AccountingBalanceCreateForm;
 use src\Action\Issuer\FinancialReport\CashFlowReport\CashFlowReportCreateForm;
 use src\Action\Issuer\FinancialReport\CashFlowReport\CashFlowReportSearchForm;
 use src\Action\Issuer\FinancialReport\FinancialReportByApiCreateForm;
@@ -11,6 +12,7 @@ use src\Entity\Issuer\Issuer;
 use Yii;
 use yii\filters\AccessControl;
 use yii\web\Response;
+use yii\widgets\ActiveForm;
 
 class CashFlowReportController extends BaseController
 {
@@ -86,5 +88,20 @@ class CashFlowReportController extends BaseController
         }
 
         return $this->redirect(['index', 'issuerId' => $issuerId]);
+    }
+
+    public function actionValidate(int $issuerId): array
+    {
+        Yii::$app->response->format = Response::FORMAT_JSON;
+        $issuer = Issuer::getOneById($issuerId);
+
+        if ($post = Yii::$app->request->post()) {
+            $simpleForm = new CashFlowReportCreateForm($issuer, null);
+            $simpleForm->load($post);
+
+            $r = ActiveForm::validate($simpleForm);
+            return $r;
+        }
+        return [];
     }
 }
