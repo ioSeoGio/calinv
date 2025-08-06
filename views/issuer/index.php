@@ -100,7 +100,7 @@ $this->title = 'Калькулятор эмитентов';
                         . '<hr>'
                         . Html::a("Все акции ({$model->getShares()->count()})", ['/share/all-shares', 'ShareSearchForm' => [
                             'issuerId' =>  $model->id,
-                        ]], ['target' => '_blank', 'class' => 'btn btn-primary']);
+                        ]], ['target' => '_blank', 'class' => 'btn btn-secondary']);
                 }
             ],
             [
@@ -114,21 +114,24 @@ $this->title = 'Калькулятор эмитентов';
                 'format' => 'raw',
                 'value' => function (Issuer $model) {
                     return \src\ViewHelper\IssuerCoefficient\K1ViewHelper::render($model);
-                }
+                },
+                'contentOptions' => ['style' => 'min-width: 100px;'],
             ],
             [
                 'label' => 'k2',
                 'format' => 'raw',
                 'value' => function (Issuer $model) {
                     return \src\ViewHelper\IssuerCoefficient\K2ViewHelper::render($model);
-                }
+                },
+                'contentOptions' => ['style' => 'min-width: 100px;'],
             ],
             [
                 'label' => 'k3',
                 'format' => 'raw',
                 'value' => function (Issuer $model) {
                     return \src\ViewHelper\IssuerCoefficient\K3ViewHelper::render($model);
-                }
+                },
+                'contentOptions' => ['style' => 'min-width: 100px;'],
             ],
 //            [
 //                'label' => 'ЭБ обычный',
