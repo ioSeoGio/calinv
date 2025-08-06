@@ -69,16 +69,16 @@ if (Yii::$app->user->isGuest) {
 		'options' => ['class' => 'navbar-nav'],
 		'items' => [
             $common
-            . Html::a('Вход', ['/login'], ['class' => 'nav-link'])
-//			['label' => 'Регистрация', 'url' => ['/auth/signup']],
+            . Html::a('Вход', Url::to(['/login']), ['class' => 'nav-link'])
+			. Html::a('Регистрация', Url::to(['/auth/signup']), ['class' => 'nav-link']),
 		]
 	]);
 } else {
 	echo Nav::widget([
 		'options' => ['class' => 'navbar-nav'],
 		'items' => [
-//			['label' => 'Профиль', 'url' => ['/profile/index']],
             $common
+			. Html::a('Профиль', Url::to(['/profile/index']), ['class' => 'nav-link'])
 			. '<li>'
 			. Html::beginForm(['/auth/logout'], 'post', ['class' => 'form-inline'])
 			. Html::submitButton(

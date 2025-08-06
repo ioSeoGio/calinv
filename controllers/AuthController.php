@@ -3,13 +3,25 @@
 namespace app\controllers;
 
 use lib\BaseController;
+use lib\FlashType;
 use src\Action\Auth\LoginForm;
+use src\Action\Auth\SignUpForm;
+use src\Entity\User\UserSignupFactory;
 use Yii;
 use yii\filters\AccessControl;
 use yii\web\Response;
 
 class AuthController extends BaseController
 {
+    public function __construct(
+        $id,
+        $module,
+        private UserSignupFactory $userSignupFactory,
+        $config = [],
+    ) {
+        parent::__construct($id, $module, $config);
+    }
+
     public function behaviors(): array
     {
         return [
@@ -18,10 +30,12 @@ class AuthController extends BaseController
                 'only' => [
                     'login',
                     'logout',
+                    'sign-up',
+                    'forgot-password',
                 ],
                 'rules' => [
                     [
-                        'actions' => ['login'],
+                        'actions' => ['login', 'sign-up', 'forgot-password'],
                         'allow' => true,
                         'roles' => ['?'],
                     ],
@@ -34,6 +48,22 @@ class AuthController extends BaseController
             ],
         ];
     }
+
+	public function actionSignup(): Response|string
+    {
+		$form = new SignupForm();
+
+		if ($form->load(Yii::$app->request->post()) && $form->validate()) {
+            $user = $this->userSignupFactory->signUp($form);
+            Yii::$app->user->login($user, 3600*24*30);
+
+			return $this->redirect(['/']);
+		}
+
+		return $this->render('sign-up', [
+			'model' => $form,
+		]);
+	}
 
 	public function actionLogin(): Response|string
     {
@@ -59,4 +89,12 @@ class AuthController extends BaseController
 
 		return $this->goHome();
 	}
+
+    public function actionForgotPassword(): Response
+    {
+
+        Yii::$app->session->addFlash(FlashType::success->value, 'Новый пароль отправлен на почту, указанную вами.');
+
+        return $this->refresh();
+    }
 }

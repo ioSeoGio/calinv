@@ -8,10 +8,9 @@ use yii\base\Model;
 
 class LoginForm extends Model
 {
-	public $email;
-	public $password;
-	public mixed $rememberMe = true;
-
+	public ?string $email = null;
+	public ?string $password = null;
+	public ?bool $rememberMe = true;
 	private ?User $_user = null;
 
 	public function rules(): array
@@ -23,6 +22,14 @@ class LoginForm extends Model
 			['password', 'validatePassword'],
 		];
 	}
+
+    public function attributeLabels(): array
+    {
+        return [
+            'email' => 'Email',
+            'password' => 'Пароль',
+        ];
+    }
 
 	public function login(): bool
     {

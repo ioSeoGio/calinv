@@ -2,21 +2,24 @@
 
 namespace src\Entity\User;
 
+use lib\Exception\UserException;
 use src\Action\Auth\SignupForm;
 
 class UserSignupFactory
 {
-    public function singup(
+    public function signUp(
         SignupForm $signupForm,
     ): User {
 		$user = new User();
-		$user->username = $this->username;
-		$user->email = $this->email;
-		$user->setPassword($this->password);
+		$user->username = $signupForm->username;
+		$user->email = $signupForm->email;
+		$user->setPassword($signupForm->password);
 		$user->generateAuthKey();
-		$user->generateAccessToken();
-		$user->created_at = time();
 
-		return $user->save() ? $user : null;
+        if (!$user->save()) {
+            throw new UserException("Во время регистрации произошла ошибка, попробуйте позже.");
+        }
+
+		return $user;
     }
 }

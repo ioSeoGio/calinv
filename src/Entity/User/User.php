@@ -17,7 +17,6 @@ use yii\web\IdentityInterface;
  * @property string $email
  * @property string $password_hash
  * @property string $auth_key
- * @property string $access_token
  * @property int $created_at
  *
  * @property array<PersonalShare> $personalShares
@@ -36,18 +35,31 @@ class User extends BaseActiveRecord implements IdentityInterface
 	public function rules(): array
     {
 		return [
-			[['username', 'email', 'password_hash', 'auth_key', 'access_token', 'created_at'], 'safe'],
-			[['username', 'email'], 'required'],
+			[['username', 'email', 'password_hash', 'auth_key'], 'string'],
+			[['username', 'email', 'password_hash', 'auth_key'], 'required'],
 			[['email'], 'email'],
 			[['username', 'email'], 'unique'],
 		];
 	}
 
+    public function updateProfile(
+        string $username,
+        string $email,
+        ?string $newPassword = null,
+    ): void {
+        $this->username = $username;
+        $this->email = $email;
+
+        if ($newPassword) {
+            $this->password_hash = Yii::$app->security->generatePasswordHash($newPassword);
+            $this->generateAuthKey();
+        }
+    }
+
     public function getPersonalShares(): ActiveQuery
     {
         return $this->hasMany(PersonalShare::class, ['user_id' => 'id']);
     }
-
 
     public function getShareInfo(): array
     {
@@ -107,10 +119,5 @@ class User extends BaseActiveRecord implements IdentityInterface
 	public function generateAuthKey(): void
     {
 		$this->auth_key = Yii::$app->getSecurity()->generateRandomString();
-	}
-
-	public function generateAccessToken(): void
-    {
-		$this->access_token = Yii::$app->getSecurity()->generateRandomString();
 	}
 }
