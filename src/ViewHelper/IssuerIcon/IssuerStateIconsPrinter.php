@@ -16,6 +16,7 @@ class IssuerStateIconsPrinter
             . IssuerTaxesDebtIconPrinter::print($model)
             . IssuerBankruptOrLiquidationIconPrinter::print($model)
             . IssuerShareFullnessStateIconPrinter::print($model)
-            . IssuerShareInfoModeratedIconPrinter::print($model);
+            . IssuerShareInfoModeratedIconPrinter::print($model)
+            . IssuerUnreliableSupplierIconPrinter::print($model);
     }
 }

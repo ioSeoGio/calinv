@@ -2,10 +2,15 @@
 
 namespace src\IssuerRatingCalculator\ExpressRating;
 
+use src\Entity\Issuer\FinanceReport\AccountingBalance\AccountingBalance;
+
 class ExpressRatingCalculator
 {
-    public static function calculateSimple(float $k1, float $k2): float
+    public static function calculateSimple(AccountingBalance $accountingBalance): float
     {
+        $k1 = ($accountingBalance->_590 + $accountingBalance->_690) / $accountingBalance->_300;
+        $k2 = $accountingBalance->_290 / $accountingBalance->_690;
+
         // Расчет баллов для первого коэффициента
         if ($k1 >= 0.89) {
             $score1 = 1.0;
@@ -40,8 +45,11 @@ class ExpressRatingCalculator
         return round($totalScore, 1);
     }
 
-    public static function calculate(float $k1, float $k2): float
+    public static function calculate(AccountingBalance $accountingBalance): float
     {
+        $k1 = ($accountingBalance->_590 + $accountingBalance->_690) / $accountingBalance->_300;
+        $k2 = $accountingBalance->_290 / $accountingBalance->_690;
+
         // Расчет баллов для первого коэффициента
         if ($k1 >= 0.89) {
             $score1 = 1.0;

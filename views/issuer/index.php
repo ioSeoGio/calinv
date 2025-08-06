@@ -8,6 +8,7 @@
 use app\widgets\GuardedActionColumn;
 use lib\FrontendHelper\DetailViewCopyHelper;
 use lib\FrontendHelper\GoodBadValueViewHelper;
+use lib\FrontendHelper\Icon;
 use lib\FrontendHelper\SimpleNumberFormatter;
 use src\Action\Issuer\IssuerCreateForm;
 use src\Action\Issuer\IssuerSearchForm;
@@ -90,19 +91,6 @@ $this->title = 'Калькулятор эмитентов';
                 }
             ],
             [
-                'label' => 'BIK рейтинг',
-                'value' => function (Issuer $model) {
-                    return $model->businessReputationInfo?->rating->value;
-                }
-            ],
-            [
-                'label' => 'Недобросовестный поставщик',
-                'format' => 'raw',
-                'value' => function (Issuer $model) {
-                    return GoodBadValueViewHelper::asBool($model->unreliableSupplier !== null, false);
-                }
-            ],
-            [
                 'label' => 'Активные выпуски акций',
                 'format' => 'raw',
                 'value' => function (Issuer $model) {
@@ -142,15 +130,22 @@ $this->title = 'Калькулятор эмитентов';
                     return \src\ViewHelper\IssuerCoefficient\K3ViewHelper::render($model);
                 }
             ],
+//            [
+//                'label' => 'ЭБ обычный',
+//                'format' => 'raw',
+//                'value' => function (Issuer $model) {
+//                    return ExpressRatingViewHelper::render($model, true);
+//                }
+//            ],
             [
-                'label' => 'ЭБ обычный',
-                'format' => 'raw',
+                'label' => 'BIK рейтинг',
                 'value' => function (Issuer $model) {
-                    return ExpressRatingViewHelper::render($model, true);
+                    return $model->businessReputationInfo?->rating->value;
                 }
             ],
             [
-                'label' => 'ЭБ с лин. зависимостью',
+                'header' => 'Экспресс балл ' . Html::a(Icon::printFaq(), Url::to(['/faq#express-rating'])),
+                'headerOptions' => ['encode' => false],
                 'format' => 'raw',
                 'value' => function (Issuer $model) {
                     return ExpressRatingViewHelper::render($model, false);

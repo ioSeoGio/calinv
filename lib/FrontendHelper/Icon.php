@@ -10,4 +10,9 @@ class Icon
     {
         return Html::tag('i', '', ['class' => $icon]);
     }
+
+    public static function printFaq(): string
+    {
+        return self::print('bi bi-question-octagon');
+    }
 }

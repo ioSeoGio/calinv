@@ -56,7 +56,7 @@ $themeSwitcher = $iconsContainer(
 );
 
 $faq = $iconsContainer(
-    Html::a(Icon::print('bi bi-question-octagon'), Url::to('/faq'), ['style' => ['color' => 'whitesmoke']]),
+    Html::a(Icon::printFaq(), Url::to('/faq'), ['style' => ['color' => 'whitesmoke']]),
     'faq-link'
 );
 

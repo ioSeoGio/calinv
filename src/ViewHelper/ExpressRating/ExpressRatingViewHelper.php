@@ -3,6 +3,7 @@
 namespace src\ViewHelper\ExpressRating;
 
 use lib\FrontendHelper\GoodBadValueViewHelper;
+use lib\FrontendHelper\SimpleNumberFormatter;
 use src\Entity\Issuer\Issuer;
 use src\IssuerRatingCalculator\DECalculator;
 use src\IssuerRatingCalculator\ExpressRating\ExpressRatingCalculator;
@@ -16,13 +17,12 @@ class ExpressRatingViewHelper
         $result = '';
 
         foreach ($issuer->accountBalanceReports as $accountBalanceReport) {
-            $k1 = K1Calculator::calculate($accountBalanceReport);
-            $k2 = K2Calculator::calculate($accountBalanceReport);
-
-            $value = $simple ? ExpressRatingCalculator::calculateSimple($k1, $k2) : ExpressRatingCalculator::calculate($k1, $k2);
+            $value = $simple
+                ? ExpressRatingCalculator::calculateSimple($accountBalanceReport)
+                : ExpressRatingCalculator::calculate($accountBalanceReport);
 
             $result .= "$accountBalanceReport->_year: ";
-            $result .= GoodBadValueViewHelper::execute($value, line: 1, moreBetter: false);
+            $result .= SimpleNumberFormatter::toView($value, 1);
             $result .= '<br>';
         }
         return $result;
