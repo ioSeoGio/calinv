@@ -34,17 +34,41 @@ echo Nav::widget([
     'items' => $items,
 ]);
 
+$iconsContainer = function (string $icon, string $id): string {
+    return Html::tag('div', $icon, [
+        'id' => $id,
+        'class' => 'ms-1',
+        'style' => [
+            'color' => 'whitesmoke',
+            'display' => 'flex',
+            'align-items' => 'center',
+            'justify-content' => 'center',
+        ],
+    ]);
+};
+
 $darkThemeEnabled = Yii::$app->request->cookies->getValue('darkTheme', false);
-$themeSwitcher =
-     "<div id='theme-switcher' style='color:whitesmoke; display: flex; align-items: center; justify-content: center;'>"
-    . ($darkThemeEnabled ? Icon::print('bi bi-lightbulb') : Icon::print('bi bi-lightbulb-off'))
-    . "</div>";
+$themeSwitcher = $iconsContainer(
+    icon: $darkThemeEnabled
+        ? Icon::print('bi bi-lightbulb')
+        : Icon::print('bi bi-lightbulb-off'),
+    id: 'theme-switcher',
+);
+
+$faq = $iconsContainer(
+    Html::a(Icon::print('bi bi-question-octagon'), Url::to('/faq'), ['style' => ['color' => 'whitesmoke']]),
+    'faq-link'
+);
+
+$common = ''
+    . $faq
+    . $themeSwitcher;
 
 if (Yii::$app->user->isGuest) {
 	echo Nav::widget([
 		'options' => ['class' => 'navbar-nav'],
 		'items' => [
-            $themeSwitcher
+            $common
             . Html::a('Вход', ['/login'], ['class' => 'nav-link'])
 //			['label' => 'Регистрация', 'url' => ['/auth/signup']],
 		]
@@ -54,7 +78,7 @@ if (Yii::$app->user->isGuest) {
 		'options' => ['class' => 'navbar-nav'],
 		'items' => [
 //			['label' => 'Профиль', 'url' => ['/profile/index']],
-            $themeSwitcher
+            $common
 			. '<li>'
 			. Html::beginForm(['/auth/logout'], 'post', ['class' => 'form-inline'])
 			. Html::submitButton(

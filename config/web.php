@@ -70,6 +70,7 @@ $config = [
                 'issuer' => '/issuer/index',
 				'login' => 'auth/login',
                 'site/login' => 'auth/login',
+                '/faq' => '/site/faq',
                 '' => '/issuer/index',
             ],
         ],
