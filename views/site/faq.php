@@ -1,8 +1,7 @@
 <?php
 use yii\bootstrap5\Html;
-use yii\bootstrap5\BootstrapAsset;
 
-$this->title = 'Справочник сокращений';
+$this->title = 'Справка';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 
@@ -11,7 +10,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <div class="card shadow-sm">
         <div class="card-header bg-primary text-white">
-            <h2 class="h4 mb-0">Справочник</h2>
+            <h2 class="h4 mb-0">Справочник сокращений</h2>
         </div>
         <div class="card-body">
             <table class="table table-striped table-hover">
