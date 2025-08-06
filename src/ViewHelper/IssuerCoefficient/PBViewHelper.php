@@ -24,4 +24,18 @@ class PBViewHelper
 
         return $result;
     }
+
+    public static function getMathMLFormula(): string
+    {
+        return '<math xmlns="http://www.w3.org/1998/Math/MathML" class="math-large">
+          <mfrac>
+            <mrow>
+              <mi>Капитализация</mi>
+            </mrow>
+            <mrow>
+              <mi>Итоговый баланс (700 строка ОББ)</mi>
+            </mrow>
+          </mfrac>
+        </math>';
+    }
 }

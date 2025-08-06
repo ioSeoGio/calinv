@@ -134,3 +134,11 @@ a.desc:after {
     opacity: 1; /* Показываем подсказку */
     visibility: visible; /* Подсказка видима */
 }
+
+.math-large {
+  font-size: 2em;
+}
+
+.modal-body {
+    text-align: center;
+}

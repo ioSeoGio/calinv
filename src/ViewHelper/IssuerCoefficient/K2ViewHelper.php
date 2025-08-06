@@ -21,4 +21,22 @@ class K2ViewHelper
 
         return $result;
     }
+
+    public static function getMathMLFormula(): string
+    {
+        return '<math xmlns="http://www.w3.org/1998/Math/MathML" class="math-large">
+          <mfrac>
+            <mrow>
+              <mi>Капитал (490 строка ОББ)</mi>
+              <mo>+</mo>
+              <mi>Долгосрочные обязательства (590 строка ОББ)</mi>
+              <mo>-</mo>
+              <mi>Долгосрочные активы (190 строка ОББ)</mi>
+            </mrow>
+            <mrow>
+              <mi>Краткосрочные активы (290 строка ОББ)</mi>
+            </mrow>
+          </mfrac>
+        </math>';
+    }
 }

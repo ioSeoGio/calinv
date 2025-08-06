@@ -21,4 +21,20 @@ class K3ViewHelper
 
         return $result;
     }
+
+    public static function getMathMLFormula(): string
+    {
+        return '<math xmlns="http://www.w3.org/1998/Math/MathML" class="math-large">
+          <mfrac>
+            <mrow>
+              <mi>Краткосрочные обязательства (690 строка ОББ)</mi>
+              <mo>+</mo>
+              <mi>Долгосрочные обязательства (590 строка ОББ)</mi>
+            </mrow>
+            <mrow>
+              <mi>Баланс активов (300 строка ОББ)</mi>
+            </mrow>
+          </mfrac>
+        </math>';
+    }
 }
