@@ -14,6 +14,7 @@ use src\Action\Issuer\IssuerSearchForm;
 use src\Entity\Issuer\Issuer;
 use src\Entity\User\UserRole;
 use src\IssuerRatingCalculator\CapitalizationByShareCalculator;
+use src\ViewHelper\ExpressRating\ExpressRatingViewHelper;
 use src\ViewHelper\IssuerIcon\IssuerStateIconsPrinter;
 use yii\bootstrap5\ActiveForm;
 use yii\data\ActiveDataProvider;
@@ -103,14 +104,21 @@ $this->title = 'Калькулятор эмитентов';
             ],
             [
                 'label' => 'Активные выпуски акций',
+                'format' => 'raw',
                 'value' => function (Issuer $model) {
-                    return $model->getActiveShares()->count();
+                    return Html::a("Активные акции ({$model->getActiveShares()->count()})", ['/share', 'ShareSearchForm' => [
+                            'issuerId' =>  $model->id,
+                        ]], ['target' => '_blank', 'class' => 'btn btn-primary'])
+                        . '<hr>'
+                        . Html::a("Все акции ({$model->getShares()->count()})", ['/share/all-shares', 'ShareSearchForm' => [
+                            'issuerId' =>  $model->id,
+                        ]], ['target' => '_blank', 'class' => 'btn btn-primary']);
                 }
             ],
             [
                 'label' => 'Капитализация',
                 'value' => function (Issuer $model) {
-                    return SimpleNumberFormatter::toView(CapitalizationByShareCalculator::calculate($model)) . ' р.';
+                    return SimpleNumberFormatter::toView(CapitalizationByShareCalculator::calculateInGrands($model)) . ' т.р.';
                 }
             ],
             [
@@ -132,6 +140,20 @@ $this->title = 'Калькулятор эмитентов';
                 'format' => 'raw',
                 'value' => function (Issuer $model) {
                     return \src\ViewHelper\IssuerCoefficient\K3ViewHelper::render($model);
+                }
+            ],
+            [
+                'label' => 'ЭБ обычный',
+                'format' => 'raw',
+                'value' => function (Issuer $model) {
+                    return ExpressRatingViewHelper::render($model, true);
+                }
+            ],
+            [
+                'label' => 'ЭБ с лин. зависимостью',
+                'format' => 'raw',
+                'value' => function (Issuer $model) {
+                    return ExpressRatingViewHelper::render($model, false);
                 }
             ],
             [

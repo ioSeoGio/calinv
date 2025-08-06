@@ -207,7 +207,7 @@ $this->title = $model->name;
                             'issuerId' =>  $model->id,
                         ]], ['target' => '_blank', 'class' => 'btn btn-primary'])
                         . '<br>'
-                        . Html::a("Акции ({$model->getShares()->count()})", ['/share/all-shares', 'ShareSearchForm' => [
+                        . Html::a("Все акции ({$model->getShares()->count()})", ['/share/all-shares', 'ShareSearchForm' => [
                             'issuerId' =>  $model->id,
                         ]], ['target' => '_blank', 'class' => 'btn btn-primary']);
                 }

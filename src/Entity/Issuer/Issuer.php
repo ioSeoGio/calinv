@@ -170,7 +170,8 @@ class Issuer extends ApiFetchedActiveRecord
 
     public function getAccountBalanceReports(): ActiveQuery
     {
-        return $this->hasMany(AccountingBalance::class, ['issuer_id' => 'id']);
+        return $this->hasMany(AccountingBalance::class, ['issuer_id' => 'id'])
+            ->addOrderBy(['_year' => SORT_DESC]);
     }
 
     public function getCashFlowReports(): ActiveQuery
