@@ -63,8 +63,17 @@ $isAdmin = Yii::$app->user->can(UserRole::admin->value);
         </tr>
     </thead>
     <tbody>
-        <?php foreach ($model->getAttributesToShow() as $key => $attribute) : ?>
-            <tr data-key="<?= $key ?>">
+        <?php foreach ($model->getAttributesToShow() as $attributesGroupName => $attributes) : ?>
+            <tr>
+                <td><b><?= $attributesGroupName ?></b></td>
+                <td></td>
+                <?php if ($isAdmin) : ?>
+                    <td></td>
+                <?php endif; ?>
+                <td colspan="<?= count($models) ?>"></td>
+            </tr>
+            <?php foreach ($attributes as $attribute => $attributeName) : ?>
+            <tr>
                 <td><?= $model->getAttributeLabel($attribute) ?></td>
                 <td><?= str_replace('_', '', $attribute) ?></td>
 
@@ -88,6 +97,7 @@ $isAdmin = Yii::$app->user->can(UserRole::admin->value);
                     </td>
                 <?php endforeach; ?>
             </tr>
+            <?php endforeach; ?>
         <?php endforeach; ?>
         <?php if ($isAdmin) : ?>
             <tr>
