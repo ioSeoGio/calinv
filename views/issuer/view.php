@@ -44,7 +44,7 @@ $this->title = $model->name;
                 'label' => 'Важные события',
                 'attribute' => 'eventName',
             ],
-            '_eventDate:datetime',
+            '_eventDate:date',
         ],
     ]) ?>
 
@@ -451,7 +451,7 @@ $this->title = $model->name;
         'filterModel' => $searchForm,
         'columns' => [
             'eventName',
-            '_eventDate:datetime',
+            '_eventDate:date',
         ],
     ]) ?>
 </div>
