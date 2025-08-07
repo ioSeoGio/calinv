@@ -2,6 +2,7 @@
 
 namespace src\ViewHelper\Tools;
 
+use Yii;
 use yii\helpers\Html;
 
 class Badge
@@ -33,8 +34,23 @@ class Badge
 
     private static function render(string $class, mixed $content): string
     {
+        $textClass = Yii::$app->request->cookies->getValue('darkTheme', false)
+            ? 'text-dark'
+            : 'text-light';
+
+        if ($class === 'bg-warning') {
+            $textClass = 'text-dark';
+        } elseif ($class === 'bg-primary') {
+            $textClass = 'text-light';
+        }
+
+//        $textClass = 'text-light';
+//        if ($class === 'bg-warning') {
+//            $textClass = 'text-dark';
+//        }
+
         return Html::tag('strong', $content, [
-            'class' => "badge $class text-dark",
+            'class' => "badge $class $textClass",
         ]);
     }
 }

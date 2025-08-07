@@ -2,12 +2,14 @@
 
 use lib\FrontendHelper\DetailViewCopyHelper;
 use lib\FrontendHelper\GoodBadValueViewHelper;
+use lib\FrontendHelper\NullableValue;
 use lib\FrontendHelper\SimpleNumberFormatter;
 use src\Action\Share\ShareCreateForm;
 use src\Action\Share\ShareSearchForm;
 use src\Entity\Issuer\Issuer;
 use src\Entity\Share\Share;
 use src\Integration\Bcse\BcseUrlHelper;
+use src\ViewHelper\Tools\Badge;
 use yii\bootstrap5\Html;
 use yii\data\ArrayDataProvider;
 use yii\grid\GridView;
@@ -65,7 +67,7 @@ use yii\helpers\ArrayHelper;
         'format' => 'raw',
         'value' => function (Share $model) {
             return $model->lastDealChangePercent !== null
-                ? GoodBadValueViewHelper::execute($model->lastDealChangePercent, 0, postfix: '%')
+                ? GoodBadValueViewHelper::asBadge($model->lastDealChangePercent, 0, true, '%')
                 : 'Не задано';
         }
     ],
@@ -75,7 +77,9 @@ use yii\helpers\ArrayHelper;
         'value' => function (Share $model) {
             return Html::tag(
                 name: 'span',
-                content: $model->currentPrice ? SimpleNumberFormatter::toView($model->currentPrice) . ' р.' : 'Не задано',
+                content: $model->currentPrice
+                    ? Badge::neutral($model->currentPrice . ' р.')
+                    : NullableValue::printNull(),
                 options: ['class' => 'text-primary']
             );
         }
