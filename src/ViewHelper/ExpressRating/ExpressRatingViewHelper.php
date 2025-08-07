@@ -10,30 +10,51 @@ use src\IssuerRatingCalculator\ExpressRating\ExpressRatingCalculator;
 use src\IssuerRatingCalculator\K1Calculator;
 use src\IssuerRatingCalculator\K2Calculator;
 use src\ViewHelper\Tools\Badge;
+use src\ViewHelper\Tools\ShowMoreBtn;
 use yii\helpers\Html;
 
 class ExpressRatingViewHelper
 {
-    public static function render(Issuer $issuer, bool $simple): string
+    public static function render(Issuer $issuer, bool $simple, int $max = 5): string
     {
         $result = '';
+
+        $count = 0;
+        $hiddenValues = '';
+        $id = "more-express-rating-$issuer->id-" . $simple ? 'simple' : 'complex';
 
         foreach ($issuer->accountBalanceReports as $accountBalanceReport) {
             $value = $simple
                 ? ExpressRatingCalculator::calculateSimple($accountBalanceReport)
                 : ExpressRatingCalculator::calculate($accountBalanceReport);
 
-            $result .= $accountBalanceReport->_year . ': ';
+            $printValue = $accountBalanceReport->_year . ': ';
             if ($value < 3) {
-                $result .= Badge::danger(SimpleNumberFormatter::toView($value, 1));
+                $printValue .= Badge::danger(SimpleNumberFormatter::toView($value, 1));
             } elseif ($value < 6) {
-                $result .= Badge::warning(SimpleNumberFormatter::toView($value, 1));
+                $printValue .= Badge::warning(SimpleNumberFormatter::toView($value, 1));
             } else {
-                $result .= Badge::success(SimpleNumberFormatter::toView($value, 1));
+                $printValue .= Badge::success(SimpleNumberFormatter::toView($value, 1));
+            }
+            $printValue .= '<br>';
+
+            if ($count == $max) {
+                $result .= ShowMoreBtn::renderBtn('ещё', $id);
             }
 
-            $result .= '<br>';
+            if ($count >= $max) {
+                $hiddenValues .= $printValue;
+            } else {
+                $result .= $printValue;
+            }
+
+            $count++;
         }
+
+        if (!empty($hiddenValues)) {
+            $result .= ShowMoreBtn::renderContainer($hiddenValues, $id);
+        }
+
         return $result;
     }
 }
