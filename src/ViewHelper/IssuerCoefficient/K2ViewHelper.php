@@ -5,41 +5,22 @@ namespace src\ViewHelper\IssuerCoefficient;
 use lib\FrontendHelper\GoodBadValueViewHelper;
 use src\Entity\Issuer\Issuer;
 use src\IssuerRatingCalculator\K2Calculator;
-use src\ViewHelper\Tools\ShowMoreBtn;
+use src\ViewHelper\Tools\ShowMoreContainer;
 
 class K2ViewHelper
 {
     public static function render(Issuer $issuer, int $max = 5): string
     {
-        $result = '';
-
-        $count = 0;
-        $hiddenValues = '';
-        $id = "more-k2-$issuer->id-container";
+        $values = [];
         foreach ($issuer->accountBalanceReports as $accountBalanceReport) {
             $value = K2Calculator::calculate($accountBalanceReport);
             $printValue = "$accountBalanceReport->_year: ";
             $printValue .= GoodBadValueViewHelper::execute($value, line: 0.15, moreBetter: true);
             $printValue .= '<br>';
-
-            if ($count == $max) {
-                $result .= ShowMoreBtn::renderBtn('ещё', $id);
-            }
-
-            if ($count >= $max) {
-                $hiddenValues .= $printValue;
-            } else {
-                $result .= $printValue;
-            }
-
-            $count++;
+            $values[] = $printValue;
         }
 
-        if (!empty($hiddenValues)) {
-            $result .= ShowMoreBtn::renderContainer($hiddenValues, $id);
-        }
-
-        return $result;
+        return ShowMoreContainer::render($values);
     }
 
     public static function getMathMLFormula(): string

@@ -2,27 +2,17 @@
 
 namespace src\ViewHelper\ExpressRating;
 
-use lib\FrontendHelper\GoodBadValueViewHelper;
 use lib\FrontendHelper\SimpleNumberFormatter;
 use src\Entity\Issuer\Issuer;
-use src\IssuerRatingCalculator\DECalculator;
 use src\IssuerRatingCalculator\ExpressRating\ExpressRatingCalculator;
-use src\IssuerRatingCalculator\K1Calculator;
-use src\IssuerRatingCalculator\K2Calculator;
 use src\ViewHelper\Tools\Badge;
-use src\ViewHelper\Tools\ShowMoreBtn;
-use yii\helpers\Html;
+use src\ViewHelper\Tools\ShowMoreContainer;
 
 class ExpressRatingViewHelper
 {
     public static function render(Issuer $issuer, bool $simple, int $max = 5): string
     {
-        $result = '';
-
-        $count = 0;
-        $hiddenValues = '';
-        $id = "more-express-rating-$issuer->id-" . $simple ? 'simple' : 'complex';
-
+        $values = [];
         foreach ($issuer->accountBalanceReports as $accountBalanceReport) {
             $value = $simple
                 ? ExpressRatingCalculator::calculateSimple($accountBalanceReport)
@@ -38,23 +28,9 @@ class ExpressRatingViewHelper
             }
             $printValue .= '<br>';
 
-            if ($count == $max) {
-                $result .= ShowMoreBtn::renderBtn('ещё', $id);
-            }
-
-            if ($count >= $max) {
-                $hiddenValues .= $printValue;
-            } else {
-                $result .= $printValue;
-            }
-
-            $count++;
+            $values[] = $printValue;
         }
 
-        if (!empty($hiddenValues)) {
-            $result .= ShowMoreBtn::renderContainer($hiddenValues, $id);
-        }
-
-        return $result;
+        return ShowMoreContainer::render($values);
     }
 }
