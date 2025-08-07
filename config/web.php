@@ -1,6 +1,7 @@
 <?php
 
 use app\bootstrap\SetUp;
+use app\filters\AdminFilter;
 use yii\symfonymailer\Mailer;
 
 $params = require __DIR__ . '/params.php';
@@ -23,8 +24,8 @@ $config = [
     ],
     'modules' => [
         'log-reader' => [
-            'class' => 'kriss\logReader\Module',
-            //'as login_filter' => UserLoginFilter::class, // to use login filter
+            'class' => \kriss\logReader\Module::class,
+            'as login_filter' => AdminFilter::class,
             'aliases' => [
                 'Main' => '@app/runtime/logs/app.log',
             ],

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "51a687694e9a251bb2b3f23ea4a9f467",
+    "content-hash": "a8e604cea84533743c799c5c73da0281",
     "packages": [
         {
             "name": "bower-asset/bootstrap",
@@ -476,7 +476,7 @@
         },
         {
             "name": "kriss/yii2-log-reader",
-            "version": "v2.4.1",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/krissss/yii2-log-reader.git",
@@ -491,6 +491,7 @@
             "require": {
                 "yiisoft/yii2": "~2.0.13"
             },
+            "default-branch": true,
             "type": "yii2-extension",
             "autoload": {
                 "psr-4": {
@@ -6849,6 +6850,7 @@
     "minimum-stability": "dev",
     "stability-flags": {
         "kartik-v/yii2-number": 20,
+        "kriss/yii2-log-reader": 20,
         "phpdocumentor/reflection-docblock": 20,
         "simplehtmldom/simplehtmldom": 20,
         "supplyhog/yii2-clipboardjs": 20,
