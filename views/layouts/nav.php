@@ -60,7 +60,16 @@ $faq = $iconsContainer(
     'faq-link'
 );
 
+$logs = '';
+if (Yii::$app->user->can(UserRole::admin->value)) {
+    $logs = $iconsContainer(
+        Html::a(Icon::print('bi bi-device-hdd'), Url::to('/log-reader'), ['style' => ['color' => 'whitesmoke']]),
+        'logs-link'
+    );
+}
+
 $common = ''
+    . $logs
     . $faq
     . $themeSwitcher;
 

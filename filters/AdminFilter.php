@@ -5,7 +5,6 @@ namespace app\filters;
 use src\Entity\User\UserRole;
 use Yii;
 use yii\base\ActionFilter;
-use yii\web\ForbiddenHttpException;
 use yii\web\NotFoundHttpException;
 
 class AdminFilter extends ActionFilter
