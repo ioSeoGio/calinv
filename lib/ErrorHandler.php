@@ -10,15 +10,25 @@ use lib\Exception\UserException\ApiNotFoundException;
 use Yii;
 use yii\base\Response;
 use yii\base\UserException;
+use yii\log\Logger;
 use yii\web\ErrorHandler as YiiErrorHandler;
 
 class ErrorHandler extends YiiErrorHandler
 {
     protected function renderException($exception): void
     {
-        Yii::error("[Exception] {$exception->getMessage()}" . json_encode($exception), 'exception');
+        Yii::getLogger()->log(
+            "[Exception] {$exception->getMessage()}" . json_encode($exception),
+            Logger::LEVEL_ERROR,
+            'app'
+        );
 
-        if (YII_ENV_PROD || EnvGetter::getBool('HIDE_SHIT_EXCEPTIONS', false)) {
+        if ($response = $this->handleUserViewableException($exception)) {
+            $response->send();
+            return;
+        }
+
+        if (EnvGetter::getBool('HIDE_SHIT_EXCEPTIONS', false)) {
             $this->handlerProd($exception)->send();
             return;
         }
@@ -26,15 +36,20 @@ class ErrorHandler extends YiiErrorHandler
         parent::renderException($exception);
     }
 
+    private function handleUserViewableException($exception): ?Response
+    {
+        if ($exception instanceof ApiNotFoundException) {
+            $this->printError($exception, FlashType::warning, 'Стороннее api не нашло запрашиваемые данные.');
+            return $this->redirect();
+        }
+
+        return null;
+    }
+
     private function handlerProd(\Throwable $exception): Response
     {
         if ($exception instanceof ApiBadResponseException) {
             $this->printError($exception, FlashType::warning, 'Стороннее api ответило невалидным форматом данных.');
-            return $this->redirect();
-        }
-
-        if ($exception instanceof ApiNotFoundException) {
-            $this->printError($exception, FlashType::warning, 'Стороннее api не нашло запрашиваемые данные.');
             return $this->redirect();
         }
 

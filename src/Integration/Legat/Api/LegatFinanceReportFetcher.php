@@ -2,7 +2,9 @@
 
 namespace src\Integration\Legat\Api;
 
+use HttpResponse;
 use lib\ApiIntegrator\HttpMethod;
+use lib\Exception\UserException\ApiNotFoundException;
 use src\Entity\Issuer\PayerIdentificationNumber;
 use src\Integration\Legat\Dto\FinanceReportAccountingBalanceDto;
 use src\Integration\Legat\Dto\FinanceReportCashFlowDto;
@@ -30,6 +32,10 @@ class LegatFinanceReportFetcher implements FinanceReportFetcherInterface
             'year' => $year->format('Y'),
         ]);
 
+        if (($response->getContent()['balance'] ?? null) === null) {
+            throw new ApiNotFoundException("Нет данных о бухгалтерском балансе эмитента с УНП {$pid->id}");
+        }
+
         return $this->serializer->deserialize(
             $response->getContent(),
             FinanceReportAccountingBalanceDto::class,
@@ -47,6 +53,10 @@ class LegatFinanceReportFetcher implements FinanceReportFetcherInterface
             'year' => $year->format('Y'),
         ]);
 
+        if (($response->getContent()['profit_loss'] ?? null) === null) {
+            throw new ApiNotFoundException("Нет данных о прибылях и убытках эмитента с УНП {$pid->id}");
+        }
+
         return $this->serializer->deserialize(
             $response->getContent(),
             FinanceReportProfitLossDto::class,
@@ -63,6 +73,10 @@ class LegatFinanceReportFetcher implements FinanceReportFetcherInterface
         $response = $this->client->request(HttpMethod::GET, self::TRAFFIC, $pid, [
             'year' => $year->format('Y'),
         ]);
+
+        if (($response->getContent()['traffic'] ?? null) === null) {
+            throw new ApiNotFoundException("Нет данных о движении денежных средств эмитента с УНП {$pid->id}");
+        }
 
         return $this->serializer->deserialize(
             $response->getContent(),
