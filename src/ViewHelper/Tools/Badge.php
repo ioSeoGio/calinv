@@ -34,7 +34,7 @@ class Badge
 
     private static function render(string $class, mixed $content): string
     {
-        $textClass = Yii::$app->request->cookies->getValue('darkTheme', false)
+        $textClass = Yii::$app->request->cookies->getValue('darkTheme', true)
             ? 'text-dark'
             : 'text-light';
 

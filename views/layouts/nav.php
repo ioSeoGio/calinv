@@ -47,7 +47,7 @@ $iconsContainer = function (string $icon, string $id): string {
     ]);
 };
 
-$darkThemeEnabled = Yii::$app->request->cookies->getValue('darkTheme', false);
+$darkThemeEnabled = Yii::$app->request->cookies->getValue('darkTheme', true);
 $themeSwitcher = $iconsContainer(
     icon: $darkThemeEnabled
         ? Icon::print('bi bi-lightbulb')

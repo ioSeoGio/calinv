@@ -19,7 +19,7 @@ $this->registerMetaTag(['name' => 'description', 'content' => $this->params['met
 $this->registerMetaTag(['name' => 'keywords', 'content' => $this->params['meta_keywords'] ?? '']);
 $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii::getAlias('@web/favicon.ico')]);
 
-$darkThemeEnabled = Yii::$app->request->cookies->getValue('darkTheme', false);
+$darkThemeEnabled = Yii::$app->request->cookies->getValue('darkTheme', true);
 ?>
 <?php $this->beginPage() ?>
 <!DOCTYPE html>
