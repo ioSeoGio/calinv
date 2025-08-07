@@ -67,7 +67,7 @@ use yii\helpers\ArrayHelper;
         'format' => 'raw',
         'value' => function (Share $model) {
             return $model->lastDealChangePercent !== null
-                ? GoodBadValueViewHelper::asBadge($model->lastDealChangePercent, 0, true, '%')
+                ? GoodBadValueViewHelper::asBadge($model->lastDealChangePercent, 0.00, true, '%')
                 : 'Не задано';
         }
     ],
