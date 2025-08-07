@@ -87,12 +87,22 @@ class ProfitLossReport extends ApiFetchedActiveRecord implements FinancialReport
         ], $attributes);
     }
 
-    public function getAttributesToShow(): array
+    public static function getAttributesToShow(): array
     {
-        return $this->financialAttributes();
+        return self::financialAttributes();
     }
 
-    private function financialAttributes(): array
+    public static function getFinancialAttributeLabel(string $attribute): string
+    {
+        $attributes = [];
+        foreach (self::financialAttributes() as $items) {
+            $attributes = array_merge($attributes, $items);
+        }
+
+        return $attributes[$attribute] ?? '';
+    }
+
+    private static function financialAttributes(): array
     {
         return [
             'ОСНОВНАЯ ДЕЯТЕЛЬНОСТЬ' => [

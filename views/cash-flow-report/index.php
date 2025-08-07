@@ -32,6 +32,7 @@ $this->title = 'Отчет о движении денежных средств (
 <div class="issuer-view">
     <?= \app\widgets\ReversedFinancialReportTableWidget::widget([
         'models' => $dataProvider->getModels(),
+        'modelClass' => \src\Entity\Issuer\FinanceReport\CashFlowReport\CashFlowReport::class,
         'saveAction' => Url::to(['/cash-flow-report/create', 'issuerId' => $model->id]),
         'validateAction' => Url::to(['/cash-flow-report/validate', 'issuerId' => $model->id]),
         'createForm' => $createForm,

@@ -33,6 +33,7 @@ $this->title = 'Отчет о прибылях и убытках ' . $model->nam
 <div class="issuer-view">
     <?= \app\widgets\ReversedFinancialReportTableWidget::widget([
         'models' => $dataProvider->getModels(),
+        'modelClass' => \src\Entity\Issuer\FinanceReport\ProfitLossReport\ProfitLossReport::class,
         'saveAction' => Url::to(['/profit-loss-report/create', 'issuerId' => $model->id]),
         'validateAction' => Url::to(['/profit-loss-report/validate', 'issuerId' => $model->id]),
         'createForm' => $createForm,

@@ -11,6 +11,7 @@ use yii\helpers\Url;
 use yii\widgets\ActiveForm;
 
 /** @var FinancialReportInterface[] $models */
+/** @var string $modelClass */
 /** @var string $saveAction */
 /** @var string $validateAction */
 /** @var \yii\base\Model $createForm */
@@ -18,7 +19,6 @@ use yii\widgets\ActiveForm;
 $isAdmin = Yii::$app->user->can(UserRole::admin->value);
 ?>
 
-<?php if (!empty($models)): ?>
 <?php $form = ActiveForm::begin([
     'id' => 'finance-report-form',
 
@@ -47,7 +47,7 @@ $isAdmin = Yii::$app->user->can(UserRole::admin->value);
             <?php endif; ?>
             <?php foreach ($models as $model) : ?>
                 <?php $formattedYear = $model->getYear()->format('Y'); ?>
-                <?php if ($isAdmin) : ?>
+                <?php if ($isAdmin): ?>
                     <th><?=
                         Html::a(
                             $formattedYear,
@@ -63,7 +63,7 @@ $isAdmin = Yii::$app->user->can(UserRole::admin->value);
         </tr>
     </thead>
     <tbody>
-        <?php foreach ($model->getAttributesToShow() as $attributesGroupName => $attributes) : ?>
+        <?php foreach ($modelClass::getAttributesToShow() as $attributesGroupName => $attributes): ?>
             <tr>
                 <td><b><?= $attributesGroupName ?></b></td>
                 <td></td>
@@ -74,7 +74,7 @@ $isAdmin = Yii::$app->user->can(UserRole::admin->value);
             </tr>
             <?php foreach ($attributes as $attribute => $attributeName) : ?>
             <tr>
-                <td><?= $model->getAttributeLabel($attribute) ?></td>
+                <td><?= $modelClass::getFinancialAttributeLabel($attribute) ?></td>
                 <td><?= str_replace('_', '', $attribute) ?></td>
 
                 <?php if ($isAdmin) : ?>
@@ -109,4 +109,3 @@ $isAdmin = Yii::$app->user->can(UserRole::admin->value);
     </tbody>
 </table>
 <?php ActiveForm::end() ?>
-<?php endif; ?>
