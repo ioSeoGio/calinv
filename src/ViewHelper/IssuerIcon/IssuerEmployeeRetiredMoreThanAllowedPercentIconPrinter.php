@@ -45,7 +45,7 @@ class IssuerEmployeeRetiredMoreThanAllowedPercentIconPrinter
 
         $title = "Эмитент сократил численность работников: ";
         foreach ($badSigns as $year => $retiredPercent) {
-            $title .= round($retiredPercent) . "% в $year году";
+            $title .= 'на ' . round($retiredPercent) . "% в $year году";
             if (next($badSigns)) {
                 $title .= ", ";
             }
