@@ -171,13 +171,13 @@ class CashFlowReport extends ApiFetchedActiveRecord implements FinancialReportIn
             'issuer_id' => $issuer->id,
             '_year' => $date->format('Y'),
             '_termType' => $termType->value,
-            '_dataType' => $dataType->value,
         ]) ?: new self([
             'issuer_id' => $issuer->id,
             '_year' => $date->format('Y'),
             '_termType' => $termType->value,
-            '_dataType' => $dataType->value,
         ]);
+
+        $self->_dataType = $dataType->value;
 
         $self->updateFieldsFromDto($dto);
         $self->renewLastApiUpdateDate();
