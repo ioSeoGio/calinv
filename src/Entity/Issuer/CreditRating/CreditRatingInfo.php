@@ -1,59 +1,65 @@
 <?php
 
-namespace src\Entity\Issuer\BusinessReputationRating;
+namespace src\Entity\Issuer\CreditRating;
 
-use DateInterval;
 use DateTimeImmutable;
 use lib\Database\ApiFetchedActiveRecord;
 use lib\Helper\TrimHelper;
 use src\Entity\Issuer\Issuer;
-use src\Entity\Issuer\PayerIdentificationNumber;
+use src\Integration\Bik\CreditRating\BikCreditRatingForecast;
 use yii\db\ActiveQuery;
 
 /**
  * @inheritDoc
- * @property string $_pid
- * @property PayerIdentificationNumber $pid
- *
  * @property string $issuerName
  *
- * @property string $_lastUpdateDate Дата последнего рейтингово действия
- * @property \DateTimeImmutable $lastUpdateDate Дата последнего рейтингово действия
+ * @property ?BikCreditRatingForecast $forecast
+ * @property ?string $_forecast
+ *
+ * @property string $_assignmentDate;
+ * @property \DateTimeImmutable $assignmentDate;
+ *
+ * @property string $_lastUpdateDate Дата последнего рейтингового действия
+ * @property \DateTimeImmutable $lastUpdateDate Дата последнего рейтингового действия
  *
  * @property string $_rating;
- * @property IssuerBusinessReputation $rating
+ * @property CreditRating $rating
  *
  * @property string $pressReleaseLink
  */
-class BusinessReputationInfo extends ApiFetchedActiveRecord
+class CreditRatingInfo extends ApiFetchedActiveRecord
 {
     public static function tableName(): string
     {
-        return 'issuer_business_reputation_info';
+        return 'issuer_credit_rating_info';
     }
 
     public function attributeLabels(): array
     {
         return [
             '_rating' => 'Рейтинг',
+            '_assignmentDate' => 'Дата присвоения',
+            '_forecast' => 'Прогноз',
             '_lastUpdateDate' => 'Последнее обновление от BIK',
             'pressReleaseLink' => 'Пресс релиз',
-            '_pid' => 'УНП',
             'issuerName' => 'Эмитент',
         ];
     }
 
     public static function make(
         string $issuerName,
-        PayerIdentificationNumber $pid,
-        IssuerBusinessReputation $rating,
+        CreditRating $rating,
+        ?BikCreditRatingForecast $forecast,
+        DateTimeImmutable $assignmentDate,
         DateTimeImmutable $lastUpdateDate,
         string $pressReleaseLink,
     ): self {
-        $self = new self(['_pid' => $pid->id]);
+        $self = new self();
         $self->updateInfo(
             issuerName: $issuerName,
             rating: $rating,
+            forecast: $forecast,
+            assignmentDate: $assignmentDate,
             lastUpdateDate: $lastUpdateDate,
             pressReleaseLink: $pressReleaseLink,
         );
@@ -66,33 +72,37 @@ class BusinessReputationInfo extends ApiFetchedActiveRecord
         return self::findOne(['issuerName' => $issuerName]);
     }
 
-    public static function findByPid(PayerIdentificationNumber $pid): ?self
-    {
-        return self::findOne(['_pid' => $pid->id]);
-    }
-
     public function updateInfo(
         string $issuerName,
-        IssuerBusinessReputation $rating,
+        CreditRating $rating,
+        ?BikCreditRatingForecast $forecast,
+        DateTimeImmutable $assignmentDate,
         DateTimeImmutable $lastUpdateDate,
         string $pressReleaseLink,
     ): void {
         $this->issuerName = $issuerName;
         $this->_rating = $rating->value;
+        $this->_forecast = $forecast?->value;
+        $this->_assignmentDate = $assignmentDate->format(DATE_ATOM);
         $this->_lastUpdateDate = $lastUpdateDate->format(DATE_ATOM);
         $this->pressReleaseLink = TrimHelper::trim($pressReleaseLink);
 
         $this->renewLastApiUpdateDate();
     }
 
-    public function getPid(): PayerIdentificationNumber
+    public function getRating(): CreditRating
     {
-        return new PayerIdentificationNumber($this->_pid);
+        return CreditRating::from($this->_rating);
     }
 
-    public function getRating(): IssuerBusinessReputation
+    public function getForecast(): ?BikCreditRatingForecast
     {
-        return IssuerBusinessReputation::from($this->_rating);
+        return BikCreditRatingForecast::fromString($this->_forecast);
+    }
+
+    public function getAssignmentDate(): DateTimeImmutable
+    {
+        return DateTimeImmutable::createFromFormat(DATE_ATOM, $this->_assignmentDate);
     }
 
     public function getLastUpdateDate(): DateTimeImmutable

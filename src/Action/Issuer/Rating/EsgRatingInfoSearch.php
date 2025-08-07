@@ -21,7 +21,8 @@ class EsgRatingInfoSearch extends Model
     public function search($params): ActiveDataProvider
     {
         $query = EsgRatingInfo::find()
-            ->with('issuer');
+            ->with('issuer')
+            ->addOrderBy(['_rating' => SORT_ASC]);
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,

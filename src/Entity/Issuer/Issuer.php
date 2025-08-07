@@ -8,6 +8,8 @@ use src\Entity\Issuer\AdditionalInfo\IssuerAdditionalInfo;
 use src\Entity\Issuer\AdditionalInfo\IssuerLiquidationInfo;
 use src\Entity\Issuer\AddressInfo\AddressInfo;
 use src\Entity\Issuer\BusinessReputationRating\BusinessReputationInfo;
+use src\Entity\Issuer\CreditRating\CreditRating;
+use src\Entity\Issuer\CreditRating\CreditRatingInfo;
 use src\Entity\Issuer\EsgRating\EsgRatingInfo;
 use src\Entity\Issuer\FinanceReport\AccountingBalance\AccountingBalance;
 use src\Entity\Issuer\FinanceReport\CashFlowReport\CashFlowReport;
@@ -27,6 +29,7 @@ use yii\db\ActiveQuery;
  * @property ?BusinessReputationInfo $businessReputationInfo Рейтинг деловой репутации BIK
  * @property ?AddressInfo $addressInfo
  * @property ?EsgRatingInfo $esgRatingInfo Рейтинг ESG
+ * @property ?CreditRatingInfo $creditRatingInfo Кредитный рейтинг
  * @property ?UnreliableSupplier $unreliableSupplier Запись о ненадежном поставщике
  * @property Share[] $shares Акции эмитента
  * @property Share[] $activeShares Акции в обороте
@@ -193,6 +196,12 @@ class Issuer extends ApiFetchedActiveRecord
     {
         // @todo придумать как подтягивать по имени если не нашло по УНП
         return $this->hasOne(EsgRatingInfo::class, ['_pid' => '_pid']);
+    }
+
+    public function getCreditRatingInfo(): ActiveQuery
+    {
+        // @todo придумать как подтягивать по имени если не нашло по УНП
+        return $this->hasOne(CreditRatingInfo::class, ['issuerName' => 'name']);
     }
 
     public function getUnreliableSupplier(): ActiveQuery

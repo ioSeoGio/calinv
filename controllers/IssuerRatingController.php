@@ -4,9 +4,11 @@ namespace app\controllers;
 
 use lib\BaseController;
 use src\Action\Issuer\Rating\BusinessReputationInfoSearch;
+use src\Action\Issuer\Rating\CreditRatingInfoSearch;
 use src\Action\Issuer\Rating\EsgRatingInfoSearch;
 use src\Action\Issuer\UnreliableSupplier\UnreliableSupplierSearchForm;
 use src\Integration\Bik\BusinessReputation\BusinessReputationRatingFetcher;
+use src\Integration\Bik\CreditRating\CreditRatingFetcher;
 use src\Integration\Bik\EsgRating\EsgRatingFetcher;
 use src\Integration\Gias\UnreliableSupplier\GiasUnreliableSupplierFetcher;
 use Yii;
@@ -23,6 +25,7 @@ class IssuerRatingController extends BaseController
         private BusinessReputationRatingFetcher $businessReputationRatingFetcher,
         private EsgRatingFetcher $esgRatingFetcher,
         private GiasUnreliableSupplierFetcher $giasUnreliableSupplierFetcher,
+        private CreditRatingFetcher $creditRatingFetcher,
 
         $config = []
     )
@@ -36,6 +39,7 @@ class IssuerRatingController extends BaseController
             'access' => [
                 'class' => AccessControl::class,
                 'only' => [
+                    'renew-credit-rating',
                     'renew-business-rating',
                     'renew-esg-rating',
                     'renew-unreliable-supplier',
@@ -43,6 +47,7 @@ class IssuerRatingController extends BaseController
                 'rules' => [
                     [
                         'actions' => [
+                            'renew-credit-rating',
                             'renew-business-rating',
                             'renew-esg-rating',
                             'renew-unreliable-supplier',
@@ -53,6 +58,24 @@ class IssuerRatingController extends BaseController
                 ],
             ],
         ];
+    }
+
+    public function actionCreditRating(): string
+    {
+        $searchForm = new CreditRatingInfoSearch();
+        $dataProvider = $searchForm->search(Yii::$app->request->queryParams);
+
+        return $this->render('issuer_credit_rating', [
+            'searchForm' => $searchForm,
+            'dataProvider' => $dataProvider,
+        ]);
+    }
+
+    public function actionRenewCreditRating(): Response
+    {
+        $this->creditRatingFetcher->updateRatings();
+
+        return $this->redirect(['/issuer-rating/credit-rating']);
     }
 
     public function actionBusinessRating(): string

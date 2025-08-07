@@ -8,6 +8,7 @@ enum BikEsgForecast: string
 {
     case positive = 'позитивный';
     case stable = 'стабильный';
+    case negative = 'негативный';
     case uncertain = 'неопределенный';
     case unknown = 'неизвестен';
 

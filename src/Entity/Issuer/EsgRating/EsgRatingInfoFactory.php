@@ -20,7 +20,7 @@ class EsgRatingInfoFactory
                     rating: $dto->rating->toEsgRating(),
                     category: $dto->category,
                     assignmentDate: $dto->assignmentDate,
-                    expirationDate: $dto->expirationDate,
+                    lastUpdateDate: $dto->lastUpdateDate,
                     pressReleaseLink: $dto->pressReleaseLink,
                 );
                 $esgRatingInfo->save();
@@ -41,7 +41,7 @@ class EsgRatingInfoFactory
             rating: $dto->rating->toEsgRating(),
             category: $dto->category,
             assignmentDate: $dto->assignmentDate,
-            expirationDate: $dto->expirationDate,
+            lastUpdateDate: $dto->lastUpdateDate,
             pressReleaseLink: $dto->pressReleaseLink,
         );
         $model->save();

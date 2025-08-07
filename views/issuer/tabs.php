@@ -25,6 +25,11 @@ $url = Url::current();
             'active' => str_contains($url, '/issuer-rating/esg-rating'),
         ],
         [
+            'label' => 'Кредитный рейтинг BIK',
+            'url' => ['/issuer-rating/credit-rating'],
+            'active' => str_contains($url, '/issuer-rating/credit-rating'),
+        ],
+        [
             'label' => 'Реестр недобросовестных поставщиков',
             'url' => ['/issuer-rating/unreliable-supplier'],
             'active' => str_contains($url, '/issuer-rating/unreliable-supplier'),

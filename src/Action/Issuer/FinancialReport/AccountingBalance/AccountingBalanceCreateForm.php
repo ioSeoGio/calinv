@@ -189,6 +189,7 @@ class AccountingBalanceCreateForm extends Model
             [['year'], 'required'],
             [['year'], 'date', 'format' => 'php:Y'],
 
+            [['_690'], 'compare', 'compareValue' => 0, 'operator' => '!=', 'type' => 'number'],
             [$nullable, 'default', 'value' => null],
             [array_merge($nullable, $required), 'double'],
             [$required, 'required', 'message' => 'Заполните.'],

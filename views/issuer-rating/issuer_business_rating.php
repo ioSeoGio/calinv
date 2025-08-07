@@ -49,7 +49,7 @@ $this->title = 'Рейтинг деловой репутации BIK';
                     return IssuerBikRatingViewHelper::renderBusinessReputation($model, false);
                 }
             ],
-            '_expirationDate:date',
+            '_lastUpdateDate:date',
             [
                 'attribute' => 'pressReleaseLink',
                 'format' => 'raw',

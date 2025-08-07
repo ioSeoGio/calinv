@@ -4,6 +4,7 @@
 /** @var ActiveDataProvider $dataProvider */
 /** @var UnreliableSupplierSearchForm $searchForm */
 
+use lib\FrontendHelper\DetailViewCopyHelper;
 use src\Action\Issuer\UnreliableSupplier\UnreliableSupplierSearchForm;
 use src\Entity\Issuer\UnreliableSupplier\UnreliableSupplier;
 use src\Entity\User\UserRole;
@@ -30,7 +31,13 @@ $this->title = 'Недобросовестные поставщики';
         ],
         'filterModel' => $searchForm,
         'columns' => [
-            '_pid',
+            [
+                'attribute' => '_pid',
+                'format' => 'raw',
+                'value' => function (UnreliableSupplier $model) {
+                    return DetailViewCopyHelper::renderValueColored($model->_pid);
+                }
+            ],
             'issuerName',
             'reason',
             [

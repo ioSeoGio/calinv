@@ -30,8 +30,8 @@ use yii\db\ActiveRecord;
  * @property string $_assignmentDate;
  * @property \DateTimeImmutable $assignmentDate;
  *
- * @property string $_expirationDate;
- * @property \DateTimeImmutable $expirationDate;
+ * @property string $_lastUpdateDate;
+ * @property \DateTimeImmutable $lastUpdateDate;
  *
  * @property string $pressReleaseLink;
  */
@@ -47,7 +47,7 @@ class EsgRatingInfo extends ApiFetchedActiveRecord
         return [
             '_rating' => 'Рейтинг',
             '_assignmentDate' => 'Дата присвоения',
-            '_expirationDate' => 'Срок годности',
+            '_lastUpdateDate' => 'Последнее обновление от BIK',
             'pressReleaseLink' => 'Пресс релиз',
             '_pid' => 'УНП',
             'issuerName' => 'Эмитент',
@@ -65,7 +65,7 @@ class EsgRatingInfo extends ApiFetchedActiveRecord
         EsgRating $rating,
         EsgIssuerCategory $category,
         \DateTimeImmutable $assignmentDate,
-        \DateTimeImmutable $expirationDate,
+        \DateTimeImmutable $lastUpdateDate,
         string $pressReleaseLink,
     ): void {
         $this->_pid = $pid ? $pid->id : $this->_pid;
@@ -73,7 +73,7 @@ class EsgRatingInfo extends ApiFetchedActiveRecord
         $this->_rating = $rating->value;
         $this->_category = $category->value;
         $this->_assignmentDate = $assignmentDate->format(DATE_ATOM);
-        $this->_expirationDate = $expirationDate->format(DATE_ATOM);
+        $this->_lastUpdateDate = $lastUpdateDate->format(DATE_ATOM);
         $this->pressReleaseLink = $pressReleaseLink;
 
         $this->renewLastApiUpdateDate();
@@ -86,7 +86,7 @@ class EsgRatingInfo extends ApiFetchedActiveRecord
         EsgRating $rating,
         EsgIssuerCategory $category,
         \DateTimeImmutable $assignmentDate,
-        \DateTimeImmutable $expirationDate,
+        \DateTimeImmutable $lastUpdateDate,
         string $pressReleaseLink,
     ): self {
         $self = new self(['issuerName' => $issuerName]);
@@ -96,7 +96,7 @@ class EsgRatingInfo extends ApiFetchedActiveRecord
             rating: $rating,
             category: $category,
             assignmentDate: $assignmentDate,
-            expirationDate: $expirationDate,
+            lastUpdateDate: $lastUpdateDate,
             pressReleaseLink: $pressReleaseLink,
         );
 
@@ -115,7 +115,7 @@ class EsgRatingInfo extends ApiFetchedActiveRecord
 
     public function getLastUpdateDate(): DateTimeImmutable
     {
-        return DateTimeImmutable::createFromFormat(DATE_ATOM, $this->_expirationDate);
+        return DateTimeImmutable::createFromFormat(DATE_ATOM, $this->_lastUpdateDate);
     }
 
     public function getAssignmentDate(): DateTimeImmutable

@@ -17,7 +17,7 @@ class m250628_215725_create_issuer_esg_rating_info_table extends Migration
             '_category' => $this->string()->notNull(),
 
             '_assignmentDate' => $this->string()->notNull(),
-            '_expirationDate' => $this->string()->notNull(),
+            '_lastUpdateDate' => $this->string()->notNull(),
 
             'pressReleaseLink' => $this->text()->notNull(),
 

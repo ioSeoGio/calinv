@@ -3,24 +3,24 @@
 namespace src\Action\Issuer\Rating;
 
 use src\Entity\Issuer\BusinessReputationRating\BusinessReputationInfo;
+use src\Entity\Issuer\CreditRating\CreditRatingInfo;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
 
-class BusinessReputationInfoSearch extends Model
+class CreditRatingInfoSearch extends Model
 {
     public string $issuerName = '';
-    public string $pid = '';
 
     public function rules(): array
     {
         return [
-            [['issuerName', 'pid'], 'string'],
+            [['issuerName'], 'string'],
         ];
     }
 
     public function search($params): ActiveDataProvider
     {
-        $query = BusinessReputationInfo::find()
+        $query = CreditRatingInfo::find()
             ->with('issuer')
             ->addOrderBy(['_rating' => SORT_ASC]);
 
@@ -36,8 +36,7 @@ class BusinessReputationInfoSearch extends Model
             return $dataProvider;
         }
 
-        $query->andFilterWhere(['ilike', 'issuerName', $this->issuerName])
-            ->andFilterWhere(['ilike', 'pid', $this->pid]);
+        $query->andFilterWhere(['ilike', 'issuerName', $this->issuerName]);
 
         return $dataProvider;
     }

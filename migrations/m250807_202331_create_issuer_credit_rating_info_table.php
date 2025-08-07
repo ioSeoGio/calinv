@@ -2,25 +2,28 @@
 
 use yii\db\Migration;
 
-class m250628_173807_create_issuer_business_reputation_info_table extends Migration
+class m250807_202331_create_issuer_credit_rating_info_table extends Migration
 {
     public function safeUp(): void
     {
-        $this->createTable('{{%issuer_business_reputation_info}}', [
+        $this->createTable('{{%issuer_credit_rating_info}}', [
             'id' => $this->primaryKey(),
 
             'issuerName' => $this->string()->notNull(),
-            '_pid' => $this->string()->notNull(),
+            '_forecast' => $this->string()->null(),
             '_rating' => $this->string()->notNull(),
+
+            '_assignmentDate' => $this->string()->notNull(),
             '_lastUpdateDate' => $this->string()->notNull(),
+
             'pressReleaseLink' => $this->text()->notNull(),
 
-            '_lastApiUpdateDate' => $this->string()->notNull(),
+            '_lastApiUpdateDate' =>  $this->string()->notNull(),
         ]);
     }
 
     public function safeDown(): void
     {
-        $this->dropTable('{{%issuer_business_reputation_info}}');
+        $this->dropTable('{{%issuer_credit_rating_info}}');
     }
 }

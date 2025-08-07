@@ -13,7 +13,7 @@ class BusinessReputationInfoFactory
                 $businessIssuerInfo->updateInfo(
                     issuerName: $dto->issuerName,
                     rating: $dto->businessReputation->toIssuerBusinessReputation(),
-                    expirationDate:  $dto->expirationDate,
+                    lastUpdateDate: $dto->lastUpdateDate,
                     pressReleaseLink: $dto->pressReleaseLink,
                 );
                 $businessIssuerInfo->save();
@@ -27,10 +27,10 @@ class BusinessReputationInfoFactory
     {
         $model = BusinessReputationInfo::make(
             issuerName: $dto->issuerName,
-            pid:  $dto->pid,
+            pid: $dto->pid,
             rating: $dto->businessReputation->toIssuerBusinessReputation(),
-            expirationDate:  $dto->expirationDate,
-            pressReleaseLink:  $dto->pressReleaseLink,
+            lastUpdateDate: $dto->lastUpdateDate,
+            pressReleaseLink: $dto->pressReleaseLink,
         );
         $model->save();
     }
