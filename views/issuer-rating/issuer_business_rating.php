@@ -4,9 +4,12 @@
 /** @var ActiveDataProvider $dataProvider */
 /** @var BusinessReputationInfoSearch $searchForm */
 
+use lib\FrontendHelper\DetailViewCopyHelper;
 use src\Action\Issuer\Rating\BusinessReputationInfoSearch;
 use src\Entity\Issuer\BusinessReputationRating\BusinessReputationInfo;
+use src\Entity\Issuer\BusinessReputationRating\IssuerBusinessReputation;
 use src\Entity\User\UserRole;
+use src\ViewHelper\IssuerRating\IssuerBikRatingViewHelper;
 use yii\data\ActiveDataProvider;
 use yii\grid\GridView;
 use yii\helpers\Html;
@@ -32,9 +35,21 @@ $this->title = 'Рейтинг деловой репутации BIK';
         'filterModel' => $searchForm,
         'columns' => [
             'issuerName',
-            '_pid',
-            '_rating',
-            '_lastUpdateDate:datetime',
+            [
+                'attribute' => '_pid',
+                'format' => 'raw',
+                'value' => function (BusinessReputationInfo $model) {
+                    return DetailViewCopyHelper::renderValueColored($model->_pid);
+                }
+            ],
+            [
+                'attribute' => '_rating',
+                'format' => 'raw',
+                'value' => function (BusinessReputationInfo $model) {
+                    return IssuerBikRatingViewHelper::renderBusinessReputation($model, false);
+                }
+            ],
+            '_expirationDate:date',
             [
                 'attribute' => 'pressReleaseLink',
                 'format' => 'raw',

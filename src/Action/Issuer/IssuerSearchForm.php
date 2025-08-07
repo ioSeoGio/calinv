@@ -33,8 +33,8 @@ class IssuerSearchForm extends Model
             return $dataProvider;
         }
 
-        $query->andFilterWhere(['like', 'name', $this->name])
-            ->andFilterWhere(['like', 'bikScore', $this->bikScore]);
+        $query->andFilterWhere(['ilike', 'name', $this->name])
+            ->andFilterWhere(['ilike', 'bikScore', $this->bikScore]);
 
         return $dataProvider;
     }

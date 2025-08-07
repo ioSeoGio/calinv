@@ -12,4 +12,36 @@ enum IssuerBusinessReputation: string
     case D = 'D reputation';
     case Expired = 'Отозван';
     case Unknown = 'Неизвестный';
+
+    public function isGood(): bool
+    {
+        return in_array($this, [
+            self::AAA,
+            self::AA,
+            self::A,
+        ]);
+    }
+
+    public function isOk(): bool
+    {
+        return in_array($this, [
+            self::B,
+        ]);
+    }
+
+    public function isBad(): bool
+    {
+        return in_array($this, [
+            self::C,
+            self::D,
+        ]);
+    }
+
+    public function isNeutral(): bool
+    {
+        return in_array($this, [
+            self::Expired,
+            self::Unknown,
+        ]);
+    }
 }

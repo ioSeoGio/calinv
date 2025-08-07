@@ -41,7 +41,7 @@ class EsgRatingFetcher
                     rating: $issuerBlock->find('.rate')[0]->innertext(),
                     category:  $issuerBlock->find('.way')[0]->innertext(),
                     assignmentDate: $issuerBlock->find('.date')[0]->innertext(),
-                    lastUpdateDate: $issuerBlock->find('.date')[1]->innertext(),
+                    expirationDate: $issuerBlock->find('.date')[1]->innertext(),
                     pressReleaseLink: $issuerBlock->find('.press a')[0]->getAttribute('href'),
                 );
 

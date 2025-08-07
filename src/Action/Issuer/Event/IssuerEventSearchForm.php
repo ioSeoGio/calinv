@@ -26,7 +26,7 @@ class IssuerEventSearchForm extends Model
 
         $criteria = [];
         foreach (IssuerEvent::IMPORTANT_EVENTS as $importantEvent) {
-            $criteria[] = ['like', 'eventName', $importantEvent];
+            $criteria[] = ['ilike', 'eventName', $importantEvent];
         }
         $dataProvider->query->andFilterWhere(['OR', ...$criteria]);
 

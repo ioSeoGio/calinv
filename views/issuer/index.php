@@ -17,6 +17,7 @@ use src\Entity\User\UserRole;
 use src\IssuerRatingCalculator\CapitalizationByShareCalculator;
 use src\ViewHelper\ExpressRating\ExpressRatingViewHelper;
 use src\ViewHelper\IssuerIcon\IssuerStateIconsPrinter;
+use src\ViewHelper\IssuerRating\IssuerBikRatingViewHelper;
 use yii\bootstrap5\ActiveForm;
 use yii\data\ActiveDataProvider;
 use yii\grid\GridView;
@@ -87,18 +88,18 @@ $this->title = 'Калькулятор эмитентов';
                 'attribute' => '_pid',
                 'format' => 'raw',
                 'value' => function (Issuer $model) {
-                    return DetailViewCopyHelper::render($model, '_pid');
+                    return DetailViewCopyHelper::renderValueColored($model->_pid);
                 }
             ],
             [
-                'label' => 'Активные выпуски акций',
+                'label' => 'Выпуски акций',
                 'format' => 'raw',
                 'value' => function (Issuer $model) {
-                    return Html::a("Активные акции ({$model->getActiveShares()->count()})", ['/share', 'ShareSearchForm' => [
+                    return Html::a("Активные ({$model->getActiveShares()->count()})", ['/share', 'ShareSearchForm' => [
                             'issuerId' =>  $model->id,
                         ]], ['target' => '_blank', 'class' => 'btn btn-primary'])
                         . '<hr>'
-                        . Html::a("Все акции ({$model->getShares()->count()})", ['/share/all-shares', 'ShareSearchForm' => [
+                        . Html::a("Все ({$model->getShares()->count()})", ['/share/all-shares', 'ShareSearchForm' => [
                             'issuerId' =>  $model->id,
                         ]], ['target' => '_blank', 'class' => 'btn btn-secondary']);
                 }
@@ -141,13 +142,14 @@ $this->title = 'Калькулятор эмитентов';
 //                }
 //            ],
             [
-                'label' => 'BIK рейтинг',
+                'label' => 'BIK',
+                'format' => 'html',
                 'value' => function (Issuer $model) {
-                    return $model->businessReputationInfo?->rating->value;
+                    return IssuerBikRatingViewHelper::render($model);
                 }
             ],
             [
-                'header' => 'Экспресс балл ' . Html::a(Icon::printFaq(), Url::to(['/faq#express-rating'])),
+                'header' => '<span title="Экспресс балл">ЭБ</span> ' . Html::a(Icon::printFaq(), Url::to(['/faq#express-rating'])),
                 'headerOptions' => ['encode' => false],
                 'format' => 'raw',
                 'value' => function (Issuer $model) {

@@ -14,7 +14,7 @@ class EsgRatingDto
     public BikEsgRating $rating;
     public EsgIssuerCategory $category;
     public \DateTimeImmutable $assignmentDate;
-    public \DateTimeImmutable $lastUpdateDate;
+    public \DateTimeImmutable $expirationDate;
     public string $pressReleaseLink;
 
     public function __construct(
@@ -23,7 +23,7 @@ class EsgRatingDto
         string $rating,
         string $category,
         string $assignmentDate,
-        string $lastUpdateDate,
+        string $expirationDate,
         string $pressReleaseLink,
     ) {
         $this->issuerName = IssuerNameTransformer::transform($issuerName);
@@ -32,7 +32,7 @@ class EsgRatingDto
         $this->rating = BikEsgRating::fromString($rating);
         $this->category = EsgIssuerCategory::fromString($category);
         $this->assignmentDate = DateTimeHelper::createFromShit('d.m.Y', $assignmentDate);
-        $this->lastUpdateDate = DateTimeHelper::createFromShit('d.m.Y', $lastUpdateDate);
+        $this->expirationDate = DateTimeHelper::createFromShit('d.m.Y', $expirationDate);
         $this->pressReleaseLink = TrimHelper::trim($pressReleaseLink);
     }
 }

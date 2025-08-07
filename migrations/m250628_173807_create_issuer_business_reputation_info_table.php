@@ -12,7 +12,7 @@ class m250628_173807_create_issuer_business_reputation_info_table extends Migrat
             'issuerName' => $this->string()->notNull(),
             '_pid' => $this->string()->notNull(),
             '_rating' => $this->string()->notNull(),
-            '_lastUpdateDate' => $this->string()->notNull(),
+            '_expirationDate' => $this->string()->notNull(),
             'pressReleaseLink' => $this->text()->notNull(),
 
             '_lastApiUpdateDate' => $this->string()->notNull(),

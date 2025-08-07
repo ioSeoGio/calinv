@@ -51,7 +51,7 @@ class DetailViewCopyHelper
 
     public static function renderValueColored(mixed $value): string
     {
-        return ClipboardJsWidget::widget([
+        return $value === null ? '' : ClipboardJsWidget::widget([
             'text' => $value,
             'tag' => 'span',
             'htmlOptions' => ['class' => 'btn btn-m btn-default', 'type' => 'span', 'title' => ''],

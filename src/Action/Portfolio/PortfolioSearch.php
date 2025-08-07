@@ -31,7 +31,7 @@ class PortfolioSearch extends Model
             return $dataProvider;
         }
 
-        $query->andFilterWhere(['like', 'username', $this->username]);
+        $query->andFilterWhere(['ilike', 'username', $this->username]);
 
         return $dataProvider;
     }

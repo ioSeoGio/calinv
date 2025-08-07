@@ -4,9 +4,12 @@
 /** @var ActiveDataProvider $dataProvider */
 /** @var EsgRatingInfoSearch $searchForm */
 
+use lib\FrontendHelper\DetailViewCopyHelper;
 use src\Action\Issuer\Rating\EsgRatingInfoSearch;
+use src\Entity\Issuer\BusinessReputationRating\BusinessReputationInfo;
 use src\Entity\Issuer\EsgRating\EsgRatingInfo;
 use src\Entity\User\UserRole;
+use src\ViewHelper\IssuerRating\IssuerBikRatingViewHelper;
 use yii\data\ActiveDataProvider;
 use yii\grid\GridView;
 use yii\helpers\Html;
@@ -32,9 +35,22 @@ $this->title = 'ESG Рейтинг BIK';
         'filterModel' => $searchForm,
         'columns' => [
             'issuerName',
-            '_pid',
-            '_rating',
-            '_lastUpdateDate:datetime',
+            [
+                'attribute' => '_pid',
+                'format' => 'raw',
+                'value' => function (EsgRatingInfo $model) {
+                    return DetailViewCopyHelper::renderValueColored($model->_pid);
+                }
+            ],
+            [
+                'attribute' => '_rating',
+                'format' => 'raw',
+                'value' => function (EsgRatingInfo $model) {
+                    return IssuerBikRatingViewHelper::renderEsgRating($model, false);
+                }
+            ],
+            '_assignmentDate:date',
+            '_expirationDate:date',
             [
                 'attribute' => 'pressReleaseLink',
                 'format' => 'raw',

@@ -17,4 +17,41 @@ enum EsgRating: string
     case C = 'C.esg';
     case Expired = 'Отозван';
     case Unknown = 'Неизвестен';
+
+    public function isGood(): bool
+    {
+        return in_array($this, [
+            self::AAA,
+            self::AAPlus,
+            self::AA,
+            self::APlus,
+            self::A,
+        ]);
+    }
+
+    public function isOk(): bool
+    {
+        return in_array($this, [
+            self::BBB,
+            self::BB,
+            self::B,
+        ]);
+    }
+
+    public function isBad(): bool
+    {
+        return in_array($this, [
+            self::CCC,
+            self::CC,
+            self::C,
+        ]);
+    }
+
+    public function isNeutral(): bool
+    {
+        return in_array($this, [
+            self::Expired,
+            self::Unknown,
+        ]);
+    }
 }

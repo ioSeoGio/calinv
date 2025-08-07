@@ -37,7 +37,7 @@ class BusinessReputationRatingFetcher
                     pid: $issuerBlock->find('.unp')[0]->innertext(),
                     issuerName: $issuerBlock->find('.full_name')[0]->childNodes(0)->innertext(),
                     rating: $issuerBlock->find('.rating_dr')[0]->innertext(),
-                    lastUpdateDate: $issuerBlock->find('.date_s')[1]->innertext(),
+                    expirationDate: $issuerBlock->find('.date_s')[1]->innertext(),
                     pressReleaseLink: $issuerBlock->find('.press a')[0]->getAttribute('href'),
                 );
             }

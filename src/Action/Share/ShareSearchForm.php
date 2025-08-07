@@ -34,7 +34,7 @@ class ShareSearchForm extends Model
             return $dataProvider;
         }
 
-        $query->andFilterWhere(['like', 'name', $this->name]);
+        $query->andFilterWhere(['ilike', 'name', $this->name]);
         if ($this->issuerId !== 'All' && $this->issuerId !== '') {
             $query->andFilterWhere(['issuer_id' => $this->issuerId]);
         }

@@ -37,7 +37,7 @@ class UnreliableSupplierSearchForm extends Model
             return $dataProvider;
         }
 
-        $query->andFilterWhere(['like', 'issuerName', $this->issuerName])
+        $query->andFilterWhere(['ilike', 'issuerName', $this->issuerName])
             ->andFilterWhere(['like', 'pid', $this->pid]);
 
         return $dataProvider;

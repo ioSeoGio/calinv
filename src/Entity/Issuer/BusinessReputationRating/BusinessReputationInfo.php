@@ -2,6 +2,7 @@
 
 namespace src\Entity\Issuer\BusinessReputationRating;
 
+use DateInterval;
 use DateTimeImmutable;
 use lib\Database\ApiFetchedActiveRecord;
 use lib\Helper\TrimHelper;
@@ -11,18 +12,18 @@ use yii\db\ActiveQuery;
 
 /**
  * @inheritDoc
- * @property string $_pid;
- * @property PayerIdentificationNumber $pid;
+ * @property string $_pid
+ * @property PayerIdentificationNumber $pid
  *
- * @property string $issuerName;
+ * @property string $issuerName
  *
- * @property string $_lastUpdateDate;
- * @property \DateTimeImmutable $lastUpdateDate;
+ * @property string $_expirationDate Дата окончания действия рейтинга
+ * @property \DateTimeImmutable $expirationDate Дата окончания действия рейтинга
  *
  * @property string $_rating;
- * @property IssuerBusinessReputation $rating;
+ * @property IssuerBusinessReputation $rating
  *
- * @property string $pressReleaseLink;
+ * @property string $pressReleaseLink
  */
 class BusinessReputationInfo extends ApiFetchedActiveRecord
 {
@@ -34,8 +35,8 @@ class BusinessReputationInfo extends ApiFetchedActiveRecord
     public function attributeLabels(): array
     {
         return [
-            '_rating' => 'BIK рейтинг деловой репутации',
-            '_lastUpdateDate' => 'Дата последнего обновления',
+            '_rating' => 'Рейтинг',
+            '_expirationDate' => 'Срок действия',
             'pressReleaseLink' => 'Пресс релиз',
             '_pid' => 'УНП',
             'issuerName' => 'Эмитент',
@@ -46,14 +47,14 @@ class BusinessReputationInfo extends ApiFetchedActiveRecord
         string $issuerName,
         PayerIdentificationNumber $pid,
         IssuerBusinessReputation $rating,
-        DateTimeImmutable $lastUpdateDate,
+        DateTimeImmutable $expirationDate,
         string $pressReleaseLink,
     ): self {
         $self = new self(['_pid' => $pid->id]);
         $self->updateInfo(
             issuerName: $issuerName,
             rating: $rating,
-            lastUpdateDate: $lastUpdateDate,
+            expirationDate: $expirationDate,
             pressReleaseLink: $pressReleaseLink,
         );
 
@@ -73,12 +74,12 @@ class BusinessReputationInfo extends ApiFetchedActiveRecord
     public function updateInfo(
         string $issuerName,
         IssuerBusinessReputation $rating,
-        DateTimeImmutable $lastUpdateDate,
+        DateTimeImmutable $expirationDate,
         string $pressReleaseLink,
     ): void {
         $this->issuerName = $issuerName;
         $this->_rating = $rating->value;
-        $this->_lastUpdateDate = $lastUpdateDate->format(DATE_ATOM);
+        $this->_expirationDate = $expirationDate->format(DATE_ATOM);
         $this->pressReleaseLink = TrimHelper::trim($pressReleaseLink);
 
         $this->renewLastApiUpdateDate();
@@ -94,9 +95,14 @@ class BusinessReputationInfo extends ApiFetchedActiveRecord
         return IssuerBusinessReputation::from($this->_rating);
     }
 
-    public function getLastUpdateDate(): DateTimeImmutable
+    public function getExpirationDate(): DateTimeImmutable
     {
-        return DateTimeImmutable::createFromFormat(DATE_ATOM, $this->_lastUpdateDate);
+        return DateTimeImmutable::createFromFormat(DATE_ATOM, $this->_expirationDate);
+    }
+
+    public function getAssignmentDate(): DateTimeImmutable
+    {
+        return $this->getExpirationDate()->sub(DateInterval::createFromDateString("1 year"));
     }
 
     public function getIssuer(): ActiveQuery

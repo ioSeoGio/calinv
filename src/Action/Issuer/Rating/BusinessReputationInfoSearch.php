@@ -35,8 +35,8 @@ class BusinessReputationInfoSearch extends Model
             return $dataProvider;
         }
 
-        $query->andFilterWhere(['like', 'issuerName', $this->issuerName])
-            ->andFilterWhere(['like', 'pid', $this->pid]);
+        $query->andFilterWhere(['ilike', 'issuerName', $this->issuerName])
+            ->andFilterWhere(['ilike', 'pid', $this->pid]);
 
         return $dataProvider;
     }

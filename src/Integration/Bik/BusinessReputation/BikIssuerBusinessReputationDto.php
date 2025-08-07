@@ -13,7 +13,7 @@ class BikIssuerBusinessReputationDto
 {
     public string $issuerName;
     public PayerIdentificationNumber $pid;
-    public \DateTimeImmutable $lastUpdateDate;
+    public \DateTimeImmutable $expirationDate;
     public BikBusinessReputation $businessReputation;
     public string $pressReleaseLink;
 
@@ -21,13 +21,13 @@ class BikIssuerBusinessReputationDto
         string $pid,
         string $issuerName,
         string $rating,
-        string $lastUpdateDate,
+        string $expirationDate,
         string $pressReleaseLink,
     ) {
         $this->issuerName = IssuerNameTransformer::transform($issuerName);
         $this->pressReleaseLink = TrimHelper::trim($pressReleaseLink);
         $this->pid = new PayerIdentificationNumber($pid);
-        $this->lastUpdateDate = DateTimeHelper::createFromShit('d.m.Y', $lastUpdateDate);
+        $this->expirationDate = DateTimeHelper::createFromShit('d.m.Y', $expirationDate);
         $this->businessReputation = BikBusinessReputation::fromString($rating);
     }
 }
