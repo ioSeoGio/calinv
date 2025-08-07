@@ -206,10 +206,10 @@ $this->title = $model->name;
                     return $result . Html::a("Активные акции ({$model->getActiveShares()->count()})", ['/share', 'ShareSearchForm' => [
                             'issuerId' =>  $model->id,
                         ]], ['target' => '_blank', 'class' => 'btn btn-primary'])
-                        . '<br>'
+                        . '<hr>'
                         . Html::a("Все акции ({$model->getShares()->count()})", ['/share/all-shares', 'ShareSearchForm' => [
                             'issuerId' =>  $model->id,
-                        ]], ['target' => '_blank', 'class' => 'btn btn-primary']);
+                        ]], ['target' => '_blank', 'class' => 'btn btn-secondary']);
                 }
             ],
             [

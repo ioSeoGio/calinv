@@ -9,5 +9,5 @@
 
     ym(103584831, 'init', {ssr:true, clickmap:true, ecommerce:"dataLayer", accurateTrackBounce:true, trackLinks:true});
 </script>
-<!--<noscript><div><img src="https://mc.yandex.ru/watch/103584831" style="position:absolute; left:-9999px;" alt="" /></div></noscript>-->
+<noscript><div><img src="https://mc.yandex.ru/watch/103584831" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
 <!-- /Yandex.Metrika counter -->
