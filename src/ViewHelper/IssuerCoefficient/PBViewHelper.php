@@ -5,24 +5,26 @@ namespace src\ViewHelper\IssuerCoefficient;
 use lib\FrontendHelper\GoodBadValueViewHelper;
 use src\Entity\Issuer\Issuer;
 use src\IssuerRatingCalculator\PBCalculator;
+use src\ViewHelper\Tools\ShowMoreContainer;
 
 class PBViewHelper
 {
     public static function render(Issuer $model): string
     {
-        $result = '';
+        $values = [];
 
         foreach ($model->accountBalanceReports as $accountBalanceReport) {
             $pb = PBCalculator::calculate($model, $accountBalanceReport);
 
-            $result .= "$accountBalanceReport->_year: ";
+            $result = "$accountBalanceReport->_year: ";
             $result .= $pb
-                ? GoodBadValueViewHelper::execute($pb, line: 1, moreBetter: false)
+                ? GoodBadValueViewHelper::asBadge($pb, line: 1, moreBetter: false)
                 : null;
             $result .= '<br>';
+            $values[] = $result;
         }
 
-        return $result;
+        return ShowMoreContainer::render($values);
     }
 
     public static function getMathMLFormula(): string

@@ -5,20 +5,24 @@ namespace src\ViewHelper\IssuerCoefficient;
 use lib\FrontendHelper\GoodBadValueViewHelper;
 use src\Entity\Issuer\Issuer;
 use src\IssuerRatingCalculator\DECalculator;
+use src\ViewHelper\Tools\ShowMoreContainer;
 
 class DEViewHelper
 {
     public static function render(Issuer $issuer): string
     {
-        $result = '';
+        $values = [];
 
         foreach ($issuer->accountBalanceReports as $accountBalanceReport) {
             $value = DECalculator::calculate($accountBalanceReport);
-            $result .= "$accountBalanceReport->_year: ";
-            $result .= GoodBadValueViewHelper::execute($value, line: 1, moreBetter: false);
+            $result = "$accountBalanceReport->_year: ";
+            $result .= GoodBadValueViewHelper::asBadge($value, line: 1, moreBetter: false);
             $result .= '<br>';
+
+            $values[] = $result;
         }
-        return $result;
+
+        return ShowMoreContainer::render($values);
     }
 
     public static function getMathMLFormula(): string

@@ -5,24 +5,27 @@ namespace src\ViewHelper\IssuerCoefficient;
 use lib\FrontendHelper\GoodBadValueViewHelper;
 use src\Entity\Issuer\Issuer;
 use src\IssuerRatingCalculator\ROECalculator;
+use src\ViewHelper\Tools\ShowMoreContainer;
 
 class ROEViewHelper
 {
     public static function render(Issuer $issuer): string
     {
-        $result = '';
+        $values = [];
 
         $accountBalanceReports = $issuer->accountBalanceReports;
         $profitLossReports = $issuer->profitLossReports;
 
         for ($i = 0; $i < min(count($accountBalanceReports), count($profitLossReports)); $i++) {
             $value = ROECalculator::calculate($profitLossReports[$i], $accountBalanceReports[$i]);
-            $result .= "{$profitLossReports[$i]->_year}: ";
-            $result .= GoodBadValueViewHelper::execute($value * 100, line: 10, moreBetter: true, postfix: '%');
+            $result = "{$profitLossReports[$i]->_year}: ";
+            $result .= GoodBadValueViewHelper::asBadge($value * 100, 10,true, '%');
             $result .= '<br>';
+
+            $values[] = $result;
         }
 
-        return $result;
+        return ShowMoreContainer::render($values);
     }
 
     public static function getMathMLFormula(): string

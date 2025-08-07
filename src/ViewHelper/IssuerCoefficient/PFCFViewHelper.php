@@ -5,24 +5,26 @@ namespace src\ViewHelper\IssuerCoefficient;
 use lib\FrontendHelper\GoodBadValueViewHelper;
 use src\Entity\Issuer\Issuer;
 use src\IssuerRatingCalculator\PFCFCalculator;
+use src\ViewHelper\Tools\ShowMoreContainer;
 
 class PFCFViewHelper
 {
     public static function render(Issuer $model): string
     {
-        $result = '';
+        $values = [];
 
         foreach ($model->cashFlowReports as $cashFlowReport) {
             $value = PFCFCalculator::calculate($model, $cashFlowReport);
 
-            $result .= "$cashFlowReport->_year: ";
+            $result = "$cashFlowReport->_year: ";
             $result .= $value
-                ? GoodBadValueViewHelper::inRange($value, min: 0, max: 20)
+                ? GoodBadValueViewHelper::inRangeAsBadge($value, min: 0, max: 20)
                 : null;
             $result .= '<br>';
+            $values[] = $result;
         }
 
-        return $result;
+        return ShowMoreContainer::render($values);
     }
 
     public static function getMathMLFormula(): string

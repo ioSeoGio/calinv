@@ -38,7 +38,7 @@ class IssuerBikRatingViewHelper
         } elseif ($rating->isBad()) {
             $result .= Badge::danger($rating->value);
         } else {
-            $result .= Badge::neutral($rating->value);
+            $result .= Badge::secondary($rating->value);
         }
 
         return $result;
@@ -63,7 +63,7 @@ class IssuerBikRatingViewHelper
         } elseif ($rating->isBad()) {
             $result .= Badge::danger($rating->value);
         } else {
-            $result .= Badge::neutral($rating->value);
+            $result .= Badge::secondary($rating->value);
         }
 
         return $result;

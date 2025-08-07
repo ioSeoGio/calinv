@@ -23,6 +23,11 @@ class Badge
 
     public static function neutral(mixed $content): string
     {
+        return self::render('bg-primary', $content);
+    }
+    
+    public static function secondary(mixed $content): string
+    {
         return self::render('bg-secondary', $content);
     }
 

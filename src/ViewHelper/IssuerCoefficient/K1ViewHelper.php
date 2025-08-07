@@ -5,7 +5,6 @@ namespace src\ViewHelper\IssuerCoefficient;
 use lib\FrontendHelper\GoodBadValueViewHelper;
 use src\Entity\Issuer\Issuer;
 use src\IssuerRatingCalculator\K1Calculator;
-use src\ViewHelper\Tools\ShowMoreBtn;
 use src\ViewHelper\Tools\ShowMoreContainer;
 
 class K1ViewHelper
@@ -16,7 +15,11 @@ class K1ViewHelper
         foreach ($issuer->accountBalanceReports as $accountBalanceReport) {
             $value = K1Calculator::calculate($accountBalanceReport);
             $printValue = "$accountBalanceReport->_year: ";
-            $printValue .= GoodBadValueViewHelper::execute($value, line: 1.15, moreBetter: true);
+            $printValue .= GoodBadValueViewHelper::asBadge(
+                value: $value,
+                line: 1.15,
+                moreBetter: true
+            );
             $printValue .= '<br>';
             $values[] = $printValue;
         }

@@ -5,24 +5,27 @@ namespace src\ViewHelper\IssuerCoefficient;
 use lib\FrontendHelper\GoodBadValueViewHelper;
 use src\Entity\Issuer\Issuer;
 use src\IssuerRatingCalculator\PECalculator;
+use src\ViewHelper\Tools\ShowMoreContainer;
 
 class PEViewHelper
 {
     public static function render(Issuer $model): string
     {
-        $result = '';
+        $values = [];
 
         foreach ($model->profitLossReports as $profitLossReport) {
             $pe = PECalculator::calculate($model, $profitLossReport);
 
-            $result .= "$profitLossReport->_year: ";
+            $result = "$profitLossReport->_year: ";
             $result .= $pe
-                ? GoodBadValueViewHelper::execute($pe, line: 10, moreBetter: false)
+                ? GoodBadValueViewHelper::asBadge($pe, line: 10, moreBetter: false)
                 : null;
             $result .= '<br>';
+
+            $values[] = $result;
         }
 
-        return $result;
+        return ShowMoreContainer::render($values);
     }
 
     public static function getMathMLFormula(): string

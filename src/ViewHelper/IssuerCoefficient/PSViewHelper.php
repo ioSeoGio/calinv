@@ -5,24 +5,27 @@ namespace src\ViewHelper\IssuerCoefficient;
 use lib\FrontendHelper\GoodBadValueViewHelper;
 use src\Entity\Issuer\Issuer;
 use src\IssuerRatingCalculator\PSCalculator;
+use src\ViewHelper\Tools\ShowMoreContainer;
 
 class PSViewHelper
 {
     public static function render(Issuer $model): string
     {
-        $result = '';
+        $values = [];
 
         foreach ($model->profitLossReports as $profitLossReport) {
             $value = PSCalculator::calculate($model, $profitLossReport);
 
-            $result .= "$profitLossReport->_year: ";
+            $result = "$profitLossReport->_year: ";
             $result .= $value
-                ? GoodBadValueViewHelper::inRange($value, min: 0, max: 2)
+                ? GoodBadValueViewHelper::inRangeAsBadge($value, min: 0, max: 2)
                 : null;
             $result .= '<br>';
+
+            $values[] = $result;
         }
 
-        return $result;
+        return ShowMoreContainer::render($values);
     }
 
     public static function getMathMLFormula(): string

@@ -15,7 +15,11 @@ class K3ViewHelper
         foreach ($issuer->accountBalanceReports as $accountBalanceReport) {
             $value = K3Calculator::calculate($accountBalanceReport);
             $printValue = "$accountBalanceReport->_year: ";
-            $printValue .= GoodBadValueViewHelper::execute($value, line: 0.85, moreBetter: false);
+            $printValue .= GoodBadValueViewHelper::asBadge(
+                value: $value,
+                line: 0.85,
+                moreBetter: false
+            );
             $printValue .= '<br>';
             $values[] = $printValue;
         }
