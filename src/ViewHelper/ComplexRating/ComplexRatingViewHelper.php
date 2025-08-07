@@ -1,0 +1,35 @@
+<?php
+
+namespace src\ViewHelper\ComplexRating;
+
+use lib\FrontendHelper\SimpleNumberFormatter;
+use src\Entity\Issuer\Issuer;
+use src\IssuerRatingCalculator\ComplexRating\ComplexRatingCalculator;
+use src\ViewHelper\Tools\Badge;
+use src\ViewHelper\Tools\ShowMoreContainer;
+
+class ComplexRatingViewHelper
+{
+    public static function render(Issuer $issuer, int $max = 5): string
+    {
+        $values = ComplexRatingCalculator::calculateMany($issuer);
+        $printValues = [];
+
+        foreach ($values as $year => $value) {
+            $printValue = $year . ': ';
+
+            if ($value < 3) {
+                $printValue .= Badge::danger(SimpleNumberFormatter::toView($value, 1));
+            } elseif ($value < 6) {
+                $printValue .= Badge::warning(SimpleNumberFormatter::toView($value, 1));
+            } else {
+                $printValue .= Badge::success(SimpleNumberFormatter::toView($value, 1));
+            }
+            $printValue .= '<br>';
+
+            $printValues[] = $printValue;
+        }
+
+        return ShowMoreContainer::render($printValues, $max);
+    }
+}

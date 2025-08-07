@@ -15,6 +15,7 @@ use src\Action\Issuer\IssuerSearchForm;
 use src\Entity\Issuer\Issuer;
 use src\Entity\User\UserRole;
 use src\IssuerRatingCalculator\CapitalizationByShareCalculator;
+use src\ViewHelper\ComplexRating\ComplexRatingViewHelper;
 use src\ViewHelper\ExpressRating\ExpressRatingViewHelper;
 use src\ViewHelper\IssuerIcon\IssuerStateIconsPrinter;
 use src\ViewHelper\IssuerRating\IssuerBikRatingViewHelper;
@@ -69,14 +70,14 @@ $this->title = 'Калькулятор эмитентов';
         'filterModel' => $searchForm,
         'columns' => [
             [
-                'label' => 'важное',
+                'label' => 'Важное',
                 'format' => 'raw',
                 'value' => function (Issuer $model) {
                     return IssuerStateIconsPrinter::printMany($model);
                 }
             ],
             [
-                'label' => 'эмитент',
+                'label' => 'Эмитент',
                 'attribute' => 'name',
                 'format' => 'raw',
                 'value' => function (Issuer $model) {
@@ -150,11 +151,22 @@ $this->title = 'Калькулятор эмитентов';
                 }
             ],
             [
-                'header' => '<span title="Экспресс балл">ЭБ</span> ' . Html::a(Icon::printFaq(), Url::to(['/faq#express-rating'])),
+                'header' => '<span title="Экспресс балл">ЭБ</span> '
+                    . Html::a(Icon::printFaq(), Url::to(['/faq#express-rating'])),
                 'headerOptions' => ['encode' => false],
                 'format' => 'raw',
                 'value' => function (Issuer $model) {
                     return ExpressRatingViewHelper::render($model, false);
+                },
+                'contentOptions' => ['style' => 'min-width: 95px;'],
+            ],
+            [
+                'header' => '<span title="Комплексный балл">КБ</span> '
+                    . Html::a(Icon::printFaq(), Url::to(['/faq#complex-rating'])),
+                'headerOptions' => ['encode' => false],
+                'format' => 'raw',
+                'value' => function (Issuer $model) {
+                    return ComplexRatingViewHelper::render($model);
                 },
                 'contentOptions' => ['style' => 'min-width: 95px;'],
             ],

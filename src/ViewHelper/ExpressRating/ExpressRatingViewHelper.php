@@ -31,6 +31,6 @@ class ExpressRatingViewHelper
             $values[] = $printValue;
         }
 
-        return ShowMoreContainer::render($values);
+        return ShowMoreContainer::render($values, $max);
     }
 }
