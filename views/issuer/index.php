@@ -102,7 +102,8 @@ $this->title = 'Калькулятор эмитентов';
                         . Html::a("Все ({$model->getShares()->count()})", ['/share/all-shares', 'ShareSearchForm' => [
                             'issuerId' =>  $model->id,
                         ]], ['target' => '_blank', 'class' => 'btn btn-secondary']);
-                }
+                },
+                'contentOptions' => ['style' => 'min-width: 140px;'],
             ],
             [
                 'label' => 'Капитализация',
@@ -154,7 +155,8 @@ $this->title = 'Калькулятор эмитентов';
                 'format' => 'raw',
                 'value' => function (Issuer $model) {
                     return ExpressRatingViewHelper::render($model, false);
-                }
+                },
+                'contentOptions' => ['style' => 'min-width: 95px;'],
             ],
             [
                 'class' => GuardedActionColumn::class,
