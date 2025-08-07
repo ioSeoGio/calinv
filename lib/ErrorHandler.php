@@ -59,7 +59,6 @@ class ErrorHandler extends YiiErrorHandler
 
     private function printError(\Throwable $e, FlashType $flashType, string $defaultMessage): void
     {
-        Yii::$app->session->setFlash('error', 'govno');
         Yii::$app->session->setFlash($flashType->value, $e->getMessage() ?: $defaultMessage);
     }
 

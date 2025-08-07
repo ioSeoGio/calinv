@@ -48,7 +48,7 @@ $config = [
             'class' => 'yii\caching\FileCache',
         ],
         'user' => [
-            'identityClass' => 'src\Entity\User\User',
+            'identityClass' => \src\Entity\User\User::class,
             'enableAutoLogin' => true,
         ],
         'errorHandler' => [
@@ -60,6 +60,7 @@ $config = [
                 [
                     'class' => 'yii\log\FileTarget',
                     'levels' => ['error', 'warning'],
+                    'exportInterval' => 1,
                 ],
             ],
         ],
