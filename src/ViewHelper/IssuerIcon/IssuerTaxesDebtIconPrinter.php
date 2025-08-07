@@ -19,7 +19,7 @@ class IssuerTaxesDebtIconPrinter
             Icon::print('bi bi-coin'),
             [
                 'class' => 'btn btn-sm btn-outline-danger me-1',
-                'title' => 'Эмитент имеет задолженности перед ФСЗН или МНС',
+                'title' => 'Эмитент имел и/или имеет задолженности перед ФСЗН или МНС',
             ]
         );
     }

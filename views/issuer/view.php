@@ -41,7 +41,7 @@ $this->title = $model->name;
         ],
         'columns' => [
             [
-                'label' => 'Важное событие за последние 2 года',
+                'label' => 'Важные события',
                 'attribute' => 'eventName',
             ],
             '_eventDate:datetime',

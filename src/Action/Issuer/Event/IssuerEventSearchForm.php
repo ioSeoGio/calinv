@@ -22,7 +22,8 @@ class IssuerEventSearchForm extends Model
     public function searchImportant(Issuer $issuer): ActiveDataProvider
     {
         $dataProvider = $this->search($issuer, []);
-        $dataProvider->query->andWhere(['>=', '_eventDate', (new \DateTime())->modify('-2 year')->format(DATE_ATOM)]);
+        // Пока рисуем все события
+//        $dataProvider->query->andWhere(['>=', '_eventDate', (new \DateTime())->modify('-2 year')->format(DATE_ATOM)]);
 
         $criteria = [];
         foreach (IssuerEvent::IMPORTANT_EVENTS as $importantEvent) {
