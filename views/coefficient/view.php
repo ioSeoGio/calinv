@@ -7,10 +7,15 @@
 /** @var ActiveDataProvider $importantEventDataProvider */
 
 use app\widgets\SimpleModal;use lib\FrontendHelper\DetailViewCopyHelper;
+use lib\FrontendHelper\Icon;
 use src\Action\Issuer\Event\IssuerEventSearchForm;
 use src\Entity\Issuer\Issuer;
+use src\ViewHelper\ComplexRating\ComplexRatingViewHelper;
+use src\ViewHelper\ExpressRating\ExpressRatingViewHelper;
+use src\ViewHelper\IssuerRating\IssuerBikRatingViewHelper;
 use yii\data\ActiveDataProvider;
 use yii\helpers\Html;
+use yii\helpers\Url;
 use yii\widgets\DetailView;
 
 $this->params['breadcrumbs.homeLink'] = false;
@@ -67,6 +72,40 @@ $this->title = $model->name;
                 'value' => function (Issuer $model) {
                     return DetailViewCopyHelper::render($model, '_pid');
                 },
+            ],
+            [
+                'label' => 'BIK',
+                'format' => 'html',
+                'value' => function (Issuer $model) {
+                    return IssuerBikRatingViewHelper::render($model);
+                },
+                'visible' => !empty(IssuerBikRatingViewHelper::render($model)),
+                'description' => Html::a('BIK', 'https://bikratings.by/', ['target' => '_blank']) . '<br>
+                    Рейтинг деловой репутации, или esg рейтинг, или кредитный рейтинг.
+                    <br>В таком порядке, если предыдущего рейтинга у эмитента нет
+                ',
+            ],
+            [
+                'label' => '<span title="Экспресс балл">Экспресс балл</span> '
+                    . Html::a(Icon::printFaq(), Url::to(['/faq#express-rating'])),
+                'headerOptions' => ['encode' => false],
+                'format' => 'raw',
+                'value' => function (Issuer $model) {
+                    return ExpressRatingViewHelper::render($model, false);
+                },
+                'description' => 'Оценка по некоторым финансовым показателям<br>'
+                    . Html::a('Подробнее', Url::to('/site/faq#express-rating'), ['target' => '_blank']),
+            ],
+            [
+                'label' => '<span title="Комплексный балл">Комплексный балл</span> '
+                    . Html::a(Icon::printFaq(), Url::to(['/faq#complex-rating'])),
+                'headerOptions' => ['encode' => false],
+                'format' => 'raw',
+                'value' => function (Issuer $model) {
+                    return ComplexRatingViewHelper::render($model);
+                },
+                'description' => 'Комплексная оценка по всем финансовым показателям, перечисленным ниже<br>'
+                    . Html::a('Подробнее', Url::to('/site/faq#complex-rating'), ['target' => '_blank']),
             ],
             [
                 'label' => 'P/E (Price/Earnings)',
