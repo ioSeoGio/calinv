@@ -68,7 +68,7 @@ use yii\helpers\ArrayHelper;
         'value' => function (Share $model) {
             return $model->lastDealChangePercent !== null
                 ? GoodBadValueViewHelper::asBadge($model->lastDealChangePercent, 0.00, true, '%')
-                : 'Не задано';
+                : NullableValue::printNull();
         }
     ],
     [
