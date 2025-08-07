@@ -16,6 +16,8 @@ class ErrorHandler extends YiiErrorHandler
 {
     protected function renderException($exception): void
     {
+        Yii::error("[Exception] {$exception->getMessage()}" . json_encode($exception), 'exception');
+
         if (YII_ENV_PROD || EnvGetter::getBool('HIDE_SHIT_EXCEPTIONS', false)) {
             $this->handlerProd($exception)->send();
             return;
