@@ -7,6 +7,10 @@ use src\Action\Issuer\Rating\BusinessReputationInfoSearch;
 use src\Action\Issuer\Rating\CreditRatingInfoSearch;
 use src\Action\Issuer\Rating\EsgRatingInfoSearch;
 use src\Action\Issuer\UnreliableSupplier\UnreliableSupplierSearchForm;
+use src\Entity\Issuer\BusinessReputationRating\BusinessReputationInfo;
+use src\Entity\Issuer\CreditRating\CreditRatingInfo;
+use src\Entity\Issuer\EsgRating\EsgRating;
+use src\Entity\Issuer\EsgRating\EsgRatingInfo;
 use src\Integration\Bik\BusinessReputation\BusinessReputationRatingFetcher;
 use src\Integration\Bik\CreditRating\CreditRatingFetcher;
 use src\Integration\Bik\EsgRating\EsgRatingFetcher;
@@ -94,6 +98,36 @@ class IssuerRatingController extends BaseController
         $this->businessReputationRatingFetcher->updateRatings();
 
         return $this->redirect(['/issuer-rating/business-rating']);
+    }
+
+    public function actionAjaxBusinessRatingChangeIssuer(): void
+    {
+        $ratingId = Yii::$app->request->post('ratingId');
+        $issuerId = Yii::$app->request->post('issuerId');
+
+        $model = BusinessReputationInfo::getOneById($ratingId);
+        $model->issuerId = $issuerId;
+        $model->save();
+    }
+
+    public function actionAjaxCreditRatingChangeIssuer(): void
+    {
+        $ratingId = Yii::$app->request->post('ratingId');
+        $issuerId = Yii::$app->request->post('issuerId');
+
+        $model = CreditRatingInfo::getOneById($ratingId);
+        $model->issuerId = $issuerId;
+        $model->save();
+    }
+
+    public function actionAjaxEsgRatingChangeIssuer(): void
+    {
+        $ratingId = Yii::$app->request->post('ratingId');
+        $issuerId = Yii::$app->request->post('issuerId');
+
+        $model = EsgRatingInfo::getOneById($ratingId);
+        $model->issuerId = $issuerId;
+        $model->save();
     }
 
     public function actionEsgRating(): string

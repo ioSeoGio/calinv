@@ -12,8 +12,11 @@ use yii\db\ActiveQuery;
 
 /**
  * @inheritDoc
+ * @property int $id
  * @property string $_pid
  * @property PayerIdentificationNumber $pid
+ * @property Issuer $issuer
+ * @property int $issuerId
  *
  * @property string $issuerName
  *
@@ -43,14 +46,16 @@ class BusinessReputationInfo extends ApiFetchedActiveRecord
         ];
     }
 
-    public static function make(
+    public static function createOrUpdate(
+        ?Issuer $issuer,
         string $issuerName,
         PayerIdentificationNumber $pid,
         IssuerBusinessReputation $rating,
         DateTimeImmutable $lastUpdateDate,
         string $pressReleaseLink,
     ): self {
-        $self = new self(['_pid' => $pid->id]);
+        $self = self::findOne(['_pid' => $pid->id]) ?: new self(['_pid' => $pid->id]);
+        $self->issuerId = $issuer?->id;
         $self->updateInfo(
             issuerName: $issuerName,
             rating: $rating,
@@ -102,11 +107,6 @@ class BusinessReputationInfo extends ApiFetchedActiveRecord
 
     public function getIssuer(): ActiveQuery
     {
-        return $this->hasOne(Issuer::class, ['_pid' => '_pid']);
-
-        // @todo придумать как подтягивать по имени если не нашло по УНП
-        return Issuer::find()
-            ->orWhere(['name' => $this->issuerName])
-            ->orWhere(['_pid' => $this->_pid]);
+        return $this->hasOne(Issuer::class, ['id' => 'issuerId']);
     }
 }

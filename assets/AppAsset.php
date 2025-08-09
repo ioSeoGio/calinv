@@ -27,6 +27,7 @@ class AppAsset extends AssetBundle
         'css/site.css',
         'css/alert-messages.css',
         'css/reversed-financial-report.css',
+        'css/kartik-dark-theme.css',
 
         'https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css',
     ];

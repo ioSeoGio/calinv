@@ -12,6 +12,8 @@ use yii\db\ActiveQuery;
 /**
  * @inheritDoc
  * @property string $issuerName
+ * @property int $issuerId
+ * @property Issuer $issuer
  *
  * @property ?BikCreditRatingForecast $forecast
  * @property ?string $_forecast
@@ -46,7 +48,7 @@ class CreditRatingInfo extends ApiFetchedActiveRecord
         ];
     }
 
-    public static function make(
+    public static function createOrUpdate(
         string $issuerName,
         CreditRating $rating,
         ?BikCreditRatingForecast $forecast,
@@ -54,7 +56,7 @@ class CreditRatingInfo extends ApiFetchedActiveRecord
         DateTimeImmutable $lastUpdateDate,
         string $pressReleaseLink,
     ): self {
-        $self = new self();
+        $self = self::findOne(['issuerName' => $issuerName]) ?: new self();
         $self->updateInfo(
             issuerName: $issuerName,
             rating: $rating,
@@ -65,11 +67,6 @@ class CreditRatingInfo extends ApiFetchedActiveRecord
         );
 
         return $self;
-    }
-
-    public static function findByIssuerName(string $issuerName): ?self
-    {
-        return self::findOne(['issuerName' => $issuerName]);
     }
 
     public function updateInfo(
@@ -112,11 +109,6 @@ class CreditRatingInfo extends ApiFetchedActiveRecord
 
     public function getIssuer(): ActiveQuery
     {
-        return $this->hasOne(Issuer::class, ['_pid' => '_pid']);
-
-        // @todo придумать как подтягивать по имени если не нашло по УНП
-        return Issuer::find()
-            ->orWhere(['name' => $this->issuerName])
-            ->orWhere(['_pid' => $this->_pid]);
+        return $this->hasOne(Issuer::class, ['id' => 'issuerId']);
     }
 }

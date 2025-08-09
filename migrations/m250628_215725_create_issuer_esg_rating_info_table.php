@@ -9,9 +9,9 @@ class m250628_215725_create_issuer_esg_rating_info_table extends Migration
         $this->createTable('{{%issuer_esg_rating_info}}', [
             'id' => $this->primaryKey(),
 
+            'issuerId' => $this->integer()->null(),
+
             'issuerName' => $this->string()->notNull(),
-            '_pid' => $this->string()->null(), // @todo Мб временно, пересмотреть заполнение УНП по имени эмитента,
-            // мб есть вариант тянуть имя с другой апи и оно будет совпадать
             '_forecast' => $this->string()->notNull(),
             '_rating' => $this->string()->notNull(),
             '_category' => $this->string()->notNull(),

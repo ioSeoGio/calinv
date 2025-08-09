@@ -8,13 +8,18 @@ use lib\FrontendHelper\DetailViewCopyHelper;
 use src\Action\Issuer\Rating\EsgRatingInfoSearch;
 use src\Entity\Issuer\BusinessReputationRating\BusinessReputationInfo;
 use src\Entity\Issuer\EsgRating\EsgRatingInfo;
+use src\Entity\Issuer\Issuer;
 use src\Entity\User\UserRole;
 use src\ViewHelper\IssuerRating\IssuerBikRatingViewHelper;
 use yii\data\ActiveDataProvider;
 use yii\grid\GridView;
+use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\helpers\StringHelper;
+use yii\helpers\Url;
 
+$this->registerJsVar('ajaxRatingChangeIssuerUrl', Url::to(['/issuer-rating/ajax-esg-rating-change-issuer']));
+$this->registerJsFile('@web/js/rating-select-issuer-dropdown.js');
 $this->title = 'ESG Рейтинг BIK';
 ?>
 <?= $this->render('@views/issuer/tabs', []); ?>
@@ -35,6 +40,19 @@ $this->title = 'ESG Рейтинг BIK';
         'filterModel' => $searchForm,
         'columns' => [
             'issuerName',
+            [
+                'label' => 'Эмитент',
+                'format' => 'raw',
+                'value' => function (EsgRatingInfo $model) {
+                    if (Yii::$app->user->can(UserRole::admin->value)) {
+                        return \src\ViewHelper\Shit\RatingSelectIssuerDropdown::render($model);
+                    }
+
+                    return $model->issuer
+                        ? Html::a($model->issuer->name, Url::to(['issuer/view', 'id' => $model->issuer->id]))
+                        : \lib\FrontendHelper\NullableValue::printNull();
+                },
+            ],
             [
                 'attribute' => '_pid',
                 'format' => 'raw',

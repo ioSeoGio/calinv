@@ -1,19 +1,8 @@
 
-// Use data if using for error printing, otherwise msg
 // type = error || success
-
-function flashMessage(type, data, msg)
+function flashMessage(type, msg)
 {
     var printFlash = true;
-
-    if (!msg) {
-        if (data) {
-            msg = data.responseText;
-            printFlash = (data.status == "409");
-        } else {
-            msg = "Some error.";
-        }
-    }
 
     if (printFlash) {
 

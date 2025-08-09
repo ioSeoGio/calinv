@@ -13,8 +13,9 @@ use yii\db\ActiveRecord;
 
 /**
  * @inheritDoc
- * @property string $_pid;
- * @property PayerIdentificationNumber $pid;
+ *
+ * @property int $issuerId
+ * @property Issuer $issuer
  *
  * @property string $issuerName;
  *
@@ -49,18 +50,11 @@ class EsgRatingInfo extends ApiFetchedActiveRecord
             '_assignmentDate' => 'Дата присвоения',
             '_lastUpdateDate' => 'Последнее обновление от BIK',
             'pressReleaseLink' => 'Пресс релиз',
-            '_pid' => 'УНП',
             'issuerName' => 'Эмитент',
         ];
     }
 
-    public static function findByIssuerName(string $issuerName): ?self
-    {
-        return self::findOne(['issuerName' => $issuerName]);
-    }
-
     public function updateInfo(
-        ?PayerIdentificationNumber $pid,
         BikEsgForecast $forecast,
         EsgRating $rating,
         EsgIssuerCategory $category,
@@ -68,7 +62,6 @@ class EsgRatingInfo extends ApiFetchedActiveRecord
         \DateTimeImmutable $lastUpdateDate,
         string $pressReleaseLink,
     ): void {
-        $this->_pid = $pid ? $pid->id : $this->_pid;
         $this->_forecast = $forecast->value;
         $this->_rating = $rating->value;
         $this->_category = $category->value;
@@ -79,8 +72,7 @@ class EsgRatingInfo extends ApiFetchedActiveRecord
         $this->renewLastApiUpdateDate();
     }
 
-    public static function make(
-        ?PayerIdentificationNumber $pid,
+    public static function createOrUpdate(
         string $issuerName,
         BikEsgForecast $forecast,
         EsgRating $rating,
@@ -89,9 +81,10 @@ class EsgRatingInfo extends ApiFetchedActiveRecord
         \DateTimeImmutable $lastUpdateDate,
         string $pressReleaseLink,
     ): self {
-        $self = new self(['issuerName' => $issuerName]);
+        $self = self::findOne(['issuerName' => $issuerName])
+            ?: new self(['issuerName' => $issuerName]);
+
         $self->updateInfo(
-            pid: $pid,
             forecast: $forecast,
             rating: $rating,
             category: $category,
@@ -125,11 +118,6 @@ class EsgRatingInfo extends ApiFetchedActiveRecord
 
     public function getIssuer(): ActiveQuery
     {
-        return $this->hasOne(Issuer::class, ['_pid' => '_pid']);
-
-        // @todo придумать как подтягивать по имени если не нашло по УНП
-        return Issuer::find()
-            ->orWhere(['name' => $this->issuerName])
-            ->orWhere(['_pid' => $this->_pid]);
+        return $this->hasOne(Issuer::class, ['id' => 'issuerId']);
     }
 }

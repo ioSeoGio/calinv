@@ -2,6 +2,7 @@
 
 namespace src\Entity\Issuer\BusinessReputationRating;
 
+use src\Entity\Issuer\Issuer;
 use src\Integration\Bik\BusinessReputation\BikIssuerBusinessReputationDto;
 
 class BusinessReputationInfoFactory
@@ -9,29 +10,15 @@ class BusinessReputationInfoFactory
     public function createOrUpdateMany(BikIssuerBusinessReputationDto ...$dtos): void
     {
         foreach ($dtos as $dto) {
-            if ($businessIssuerInfo = BusinessReputationInfo::findByPid($dto->pid)) {
-                $businessIssuerInfo->updateInfo(
-                    issuerName: $dto->issuerName,
-                    rating: $dto->businessReputation->toIssuerBusinessReputation(),
-                    lastUpdateDate: $dto->lastUpdateDate,
-                    pressReleaseLink: $dto->pressReleaseLink,
-                );
-                $businessIssuerInfo->save();
-            } else {
-                $this->create($dto);
-            }
+            $model = BusinessReputationInfo::createOrUpdate(
+                issuer: Issuer::findByPid($dto->pid),
+                issuerName: $dto->issuerName,
+                pid: $dto->pid,
+                rating: $dto->businessReputation->toIssuerBusinessReputation(),
+                lastUpdateDate: $dto->lastUpdateDate,
+                pressReleaseLink: $dto->pressReleaseLink,
+            );
+            $model->save();
         }
-    }
-
-    public function create(BikIssuerBusinessReputationDto $dto): void
-    {
-        $model = BusinessReputationInfo::make(
-            issuerName: $dto->issuerName,
-            pid: $dto->pid,
-            rating: $dto->businessReputation->toIssuerBusinessReputation(),
-            lastUpdateDate: $dto->lastUpdateDate,
-            pressReleaseLink: $dto->pressReleaseLink,
-        );
-        $model->save();
     }
 }

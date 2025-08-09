@@ -70,8 +70,8 @@ if (Yii::$app->user->can(UserRole::admin->value)) {
 
 $common = ''
     . $logs
-    . $faq
-    . $themeSwitcher;
+    . $faq;
+//    . $themeSwitcher;
 
 if (Yii::$app->user->isGuest) {
 	echo Nav::widget([

@@ -9,6 +9,8 @@ class m250807_202331_create_issuer_credit_rating_info_table extends Migration
         $this->createTable('{{%issuer_credit_rating_info}}', [
             'id' => $this->primaryKey(),
 
+            'issuerId' => $this->integer()->null(),
+
             'issuerName' => $this->string()->notNull(),
             '_forecast' => $this->string()->null(),
             '_rating' => $this->string()->notNull(),

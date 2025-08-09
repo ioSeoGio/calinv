@@ -130,6 +130,11 @@ class Issuer extends ApiFetchedActiveRecord
         });
     }
 
+    public static function findByPid(PayerIdentificationNumber $pid): ?Issuer
+    {
+        return self::findOne(['_pid' => $pid->id]);
+    }
+
     public function setFullnessState(IssuerFullnessState ...$states): void
     {
         $this->fullnessState = $states;
@@ -194,14 +199,12 @@ class Issuer extends ApiFetchedActiveRecord
 
     public function getEsgRatingInfo(): ActiveQuery
     {
-        // @todo придумать как подтягивать по имени если не нашло по УНП
-        return $this->hasOne(EsgRatingInfo::class, ['_pid' => '_pid']);
+        return $this->hasOne(EsgRatingInfo::class, ['issuerId' => 'id']);
     }
 
     public function getCreditRatingInfo(): ActiveQuery
     {
-        // @todo придумать как подтягивать по имени если не нашло по УНП
-        return $this->hasOne(CreditRatingInfo::class, ['issuerName' => 'name']);
+        return $this->hasOne(CreditRatingInfo::class, ['issuerId' => 'id']);
     }
 
     public function getUnreliableSupplier(): ActiveQuery
@@ -211,12 +214,7 @@ class Issuer extends ApiFetchedActiveRecord
 
     public function getBusinessReputationInfo(): ActiveQuery
     {
-        return $this->hasOne(BusinessReputationInfo::class, ['_pid' => '_pid']);
-
-        // @todo придумать как подтягивать по имени если не нашло по УНП
-        return BusinessReputationInfo::find()
-            ->orWhere(['issuerName' => $this->name])
-            ->orWhere(['_pid' => $this->_pid]);
+        return $this->hasOne(BusinessReputationInfo::class, ['issuerId' => 'id']);
     }
 
     public function getAdditionalInfo(): ActiveQuery

@@ -1,0 +1,45 @@
+/* Стили для выбранного элемента Select2 */
+.select2-container--krajee-bs5 .select2-selection--single {
+    background-color: #212529 !important; /* Темный фон */
+    border-color: #495057 !important; /* Граница в тон темной темы */
+}
+
+.select2-container--krajee-bs5 .select2-selection__rendered {
+    color: #fff !important; /* Белый текст */
+    line-height: 1.5;
+    padding-left: 8px;
+}
+
+/* Стили для выпадающего списка */
+.select2-container--krajee-bs5 .select2-dropdown {
+    background-color: #212529 !important; /* Темный фон для dropdown */
+    border-color: #495057 !important;
+}
+
+.select2-container--krajee-bs5 .select2-results__option {
+    color: #fff !important; /* Белый текст для опций */
+    background-color: #212529 !important; /* Темный фон для опций */
+}
+
+.select2-container--krajee-bs5 .select2-results__option--highlighted {
+    background-color: #495057 !important; /* Цвет подсветки при наведении */
+    color: #fff !important;
+}
+
+.select2-container--krajee-bs5 .select2-results__option--selected {
+    background-color: #0d6efd !important; /* Цвет выбранной опции */
+    color: #fff !important;
+}
+
+/* Стили для строки поиска */
+.select2-container--krajee-bs5 .select2-search--dropdown .select2-search__field {
+    background-color: #212529 !important; /* Темный фон для строки поиска */
+    border-color: #495057 !important; /* Граница в тон темной темы */
+    color: #fff !important; /* Белый текст в строке поиска */
+}
+
+.select2-container--krajee-bs5 .select2-search__field:focus {
+    background-color: #212529 !important; /* Сохраняем темный фон при фокусе */
+    border-color: #0d6efd !important; /* Синяя граница при фокусе */
+    color: #fff !important;
+}

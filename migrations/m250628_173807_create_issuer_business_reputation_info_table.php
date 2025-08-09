@@ -9,6 +9,8 @@ class m250628_173807_create_issuer_business_reputation_info_table extends Migrat
         $this->createTable('{{%issuer_business_reputation_info}}', [
             'id' => $this->primaryKey(),
 
+            'issuerId' => $this->integer()->null(),
+
             'issuerName' => $this->string()->notNull(),
             '_pid' => $this->string()->notNull(),
             '_rating' => $this->string()->notNull(),
