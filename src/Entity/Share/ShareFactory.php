@@ -3,6 +3,7 @@
 namespace src\Entity\Share;
 
 use src\Entity\Issuer\Issuer;
+use src\Entity\Share\Deal\ShareDealRecord;
 use src\Integration\Bcse\ShareInfo\BcseShareInfoFetcher;
 use src\Integration\CentralDepo\IssuerAndSharesInfo\ShareInfoDto;
 
@@ -32,9 +33,24 @@ class ShareFactory
 
             if ($share->isActive()) {
                 $shareInfoDto = $this->fetcher->get($issuer->pid, $share->registerNumberObject);
-                $share->setLastDealInfo($shareInfoDto);
+                $share->setLastDealInfo($shareInfoDto->bcseShareLastDealDto);
                 $share->setFullnessState(ShareFullnessState::lastDeal);
                 $share->save();
+
+                foreach ($shareInfoDto->bcseShareDealRecordDtos as $bcseShareDealRecordDto) {
+                    $dealRecord = ShareDealRecord::createOrUpdate(
+                        share: $share,
+                        date: $bcseShareDealRecordDto->date,
+                        currency: $bcseShareDealRecordDto->currency,
+                        minPrice: $bcseShareDealRecordDto->minPrice,
+                        maxPrice: $bcseShareDealRecordDto->maxPrice,
+                        weightedAveragePrice: $bcseShareDealRecordDto->weightedAveragePrice,
+                        totalSum: $bcseShareDealRecordDto->totalSum,
+                        totalAmount: $bcseShareDealRecordDto->totalAmount,
+                        totalDealAmount: $bcseShareDealRecordDto->totalDealAmount,
+                    );
+                    $dealRecord->save();
+                }
             }
         } catch (\Throwable $e) {
             if (isset($share)) {

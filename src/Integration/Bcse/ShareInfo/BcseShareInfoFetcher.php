@@ -3,7 +3,10 @@
 namespace src\Integration\Bcse\ShareInfo;
 
 use lib\ApiIntegrator\HttpMethod;
+use lib\Exception\UserException\ApiBadResponseException;
 use lib\Exception\UserException\ApiNotFoundException;
+use lib\Exception\UserException\ApiSimpleBadResponseException;
+use lib\Helper\TrimHelper;
 use lib\Transformer\FloatTransformer;
 use NumberFormatter;
 use simplehtmldom\HtmlDocument;
@@ -24,7 +27,7 @@ class BcseShareInfoFetcher
     ) {
     }
 
-    public function get(PayerIdentificationNumber $pid, ShareRegisterNumber $registerNumberDto): ?BcseShareLastDealDto
+    public function get(PayerIdentificationNumber $pid, ShareRegisterNumber $registerNumberDto): ?BcseShareFullInfoDto
     {
         $response = $this->httpClient->request(
             HttpMethod::GET,
@@ -44,12 +47,47 @@ class BcseShareInfoFetcher
             return null;
         }
 
-        $dto = new BcseShareLastDealDto(
+        $lastDealDto = new BcseShareLastDealDto(
             date: $lastDealSection->childNodes(0)->childNodes(1)->innertext(),
             price: FloatTransformer::fromShitToFloat($lastDealSection->childNodes(1)->childNodes(1)->childNodes(0)->innertext()),
             changeFromPreviousDeal: FloatTransformer::fromShitToFloat($lastDealSection->childNodes(1)->childNodes(1)->childNodes(1)->innertext()),
             changeFromPreviousDealPercent: FloatTransformer::fromShitToFloat($lastDealSection->childNodes(1)->childNodes(1)->childNodes(2)->innertext()),
         );
+
+        $secondaryDealSection = $dom->find('#mss-2-table')[0] ?? null;
+        if ($secondaryDealSection === null) {
+            throw new ApiSimpleBadResponseException("Не найдены записи о сделках акции {$registerNumberDto->number} эмитента с УНП {$pid->id}");
+        }
+
+        /** @var ?HtmlNode $firstRow */
+        $firstRow = $secondaryDealSection->find('tr')[0] ?? null;
+        if ($firstRow === null) {
+            throw new ApiSimpleBadResponseException("Не найдены записи о сделках акции {$registerNumberDto->number} эмитента с УНП {$pid->id}");
+        }
+
+        if (TrimHelper::trim($firstRow->innertext()) === 'Данных нет') {
+            return new BcseShareFullInfoDto($lastDealDto);
+        }
+
+        $dealDtos = [];
+        foreach ($secondaryDealSection->find('tbody tr') as $row) {
+            $dealDtos[] = new BcseShareDealRecordDto(
+                date: $row->childNodes(0)->innertext(),
+                currency: $row->childNodes(3)->innertext(),
+                minPrice: $row->childNodes(4)->innertext(),
+                maxPrice: $row->childNodes(5)->innertext(),
+                weightedAveragePrice: $row->childNodes(6)->innertext(),
+                totalSum: $row->childNodes(10)->innertext(),
+                totalAmount: $row->childNodes(11)->innertext(),
+                totalDealAmount: $row->childNodes(12)->innertext(),
+            );
+        }
+
+        $dto = new BcseShareFullInfoDto(
+            $lastDealDto,
+            ...$dealDtos
+        );
+
         return $dto;
     }
 }

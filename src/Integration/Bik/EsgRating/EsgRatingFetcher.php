@@ -39,7 +39,7 @@ class EsgRatingFetcher
                     // Не опечатка, forecat у них на сайте
                     forecast: $issuerBlock->find('.forecat')[0]->innertext(),
                     rating: $issuerBlock->find('.rate')[0]->innertext(),
-                    category:  $issuerBlock->find('.way')[0]->innertext(),
+                    category: $issuerBlock->find('.way')[0]->innertext(),
                     assignmentDate: $issuerBlock->find('.date')[0]->innertext(),
                     lastUpdateDate: $issuerBlock->find('.date')[1]->innertext(),
                     pressReleaseLink: $issuerBlock->find('.press a')[0]->getAttribute('href'),
