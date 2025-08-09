@@ -7,6 +7,7 @@ use src\Action\Share\ShareCreateForm;
 use src\Action\Share\ShareSearchForm;
 use src\Entity\Issuer\Issuer;
 use src\Entity\Issuer\IssuerFullnessState;
+use src\Entity\Share\Deal\ShareDealRecord;
 use src\Entity\Share\Share;
 use Yii;
 use yii\bootstrap5\ActiveForm;
@@ -72,6 +73,16 @@ class ShareController extends BaseController
             'shareCreateForm' => new ShareCreateForm(),
             'shareSearchForm' => $shareSearchForm,
             'shareDataProvider' => $shareDataProvider,
+        ]);
+    }
+
+    public function actionDealInfo(int $id): string
+    {
+        $share = Share::getOneById($id);
+
+        return $this->render('deal-info', [
+            'share' => $share,
+            'shareDeals' => ShareDealRecord::findAll(['share_id' => $id]),
         ]);
     }
 

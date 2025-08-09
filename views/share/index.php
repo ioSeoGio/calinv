@@ -14,6 +14,7 @@ use yii\bootstrap5\Html;
 use yii\data\ArrayDataProvider;
 use yii\grid\GridView;
 use yii\helpers\ArrayHelper;
+use yii\helpers\Url;
 
 /** @var ArrayDataProvider $shareDataProvider */
 /** @var ShareSearchForm $shareSearchForm */
@@ -75,22 +76,28 @@ use yii\helpers\ArrayHelper;
         'attribute' => 'currentPrice',
         'format' => 'html',
         'value' => function (Share $model) {
-            return Html::tag(
-                name: 'span',
-                content: $model->currentPrice
-                    ? Badge::neutral($model->currentPrice . ' р.')
-                    : NullableValue::printNull(),
-                options: ['class' => 'text-primary']
-            );
+            return $model->currentPrice
+                ? Badge::neutral($model->currentPrice . ' р.')
+                : NullableValue::printNull();
         }
     ],
     [
         'attribute' => 'denomination',
+        'format' => 'html',
         'value' => function (Share $model) {
-            return SimpleNumberFormatter::toView($model->denomination);
-//                    . ' '
-//                    . ($model->issueDate <= new DateTimeImmutable(2016) ? 'BYR (до деноминации)' : 'BYN');
+            return $model->currentPrice
+                ? Badge::neutral($model->currentPrice . ' р.')
+                : NullableValue::printNull();
         }
+    ],
+    [
+        'label' => 'Подробнее',
+        'format' => 'html',
+        'value' => function (Share $model) {
+            return $model->getShareDeals()->count()
+                ? Html::a('График', Url::to(['/share/deal-info', 'id' => $model->id]), ['class' => 'btn btn-primary btn-sm'])
+                : '';
+        },
     ],
 //        [
 //            'label' => 'справедливая цена к ликвидации',

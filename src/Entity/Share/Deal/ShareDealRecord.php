@@ -84,6 +84,11 @@ class ShareDealRecord extends ApiFetchedActiveRecord
         return $self;
     }
 
+    public function getDate(): DateTimeImmutable
+    {
+        return DateTimeImmutable::createFromFormat(DATE_ATOM, $this->_date);
+    }
+
     public function getShare(): \yii\db\ActiveQuery
     {
         return $this->hasOne(Share::class, ['id' => 'share_id']);

@@ -5,6 +5,7 @@ namespace src\Entity\Share;
 use DateTimeImmutable;
 use lib\Database\ApiFetchedActiveRecord;
 use src\Entity\Issuer\Issuer;
+use src\Entity\Share\Deal\ShareDealRecord;
 use src\Integration\Bcse\ShareInfo\BcseShareLastDealDto;
 use yii\db\ActiveQuery;
 
@@ -117,6 +118,11 @@ class Share extends ApiFetchedActiveRecord
         return ($this->isPrivileged() ? 'АП'  : 'А') . $this->orderedIssueId;
     }
 
+    public function getFormattedNameWithIssuer(): string
+    {
+        return $this->issuer->name . ' - ' . $this->getFormattedName();
+    }
+
     public function isPrivileged(): bool
     {
         return $this->privilegedIssuedAmount > 0;
@@ -145,5 +151,10 @@ class Share extends ApiFetchedActiveRecord
     public static function findActive(): ActiveQuery
     {
         return self::find()->andWhere('"closingDate" IS NULL');
+    }
+
+    public function getShareDeals(): ActiveQuery
+    {
+        return $this->hasMany(ShareDealRecord::class, ['share_id' => 'id']);
     }
 }
