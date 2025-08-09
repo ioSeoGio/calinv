@@ -52,6 +52,7 @@ $this->title = 'ESG Рейтинг BIK';
                         ? Html::a($model->issuer->name, Url::to(['issuer/view', 'id' => $model->issuer->id]))
                         : \lib\FrontendHelper\NullableValue::printNull();
                 },
+                'options' => ['style' => 'min-width: 200px'],
             ],
             [
                 'attribute' => '_pid',
