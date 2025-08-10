@@ -33,6 +33,11 @@ class ShareFactory
 
             if ($share->isActive()) {
                 $shareInfoDto = $this->fetcher->get($issuer->pid, $share->registerNumberObject);
+
+                if ($shareInfoDto === null) {
+                    return;
+                }
+
                 $share->setLastDealInfo($shareInfoDto->bcseShareLastDealDto);
                 $share->setFullnessState(ShareFullnessState::lastDeal);
                 $share->save();
