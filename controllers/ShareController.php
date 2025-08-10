@@ -90,6 +90,30 @@ class ShareController extends BaseController
         ]);
     }
 
+    public function actionAllSharesCompare(): string
+    {
+        return $this->render('all-shares-compare', [
+        ]);
+    }
+
+    public function actionTestData(int $shareId): string
+    {
+        $share = Share::getOneById($shareId);
+        $data = ShareDealRecord::find()
+            ->select(["timestamp", 'weightedAveragePrice'])
+            ->andWhere(['share_id' => $shareId])
+            ->addOrderBy(['timestamp' => SORT_ASC])
+            ->asArray()->all();
+
+        return json_encode([
+            'shareName' => $share->getFormattedNameWithIssuer(),
+            'values' => array_map(
+                fn ($item) => array_values($item),
+                $data
+            )
+        ]);
+    }
+
     public function actionToggleModeration(int $issuerId): Response
     {
         $issuer = Issuer::getOneById($issuerId);

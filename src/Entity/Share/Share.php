@@ -157,4 +157,13 @@ class Share extends ApiFetchedActiveRecord
     {
         return $this->hasMany(ShareDealRecord::class, ['share_id' => 'id']);
     }
+
+    public static function getShareIdsWithDeals(): array
+    {
+        return ShareDealRecord::find()
+            ->select(['share_id'])
+            ->distinct()
+            ->asArray()
+            ->column();
+    }
 }
