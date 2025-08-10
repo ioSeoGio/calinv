@@ -68,7 +68,13 @@ if (Yii::$app->user->can(UserRole::admin->value)) {
     );
 }
 
+$telegram = $iconsContainer(
+    Html::a(Icon::print('bi bi-telegram'), 'https://t.me/+VkMwRJV7LqoyZmYy', ['target' => '_blank']),
+    'telegram-link'
+);
+
 $common = ''
+    . $telegram
     . $logs
     . $faq
     . $themeSwitcher;
