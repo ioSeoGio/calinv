@@ -15,6 +15,7 @@ use src\IssuerRatingCalculator\PECalculator;
 use src\IssuerRatingCalculator\PFCFCalculator;
 use src\IssuerRatingCalculator\POCFCalculator;
 use src\IssuerRatingCalculator\PSCalculator;
+use src\IssuerRatingCalculator\ROACalculator;
 use src\IssuerRatingCalculator\ROECalculator;
 
 class ComplexRatingCalculator
@@ -58,6 +59,7 @@ class ComplexRatingCalculator
         $k2 = K2Calculator::calculate($accountingBalance);
         $k3 = K3Calculator::calculate($accountingBalance);
         $roe = ROECalculator::calculate($profitLossReport, $accountingBalance);
+        $roa = ROACalculator::calculate($cashFlowReport, $accountingBalance);
         $de = DECalculator::calculate($accountingBalance);
         $pocf = POCFCalculator::calculate($issuer, $cashFlowReport);
         $pfcf = PFCFCalculator::calculate($issuer, $cashFlowReport);
@@ -71,11 +73,12 @@ class ComplexRatingCalculator
             + self::calculateScore($k2, 0.2, 0.05, 0.5)
             + self::calculateScore($k3, 0.7, 0.01, 1.5)
             + self::calculateScore($roe, 2.5, 0, 5)
+            + self::calculateScore($roa, 2, 0, 4.5)
             + self::calculateScore($de, 0.01, 0, 2)
             + self::calculateScore($pocf, 0, 0, 20)
             + self::calculateScore($pfcf, 0, 0, 20)
             + self::calculateScore($ps, 0, 0, 2.5)
-        ) / 10;
+        ) / 11;
 
         return round($raw, 2);
     }
