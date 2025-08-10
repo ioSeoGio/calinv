@@ -19,7 +19,8 @@ class ShareDealSearchForm extends Model
     {
         $query = ShareDealRecord::find()
             ->joinWith(['share'])
-            ->andWhere(['share_id' => $share->id]);
+            ->andWhere(['share_id' => $share->id])
+            ->addOrderBy(['_date' => SORT_ASC]);
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,

@@ -90,6 +90,12 @@ class ShareController extends BaseController
         ]);
     }
 
+    public function actionAllSharesCompare(): string
+    {
+        return $this->render('all-shares-compare', [
+        ]);
+    }
+
     public function actionToggleModeration(int $issuerId): Response
     {
         $issuer = Issuer::getOneById($issuerId);

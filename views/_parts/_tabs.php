@@ -17,5 +17,10 @@ use yii\helpers\Url;
             'url' => Url::to(['/share/all-shares']),
             'active' => str_contains(Url::current(), '/share/all-shares'),
         ],
+        [
+            'label' => 'График всех акций',
+            'url' => Url::to(['/share/all-shares-compare']),
+            'active' => str_contains(Url::current(), '/share/all-shares-compare'),
+        ],
     ]
 ]) ?>

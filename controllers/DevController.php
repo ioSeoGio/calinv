@@ -4,6 +4,8 @@ namespace app\controllers;
 
 use lib\BaseController;
 use src\Entity\Issuer\PayerIdentificationNumber;
+use src\Entity\Share\Deal\ShareDealRecord;
+use src\Entity\Share\Share;
 use src\Entity\Share\ShareRegisterNumber;
 use src\Integration\Bcse\ShareInfo\BcseShareInfoFetcher;
 use yii\filters\AccessControl;
@@ -15,13 +17,10 @@ class DevController extends BaseController
         return [
             'access' => [
                 'class' => AccessControl::class,
-                'only' => [
-                    'index',
-                ],
                 'rules' => [
                     [
                         'actions' => [
-                            'index',
+                            '*',
                         ],
                         'allow' => true,
                         'roles' => ['admin'],
@@ -45,6 +44,24 @@ class DevController extends BaseController
     public function actionView(): string
     {
         return $this->render('view');
+    }
+
+    public function actionTestData(int $shareId): string
+    {
+        $share = Share::getOneById($shareId);
+        $data = ShareDealRecord::find()
+            ->select(["timestamp", 'weightedAveragePrice'])
+            ->andWhere(['share_id' => $shareId])
+            ->addOrderBy(['timestamp' => SORT_ASC])
+            ->asArray()->all();
+
+        return json_encode([
+            'shareName' => $share->getFormattedNameWithIssuer(),
+            'values' => array_map(
+                fn ($item) => array_values($item),
+                $data
+            )
+        ]);
     }
 
     public function actionIndex(): string

@@ -15,6 +15,7 @@ use src\Entity\Share\Share;
  *
  * @property string $_date Дата дня записи о сделках
  * @property DateTimeImmutable $date Дата дня записи о сделках
+ * @property int $timestamp
  *
  * @property string $currency Валюта сделок
  *
@@ -71,6 +72,7 @@ class ShareDealRecord extends ApiFetchedActiveRecord
             '_date' => $date->format(DATE_ATOM),
         ]);
 
+        $self->timestamp = $date->getTimestamp() * 1000; // сохраняем в миллисекундах
         $self->currency = $currency;
         $self->minPrice = $minPrice;
         $self->maxPrice = $maxPrice;
