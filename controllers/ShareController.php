@@ -4,6 +4,7 @@ namespace app\controllers;
 
 use lib\BaseController;
 use src\Action\Share\ShareCreateForm;
+use src\Action\Share\ShareDealSearchForm;
 use src\Action\Share\ShareSearchForm;
 use src\Entity\Issuer\Issuer;
 use src\Entity\Issuer\IssuerFullnessState;
@@ -80,9 +81,12 @@ class ShareController extends BaseController
     {
         $share = Share::getOneById($id);
 
+        $searchForm = new ShareDealSearchForm();
+        $dataProvider = $searchForm->search($share, Yii::$app->request->queryParams);
+
         return $this->render('deal-info', [
             'share' => $share,
-            'shareDeals' => ShareDealRecord::findAll(['share_id' => $id]),
+            'dataProvider' => $dataProvider,
         ]);
     }
 

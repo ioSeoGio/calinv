@@ -39,7 +39,7 @@ class ShareDealRecord extends ApiFetchedActiveRecord
     public function attributeLabels(): array
     {
         return [
-            '_date' => 'День сделки',
+            '_date' => 'Отчетный день',
             'currency' => 'Валюта',
             'minPrice' => 'Минимальная цена',
             'maxPrice' => 'Максимальная цена',

@@ -42,6 +42,11 @@ class DevController extends BaseController
         parent::__construct($id, $module, $config);
     }
 
+    public function actionView(): string
+    {
+        return $this->render('view');
+    }
+
     public function actionIndex(): string
     {
         $r = $this->bcseShareInfoFetcher->get(new PayerIdentificationNumber('692041378'), new ShareRegisterNumber('6-404-01-15990'));

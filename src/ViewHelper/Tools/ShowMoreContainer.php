@@ -16,7 +16,7 @@ class ShowMoreContainer
         $result = implode('', $visibleValues);
 
         if (!empty($hiddenValues)) {
-            $result .= self::renderBtn($id);
+            $result .= self::renderBadge('ещё', $id);
             $result .= self::renderContainer(
                 implode('', $hiddenValues),
                 $id
@@ -26,13 +26,22 @@ class ShowMoreContainer
         return $result;
     }
 
-    public static function renderBtn(string $targetId): string
+    public static function renderBadge(string $text, string $targetId): string
     {
-        return Html::tag('span', 'ещё', [
+        return Html::tag('span', $text, [
             'data-bs-target' => "#$targetId",
             'data-bs-toggle' => "collapse",
             'class' => 'badge bg-primary',
             'style' => "cursor: pointer; user-select: none;",
+        ]);
+    }
+
+    public static function renderBtn(string $text, string $targetId): string
+    {
+        return Html::tag('div', $text, [
+            'data-bs-target' => "#$targetId",
+            'data-bs-toggle' => "collapse",
+            'class' => 'btn btn-primary btn-sm',
         ]);
     }
 

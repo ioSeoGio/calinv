@@ -85,8 +85,8 @@ use yii\helpers\Url;
         'attribute' => 'denomination',
         'format' => 'html',
         'value' => function (Share $model) {
-            return $model->currentPrice
-                ? Badge::neutral($model->currentPrice . ' р.')
+            return $model->denomination
+                ? Badge::neutral($model->denomination . ' р.')
                 : NullableValue::printNull();
         }
     ],
