@@ -15,6 +15,8 @@ use yii\db\ActiveQuery;
  *
  * @property string $lastDealChangePercent Изменение цены из-за последней сделки в %
  * @property string $lastDealDate Дата последней сделки
+ * @property ?float $minPrice Минимальная цена за промежуток на бирже (БВФБ)
+ * @property ?float $maxPrice Максимальная цена за промежуток на бирже (БВФБ)
  * @property ?float $currentPrice Цена по последней сделке на бирже (БВФБ)
  *
  * @property ShareFullnessState $fullnessStateEnum Заполненность акции данными
@@ -51,7 +53,7 @@ class Share extends ApiFetchedActiveRecord
             'currentPrice' => 'Текущая цена',
             'volumeIssued' => 'Объем выпуска',
             'registerNumber' => 'Регистрационный номер',
-            'lastDealDate' => 'Дата последней сделки',
+            'lastDealDate' => 'Последняя сделка',
             'lastDealChangePercent' => 'Изменение по последней сделке',
             'totalIssuedAmount' => 'Объем выпуска',
             'issueDate' => 'Дата выпуска',
@@ -92,6 +94,24 @@ class Share extends ApiFetchedActiveRecord
         $self->renewLastApiUpdateDate();
 
         return $self;
+    }
+
+    public function countBoundaryPrice(): void
+    {
+        $sharePriceBounds = ShareDealRecord::find()
+            ->select([
+                'MIN("minPrice") as minPrice',
+                'MAX("maxPrice") as maxPrice',
+                'COUNT(id) as count',
+            ])
+            ->andWhere(['share_id' => $this->id])
+            ->asArray()
+            ->one();
+
+        if (!empty($sharePriceBounds['count'])) {
+            $this->minPrice = $sharePriceBounds['minPrice'];
+            $this->maxPrice = $sharePriceBounds['maxPrice'];
+        }
     }
 
     public function isActive(): bool

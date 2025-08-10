@@ -33,7 +33,8 @@
         "vova07/yii2-imperavi-widget": "^2.0",
         "vlucas/phpdotenv": "^5.6@dev",
         "kartik-v/yii2-widget-select2": "^2.2@dev",
-        "miloschuman/yii2-highcharts-widget": "dev-master"
+        "miloschuman/yii2-highcharts-widget": "dev-master",
+        "kartik-v/yii2-slider": "dev-master"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.1.0",

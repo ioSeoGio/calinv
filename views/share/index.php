@@ -59,7 +59,7 @@ use yii\helpers\Url;
         'format' => 'raw',
         'value' => function (Share $model) {
             return $model->lastDealDate
-                ? Html::a(Yii::$app->formatter->asDatetime($model->lastDealDate), BcseUrlHelper::getShareUrl($model), ['target' => '_blank'])
+                ? Html::a(Yii::$app->formatter->asDate($model->lastDealDate), BcseUrlHelper::getShareUrl($model), ['target' => '_blank'])
                 : null;
         }
     ],
@@ -76,10 +76,25 @@ use yii\helpers\Url;
         'attribute' => 'currentPrice',
         'format' => 'html',
         'value' => function (Share $model) {
-            return $model->currentPrice
+            $currentPrice = $model->currentPrice
                 ? Badge::neutral($model->currentPrice . ' р.')
                 : NullableValue::printNull();
-        }
+
+            $minPrice = $model->minPrice
+                ? Badge::neutral('мин ' . $model->minPrice . ' р.')
+                : '';
+
+            $maxPrice = $model->maxPrice
+                ? Badge::neutral('макс ' . $model->maxPrice . ' р.')
+                : '';
+
+            if ($minPrice && $minPrice) {
+                return $currentPrice . "<br>" . "$minPrice - $maxPrice";
+            }
+
+            return $currentPrice;
+        },
+        'contentOptions' => ['class' => 'text-left', 'style' => 'min-width: 250px'],
     ],
     [
         'attribute' => 'denomination',
@@ -94,10 +109,19 @@ use yii\helpers\Url;
         'label' => 'Подробнее',
         'format' => 'html',
         'value' => function (Share $model) {
-            return $model->getShareDeals()->count()
-                ? Html::a('График', Url::to(['/share/deal-info', 'id' => $model->id]), ['class' => 'btn btn-primary btn-sm'])
+            $shareDealsInfoExists = $model->getShareDeals()->count();
+
+            $chart = $shareDealsInfoExists
+                ? Html::a('График', Url::to(['/share/deal-info', 'id' => $model->id]), ['class' => 'btn btn-primary btn-sm border-bottom'])
                 : '';
+
+            $fairPrice = $shareDealsInfoExists
+                ? Html::a('Расчет цены', Url::to(['/share/fair-price', 'id' => $model->id]), ['class' => 'btn btn-primary btn-sm'])
+                : '';
+
+            return $chart . $fairPrice;
         },
+        'options' => ['style' => 'min-width: 120px'],
     ],
 //        [
 //            'label' => 'справедливая цена к ликвидации',
@@ -157,7 +181,7 @@ use yii\helpers\Url;
         'attribute' => 'issueDate',
         'format' => 'date',
     ],
-] ?>
+]; ?>
 
 <?php if ($showClosingDate): ?>
     <?php $columns = array_merge($columns, [

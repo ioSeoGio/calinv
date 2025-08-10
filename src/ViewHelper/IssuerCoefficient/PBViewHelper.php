@@ -9,12 +9,14 @@ use src\ViewHelper\Tools\ShowMoreContainer;
 
 class PBViewHelper
 {
-    public static function render(Issuer $model): string
+    public static function render(Issuer $model, ?float $capitalizationInGrands = null): string
     {
         $values = [];
 
         foreach ($model->accountBalanceReports as $accountBalanceReport) {
-            $pb = PBCalculator::calculate($model, $accountBalanceReport);
+            $pb = $capitalizationInGrands
+                ? PBCalculator::calculateByCapitalization($capitalizationInGrands, $accountBalanceReport)
+                : PBCalculator::calculate($model, $accountBalanceReport);
 
             $result = "$accountBalanceReport->_year: ";
             $result .= $pb

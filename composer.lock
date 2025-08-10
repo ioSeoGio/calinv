@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "99d702a9a6ba2213bb97014c5fe8039f",
+    "content-hash": "29ff1ffc3d905f6b7029f60b32608551",
     "packages": [
         {
             "name": "bower-asset/bootstrap",
@@ -473,6 +473,59 @@
                 }
             ],
             "time": "2019-06-19T07:12:40+00:00"
+        },
+        {
+            "name": "kartik-v/yii2-slider",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/kartik-v/yii2-slider.git",
+                "reference": "ef1df56032943c61479fd131baaed7a7c918e2f0"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/kartik-v/yii2-slider/zipball/ef1df56032943c61479fd131baaed7a7c918e2f0",
+                "reference": "ef1df56032943c61479fd131baaed7a7c918e2f0",
+                "shasum": ""
+            },
+            "require": {
+                "kartik-v/yii2-krajee-base": ">=1.9.8"
+            },
+            "default-branch": true,
+            "type": "yii2-extension",
+            "autoload": {
+                "psr-4": {
+                    "kartik\\slider\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Kartik Visweswaran",
+                    "email": "kartikv2@gmail.com",
+                    "homepage": "http://www.krajee.com/"
+                }
+            ],
+            "description": "An advanced slider input for Yii Framework 2 for both touch enabled and desktop devices based on bootstrap-slider.",
+            "homepage": "https://github.com/kartik-v/yii2-slider",
+            "keywords": [
+                "bootstrap",
+                "bootstrap 3",
+                "bootstrap 4",
+                "extension",
+                "range",
+                "slider",
+                "widget",
+                "yii2"
+            ],
+            "support": {
+                "issues": "https://github.com/kartik-v/yii2-slider/issues",
+                "source": "https://github.com/kartik-v/yii2-slider/tree/master"
+            },
+            "time": "2019-01-05T04:41:15+00:00"
         },
         {
             "name": "kartik-v/yii2-widget-select2",
@@ -7034,6 +7087,7 @@
     "minimum-stability": "dev",
     "stability-flags": {
         "kartik-v/yii2-number": 20,
+        "kartik-v/yii2-slider": 20,
         "kartik-v/yii2-widget-select2": 20,
         "kriss/yii2-log-reader": 20,
         "miloschuman/yii2-highcharts-widget": 20,

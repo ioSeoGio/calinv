@@ -9,12 +9,14 @@ use src\ViewHelper\Tools\ShowMoreContainer;
 
 class PSViewHelper
 {
-    public static function render(Issuer $model): string
+    public static function render(Issuer $model, ?float $capitalizationInGrands = null): string
     {
         $values = [];
 
         foreach ($model->profitLossReports as $profitLossReport) {
-            $value = PSCalculator::calculate($model, $profitLossReport);
+            $value = $capitalizationInGrands
+                ? PSCalculator::calculateByCapitalization($capitalizationInGrands, $profitLossReport)
+                : PSCalculator::calculate($model, $profitLossReport);
 
             $result = "$profitLossReport->_year: ";
             $result .= $value

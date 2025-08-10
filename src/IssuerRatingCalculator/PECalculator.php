@@ -11,4 +11,9 @@ class PECalculator
     {
         return CapitalizationByShareCalculator::calculateInGrands($issuer) / $profitLossReport->_240;
     }
+
+    public static function calculateByCapitalization(float $capitalizationInGrands, ProfitLossReport $profitLossReport): float
+    {
+        return $capitalizationInGrands / $profitLossReport->_240;
+    }
 }

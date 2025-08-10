@@ -56,6 +56,8 @@ class ShareFactory
                     );
                     $dealRecord->save();
                 }
+                $share->countBoundaryPrice();
+                $share->save();
             }
         } catch (\Throwable $e) {
             if (isset($share)) {

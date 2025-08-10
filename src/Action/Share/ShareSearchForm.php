@@ -23,7 +23,8 @@ class ShareSearchForm extends Model
     public function search($params): ActiveDataProvider
     {
         $query = Share::find()
-            ->with(['issuer']);
+            ->with(['issuer', 'shareDeals'])
+            ->addOrderBy(['issueDate' => SORT_DESC]);
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,

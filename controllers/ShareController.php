@@ -24,7 +24,8 @@ class ShareController extends BaseController
         $id,
         $module,
         $config = []
-    ) {
+    )
+    {
         parent::__construct($id, $module, $config);
     }
 
@@ -90,6 +91,29 @@ class ShareController extends BaseController
         ]);
     }
 
+    public function actionFairPrice(int $id): string
+    {
+        $share = Share::getOneById($id);
+
+        return $this->render('fair-price', [
+            'shares' => Share::find()
+                ->andWhere(['issuer_id' => $share->issuer->id])
+                ->with(['issuer', 'shareDeals'])
+                ->all(),
+            'issuer' => $share->issuer,
+        ]);
+    }
+
+    public function actionAjaxFairPriceRecalculate(int $issuerId, float $capitalization): string
+    {
+        $issuer = Issuer::getOneById($issuerId);
+
+        return $this->renderAjax('@views/coefficient/_coefficient-part', [
+            'model' => $issuer,
+            'capitalization' => $capitalization / 1000,
+        ]);
+    }
+
     public function actionAllSharesCompare(): string
     {
         return $this->render('all-shares-compare', [
@@ -108,7 +132,7 @@ class ShareController extends BaseController
         return json_encode([
             'shareName' => $share->getFormattedNameWithIssuer(),
             'values' => array_map(
-                fn ($item) => array_values($item),
+                fn($item) => array_values($item),
                 $data
             )
         ]);

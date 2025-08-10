@@ -9,12 +9,14 @@ use src\ViewHelper\Tools\ShowMoreContainer;
 
 class PEViewHelper
 {
-    public static function render(Issuer $model): string
+    public static function render(Issuer $model, ?float $capitalizationInGrands = null): string
     {
         $values = [];
 
         foreach ($model->profitLossReports as $profitLossReport) {
-            $pe = PECalculator::calculate($model, $profitLossReport);
+            $pe = $capitalizationInGrands
+                ? PECalculator::calculateByCapitalization($capitalizationInGrands, $profitLossReport)
+                : PECalculator::calculate($model, $profitLossReport);
 
             $result = "$profitLossReport->_year: ";
             $result .= $pe

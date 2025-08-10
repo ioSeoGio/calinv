@@ -24,7 +24,7 @@ function flashMessage(type, msg)
             $(".alert-wrapper").append(`
                 <div class="${classes}">
                     <div class='alert-message'>${msg}</div>
-                    <div class='alert-point'><p>+</p></div>
+                    <div class='alert-point' style="color: #fdfdfd"><i class="bi bi-x-octagon"></i></div>
                 </div>
             `);
         else
@@ -32,7 +32,7 @@ function flashMessage(type, msg)
                 <div class='alert-wrapper'>
                     <div class="${classes}">
                         <div class='alert-message'>${msg}</div>
-                        <div class='alert-point'><p>+</p></div>
+                        <div class='alert-point' style="color: #fdfdfd"><i class="bi bi-x-octagon"></i></div>
                     </div>
                 </div>
             `);
@@ -44,8 +44,12 @@ function flashMessage(type, msg)
 
         $(".alert").each((index, item) => {
             setTimeout(function(){
-                $(item).fadeOut(1000)
-            }, (index + 1) * 1000 )
+                $(item)
+                    .addClass('fade-out')
+                    .on('animationend', function() {
+                        $(this).hide(); // remove() или hide() если не нужно удалять
+                    });
+            }, (index + 1) * 4000)
         });
     }
 }

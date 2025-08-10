@@ -11,4 +11,9 @@ class POCFCalculator
     {
         return CapitalizationByShareCalculator::calculateInGrands($issuer) / $cashFlowReport->_040;
     }
+
+    public static function calculateByCapitalization(float $capitalizationInGrands, CashFlowReport $cashFlowReport): float
+    {
+        return $capitalizationInGrands / $cashFlowReport->_040;
+    }
 }

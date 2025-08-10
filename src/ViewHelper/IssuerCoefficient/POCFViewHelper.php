@@ -9,12 +9,14 @@ use src\ViewHelper\Tools\ShowMoreContainer;
 
 class POCFViewHelper
 {
-    public static function render(Issuer $model): string
+    public static function render(Issuer $model, ?float $capitalizationInGrands = null): string
     {
         $values = [];
 
         foreach ($model->cashFlowReports as $cashFlowReport) {
-            $value = POCFCalculator::calculate($model, $cashFlowReport);
+            $value = $capitalizationInGrands
+                ? POCFCalculator::calculateByCapitalization($capitalizationInGrands, $cashFlowReport)
+                : POCFCalculator::calculate($model, $cashFlowReport);
 
             $result = "$cashFlowReport->_year: ";
             $result .= $value

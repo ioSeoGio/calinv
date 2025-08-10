@@ -12,6 +12,8 @@ class m250624_131358_create_share_table extends Migration
             'lastDealDate' => $this->string()->null(),
             'lastDealChangePercent' => $this->float()->null(),
             'currentPrice' => $this->float()->null(),
+            'minPrice' => $this->float()->null(),
+            'maxPrice' => $this->float()->null(),
 
             'fullnessState' => $this->json()->notNull(),
             'issuer_id' => $this->integer()->notNull(),

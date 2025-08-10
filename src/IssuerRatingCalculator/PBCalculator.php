@@ -11,4 +11,9 @@ class PBCalculator
     {
         return CapitalizationByShareCalculator::calculateInGrands($issuer) / $report->_700;
     }
+
+    public static function calculateByCapitalization(float $capitalizationInGrands, AccountingBalance $report): float
+    {
+        return $capitalizationInGrands / $report->_700;
+    }
 }
