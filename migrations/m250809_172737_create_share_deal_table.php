@@ -12,6 +12,7 @@ class m250809_172737_create_share_deal_table extends Migration
             'share_id' => $this->integer()->notNull(),
             '_date' => $this->string()->notNull(),
             'timestamp' => $this->bigInteger()->notNull(),
+
             'currency' => $this->string()->notNull(),
 
             'minPrice' => $this->float()->notNull(),

@@ -8,7 +8,6 @@ use yii\web\JsExpression;
 use miloschuman\highcharts\SeriesDataHelper;
 //            $.getJSON('https://cdn.jsdelivr.net/gh/highcharts/highcharts@v7.0.0/samples/data/'+ name.toLowerCase() +'-c.json',	function(data) {
 //            names = ['MSFT', 'AAPL', 'GOOG'];
-
 $this->registerJsVar('getShareDealInfoUrl', Url::to(['/share/share-deal-all-data']));
 $this->registerJsVar('shareIds', Share::getShareIdsWithDeals());
 $js = <<<MOO
