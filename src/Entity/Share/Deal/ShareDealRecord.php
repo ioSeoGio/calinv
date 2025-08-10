@@ -15,7 +15,7 @@ use src\Entity\Share\Share;
  *
  * @property string $_date Дата дня записи о сделках
  * @property DateTimeImmutable $date Дата дня записи о сделках
- * @property int $timestamp
+ * @property int $timestamp Timestamp в миллисекундах (* 1000)
  *
  * @property string $currency Валюта сделок
  *

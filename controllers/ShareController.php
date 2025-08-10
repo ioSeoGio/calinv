@@ -96,7 +96,7 @@ class ShareController extends BaseController
         ]);
     }
 
-    public function actionTestData(int $shareId): string
+    public function actionShareDealAllData(int $shareId): string
     {
         $share = Share::getOneById($shareId);
         $data = ShareDealRecord::find()

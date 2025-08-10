@@ -2,13 +2,14 @@
 
 use miloschuman\highcharts\Highstock;
 use src\Entity\Share\Share;
+use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\web\JsExpression;
 use miloschuman\highcharts\SeriesDataHelper;
 //            $.getJSON('https://cdn.jsdelivr.net/gh/highcharts/highcharts@v7.0.0/samples/data/'+ name.toLowerCase() +'-c.json',	function(data) {
 //            names = ['MSFT', 'AAPL', 'GOOG'];
 
-$this->registerJsVar('getShareDealInfoUrl', Url::to(['/share/test-data']));
+$this->registerJsVar('getShareDealInfoUrl', Url::to(['/share/share-deal-all-data']));
 $this->registerJsVar('shareIds', Share::getShareIdsWithDeals());
 $js = <<<MOO
     $(function () {
@@ -37,6 +38,8 @@ $js = <<<MOO
 MOO;
 
 $this->registerJs($js);
+
+echo Html::tag('div', Html::tag('h2', 'Средневзвешенная цена за акцию'), ['class' => 'text-center']);
 
 echo Highstock::widget([
     // The highcharts initialization statement will be wrapped in a function
