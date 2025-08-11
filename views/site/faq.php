@@ -1,5 +1,6 @@
 <?php
 
+use lib\FrontendHelper\Icon;
 use yii\bootstrap5\Html;
 use yii\helpers\Url;
 
@@ -9,6 +10,24 @@ $this->params['breadcrumbs'][] = $this->title;
 
 <div class="container my-5">
     <h1 class="display-4 mb-4"><?= Html::encode($this->title) ?></h1>
+
+    <div id="goals-block" class="card shadow-sm">
+        <div class="card-header bg-primary text-white">
+            <h2 class="h4 mb-0">О проекте</h2>
+        </div>
+        <div class="card-body">
+            <h3>Задачи проекта</h3>
+            Помочь сделать рынок инвестиций прозрачным и доступным для всех инвесторов
+            <br>
+            Предостеречь начинающих и опытных инвесторов от недобросовестных и/или неопределенных эмитентов
+
+            <br>
+            <br>
+            Для этого используется информация из общедоступных источников, а также платное API legat.by
+            <br>
+            Обсуждение эмитентов, а также предложения по улучшению в <?= Html::a(Icon::print('bi bi-telegram') . ' нашем телеграм канале', 'https://t.me/+VkMwRJV7LqoyZmYy', ['target' => '_blank']) ?>
+        </div>
+    </div>
 
     <div class="card shadow-sm">
         <div class="card-header bg-primary text-white">
