@@ -115,7 +115,7 @@ use yii\helpers\Url;
                 ? Html::a('График', Url::to(['/share/deal-info', 'id' => $model->id]), ['class' => 'btn btn-primary btn-sm border-bottom'])
                 : '';
 
-            $fairPrice = $shareDealsInfoExists
+            $fairPrice = $shareDealsInfoExists && $model->issuer->getAccountBalanceReports()->count()
                 ? Html::a('Расчет цены', Url::to(['/share/fair-price', 'id' => $model->id]), ['class' => 'btn btn-primary btn-sm'])
                 : '';
 
