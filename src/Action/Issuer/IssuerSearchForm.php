@@ -9,20 +9,19 @@ use yii\data\ActiveDataProvider;
 class IssuerSearchForm extends Model
 {
     public string $name = '';
-    public string $bikScore = '';
+    public string $_pid = '';
 
     public function rules(): array
     {
         return [
-            [['name', 'bikScore'], 'string'],
+            [['name', '_pid'], 'string'],
         ];
     }
 
     public function search($params): ActiveDataProvider
     {
         $query = Issuer::find()
-            ->with('businessReputationInfo')
-            ->with('shares');
+            ->with(['shares', 'businessReputationInfo']);
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
@@ -34,7 +33,7 @@ class IssuerSearchForm extends Model
         }
 
         $query->andFilterWhere(['ilike', 'name', $this->name])
-            ->andFilterWhere(['ilike', 'bikScore', $this->bikScore]);
+            ->andFilterWhere(['ilike', '_pid', $this->_pid]);
 
         return $dataProvider;
     }
