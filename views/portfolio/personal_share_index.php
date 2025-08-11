@@ -1,13 +1,11 @@
 <?php
 
-use src\Entity\Issuer\Issuer;
+use lib\FrontendHelper\DetailViewCopyHelper;
 use src\Entity\PersonalShare\PersonalShare;
-use src\Entity\Share\Share;
+use src\ViewHelper\Tools\Badge;
 use yii\base\Model;
-use yii\bootstrap5\Html;
 use yii\data\ArrayDataProvider;
 use yii\grid\GridView;
-use yii\helpers\ArrayHelper;
 use yii\web\View;
 
 /** @var ArrayDataProvider $personalShareDataProvider */
@@ -32,22 +30,30 @@ $queryParamUserId = Yii::$app->request->queryParams['userId'] ?? null;
     'columns' => [
         [
             'attribute' => 'share.registerNumber',
+            'format' => 'raw',
+            'value' => function (PersonalShare $personalShare) {
+                return DetailViewCopyHelper::renderValueColored($personalShare->share->registerNumber);
+            },
         ],
         [
-            'label' => 'эмитент',
             'attribute' => 'share.issuer.name',
+            'format' => 'raw',
+            'value' => function (PersonalShare $personalShare) {
+                return DetailViewCopyHelper::renderValueColored($personalShare->share->getFormattedNameWithIssuer());
+            },
         ],
         [
-            'label' => 'прибыль, всего',
+            'label' => 'прибыль %',
             'format' => 'raw',
             'value' => function (PersonalShare $model) {
                 $value = ($model->share->currentPrice - $model->buyPrice) / $model->buyPrice * 100;
 
-                 return Html::tag(
-                    name: 'span',
-                    content: round($value, 1) . ' %',
-                    options: ['class' => $value > 0 ? 'text-success' : 'text-danger']
-                );
+
+                if ($value === 0) {
+                    return Badge::neutral($value . '%');
+                }
+
+                return $value > 0 ? Badge::success($value . '%') : Badge::danger($value . '%');
             }
         ],
         [
@@ -55,11 +61,7 @@ $queryParamUserId = Yii::$app->request->queryParams['userId'] ?? null;
             'attribute' => 'share.denomination',
             'format' => 'raw',
             'value' => function (PersonalShare $model) {
-                return Html::tag(
-                    name: 'span',
-                    content: round($model->share->denomination, 2) . ' руб.',
-                    options: ['class' => $model->share->denomination >= $model->share->currentPrice ? 'text-success' : 'text-danger']
-                );
+                return Badge::neutral($model->share->denomination . ' р.');
             }
         ],
         [
@@ -67,11 +69,9 @@ $queryParamUserId = Yii::$app->request->queryParams['userId'] ?? null;
             'attribute' => 'buyPrice',
             'format' => 'raw',
             'value' => function (PersonalShare $model) {
-                return Html::tag(
-                    name: 'span',
-                    content: round($model->buyPrice, 2) . ' руб.',
-                    options: ['class' => $model->buyPrice <= $model->share->currentPrice  ? 'text-success' : 'text-danger']
-                );
+                return $model->buyPrice <= $model->share->currentPrice
+                    ? Badge::success($model->buyPrice . ' р.')
+                    : Badge::danger($model->buyPrice . ' р.');
             }
         ],
         [
@@ -79,23 +79,12 @@ $queryParamUserId = Yii::$app->request->queryParams['userId'] ?? null;
             'attribute' => 'share.currentPrice',
             'format' => 'raw',
             'value' => function (PersonalShare $model) {
-                return $model->share->currentPrice ? Html::tag(
-                    name: 'span',
-                    content: round($model->share->currentPrice, 2) . ' руб.',
-                    options: ['class' => 'text-primary']
-                ) : null;
+                return Badge::neutral($model->share->currentPrice . ' р.');
             }
         ],
         [
             'label' => 'дата покупки',
             'attribute' => 'boughtAt',
-        ],
-        [
-            'label' => 'объем выпуска',
-            'attribute' => 'share.volumeIssued',
-            'value' => function (PersonalShare $model) {
-                return $model->share->totalIssuedAmount . ' шт.';
-            }
         ],
     ],
 ]) ?>

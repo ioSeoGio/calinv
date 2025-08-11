@@ -8,17 +8,24 @@ use yii\base\Model;
 
 class PersonalShareCreateForm extends Model
 {
-    public string $share_id = 'а21';
-    public int $amount = 1;
-    public float $buyPrice = 1;
-    public string $boughtAt;
-    public int $user_id;
+    public $share_id;
+    public $amount;
+    public $buyPrice;
+    public $boughtAt;
 
     public function init(): void
     {
-        $this->boughtAt = (new DateTime())->modify('+18 months')->format('d.m.Y');
-        $this->user_id = Yii::$app->user->id;
+        $this->boughtAt = (new DateTime())->format('d.m.Y');
         parent::init();
+    }
+
+    public function attributeLabels(): array
+    {
+        return [
+            'buyPrice' => 'Закупочная цена',
+            'boughtAt' => 'Дата покупки',
+            'amount' => 'Количество',
+        ];
     }
 
     public function rules(): array
@@ -31,6 +38,7 @@ class PersonalShareCreateForm extends Model
                 'boughtAt',
             ], 'required', 'message' => 'Заполните.'],
             ['boughtAt', 'datetime', 'format' => 'php:d.m.Y'],
+            [['amount', 'buyPrice'], 'number', 'min' => 0],
         ];
     }
 }

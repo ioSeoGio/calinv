@@ -28,7 +28,7 @@ class PersonalShare extends ActiveRecord
     {
         $model = new PersonalShare([
             'share_id' => $form->share_id,
-            'user_id' => $form->user_id,
+            'user_id' => \Yii::$app->user->id,
             'amount' =>  $form->amount,
             'buyPrice' => $form->buyPrice,
             'boughtAt' => $form->boughtAt,
