@@ -108,7 +108,7 @@ class ShareController extends BaseController
     {
         $issuer = Issuer::getOneById($issuerId);
 
-        return $this->renderAjax('@views/coefficient/_coefficient-part', [
+        return $this->renderAjax('@views/coefficient/_recalculate-by-capitalization-coefficient', [
             'model' => $issuer,
             'capitalization' => $capitalization / 1000,
         ]);

@@ -20,7 +20,7 @@ use src\IssuerRatingCalculator\ROECalculator;
 
 class ComplexRatingCalculator
 {
-    public static function calculateMany(Issuer $issuer): array
+    public static function calculateMany(Issuer $issuer, ?float $capitalization = null): array
     {
         $profitLossReports = $issuer->profitLossReports;
         $accountingBalanceReports = $issuer->accountBalanceReports;
@@ -39,7 +39,8 @@ class ComplexRatingCalculator
                 $issuer,
                 $accountingBalanceReports[$index],
                 $profitLossReports[$index],
-                $cashFlowReports[$index]
+                $cashFlowReports[$index],
+                $capitalization
             );
             $index++;
         }
@@ -52,18 +53,30 @@ class ComplexRatingCalculator
         AccountingBalance $accountingBalance,
         ProfitLossReport $profitLossReport,
         CashFlowReport $cashFlowReport,
+        ?float $capitalization = null,
     ): float {
-        $pe = PECalculator::calculate($issuer, $profitLossReport);
-        $pb = PBCalculator::calculate($issuer, $accountingBalance);
+        $pe = $capitalization
+            ? PECalculator::calculateByCapitalization($capitalization, $profitLossReport)
+            : PECalculator::calculate($issuer, $profitLossReport);
+        $pocf = $capitalization
+            ? POCFCalculator::calculateByCapitalization($capitalization, $cashFlowReport)
+            : POCFCalculator::calculate($issuer, $cashFlowReport);
+        $pfcf = $capitalization
+            ? PFCFCalculator::calculateByCapitalization($capitalization, $cashFlowReport)
+            : PFCFCalculator::calculate($issuer, $cashFlowReport);
+        $ps = $capitalization
+            ? PSCalculator::calculateByCapitalization($capitalization, $profitLossReport)
+            : PSCalculator::calculate($issuer, $profitLossReport);
+        $pb = $capitalization
+            ? PBCalculator::calculateByCapitalization($capitalization, $accountingBalance)
+            : PBCalculator::calculate($issuer, $accountingBalance);
+
         $k1 = K1Calculator::calculate($accountingBalance);
         $k2 = K2Calculator::calculate($accountingBalance);
         $k3 = K3Calculator::calculate($accountingBalance);
         $roe = ROECalculator::calculate($profitLossReport, $accountingBalance);
         $roa = ROACalculator::calculate($cashFlowReport, $accountingBalance);
         $de = DECalculator::calculate($accountingBalance);
-        $pocf = POCFCalculator::calculate($issuer, $cashFlowReport);
-        $pfcf = PFCFCalculator::calculate($issuer, $cashFlowReport);
-        $ps = PSCalculator::calculate($issuer, $profitLossReport);
 
         $raw = (
             0

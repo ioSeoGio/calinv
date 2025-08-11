@@ -10,9 +10,9 @@ use src\ViewHelper\Tools\ShowMoreContainer;
 
 class ComplexRatingViewHelper
 {
-    public static function render(Issuer $issuer, int $max = 5): string
+    public static function render(Issuer $issuer, ?float $capitalization = null, int $max = 5): string
     {
-        $values = ComplexRatingCalculator::calculateMany($issuer);
+        $values = ComplexRatingCalculator::calculateMany($issuer, $capitalization);
         $printValues = [];
 
         foreach ($values as $year => $value) {

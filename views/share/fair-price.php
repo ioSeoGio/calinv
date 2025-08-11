@@ -14,7 +14,7 @@ $this->registerJsFile('@web/js/fair-price/fair-price-recalculate.js');
 ?>
 
 <div>
-    <div class="text-center">
+    <div class="text-left">
         <h3>Расчет справедливой цены акции</h3>
         <table id="w2" class="table table-striped table-bordered detail-view">
             <thead>
@@ -36,22 +36,22 @@ $this->registerJsFile('@web/js/fair-price/fair-price-recalculate.js');
                         <?php else: ?>
                             <?= Html::tag('b', $share->minPrice . ' р.', ['class' => 'badge']); ?>
                             <?= Slider::widget([
-                                    'options' => [
-                                        'class' => 'fair-price-slider',
-                                        'data-share-id' => $share->id,
-                                        'data-share-amount' => $share->totalIssuedAmount,
-                                    ],
-                                    'name' => 'rating_1',
-                                    'value' => $share->currentPrice,
-                                    'pluginOptions' => [
-                                        'min' => $share->minPrice,
-                                        'max' => $share->maxPrice,
-                                        'step' => ($share->maxPrice - $share->minPrice) / 20, // шаг в 5% от разницы min-max
-                                        'tooltip' => 'hide', // Attempt to show tooltip
-                                    ],
+                                'options' => [
+                                    'class' => 'fair-price-slider',
+                                    'data-share-id' => $share->id,
+                                    'data-share-amount' => $share->totalIssuedAmount,
+                                ],
+                                'name' => 'rating_1',
+                                'value' => $share->currentPrice,
+                                'pluginOptions' => [
+                                    'min' => $share->minPrice,
+                                    'max' => $share->maxPrice,
+                                    'step' => ($share->maxPrice - $share->minPrice) / 20, // шаг в 5% от разницы min-max
+                                    'tooltip' => 'hide', // Attempt to show tooltip
+                                ],
                             ]); ?>
                             <?= Html::tag('b', $share->maxPrice . ' р.', ['class' => 'badge']); ?>
-                            <div class="current-value-test">
+                            <br><div class="current-value-test badge bg-primary">
                                 <?= $share->currentPrice ?> р.
                             </div>
                         <?php endif; ?>
@@ -71,6 +71,6 @@ $this->registerJsFile('@web/js/fair-price/fair-price-recalculate.js');
     </div>
 </div>
 
-<?= $this->render('@views/coefficient/_coefficient-part', [
+<?= $this->render('@views/coefficient/_recalculate-by-capitalization-coefficient', [
     'model' => $issuer,
 ]); ?>
