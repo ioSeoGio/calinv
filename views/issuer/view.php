@@ -245,7 +245,7 @@ $this->title = $model->name;
                 'format' => 'raw',
                 'value' => function (Issuer $model) {
                     if (Yii::$app->user->can(UserRole::admin->value)) {
-                        return Html::a('Обновить через Legat (платно)', ['renew-legat-issuer-info', 'id' => $model->id], ['class' => 'btn btn-success']);
+                        return Html::a('Обновить через Legat (платно)', ['renew-legat-issuer-info', 'id' => $model->id], ['class' => 'btn btn-danger']);
                     }
 
                     return '';
@@ -418,7 +418,7 @@ $this->title = $model->name;
         Время последнего обновления: <?= Yii::$app->formatter->asDatetime(EmployeeAmountRecord::getLastUpdateSessionDate(['issuerId' => $model->id])) ?>
         <?php if (Yii::$app->user->can(UserRole::admin->value)): ?>
             <div>
-                <?= Html::a('Обновить через Legat (платно)', ['renew-employee-amount', 'id' => $model->id], ['class' => 'btn btn-success']) ?>
+                <?= Html::a('Обновить через Legat (платно)', ['renew-employee-amount', 'id' => $model->id], ['class' => 'btn btn-danger']) ?>
             </div>
         <?php endif; ?>
     </div>
@@ -438,7 +438,7 @@ $this->title = $model->name;
         Время последнего обновления: <?= Yii::$app->formatter->asDatetime(IssuerEvent::getLastUpdateSessionDate(['_pid' => $model->_pid])) ?>
         <?php if (Yii::$app->user->can(UserRole::admin->value)): ?>
             <div>
-                <?= Html::a('Обновить через Legat (платно)', ['renew-issuer-events', 'id' => $model->id], ['class' => 'btn btn-success']) ?>
+                <?= Html::a('Обновить через Legat (платно)', ['renew-issuer-events', 'id' => $model->id], ['class' => 'btn btn-danger']) ?>
             </div>
         <?php endif; ?>
     </div>

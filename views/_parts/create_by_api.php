@@ -35,7 +35,7 @@ $form = ActiveForm::begin([
             </td>
             <td>
                 <div class="mx-auto d-flex justify-content-center">
-                    <button class="btn btn-primary" type="submit">Обновить через Legat (платно)</button>
+                    <button class="btn btn-danger" type="submit">Обновить через Legat (платно)</button>
                 </div>
             </td>
         </tr>
