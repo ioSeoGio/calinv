@@ -75,7 +75,7 @@ class ComplexRatingCalculator
         $k2 = K2Calculator::calculate($accountingBalance);
         $k3 = K3Calculator::calculate($accountingBalance);
         $roe = ROECalculator::calculate($profitLossReport, $accountingBalance);
-        $roa = ROACalculator::calculate($cashFlowReport, $accountingBalance);
+        $roa = ROACalculator::calculate($profitLossReport, $accountingBalance);
         $de = DECalculator::calculate($accountingBalance);
 
         $raw = (

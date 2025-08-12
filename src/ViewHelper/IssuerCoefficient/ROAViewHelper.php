@@ -15,11 +15,11 @@ class ROAViewHelper
         $values = [];
 
         $accountBalanceReports = $issuer->accountBalanceReports;
-        $cashFlowReports = $issuer->cashFlowReports;
+        $profitLossReports = $issuer->profitLossReports;
 
-        for ($i = 0; $i < min(count($accountBalanceReports), count($cashFlowReports)); $i++) {
-            $value = ROACalculator::calculate($cashFlowReports[$i], $accountBalanceReports[$i]);
-            $result = "{$cashFlowReports[$i]->_year}: ";
+        for ($i = 0; $i < min(count($accountBalanceReports), count($profitLossReports)); $i++) {
+            $value = ROACalculator::calculate($profitLossReports[$i], $accountBalanceReports[$i]);
+            $result = "{$profitLossReports[$i]->_year}: ";
             $result .= GoodBadValueViewHelper::asBadge($value * 100, 10,true, '%');
             $result .= '<br>';
 
@@ -34,7 +34,7 @@ class ROAViewHelper
         return '<math xmlns="http://www.w3.org/1998/Math/MathML" class="math-large">
           <mfrac>
             <mrow>
-              <mi>Результа ДДС по текущей деятельности (40 строка ОДДС)</mi>
+              <mi>Чистая прибыль (210 строка ОПиУ)</mi>
             </mrow>
             <mrow>
               <mi>Итого активов (700 строка ОББ)</mi>

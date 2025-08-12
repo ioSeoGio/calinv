@@ -8,8 +8,8 @@ use src\Entity\Issuer\FinanceReport\ProfitLossReport\ProfitLossReport;
 
 class ROACalculator
 {
-    public static function calculate(CashFlowReport $cashFlowReport, AccountingBalance $accountingBalance): float
+    public static function calculate(ProfitLossReport $profitLossReport, AccountingBalance $accountingBalance): float
     {
-        return $cashFlowReport->_040 / $accountingBalance->_700;
+        return $profitLossReport->_210 /  $accountingBalance->_700;
     }
 }
