@@ -109,6 +109,13 @@ class IssuerController extends BaseController
     {
         $issuer = Issuer::getOneById($id);
         $dto = $this->commonIssuerInfoFetcher->getCommonInfo($issuer->getPid());
+
+        if ($issuer->name === null) {
+            $issuer->name = $dto->detailsDto->shortIssuerName;
+        }
+        if ($issuer->_legalStatus === null) {
+            $issuer->_legalStatus = $dto->detailsDto->inspectionStatus;
+        }
         $this->apiLegatCommonInfoFactory->update($issuer, $dto);
 
         return $this->redirect(['issuer/view', 'id' => $issuer->id]);
