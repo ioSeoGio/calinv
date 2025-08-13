@@ -3,11 +3,13 @@
 namespace app\controllers;
 
 use lib\BaseController;
+use lib\FlashType;
 use src\Entity\Issuer\PayerIdentificationNumber;
 use src\Entity\Share\Deal\ShareDealRecord;
 use src\Entity\Share\Share;
 use src\Entity\Share\ShareRegisterNumber;
 use src\Integration\Bcse\ShareInfo\BcseShareInfoFetcher;
+use Yii;
 use yii\filters\AccessControl;
 
 class DevController extends BaseController
@@ -19,9 +21,6 @@ class DevController extends BaseController
                 'class' => AccessControl::class,
                 'rules' => [
                     [
-                        'actions' => [
-                            '*',
-                        ],
                         'allow' => true,
                         'roles' => ['admin'],
                     ],
@@ -43,6 +42,7 @@ class DevController extends BaseController
 
     public function actionView(): string
     {
+        Yii::$app->session->addFlash(FlashType::info->value, 'test');
         return $this->render('view');
     }
 

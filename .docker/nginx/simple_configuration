@@ -4,6 +4,8 @@ events {
 }
 
 http {
+    include mime.types;
+
     server {
         listen 80;
 
@@ -17,6 +19,12 @@ http {
 
         location / {
             try_files $uri $uri/ /index.php?$query_string;
+        }
+
+        location ~* \.(css|js|png|jpg|jpeg|gif|ico|woff|woff2|ttf|svg|eot)$ {
+            access_log off;
+            expires 30d;
+            add_header Cache-Control "public";
         }
 
         # PHP-FPM Configuration Nginx
