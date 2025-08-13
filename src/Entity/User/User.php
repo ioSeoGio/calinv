@@ -36,7 +36,7 @@ class User extends BaseActiveRecord implements IdentityInterface
     {
 		return [
 			[['username', 'email', 'password_hash', 'auth_key'], 'string'],
-			[['username', 'email', 'password_hash', 'auth_key'], 'required'],
+			[['username', 'email', 'password_hash'], 'required'],
 			[['email'], 'email'],
 			[['username', 'email'], 'unique'],
 		];
