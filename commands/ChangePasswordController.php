@@ -21,7 +21,10 @@ class ChangePasswordController extends Controller
     {
         $user = User::getOneById($userId);
         $user->setPassword($password);
-        $user->save();
+        if ($user->save()) {
+            print_r($user->getErrors());
+            return ExitCode::DATAERR;
+        }
 
         return ExitCode::OK;
     }
