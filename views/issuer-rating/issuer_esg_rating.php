@@ -55,13 +55,6 @@ $this->title = 'ESG Рейтинг BIK';
                 'options' => ['style' => 'min-width: 200px'],
             ],
             [
-                'attribute' => '_pid',
-                'format' => 'raw',
-                'value' => function (EsgRatingInfo $model) {
-                    return DetailViewCopyHelper::renderValueColored($model->_pid);
-                }
-            ],
-            [
                 'attribute' => '_rating',
                 'format' => 'raw',
                 'value' => function (EsgRatingInfo $model) {
