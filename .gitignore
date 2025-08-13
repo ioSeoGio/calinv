@@ -4,3 +4,4 @@
 config/db.php
 /database
 .env.local
+/.docker/nginx/main.conf

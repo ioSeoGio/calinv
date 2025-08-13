@@ -28,9 +28,13 @@ rights: db-rights vendor-rights
 	sudo chmod 777 -R tests/
 
 down:
-	docker compose down
+	docker compose down web
+	docker compose down php
+	docker compose down db
 up:
-	docker compose up -d
+	docker compose up -d db
+	docker compose up -d php
+	docker compose up -d web
 
 composer-install:
 	docker compose run --rm php composer install
@@ -46,6 +50,9 @@ update:
 migrate:
 	docker compose run --rm php php yii migrate --migrationPath=@yii/rbac/migrations --interactive=0
 	docker compose run --rm php php yii migrate --interactive=0
+
+certbot:
+	docker compose up -d certbot
 
 init: down rights build up composer-install migrate
 

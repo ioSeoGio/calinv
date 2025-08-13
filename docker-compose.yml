@@ -1,4 +1,3 @@
-version: '3'
 services:
   web:
     image: nginx:1.17
@@ -7,7 +6,7 @@ services:
       - "443:443"
     volumes:
       - ./:/var/www/html
-      - ./.docker/nginx/site.conf:/etc/nginx/nginx.conf:ro
+      - ./.docker/nginx/main.conf:/etc/nginx/nginx.conf:ro
       - ./.docker/nginx/cert.pem:/etc/cert.pem
       - ./.docker/nginx/key.pem:/etc/key.pem
     depends_on:
@@ -40,7 +39,7 @@ services:
       - "6000:80"
     env_file:
       - .env
-    # и снова мониторуем директорию nginx
+    # и снова монтируем директорию nginx
     volumes:
       - ./.docker/nginx/:/etc/nginx/
     build:
