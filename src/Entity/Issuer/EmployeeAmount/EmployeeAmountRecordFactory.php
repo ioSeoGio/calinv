@@ -10,7 +10,7 @@ class EmployeeAmountRecordFactory
 {
     public function createMany(Issuer $issuer, EmployeeAmountDto $employeeAmountDto): void
     {
-        IssuerEvent::deleteAll();
+        EmployeeAmountRecord::deleteAll();
 
         foreach ($employeeAmountDto->data as $record) {
             $employeeAmountRecord = EmployeeAmountRecord::createOrUpdate(
