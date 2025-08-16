@@ -3,6 +3,7 @@
 namespace app\controllers;
 
 use lib\BaseController;
+use lib\FlashType;
 use src\Action\Issuer\FinancialReport\AccountingBalance\AccountingBalanceCreateForm;
 use src\Action\Issuer\FinancialReport\AccountingBalance\AccountingBalanceSearchForm;
 use src\Action\Issuer\FinancialReport\FinancialReportByApiCreateForm;
@@ -61,6 +62,11 @@ class AccountingBalanceController extends BaseController
     {
         $issuer = Issuer::getOneById($issuerId);
         $allDtos = $this->legatAvailableFinancialReportsFetcher->getAvailableReports($issuer->pid);
+
+        if (empty($allDtos->records)) {
+            Yii::$app->session->addFlash(FlashType::info->value, 'Для эмитента нет доступных фин. отчетов');
+        }
+
         $this->availableFinancialReportFactory->createOrUpdateBulk($issuer, $allDtos);
 
         return $this->redirect(['index', 'issuerId' => $issuerId]);
