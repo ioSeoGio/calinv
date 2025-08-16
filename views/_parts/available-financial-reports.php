@@ -13,6 +13,7 @@ $dataProvider->pagination = false;
 
 <div class="card mt-3" style="min-width: 250px">
     <div class="card-body">
+        Время последнего обновления: <?= Yii::$app->formatter->asDatetime($issuer->_dateFinanceReportsInfoUpdated) ?>
         <ul class="list-group list-group-horizontal-sm">
             <?php foreach ($dataProvider->getModels() as $model): ?>
                 <li class="list-group-item">

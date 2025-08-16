@@ -15,6 +15,8 @@ class AvailableFinancialReportFactory
         foreach ($allDto->records as $dto) {
             $this->createOrUpdate($issuer, $dto);
         }
+        $issuer->renewDateFinanceReportsInfoUpdated();
+        $issuer->save();
     }
 
     public function createOrUpdate(

@@ -45,6 +45,9 @@ use yii\db\ActiveQuery;
  * @property IssuerLegalStatus $legalStatus
  * @property string $_legalStatus
  *
+ * @property ?string $_dateFinanceReportsInfoUpdated Дата, когда была запрошена информация об имеющихся фин. отчетностях
+ * @property ?\DateTimeImmutable $dateFinanceReportsInfoUpdated Дата, когда была запрошена информация об имеющихся фин. отчетностях
+ *
  * @property ?\DateTimeImmutable $dateShareInfoModerated Дата, когда информация по акциям вручную проверена и подтверждена
  * @property ?string $_dateShareInfoModerated
  *
@@ -87,6 +90,16 @@ class Issuer extends ApiFetchedActiveRecord
         $this->renewLastApiUpdateDate();
 
         return $this;
+    }
+
+    public function getDateFinanceReportsInfoUpdated(): ?\DateTimeInterface
+    {
+        return $this->_dateFinanceReportsInfoUpdated ? new \DateTimeImmutable($this->_dateShareInfoModerated) : null;
+    }
+
+    public function renewDateFinanceReportsInfoUpdated(): void
+    {
+        $this->_dateFinanceReportsInfoUpdated = (new DateTimeImmutable())->format(DATE_ATOM);
     }
 
     public function getDateShareInfoModerated(): ?\DateTimeInterface
