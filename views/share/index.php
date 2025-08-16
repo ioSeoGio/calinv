@@ -8,6 +8,7 @@ use src\Action\Share\ShareCreateForm;
 use src\Action\Share\ShareSearchForm;
 use src\Entity\Issuer\Issuer;
 use src\Entity\Share\Share;
+use src\Entity\User\UserRole;
 use src\Integration\Bcse\BcseUrlHelper;
 use src\ViewHelper\Tools\Badge;
 use yii\bootstrap5\Html;
@@ -107,7 +108,7 @@ use yii\helpers\Url;
     ],
     [
         'label' => 'Подробнее',
-        'format' => 'html',
+        'format' => 'raw',
         'value' => function (Share $model) {
             $shareDealsInfoExists = $model->getShareDeals()->count();
 
@@ -116,10 +117,14 @@ use yii\helpers\Url;
                 : '';
 
             $fairPrice = $shareDealsInfoExists && $model->issuer->getAccountBalanceReports()->count()
-                ? Html::a('Расчет цены', Url::to(['/share/fair-price', 'id' => $model->id]), ['class' => 'btn btn-primary btn-sm'])
+                ? Html::a('Расчет цены', Url::to(['/share/fair-price', 'id' => $model->id]), ['class' => 'btn btn-primary btn-sm border-bottom'])
                 : '';
 
-            return $chart . $fairPrice;
+            $shareUrl = Yii::$app->user->can(UserRole::admin->value)
+                ? Html::a('Биржа', BcseUrlHelper::getShareUrl($model), ['target' => '_blank', 'class' => 'btn btn-success btn-sm'])
+                : '';
+
+            return $chart . $fairPrice . $shareUrl;
         },
         'options' => ['style' => 'min-width: 120px'],
     ],
