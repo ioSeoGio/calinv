@@ -9,6 +9,7 @@ use yii\helpers\Url;
 /** @var Issuer $issuer */
 /** @var Share[] $shares */
 
+$this->title = 'Справедливая цена';
 $this->registerJsVar('recalculateUrl', Url::to(['share/ajax-fair-price-recalculate', 'issuerId' => $issuer->id]));
 $this->registerJsFile('@web/js/fair-price/fair-price-recalculate.js');
 ?>
