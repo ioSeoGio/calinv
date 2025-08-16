@@ -33,6 +33,8 @@ $this->registerJsFile('@web/js/fair-price/fair-price-recalculate.js');
                     <td>
                         <?php if ($share->minPrice === null || $share->maxPrice === null): ?>
                             Нет данных
+                        <?php elseif ($share->minPrice === $share->maxPrice): ?>
+                            Минимальная и максимальная цены равны
                         <?php else: ?>
                             <?= Html::tag('b', $share->minPrice . ' р.', ['class' => 'badge']); ?>
                             <?= Slider::widget([
@@ -41,7 +43,7 @@ $this->registerJsFile('@web/js/fair-price/fair-price-recalculate.js');
                                     'data-share-id' => $share->id,
                                     'data-share-amount' => $share->totalIssuedAmount,
                                 ],
-                                'name' => 'rating_1',
+                                'name' => 'rating_' . $share->id,
                                 'value' => $share->currentPrice,
                                 'pluginOptions' => [
                                     'min' => $share->minPrice,
