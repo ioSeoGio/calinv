@@ -117,11 +117,11 @@ use yii\helpers\Url;
                 : '';
 
             $fairPrice = $shareDealsInfoExists && $model->issuer->getAccountBalanceReports()->count()
-                ? Html::a('Расчет цены', Url::to(['/share/fair-price', 'id' => $model->id]), ['class' => 'btn btn-primary btn-sm border-bottom'])
+                ? '<br>' . Html::a('Расчет цены', Url::to(['/share/fair-price', 'id' => $model->id]), ['class' => 'btn btn-primary btn-sm border-bottom'])
                 : '';
 
             $shareUrl = Yii::$app->user->can(UserRole::admin->value)
-                ? Html::a('Биржа', BcseUrlHelper::getShareUrl($model), ['target' => '_blank', 'class' => 'btn btn-success btn-sm'])
+                ? '<br>' . Html::a('Биржа', BcseUrlHelper::getShareUrl($model), ['target' => '_blank', 'class' => 'btn btn-success btn-sm'])
                 : '';
 
             return $chart . $fairPrice . $shareUrl;
