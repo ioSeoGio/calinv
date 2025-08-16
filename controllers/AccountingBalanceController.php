@@ -6,11 +6,14 @@ use lib\BaseController;
 use src\Action\Issuer\FinancialReport\AccountingBalance\AccountingBalanceCreateForm;
 use src\Action\Issuer\FinancialReport\AccountingBalance\AccountingBalanceSearchForm;
 use src\Action\Issuer\FinancialReport\FinancialReportByApiCreateForm;
-use src\Entity\Issuer\FinanceReport\AccountingBalance\AccountingBalance;
 use src\Entity\Issuer\FinanceReport\AccountingBalance\AccountingBalanceFactory;
+use src\Entity\Issuer\FinanceReport\AvailableFinancialReportData;
+use src\Entity\Issuer\FinanceReport\AvailableFinancialReportFactory;
 use src\Entity\Issuer\Issuer;
+use src\Integration\Legat\Api\LegatAvailableFinancialReportsFetcher;
 use Yii;
 use yii\bootstrap5\ActiveForm;
+use yii\data\ActiveDataProvider;
 use yii\filters\AccessControl;
 use yii\web\Response;
 
@@ -22,6 +25,8 @@ class AccountingBalanceController extends BaseController
         $id,
         $module,
         private AccountingBalanceFactory $factory,
+        private LegatAvailableFinancialReportsFetcher $legatAvailableFinancialReportsFetcher,
+        private AvailableFinancialReportFactory $availableFinancialReportFactory,
         $config = []
     ) {
         parent::__construct($id, $module, $config);
@@ -35,12 +40,14 @@ class AccountingBalanceController extends BaseController
                 'only' => [
                     'create',
                     'fetch-external',
+                    'renew-available-financial-reports',
                 ],
                 'rules' => [
                     [
                         'actions' => [
                             'create',
                             'fetch-external',
+                            'renew-available-financial-reports',
                         ],
                         'allow' => true,
                         'roles' => ['admin'],
@@ -48,6 +55,15 @@ class AccountingBalanceController extends BaseController
                 ],
             ],
         ];
+    }
+
+    public function actionRenewAvailableFinancialReports($issuerId): Response
+    {
+        $issuer = Issuer::getOneById($issuerId);
+        $allDtos = $this->legatAvailableFinancialReportsFetcher->getAvailableReports($issuer->pid);
+        $this->availableFinancialReportFactory->createOrUpdateBulk($issuer, $allDtos);
+
+        return $this->redirect(['index', 'issuerId' => $issuerId]);
     }
 
     public function actionCreate($issuerId): Response
@@ -74,6 +90,14 @@ class AccountingBalanceController extends BaseController
             'model' => $issuer,
             'dataProvider' => $dataProvider,
             'createForm' => new AccountingBalanceCreateForm($issuer, $year),
+            'availableFinancialReportsDataProvider' => new ActiveDataProvider([
+                'query' => AvailableFinancialReportData::find()
+                    ->andWhere(['issuerId' => $issuerId, 'hasAccountingBalance' => true])
+                    ->addOrderBy(['_year' => SORT_DESC]),
+                'pagination' => [
+                    'pageSize' => 3
+                ],
+            ]),
             'apiCreateForm' => new FinancialReportByApiCreateForm(),
         ]);
     }

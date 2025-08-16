@@ -3,6 +3,7 @@
 /** @var yii\web\View $this */
 /** @var Issuer $model */
 /** @var ActiveDataProvider $dataProvider */
+/** @var ActiveDataProvider $availableFinancialReportsDataProvider */
 /** @var AccountingBalanceCreateForm $createForm */
 /** @var FinancialReportByApiCreateForm $apiCreateForm */
 
@@ -24,6 +25,10 @@ $this->title = 'Бухгалтерский баланс ' . $model->name;
     'model' => $model,
 ]); ?>
 <?php if (Yii::$app->user->can(UserRole::admin->value)) : ?>
+    <?= $this->render('@views/_parts/available-financial-reports', [
+        'dataProvider' => $availableFinancialReportsDataProvider,
+        'issuer' => $model,
+    ]) ?>
     <?= $this->render('@views/_parts/create_by_api', [
         'createForm' => $apiCreateForm,
         'issuer' => $model,

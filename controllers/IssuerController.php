@@ -13,6 +13,7 @@ use src\Entity\Issuer\ApiIssuerInfoAndSharesFactory;
 use src\Entity\Issuer\EmployeeAmount\EmployeeAmountRecord;
 use src\Entity\Issuer\EmployeeAmount\EmployeeAmountRecordFactory;
 use src\Entity\Issuer\Issuer;
+use src\Entity\Issuer\IssuerAutomaticLegatFactory;
 use src\Entity\Issuer\IssuerEvent\BulkIssuerEventFactory;
 use src\Entity\Issuer\IssuerFactory;
 use src\Entity\Issuer\TypeOfActivity\ApiTypeOfActivityFactory;
@@ -38,6 +39,7 @@ class IssuerController extends BaseController
         private CommonIssuerInfoFetcherInterface $commonIssuerInfoFetcher,
         private EmployeeAmountFetcherInterface $employeeAmountFetcher,
         private EmployeeAmountRecordFactory $employeeAmountRecordFactory,
+        private IssuerAutomaticLegatFactory $issuerAutomaticLegatFactory,
 
         $config = []
     ) {
@@ -108,14 +110,8 @@ class IssuerController extends BaseController
     public function actionRenewLegatIssuerInfo($id): Response
     {
         $issuer = Issuer::getOneById($id);
-        $dto = $this->commonIssuerInfoFetcher->getCommonInfo($issuer->getPid());
 
-        if ($issuer->name === null) {
-            $issuer->name = $dto->detailsDto->shortIssuerName;
-        }
-        if ($issuer->_legalStatus === null) {
-            $issuer->_legalStatus = $dto->detailsDto->inspectionStatus;
-        }
+        $dto = $this->commonIssuerInfoFetcher->getCommonInfo($issuer->getPid());
         $this->apiLegatCommonInfoFactory->update($issuer, $dto);
 
         return $this->redirect(['issuer/view', 'id' => $issuer->id]);
@@ -162,10 +158,15 @@ class IssuerController extends BaseController
     public function actionCreate(): Response
     {
         $form = new IssuerCreateForm();
-        $post = Yii::$app->request->post();
 
-        if ($form->load($post) && $form->validate()) {
-            $this->factory->createOrUpdate($form);
+        if (Yii::$app->request->isPost && $post = Yii::$app->request->post()) {
+            if (isset($post['simple']) && $form->load($post) && $form->validate()) {
+                $this->factory->createOrUpdate($form);
+            }
+
+            if (isset($post['complex']) && $form->load($post) && $form->validate()) {
+                $this->issuerAutomaticLegatFactory->createOrUpdate($form);
+            }
         }
 
         return $this->redirect(['index']);

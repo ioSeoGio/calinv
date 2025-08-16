@@ -7,9 +7,11 @@ use src\Action\Issuer\FinancialReport\AccountingBalance\AccountingBalanceCreateF
 use src\Action\Issuer\FinancialReport\CashFlowReport\CashFlowReportCreateForm;
 use src\Action\Issuer\FinancialReport\CashFlowReport\CashFlowReportSearchForm;
 use src\Action\Issuer\FinancialReport\FinancialReportByApiCreateForm;
+use src\Entity\Issuer\FinanceReport\AvailableFinancialReportData;
 use src\Entity\Issuer\FinanceReport\CashFlowReport\CashFlowReportFactory;
 use src\Entity\Issuer\Issuer;
 use Yii;
+use yii\data\ActiveDataProvider;
 use yii\filters\AccessControl;
 use yii\web\Response;
 use yii\widgets\ActiveForm;
@@ -74,6 +76,14 @@ class CashFlowReportController extends BaseController
             'model' => $issuer,
             'dataProvider' => $dataProvider,
             'apiCreateForm' => new FinancialReportByApiCreateForm(),
+            'availableFinancialReportsDataProvider' => new ActiveDataProvider([
+                'query' => AvailableFinancialReportData::find()
+                    ->andWhere(['issuerId' => $issuerId, 'hasCashFlowReport' => true])
+                    ->addOrderBy(['_year' => SORT_DESC]),
+                'pagination' => [
+                    'pageSize' => 3
+                ],
+            ]),
             'createForm' => new CashFlowReportCreateForm($issuer, $year),
         ]);
     }

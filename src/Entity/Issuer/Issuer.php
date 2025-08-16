@@ -12,6 +12,7 @@ use src\Entity\Issuer\CreditRating\CreditRating;
 use src\Entity\Issuer\CreditRating\CreditRatingInfo;
 use src\Entity\Issuer\EsgRating\EsgRatingInfo;
 use src\Entity\Issuer\FinanceReport\AccountingBalance\AccountingBalance;
+use src\Entity\Issuer\FinanceReport\AvailableFinancialReportData;
 use src\Entity\Issuer\FinanceReport\CashFlowReport\CashFlowReport;
 use src\Entity\Issuer\FinanceReport\ProfitLossReport\ProfitLossReport;
 use src\Entity\Issuer\TypeOfActivity\TypeOfActivity;
@@ -225,5 +226,11 @@ class Issuer extends ApiFetchedActiveRecord
     public function getLiquidationInfo(): ActiveQuery
     {
         return $this->hasOne(IssuerLiquidationInfo::class, ['issuerId' => 'id']);
+    }
+
+    public function getLatestAvailableFinancialReportData(): ActiveQuery
+    {
+        return $this->hasMany(AvailableFinancialReportData::class, ['issuerId' => 'id'])
+            ->addOrderBy(['_year' => SORT_DESC]);
     }
 }

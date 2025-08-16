@@ -9,6 +9,7 @@ use src\Entity\Share\Deal\ShareDealRecord;
 use src\Entity\Share\Share;
 use src\Entity\Share\ShareRegisterNumber;
 use src\Integration\Bcse\ShareInfo\BcseShareInfoFetcher;
+use src\Integration\Legat\LegatAvailableFinancialReportsFetcherInterface;
 use Yii;
 use yii\filters\AccessControl;
 
@@ -35,6 +36,7 @@ class DevController extends BaseController
         $id,
         $module,
         private BcseShareInfoFetcher $bcseShareInfoFetcher,
+        private LegatAvailableFinancialReportsFetcherInterface $fetcher,
         $config = []
     ) {
         parent::__construct($id, $module, $config);
@@ -42,7 +44,9 @@ class DevController extends BaseController
 
     public function actionView(): string
     {
-        Yii::$app->session->addFlash(FlashType::info->value, 'test');
+        $dto = $this->fetcher->getAvailableReports(new PayerIdentificationNumber('123'));
+        dd($dto);
+
         return $this->render('view');
     }
 

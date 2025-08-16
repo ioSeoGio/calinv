@@ -6,9 +6,11 @@ use lib\BaseController;
 use src\Action\Issuer\FinancialReport\FinancialReportByApiCreateForm;
 use src\Action\Issuer\FinancialReport\ProfitLossReport\ProfitLossReportCreateForm;
 use src\Action\Issuer\FinancialReport\ProfitLossReport\ProfitLossReportSearchForm;
+use src\Entity\Issuer\FinanceReport\AvailableFinancialReportData;
 use src\Entity\Issuer\FinanceReport\ProfitLossReport\ProfitLossReportFactory;
 use src\Entity\Issuer\Issuer;
 use Yii;
+use yii\data\ActiveDataProvider;
 use yii\filters\AccessControl;
 use yii\web\Response;
 use yii\widgets\ActiveForm;
@@ -73,6 +75,14 @@ class ProfitLossReportController extends BaseController
             'model' => $issuer,
             'dataProvider' => $dataProvider,
             'apiCreateForm' => new FinancialReportByApiCreateForm(),
+            'availableFinancialReportsDataProvider' => new ActiveDataProvider([
+                'query' => AvailableFinancialReportData::find()
+                    ->andWhere(['issuerId' => $issuerId, 'hasProfitLossReport' => true])
+                    ->addOrderBy(['_year' => SORT_DESC]),
+                'pagination' => [
+                    'pageSize' => 3
+                ],
+            ]),
             'createForm' => new ProfitLossReportCreateForm($issuer, $year),
         ]);
     }

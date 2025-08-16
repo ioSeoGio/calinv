@@ -6,14 +6,14 @@ use yii\base\Model;
 
 class IssuerCreateForm extends Model
 {
-    public string $pid = '101489077';
+    public string $pid = '';
 
     public function rules(): array
     {
         return [
             [[
                 'pid'
-            ], 'required', 'message' => 'Заполните.'],
+            ], 'required', 'message' => 'Заполните УНП.'],
             [['pid'], 'string'],
         ];
     }

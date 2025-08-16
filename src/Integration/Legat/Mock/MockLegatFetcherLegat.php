@@ -4,6 +4,7 @@ namespace src\Integration\Legat\Mock;
 
 use src\Entity\Issuer\PayerIdentificationNumber;
 use src\Integration\Legat\CommonIssuerInfoFetcherInterface;
+use src\Integration\Legat\Dto\AvailableFinancialReports\AllAvailableFinancialReportsDto;
 use src\Integration\Legat\Dto\CommonIssuerInfo\CommonIssuerInfoDto;
 use src\Integration\Legat\Dto\EgrEventDto\LegatEgrEventsDto;
 use src\Integration\Legat\Dto\EmployeeAmount\EmployeeAmountDto;
@@ -11,6 +12,7 @@ use src\Integration\Legat\Dto\FinanceReportAccountingBalanceDto;
 use src\Integration\Legat\Dto\FinanceReportCashFlowDto;
 use src\Integration\Legat\Dto\FinanceReportProfitLossDto;
 use src\Integration\Legat\EmployeeAmountFetcherInterface;
+use src\Integration\Legat\LegatAvailableFinancialReportsFetcherInterface;
 use src\Integration\Legat\LegatEgrEventsFetcherInterface;
 use src\Integration\Legat\FinanceReportFetcherInterface;
 use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
@@ -21,7 +23,8 @@ class MockLegatFetcherLegat implements
     FinanceReportFetcherInterface,
     CommonIssuerInfoFetcherInterface,
     LegatEgrEventsFetcherInterface,
-    EmployeeAmountFetcherInterface
+    EmployeeAmountFetcherInterface,
+    LegatAvailableFinancialReportsFetcherInterface
 {
     public function __construct(
         private SerializerInterface $serializer,
@@ -98,6 +101,19 @@ class MockLegatFetcherLegat implements
         return $this->serializer->deserialize(
             file_get_contents(__DIR__ . '/employee-amount.json'),
             EmployeeAmountDto::class,
+            'json',
+            [
+                AbstractObjectNormalizer::DISABLE_TYPE_ENFORCEMENT => true,
+                AbstractNormalizer::ALLOW_EXTRA_ATTRIBUTES => true,
+            ],
+        );
+    }
+
+    public function getAvailableReports(PayerIdentificationNumber $pid): AllAvailableFinancialReportsDto
+    {
+        return $this->serializer->deserialize(
+            file_get_contents(__DIR__ . '/available-financial-reports.json'),
+            AllAvailableFinancialReportsDto::class,
             'json',
             [
                 AbstractObjectNormalizer::DISABLE_TYPE_ENFORCEMENT => true,

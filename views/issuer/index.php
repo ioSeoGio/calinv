@@ -31,35 +31,9 @@ $this->title = 'Калькулятор эмитентов';
 <div class="calculator-index">
 
     <?php if (Yii::$app->user->can(UserRole::admin->value)): ?>
-        <?php $form = ActiveForm::begin([
-            'id' => 'login-form',
-            'action' => Url::to(['/issuer/create']),
-            'validationUrl' => Url::to(['/issuer/validate']),
-
-            'enableAjaxValidation'      => true,
-            'enableClientValidation'    => true,
-            'validateOnChange'          => true,
-            'validateOnSubmit'          => true,
-            'validateOnBlur'            => true,
-        ]); ?>
-            <table class="table">
-                <tr>
-                    <th scope="col">
-                        УНП
-                    </th>
-                </tr>
-                <tr>
-                    <td>
-                        <div class="input-group mb-1">
-                            <?= $form->field($createForm, 'pid')->textInput(['class' => 'form-control'])->label(false) ?>
-                        </div>
-                    </td>
-                </tr>
-                <div class="mx-auto d-flex justify-content-center">
-                    <button class="btn btn-primary" type="submit">Рассчитать</button>
-                </div>
-            </table>
-        <?php ActiveForm::end() ?>
+        <?= $this->render('create', [
+            'createForm' => $createForm,
+        ]) ?>
     <?php endif; ?>
 
     <?= GridView::widget([

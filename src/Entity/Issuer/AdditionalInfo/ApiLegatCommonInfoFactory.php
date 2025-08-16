@@ -16,6 +16,13 @@ class ApiLegatCommonInfoFactory
             return;
         }
 
+        if ($issuer->name === null) {
+            $issuer->name = $commonIssuerInfoDto->detailsDto->shortIssuerName;
+        }
+        if ($issuer->_legalStatus === null) {
+            $issuer->_legalStatus = $commonIssuerInfoDto->detailsDto->inspectionStatus;
+        }
+
         $site = $commonIssuerInfoDto->directorInfo?->site
             ? str_replace(' ', '', $commonIssuerInfoDto->directorInfo?->site)
             : null;

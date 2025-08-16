@@ -32,7 +32,7 @@ class LegatFinanceReportFetcher implements FinanceReportFetcherInterface
             'year' => $year->format('Y'),
         ]);
 
-        if (($response->getContent()['balance'] ?? null) === null) {
+        if (($response->toArray()['balance'] ?? null) === null) {
             throw new ApiNotFoundException("Нет данных о бухгалтерском балансе эмитента с УНП {$pid->id}");
         }
 
@@ -53,7 +53,7 @@ class LegatFinanceReportFetcher implements FinanceReportFetcherInterface
             'year' => $year->format('Y'),
         ]);
 
-        if (($response->getContent()['profit_loss'] ?? null) === null) {
+        if (($response->toArray()['profit_loss'] ?? null) === null) {
             throw new ApiNotFoundException("Нет данных о прибылях и убытках эмитента с УНП {$pid->id}");
         }
 
@@ -74,7 +74,7 @@ class LegatFinanceReportFetcher implements FinanceReportFetcherInterface
             'year' => $year->format('Y'),
         ]);
 
-        if (($response->getContent()['traffic'] ?? null) === null) {
+        if (($response->toArray()['traffic'] ?? null) === null) {
             throw new ApiNotFoundException("Нет данных о движении денежных средств эмитента с УНП {$pid->id}");
         }
 
