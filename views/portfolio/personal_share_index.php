@@ -13,6 +13,7 @@ use yii\web\View;
 /** @var Model $personalShareCreateForm */
 /** @var View $this */
 
+$this->title = 'Мой портфель';
 $queryParamUserId = Yii::$app->request->queryParams['userId'] ?? null;
 ?>
 <?= $this->render('tabs', []); ?>

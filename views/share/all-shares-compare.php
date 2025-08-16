@@ -6,6 +6,9 @@ use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\web\JsExpression;
 use miloschuman\highcharts\SeriesDataHelper;
+
+$this->title = 'График всех акций';
+
 //            $.getJSON('https://cdn.jsdelivr.net/gh/highcharts/highcharts@v7.0.0/samples/data/'+ name.toLowerCase() +'-c.json',	function(data) {
 //            names = ['MSFT', 'AAPL', 'GOOG'];
 $this->registerJsVar('getShareDealInfoUrl', Url::to(['/share/share-deal-all-data']));

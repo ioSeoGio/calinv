@@ -22,6 +22,7 @@ use yii\helpers\Url;
 /** @var ShareCreateForm $shareCreateForm */
 /** @var bool $showClosingDate */
 
+$this->title = isset(Yii::$app->request->get('ShareSearchForm')['issuerId']) ? 'Акции эмитента' : 'Акции';
 ?>
 <?= $this->render('../_parts/_tabs', []); ?>
 

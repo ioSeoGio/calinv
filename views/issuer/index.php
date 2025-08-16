@@ -25,7 +25,7 @@ use yii\grid\GridView;
 use yii\helpers\Html;
 use yii\helpers\Url;
 
-$this->title = 'Калькулятор эмитентов';
+$this->title = 'Эмитенты';
 ?>
 <?= $this->render('tabs', []); ?>
 <div class="calculator-index">
