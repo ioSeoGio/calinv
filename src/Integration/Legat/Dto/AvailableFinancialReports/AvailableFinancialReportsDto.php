@@ -11,25 +11,25 @@ class AvailableFinancialReportsDto
     #[SerializedPath('[block]')]
     public bool $isBlocked;
 
-    public array $methods = [];
+    public ?array $methods = [];
 
     public function hasAccountingBalance(): bool
     {
-        return in_array('financeBalance', $this->methods);
+        return $this->methods !== null && in_array('financeBalance', $this->methods);
     }
 
     public function hasProfitLossReport(): bool
     {
-        return in_array('financeProfitLoss', $this->methods);
+        return $this->methods !== null && in_array('financeProfitLoss', $this->methods);
     }
 
     public function hasCapitalChangeReport(): bool
     {
-        return in_array('financeCapital', $this->methods);
+        return $this->methods !== null && in_array('financeCapital', $this->methods);
     }
 
     public function hasCashFlowReport(): bool
     {
-        return in_array('financeTraffic', $this->methods);
+        return $this->methods !== null && in_array('financeTraffic', $this->methods);
     }
 }
