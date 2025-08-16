@@ -24,4 +24,4 @@ jobs:
           eval $(ssh-agent -s)
           ssh-add /root/.ssh/git
           cd /var/www/calinv
-          git pull origin master
+          make update

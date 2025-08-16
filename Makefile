@@ -45,7 +45,7 @@ composer-update:
 update:
 	git pull
 	docker compose run --rm php composer install
-	docker exec -it $(shell basename $(CURDIR))-php-1 php yii update-issuers
+	docker compose run --rm php php yii migrate --interactive=0
 
 migrate:
 	docker compose run --rm php php yii migrate --migrationPath=@yii/rbac/migrations --interactive=0
