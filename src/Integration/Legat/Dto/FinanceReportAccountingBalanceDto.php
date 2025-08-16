@@ -113,8 +113,7 @@ class FinanceReportAccountingBalanceDto
     #[SerializedPath('[balance][540_actual]')]
     public ?float $_540 = null;
 
-    /** Долгосрочные обязательства */
-    #[Assert\NotBlank]
+    /** Долгосрочные обязательства, могут быть null */
     #[SerializedPath('[balance][590_actual]')]
     public ?float $_590 = null;
 
