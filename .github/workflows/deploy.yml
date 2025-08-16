@@ -21,4 +21,5 @@ jobs:
         key: ${{ secrets.VPS_SSH_KEY }}
         port: ${{ secrets.VPS_PORT }}
         script: |
+          cd /var/www/calinv
           git pull origin master
