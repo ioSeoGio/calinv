@@ -51,14 +51,14 @@ $capitalization = $capitalization ?? null;
                 'attribute' => 'name',
                 'format' => 'raw',
                 'value' => function (Issuer $model) {
-                    return DetailViewCopyHelper::render($model, 'name');
+                    return DetailViewCopyHelper::renderValueColored($model->name);
                 },
             ],
             [
                 'attribute' => '_pid',
                 'format' => 'raw',
                 'value' => function (Issuer $model) {
-                    return DetailViewCopyHelper::render($model, '_pid');
+                    return DetailViewCopyHelper::renderValueColored($model->_pid);
                 },
             ],
             [
