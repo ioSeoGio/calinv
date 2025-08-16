@@ -96,7 +96,7 @@ class ShareController extends BaseController
         $share = Share::getOneById($id);
 
         return $this->render('fair-price', [
-            'shares' => Share::find()
+            'shares' => Share::findActive()
                 ->andWhere(['issuer_id' => $share->issuer->id])
                 ->with(['issuer', 'shareDeals'])
                 ->all(),
