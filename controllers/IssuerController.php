@@ -159,19 +159,19 @@ class IssuerController extends BaseController
     {
         $form = new IssuerCreateForm();
 
+
         if (Yii::$app->request->isPost && $post = Yii::$app->request->post()) {
             if (isset($post['simple']) && $form->load($post) && $form->validate()) {
-                $this->factory->createOrUpdate($form);
+                $issuer = $this->factory->createOrUpdate($form);
+            } else {
+                $issuer = $this->issuerAutomaticLegatFactory->createOrUpdate($form);
             }
 
-            if (isset($post['complex']) && $form->load($post) && $form->validate()) {
-                $this->issuerAutomaticLegatFactory->createOrUpdate($form);
-            }
+            return $this->redirect(['issuer/view', 'id' => $issuer->id]);
         }
 
         return $this->redirect(['index']);
     }
-
 
     public function actionEditDescription(int $issuerId): Response
     {
