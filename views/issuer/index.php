@@ -92,7 +92,7 @@ $this->title = 'Эмитенты';
                 'value' => function (Issuer $model) {
                     return \src\ViewHelper\IssuerCoefficient\K1ViewHelper::render($model);
                 },
-                'contentOptions' => ['style' => 'min-width: 100px;'],
+                'contentOptions' => ['style' => 'min-width: 115px;'],
             ],
             [
                 'label' => 'k2',
@@ -100,7 +100,7 @@ $this->title = 'Эмитенты';
                 'value' => function (Issuer $model) {
                     return \src\ViewHelper\IssuerCoefficient\K2ViewHelper::render($model);
                 },
-                'contentOptions' => ['style' => 'min-width: 100px;'],
+                'contentOptions' => ['style' => 'min-width: 115px;'],
             ],
             [
                 'label' => 'k3',
@@ -108,7 +108,7 @@ $this->title = 'Эмитенты';
                 'value' => function (Issuer $model) {
                     return \src\ViewHelper\IssuerCoefficient\K3ViewHelper::render($model);
                 },
-                'contentOptions' => ['style' => 'min-width: 100px;'],
+                'contentOptions' => ['style' => 'min-width: 115px;'],
             ],
 //            [
 //                'label' => 'ЭБ обычный',
