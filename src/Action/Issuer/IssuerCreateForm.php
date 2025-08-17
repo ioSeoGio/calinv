@@ -15,6 +15,7 @@ class IssuerCreateForm extends Model
                 'pid'
             ], 'required', 'message' => 'Заполните УНП.'],
             [['pid'], 'string'],
+            [['pid'], 'trim'],
         ];
     }
 }
