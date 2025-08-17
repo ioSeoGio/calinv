@@ -21,7 +21,8 @@ class IssuerSearchForm extends Model
     public function search($params): ActiveDataProvider
     {
         $query = Issuer::find()
-            ->with(['shares', 'businessReputationInfo']);
+            ->with(['shares', 'businessReputationInfo'])
+            ->addOrderBy(['name' => SORT_DESC]);
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
