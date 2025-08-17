@@ -22,7 +22,7 @@ class IssuerSearchForm extends Model
     {
         $query = Issuer::find()
             ->with(['shares', 'businessReputationInfo'])
-            ->addOrderBy(['name' => SORT_DESC]);
+            ->addOrderBy([Issuer::tableName() . '.name' => SORT_ASC]);
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
