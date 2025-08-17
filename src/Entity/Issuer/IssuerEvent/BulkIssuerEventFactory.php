@@ -2,6 +2,7 @@
 
 namespace src\Entity\Issuer\IssuerEvent;
 
+use src\Entity\Issuer\Issuer;
 use src\Entity\Issuer\PayerIdentificationNumber;
 use src\Integration\Legat\Dto\EgrEventDto\LegatEgrEventDto;
 use src\Integration\Legat\LegatEgrEventsFetcherInterface;
@@ -16,7 +17,7 @@ class BulkIssuerEventFactory
     public function update(PayerIdentificationNumber $pid): void
     {
         $eventsDto = $this->legatEgrEventsFetcher->getEvents($pid);
-        IssuerEvent::deleteAll();
+        IssuerEvent::deleteAll(['_pid' => $pid->id]);
 
         /** @var LegatEgrEventDto $dto */
         foreach ($eventsDto->events as $dto) {
