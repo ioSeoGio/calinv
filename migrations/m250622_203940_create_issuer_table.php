@@ -14,7 +14,7 @@ class m250622_203940_create_issuer_table extends Migration
             '_legalStatus' => $this->string()->null(),
             '_dateFinanceReportsInfoUpdated' => $this->string()->null(),
             '_dateShareInfoModerated' => $this->string()->null(),
-            'isVisible' => $this->boolean()->notNull()->defaultValue(0),
+            'isVisible' => $this->boolean()->notNull()->defaultValue(1),
 
             'fullnessState' => $this->json()->notNull(),
             '_pid' => $this->string()->notNull(),
