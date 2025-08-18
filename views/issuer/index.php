@@ -55,7 +55,32 @@ $this->title = 'Эмитенты';
                 'attribute' => 'name',
                 'format' => 'raw',
                 'value' => function (Issuer $model) {
-                    return Html::a($model->name, ['/issuer/view', 'id' => $model->id]);
+                    $result = '';
+
+                    if (Yii::$app->user->can(UserRole::admin->value)) {
+                        if ($model->isVisible) {
+                            $result .= Html::a(
+                                Icon::print('bi bi-eye'),
+                                Url::to(['/issuer/toggle-visibility', 'id' => $model->id]),
+                                [
+                                    'class' => 'btn btn-sm btn-outline-success me-1',
+                                    'title' => 'Эмитент показывается пользователям. Нажмите, чтобы скрыть.'
+                                ]
+                            );
+                        } else {
+                            $result .= Html::a(
+                                Icon::print('bi bi-eye-slash'),
+                                Url::to(['/issuer/toggle-visibility', 'id' => $model->id]),
+                                [
+                                    'class' => 'btn btn-sm btn-outline-danger me-1',
+                                    'title' => 'Эмитент скрыт. Нажмите, чтобы отображать пользователям.'
+                                ]
+                            );
+                        }
+                    }
+
+                    $result .= Html::a($model->name, ['/issuer/view', 'id' => $model->id]);
+                    return $result;
                 }
             ],
             '_legalStatus',
