@@ -81,7 +81,7 @@ class Issuer extends ApiFetchedActiveRecord
         ]) ?: new self([
             '_pid' => $pid->id,
             'fullnessState' => [IssuerFullnessState::initial],
-            'isVisible' => false,
+            'isVisible' => true,
         ]);
     }
 
