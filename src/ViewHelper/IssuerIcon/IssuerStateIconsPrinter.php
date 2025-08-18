@@ -2,14 +2,9 @@
 
 namespace src\ViewHelper\IssuerIcon;
 
-use lib\FrontendHelper\Icon;
 use src\Entity\Issuer\Issuer;
-use src\Entity\User\UserRole;
 use src\ViewHelper\IssuerIcon\Share\IssuerShareFullnessStateIconPrinter;
 use src\ViewHelper\IssuerIcon\Share\IssuerShareInfoModeratedIconPrinter;
-use Yii;
-use yii\helpers\Html;
-use yii\helpers\Url;
 
 class IssuerStateIconsPrinter
 {

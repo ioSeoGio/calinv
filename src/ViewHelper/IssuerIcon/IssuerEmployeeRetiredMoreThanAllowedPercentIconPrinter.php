@@ -12,11 +12,7 @@ class IssuerEmployeeRetiredMoreThanAllowedPercentIconPrinter
 {
     public static function print(Issuer $issuer): string
     {
-        /** @var EmployeeAmountRecord[] $employeeAmountRecords */
-        $employeeAmountRecords = EmployeeAmountRecord::find()
-            ->andWhere(['issuerId' => $issuer->id])
-            ->addOrderBy(['_date' => SORT_ASC])
-            ->all();
+        $employeeAmountRecords = $issuer->employeeAmountRecords;
 
         if (empty($employeeAmountRecords) || count($employeeAmountRecords) < 2) {
             return '';

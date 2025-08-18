@@ -10,6 +10,7 @@ use src\Entity\Issuer\AddressInfo\AddressInfo;
 use src\Entity\Issuer\BusinessReputationRating\BusinessReputationInfo;
 use src\Entity\Issuer\CreditRating\CreditRating;
 use src\Entity\Issuer\CreditRating\CreditRatingInfo;
+use src\Entity\Issuer\EmployeeAmount\EmployeeAmountRecord;
 use src\Entity\Issuer\EsgRating\EsgRatingInfo;
 use src\Entity\Issuer\FinanceReport\AccountingBalance\AccountingBalance;
 use src\Entity\Issuer\FinanceReport\AvailableFinancialReportData;
@@ -37,6 +38,7 @@ use yii\db\ActiveQuery;
  * @property ProfitLossReport[] $profitLossReports Отчеты о прибылях и убытках
  * @property AccountingBalance[] $accountBalanceReports Бухгалтерские отчеты
  * @property CashFlowReport[] $cashFlowReports Отчеты о движении денежных средств
+ * @property EmployeeAmountRecord[] $employeeAmountRecords Данные о кол-ве сотрудников в компании
  * @property ?IssuerAdditionalInfo $additionalInfo Дополнительные данные
  * @property ?IssuerLiquidationInfo $liquidationInfo Сведения о ликвидации
  *
@@ -246,6 +248,12 @@ class Issuer extends ApiFetchedActiveRecord
     public function getLiquidationInfo(): ActiveQuery
     {
         return $this->hasOne(IssuerLiquidationInfo::class, ['issuerId' => 'id']);
+    }
+
+    public function getEmployeeAmountRecords(): ActiveQuery
+    {
+        return $this->hasMany(EmployeeAmountRecord::class, ['issuerId' => 'id'])
+            ->addOrderBy(['_date' => SORT_ASC]);
     }
 
     public function getLatestAvailableFinancialReportData(): ActiveQuery

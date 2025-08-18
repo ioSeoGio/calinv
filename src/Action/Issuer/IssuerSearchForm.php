@@ -23,7 +23,22 @@ class IssuerSearchForm extends Model
     public function search($params): ActiveDataProvider
     {
         $query = Issuer::find()
-            ->with(['shares', 'businessReputationInfo'])
+            ->with([
+                'shares',
+                'activeShares',
+
+                'businessReputationInfo',
+                'esgRatingInfo',
+                'creditRatingInfo',
+
+                'additionalInfo',
+                'employeeAmountRecords',
+                'unreliableSupplier',
+
+                'accountBalanceReports',
+                'profitLossReports',
+                'cashFlowReports',
+            ])
             ->andWhere(['!=', Issuer::tableName() . '._pid', ''])
             ->addOrderBy([
                 'CASE WHEN "_dateShareInfoModerated" IS NULL THEN 1 ELSE 0 END' => SORT_ASC,
