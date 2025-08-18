@@ -63,15 +63,15 @@ class IssuerAutomaticLegatFactory
         $cashFlowAmount = 0;
         /** @var AvailableFinancialReportData $availableFinancialReportData */
         foreach ($issuer->getLatestAvailableFinancialReportData()->each() as $availableFinancialReportData) {
-            if ($availableFinancialReportData->hasAccountingBalance && $accountingBalanceAmount < 3) {
+            if ($availableFinancialReportData->hasAccountingBalance && $accountingBalanceAmount < 2) {
                 $this->accountingBalanceFactory->createOrUpdateByExternalApi($issuer, $availableFinancialReportData->year);
                 $accountingBalanceAmount++;
             }
-            if ($availableFinancialReportData->hasProfitLossReport && $profitLossAmount < 3) {
+            if ($availableFinancialReportData->hasProfitLossReport && $profitLossAmount < 2) {
                 $this->profitLossReportFactory->createOrUpdateByExternalApi($issuer, $availableFinancialReportData->year);
                 $profitLossAmount++;
             }
-            if ($availableFinancialReportData->hasCashFlowReport && $cashFlowAmount < 3) {
+            if ($availableFinancialReportData->hasCashFlowReport && $cashFlowAmount < 2) {
                 $this->cashFlowReportFactory->createOrUpdateByExternalApi($issuer, $availableFinancialReportData->year);
                 $cashFlowAmount++;
             }
