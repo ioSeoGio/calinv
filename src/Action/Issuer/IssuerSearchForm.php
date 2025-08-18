@@ -25,7 +25,10 @@ class IssuerSearchForm extends Model
         $query = Issuer::find()
             ->with(['shares', 'businessReputationInfo'])
             ->andWhere(['!=', Issuer::tableName() . '._pid', ''])
-            ->addOrderBy([Issuer::tableName() . '.name' => SORT_ASC]);
+            ->addOrderBy([
+                'CASE WHEN "_dateShareInfoModerated" IS NULL THEN 1 ELSE 0 END' => SORT_ASC,
+                Issuer::tableName() . '._dateShareInfoModerated' => SORT_DESC
+            ]);
 
         if (!Yii::$app->user->can(UserRole::admin->value)) {
             $query->andWhere(['isVisible' => true]);
