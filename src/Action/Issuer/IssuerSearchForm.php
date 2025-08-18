@@ -22,8 +22,7 @@ class IssuerSearchForm extends Model
     {
         $query = Issuer::find()
             ->with(['shares', 'businessReputationInfo'])
-            ->andWhere(['!=', '_pid', null])
-            ->andWhere(['!=', '_pid', ''])
+            ->andWhere(['!=', Issuer::tableName() . '._pid', ''])
             ->addOrderBy([Issuer::tableName() . '.name' => SORT_ASC]);
 
         $dataProvider = new ActiveDataProvider([
