@@ -17,6 +17,7 @@ use src\Entity\Issuer\EmployeeAmount\EmployeeAmountRecord;
 use src\Entity\Issuer\Issuer;
 use src\Entity\Issuer\IssuerEvent\IssuerEvent;
 use src\Entity\User\UserRole;
+use src\ViewHelper\IssuerIcon\Button\ToggleVisibilityIconPrinter;
 use src\ViewHelper\IssuerIcon\IssuerStateIconsPrinter;
 use yii\data\ActiveDataProvider;
 use yii\grid\GridView;
@@ -128,23 +129,13 @@ $this->title = $model->name;
     <?php
         $attributes = [
             [
-                'label' => '',
-                'format' => 'raw',
-                'value' => function (Issuer $model) {
-                    if (Yii::$app->user->can(\src\Entity\User\UserRole::admin->value)) {
-                        return Html::a('Обновить общую информацию', ['update-issuer-info', 'id' => $model->id], ['class' => 'btn btn-success']);
-                    }
-
-                    return '';
-                }
-            ],
-            [
                 'label' => 'Наименование',
                 'attribute' => 'name',
                 'format' => 'raw',
                 'value' => function (Issuer $model) {
                     return
-                        IssuerStateIconsPrinter::printMany($model)
+                        ToggleVisibilityIconPrinter::print($model)
+                        . IssuerStateIconsPrinter::printMany($model)
                         . DetailViewCopyHelper::render($model, 'name');
                 }
             ],
