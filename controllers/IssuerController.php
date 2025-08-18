@@ -22,6 +22,7 @@ use src\Integration\Legat\EmployeeAmountFetcherInterface;
 use Yii;
 use yii\bootstrap5\ActiveForm;
 use yii\filters\AccessControl;
+use yii\web\BadRequestHttpException;
 use yii\web\Response;
 
 class IssuerController extends BaseController
@@ -163,8 +164,10 @@ class IssuerController extends BaseController
         if (Yii::$app->request->isPost && $post = Yii::$app->request->post()) {
             if (isset($post['simple']) && $form->load($post) && $form->validate()) {
                 $issuer = $this->factory->createOrUpdate($form);
-            } else {
+            } elseif (isset($post['complex']) && $form->load($post) && $form->validate()) {
                 $issuer = $this->issuerAutomaticLegatFactory->createOrUpdate($form);
+            } else {
+                throw new BadRequestHttpException("Неверный запрос на заполнение.");
             }
 
             return $this->redirect(['issuer/view', 'id' => $issuer->id]);
