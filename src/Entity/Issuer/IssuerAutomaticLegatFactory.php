@@ -75,6 +75,8 @@ class IssuerAutomaticLegatFactory
                 $this->cashFlowReportFactory->createOrUpdateByExternalApi($issuer, $availableFinancialReportData->year);
                 $cashFlowAmount++;
             }
+
+            break; // Пока заполняем только 2 года, ибо year должен прыгать через 2 года, а не через 1 (в запросе 2 года отдает)
         }
 
         return $issuer;
