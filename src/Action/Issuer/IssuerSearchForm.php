@@ -28,7 +28,7 @@ class IssuerSearchForm extends Model
             ->addOrderBy([Issuer::tableName() . '.name' => SORT_ASC]);
 
         if (!Yii::$app->user->can(UserRole::admin->value)) {
-            $query->andWhere(['not', ['_dateShareInfoModerated' => null]]);
+            $query->andWhere(['isVisible' => true]);
         }
 
         $dataProvider = new ActiveDataProvider([

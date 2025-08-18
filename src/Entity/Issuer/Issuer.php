@@ -51,6 +51,8 @@ use yii\db\ActiveQuery;
  * @property ?\DateTimeImmutable $dateShareInfoModerated Дата, когда информация по акциям вручную проверена и подтверждена
  * @property ?string $_dateShareInfoModerated
  *
+ * @property bool $isVisible Показывать эмитента пользователям (не админам)
+ *
  * @property PayerIdentificationNumber $pid
  * @property string $_pid
  */
@@ -74,9 +76,12 @@ class Issuer extends ApiFetchedActiveRecord
 
     public static function createOrGet(PayerIdentificationNumber $pid): Issuer
     {
-        return self::findOne(['_pid' => $pid->id]) ?: new self([
+        return self::findOne([
+            '_pid' => $pid->id
+        ]) ?: new self([
             '_pid' => $pid->id,
             'fullnessState' => [IssuerFullnessState::initial],
+            'isVisible' => false,
         ]);
     }
 
