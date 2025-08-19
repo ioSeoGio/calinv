@@ -1,3 +1,4 @@
+CRON_TZ=Europe/Minsk
 30-59/1 10 * * 1-5 /usr/local/bin/php /var/www/html/yii update-share-price/update-all
 0-59/1 11 * * 1-5 /usr/local/bin/php /var/www/html/yii update-share-price/update-all
 0-20/1 12 * * 1-5 /usr/local/bin/php /var/www/html/yii update-share-price/update-all
@@ -6,4 +7,3 @@
 0-45/1 15 * * 1-5 /usr/local/bin/php /var/www/html/yii update-share-price/update-all
 
 @daily /usr/local/bin/php /var/www/html/yii update-share-price/update-all
-
