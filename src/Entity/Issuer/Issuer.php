@@ -261,4 +261,9 @@ class Issuer extends ApiFetchedActiveRecord
         return $this->hasMany(AvailableFinancialReportData::class, ['issuerId' => 'id'])
             ->addOrderBy(['_year' => SORT_DESC]);
     }
+
+    public static function findVisible(): ActiveQuery
+    {
+        return self::find()->andWhere(['isVisible' => true]);
+    }
 }

@@ -34,6 +34,16 @@ services:
       POSTGRES_PASSWORD: root
       POSTGRES_DB: calinv_db
 
+  cron:
+    build:
+      context: ./
+      dockerfile: .docker/cron/Dockerfile
+    volumes:
+      - ./:/var/www/html
+      - ./.docker/php:/usr/local/etc/php/custom.d
+    environment:
+      PHP_INI_SCAN_DIR: "/usr/local/etc/php/custom.d:/usr/local/etc/php/conf.d"
+
   certbot:
     ports:
       - "6000:80"

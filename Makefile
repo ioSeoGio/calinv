@@ -35,6 +35,7 @@ up:
 	docker compose up -d db
 	docker compose up -d php
 	docker compose up -d web
+	docker compose up -d cron
 
 composer-install:
 	docker compose run --rm php composer install
