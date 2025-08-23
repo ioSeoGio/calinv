@@ -152,7 +152,7 @@ class AccountingBalanceDto
             _490: $dto->last_490,
             _510: $dto->last_510,
             _540: $dto->last_540,
-            _590: $dto->_590 != null ? $dto->_590 : 0,
+            _590: $dto->last_540 != null ? $dto->last_540 : 0,
             _610: $dto->last_610,
             _620: $dto->last_620,
             _630: $dto->last_630,
