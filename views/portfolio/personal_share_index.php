@@ -1,6 +1,7 @@
 <?php
 
 use lib\FrontendHelper\DetailViewCopyHelper;
+use lib\FrontendHelper\SimpleNumberFormatter;
 use src\Entity\PersonalShare\PersonalShare;
 use src\ViewHelper\Tools\Badge;
 use yii\base\Model;
@@ -54,10 +55,12 @@ $queryParamUserId = Yii::$app->request->queryParams['userId'] ?? null;
 
 
                 if ($value === 0) {
-                    return Badge::neutral($value . '%');
+                    return Badge::neutral(SimpleNumberFormatter::toView($value, 1) . '%');
                 }
 
-                return $value > 0 ? Badge::success($value . '%') : Badge::danger($value . '%');
+                return $value > 0
+                    ? Badge::success(SimpleNumberFormatter::toView($value, 1) . '%')
+                    : Badge::danger(SimpleNumberFormatter::toView($value, 1) . '%');
             }
         ],
         [
