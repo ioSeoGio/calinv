@@ -18,6 +18,7 @@ use yii\web\IdentityInterface;
  * @property string $password_hash
  * @property string $auth_key
  * @property int $created_at
+ * @property bool $isPortfolioVisible
  *
  * @property array<PersonalShare> $personalShares
  */

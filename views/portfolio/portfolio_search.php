@@ -5,6 +5,7 @@
 
 use src\Action\Portfolio\PortfolioSearch;
 use src\Entity\User\User;
+use src\ViewHelper\PortfolioIcon\ToggleVisibilityIconPrinter;
 use yii\bootstrap5\Html;
 use yii\data\DataProviderInterface;
 use yii\grid\GridView;
@@ -26,11 +27,13 @@ $this->title = 'Поиск по портфелям';
                 'attribute' => 'username',
                 'format' => 'raw',
                 'value' => function (User $model) {
-                    return Html::a(
-                        text: $model->username,
-                        url: Url::to(['/personal-share/index', 'userId' => $model->getId()]),
-                        options: ['class' => 'btn btn-primary'],
-                    );
+                    return ''
+                        . ToggleVisibilityIconPrinter::print($model)
+                        . Html::a(
+                            text: $model->username,
+                            url: Url::to(['/personal-share/index', 'userId' => $model->getId()]),
+                            options: ['class' => 'btn btn-primary'],
+                        );
                 }
             ],
             [

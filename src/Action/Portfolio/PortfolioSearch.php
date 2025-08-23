@@ -20,7 +20,8 @@ class PortfolioSearch extends Model
     public function search($params): ActiveDataProvider
     {
         $query = User::find()
-            ->with(['personalShares']);
+            ->with(['personalShares'])
+            ->orderBy(['username' => SORT_DESC]);
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
