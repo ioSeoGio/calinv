@@ -82,7 +82,7 @@ $this->title = 'Графики портфеля пользователя ' . Htm
         <?= DynamicPieChartWidget::widget([
             'data' => $data,
             'title' => 'Доли прибыли в портфеле по акциям в рублях. Убыточные в графике не отображаются <br>Всего '
-                    . SimpleNumberFormatter::toView(TotalUserProfitLoader::load($user->id))
+                    . TotalUserProfitLoader::load($user->id)
                     . ' р. прибыли',
             'pointFormat' => '
                 <span style="color:{point.color}"></span> <b>{point.name}</b><br/>Прибыль: <b>{point.y} р.</b><br/>
