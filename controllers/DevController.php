@@ -44,8 +44,6 @@ class DevController extends BaseController
 
     public function actionView(): string
     {
-        $dto = $this->fetcher->getAvailableReports(new PayerIdentificationNumber('123'));
-        dd($dto);
 
         return $this->render('view');
     }

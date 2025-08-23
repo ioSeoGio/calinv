@@ -34,7 +34,8 @@
         "vlucas/phpdotenv": "^5.6@dev",
         "kartik-v/yii2-widget-select2": "^2.2@dev",
         "miloschuman/yii2-highcharts-widget": "dev-master",
-        "kartik-v/yii2-slider": "dev-master"
+        "kartik-v/yii2-slider": "dev-master",
+        "2amigos/yii2-chartjs-widget": "~2.0"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.1.0",

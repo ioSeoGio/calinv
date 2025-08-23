@@ -71,6 +71,22 @@ $queryParamUserId = Yii::$app->request->queryParams['userId'] ?? null;
             }
         ],
         [
+            'label' => 'прибыль, р.',
+            'format' => 'raw',
+            'value' => function (PersonalShare $model) {
+                $value = ($model->share->currentPrice - $model->buyPrice) * $model->amount;
+
+
+                if ($value === 0) {
+                    return Badge::neutral(SimpleNumberFormatter::toView($value, 1) . ' р.');
+                }
+
+                return $value > 0
+                    ? Badge::success(SimpleNumberFormatter::toView($value, 1) . ' р.')
+                    : Badge::danger(SimpleNumberFormatter::toView($value, 1) . ' р.');
+            }
+        ],
+        [
             'label' => 'номинал',
             'attribute' => 'share.denomination',
             'format' => 'raw',

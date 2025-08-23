@@ -29,7 +29,15 @@ $userId = Yii::$app->request->queryParams['userId'] ?? Yii::$app->user->id;
                 ? ['/personal-share/index', 'userId' => $userId]
                 : ['/personal-share/index']
             ),
-            'active' => true,
+            'active' => str_contains(Url::current(), '/personal-share/index') || str_contains(Url::current(), '/portfolio'),
+        ],
+        [
+            'label' => 'Графики',
+            'url' => Url::to($userId
+                ? ['/personal-share/charts', 'userId' => $userId]
+                : ['/personal-share/charts']
+            ),
+            'active' => str_contains(Url::current(), '/personal-share/charts'),
         ],
     ]
 ]) ?>

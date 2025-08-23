@@ -38,13 +38,23 @@ class PersonalShareController extends BaseController
                 ],
                 'rules' => [
                     [
-                        'actions' => ['index', 'create', 'delete'],
+                        'actions' => ['index', 'create', 'delete', 'charts'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
                 ],
             ],
         ];
+    }
+
+    public function actionCharts(): string
+    {
+        $sharesSearchForm = new PersonalShareSearchForm();
+        $sharesDataProvider = $sharesSearchForm->search(Yii::$app->request->queryParams);
+
+        return $this->render('charts', [
+            'dataProvider' => $sharesDataProvider,
+        ]);
     }
 
     public function actionDelete(int $id): Response

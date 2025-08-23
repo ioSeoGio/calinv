@@ -46,6 +46,16 @@ class PersonalShare extends BaseActiveRecord
         return $model;
     }
 
+    public function getTotalBoughtSum(): float
+    {
+        return $this->buyPrice * $this->amount;
+    }
+
+    public function getTotalCurrentPriceSum(): float
+    {
+        return ($this->share->currentPrice ?: 0) * $this->amount;
+    }
+
     public function getShare(): ActiveQuery
     {
         return $this->hasOne(Share::class, ['id' => 'share_id']);
