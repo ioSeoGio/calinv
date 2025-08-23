@@ -82,7 +82,7 @@ class User extends BaseActiveRecord implements IdentityInterface
         $profit = 0;
         /** @var PersonalShare $personalShare */
         foreach ($this->getPersonalShares()->with('share')->each() as $personalShare) {
-            $profit += ($personalShare->buyPrice - $personalShare->share->currentPrice) * $personalShare->amount;
+            $profit += ($personalShare->share->currentPrice - $personalShare->buyPrice) * $personalShare->amount;
         }
 
         return $profit;

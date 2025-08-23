@@ -1,5 +1,6 @@
 <?php
 
+use src\Action\Portfolio\TotalUserProfitLoader;
 use src\Entity\User\User;
 use yii\bootstrap5\Html;
 use yii\bootstrap5\Tabs;
@@ -10,10 +11,11 @@ $userId = Yii::$app->request->queryParams['userId'] ?? Yii::$app->user->id;
 
 <?php if ($user = User::findOne($userId)): ?>
     <div class="row">
-        <div class="col-md-4 offset-md-4">
+        <div class="col-md-6 offset-md-3">
             <div class="card">
                 <div class="text-center card-header bg-primary text-white">
                     <h2><?= Html::encode('Портфель: ' . $user->username) ?></h2>
+                    <h2>Всего прибыли: <?= TotalUserProfitLoader::load($userId); ?></h2>
                 </div>
             </div>
         </div>

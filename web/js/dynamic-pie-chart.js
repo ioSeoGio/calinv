@@ -11,9 +11,6 @@ function generateColors(count) {
     return colors;
 }
 
-// Generate colors based on the number of data points
-const colors = generateColors(populationDensityConfig.data.length);
-
 function initPopulationDensityChart(config) {
     // Generate colors based on the number of data points
     const colors = generateColors(config.data.length);

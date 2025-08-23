@@ -11,6 +11,8 @@ use yii\web\Response;
 
 class PortfolioController extends BaseController
 {
+    public $layout = 'main_borderless';
+
     public function __construct(
         $id,
         $module,
