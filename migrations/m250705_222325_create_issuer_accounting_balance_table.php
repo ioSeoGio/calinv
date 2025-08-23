@@ -43,6 +43,8 @@ class m250705_222325_create_issuer_accounting_balance_table extends Migration
             '_440' => $this->float()->null(),
             '_450' => $this->float()->null(),
             '_460' => $this->float()->null(),
+            '_470' => $this->float()->null(),
+            '_480' => $this->float()->null(),
             '_490' => $this->float()->notNull(),
 
             '_510' => $this->float()->null(),

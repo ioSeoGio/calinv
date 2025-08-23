@@ -102,6 +102,12 @@ class FinanceReportAccountingBalanceDto
     #[SerializedPath('[balance][460]')]
     public ?float $_460 = null;
 
+    #[SerializedPath('[balance][470]')]
+    public ?float $_470 = null;
+
+    #[SerializedPath('[balance][480]')]
+    public ?float $_480 = null;
+
     /** Капитал */
     #[Assert\NotBlank]
     #[SerializedPath('[balance][490_actual]')]
@@ -250,6 +256,12 @@ class FinanceReportAccountingBalanceDto
 
     #[SerializedPath('[balance][460_last]')]
     public ?float $last_460 = null;
+
+    #[SerializedPath('[balance][470_last]')]
+    public ?float $last_470 = null;
+
+    #[SerializedPath('[balance][480_last]')]
+    public ?float $last_480 = null;
 
     /** Капитал */
     #[Assert\NotBlank]

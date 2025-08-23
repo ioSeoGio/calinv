@@ -39,6 +39,8 @@ class AccountingBalanceCreateForm extends Model
     public $_440;
     public $_450;
     public $_460;
+    public $_470;
+    public $_480;
     public $_490;
 
     public $_510;
@@ -101,6 +103,8 @@ class AccountingBalanceCreateForm extends Model
             $this->_440 = $report->_440;
             $this->_450 = $report->_450;
             $this->_460 = $report->_460;
+            $this->_470 = $report->_470;
+            $this->_480 = $report->_480;
             $this->_490 = $report->_490;
 
             $this->_510 = $report->_510;
@@ -157,6 +161,8 @@ class AccountingBalanceCreateForm extends Model
             '_440',
             '_450',
             '_460',
+            '_470',
+            '_480',
 
             '_510',
             '_540',

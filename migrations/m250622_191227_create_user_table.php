@@ -13,6 +13,7 @@ class m250622_191227_create_user_table extends Migration
             'email' => $this->string(64)->notNull(),
             'auth_key' => $this->string(64),
             'password_hash' => $this->string(64)->notNull(),
+            'isPortfolioVisible' => $this->boolean()->notNull()->defaultValue(false),
 
             'created_at' => $this->timestamp()->notNull()->defaultExpression('CURRENT_TIMESTAMP'),
             'updated_at' => $this->timestamp()->notNull()->defaultExpression('CURRENT_TIMESTAMP'),
