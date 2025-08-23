@@ -91,7 +91,7 @@ class GuardedActionColumn extends ActionColumn
                     ? call_user_func($settings['url'], $model, $key)
                     : $settings['url'];
             }
-            if (is_callable($settings['isVisible'])) {
+            if (isset($settings['isVisible']) && is_callable($settings['isVisible'])) {
                 $isVisible = call_user_func($settings['isVisible'], $model, $key);
                 if ($isVisible === false) {
                     return '';
