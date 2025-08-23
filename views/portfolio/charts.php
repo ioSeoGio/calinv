@@ -2,6 +2,7 @@
 
 use app\widgets\DynamicPieChartWidget;
 use lib\FrontendHelper\SimpleNumberFormatter;
+use src\Action\Portfolio\TotalUserProfitLoader;
 use src\Entity\PersonalShare\PersonalShare;
 use src\Entity\User\User;
 use yii\helpers\ArrayHelper;
@@ -81,7 +82,7 @@ $this->title = 'Графики портфеля пользователя ' . Htm
         <?= DynamicPieChartWidget::widget([
             'data' => $data,
             'title' => 'Доли прибыли в портфеле по акциям в рублях. Убыточные в графике не отображаются <br>Всего '
-                    . SimpleNumberFormatter::toView(Yii::$app->user->identity->getTotalProfit())
+                    . SimpleNumberFormatter::toView(TotalUserProfitLoader::load($user->id))
                     . ' р. прибыли',
             'pointFormat' => '
                 <span style="color:{point.color}"></span> <b>{point.name}</b><br/>Прибыль: <b>{point.y} р.</b><br/>
