@@ -2,13 +2,14 @@
 
 namespace src\Entity\PersonalShare;
 
+use lib\Database\BaseActiveRecord;
 use src\Action\Share\PersonalShareCreateForm;
 use src\Entity\Share\Share;
 use src\Entity\User\User;
 use yii\db\ActiveQuery;
-use yii\db\ActiveRecord;
 
 /**
+ * @property int $id
  * @property int $share_id
  * @property int $user_id
  * @property int $amount
@@ -17,7 +18,7 @@ use yii\db\ActiveRecord;
  *
  * @property Share $share
  */
-class PersonalShare extends ActiveRecord
+class PersonalShare extends BaseActiveRecord
 {
     public static function tableName(): string
     {

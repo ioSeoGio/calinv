@@ -6,9 +6,11 @@ use lib\BaseController;
 use src\Action\Share\PersonalShareCreateForm;
 use src\Action\Share\PersonalShareSearchForm;
 use src\Entity\PersonalShare\PersonalShare;
+use src\Entity\User\UserRole;
 use Yii;
 use yii\bootstrap5\ActiveForm;
 use yii\filters\AccessControl;
+use yii\web\ForbiddenHttpException;
 use yii\web\Response;
 
 class PersonalShareController extends BaseController
@@ -32,16 +34,29 @@ class PersonalShareController extends BaseController
                 'only' => [
                     'index',
                     'create',
+                    'delete',
                 ],
                 'rules' => [
                     [
-                        'actions' => ['index', 'create'],
+                        'actions' => ['index', 'create', 'delete'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
                 ],
             ],
         ];
+    }
+
+    public function actionDelete(int $id): Response
+    {
+        $personalShare = PersonalShare::getOneById($id);
+
+        if ($personalShare->user_id !== Yii::$app->user->id && !Yii::$app->user->can(UserRole::admin->value)) {
+            throw new ForbiddenHttpException();
+        }
+
+        $personalShare->delete();
+        return $this->redirect(Yii::$app->request->referrer ?: ['index']);
     }
 
     public function actionIndex(): string

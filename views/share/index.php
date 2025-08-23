@@ -129,54 +129,6 @@ $this->title = isset(Yii::$app->request->get('ShareSearchForm')['issuerId']) ? '
         },
         'options' => ['style' => 'min-width: 120px'],
     ],
-//        [
-//            'label' => 'справедливая цена к ликвидации',
-//            'format' => 'raw',
-//            'value' => function (Share $model) {
-//                $r = '';
-//                foreach (FairSharePriceCalculator::calculateForLiquidation($model) as $fairPrice) {
-//                    $r .= Html::tag(
-//                        name: 'span',
-//                        content: SimpleNumberFormatter::toView($fairPrice) . ' р.',
-//                        options: ['class' => $fairPrice >= $model->currentPrice ? 'text-success' : 'text-danger']
-//                    ) . '<br>';
-//                }
-//
-//                return $r;
-//            }
-//        ],
-//        [
-//            'label' => 'справед. цена по доходу',
-//            'format' => 'raw',
-//            'value' => function (Share $model) {
-//                $values = '';
-//                foreach (FairSharePriceCalculator::calculateForEarning($model) as $fairPrice) {
-//                    $values .= Html::tag(
-//                        name: 'span',
-//                        content: SimpleNumberFormatter::toView($fairPrice) . ' р.',
-//                        options: ['class' => $fairPrice >= $model->currentPrice ? 'text-success' : 'text-danger']
-//                    ) . '<br>';
-//                }
-//
-//                return $values;
-//            }
-//        ],
-//        [
-//            'label' => 'справед. цена по доходу (к номиналу акции)',
-//            'format' => 'raw',
-//            'value' => function (Share $model) {
-//                $values = '';
-//                foreach (FairSharePriceCalculator::calculateForEarning($model) as $fairPrice) {
-//                    $values .= Html::tag(
-//                        name: 'span',
-//                        content: SimpleNumberFormatter::toView($fairPrice * $model->denomination) . ' р.',
-//                        options: ['class' => $fairPrice >= $model->currentPrice ? 'text-success' : 'text-danger']
-//                    ) . '<br>';
-//                }
-//
-//                return $values;
-//            }
-//        ],
     [
         'attribute' => 'totalIssuedAmount',
         'value' => function (Share $model) {

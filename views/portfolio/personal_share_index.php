@@ -1,5 +1,6 @@
 <?php
 
+use app\widgets\GuardedActionColumn;
 use lib\FrontendHelper\DetailViewCopyHelper;
 use lib\FrontendHelper\SimpleNumberFormatter;
 use src\Entity\PersonalShare\PersonalShare;
@@ -7,6 +8,8 @@ use src\ViewHelper\Tools\Badge;
 use yii\base\Model;
 use yii\data\ArrayDataProvider;
 use yii\grid\GridView;
+use yii\helpers\Html;
+use yii\helpers\Url;
 use yii\web\View;
 
 /** @var ArrayDataProvider $personalShareDataProvider */
@@ -41,7 +44,10 @@ $queryParamUserId = Yii::$app->request->queryParams['userId'] ?? null;
             'attribute' => 'share.issuer.name',
             'format' => 'raw',
             'value' => function (PersonalShare $personalShare) {
-                return DetailViewCopyHelper::renderValueColored($personalShare->share->getFormattedNameWithIssuer());
+                $issuer = $personalShare->share->issuer;
+                return Html::a($issuer->name, Url::to(['/issuer/view', 'id' => $issuer->id]))
+                    . ' - '
+                    . $personalShare->share->getFormattedName();
             },
         ],
         [
@@ -92,6 +98,20 @@ $queryParamUserId = Yii::$app->request->queryParams['userId'] ?? null;
         [
             'label' => 'дата покупки',
             'attribute' => 'boughtAt',
+        ],
+        [
+            'class' => GuardedActionColumn::class,
+            'buttonsConfig' => [
+                'delete' => [
+                    'icon' => 'bi bi-trash',
+                    'url' => function (PersonalShare $model) {
+                        return Url::to(['/personal-share/delete', 'id' => $model->id]);
+                    },
+                    'options' => [
+                        'title' => 'Удалить запись',
+                    ],
+                ],
+            ],
         ],
     ],
 ]) ?>
