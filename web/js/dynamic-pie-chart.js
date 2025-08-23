@@ -14,24 +14,29 @@ function generateColors(count) {
 // Generate colors based on the number of data points
 const colors = generateColors(populationDensityConfig.data.length);
 
-Highcharts.chart('population-density-container', {
-    chart: {
-        type: 'variablepie'
-    },
-    title: {
-        text: populationDensityConfig.title
-    },
-    tooltip: {
-        headerFormat: '',
-        pointFormat: populationDensityConfig.pointFormat
-    },
-    series: [{
-        minPointSize: 10,
-        innerSize: '20%',
-        zMin: 0,
-        name: 'countries',
-        borderRadius: 5,
-        data: populationDensityConfig.data,
-        colors: colors
-    }]
-});
+function initPopulationDensityChart(config) {
+    // Generate colors based on the number of data points
+    const colors = generateColors(config.data.length);
+
+    Highcharts.chart(config.containerId, {
+        chart: {
+            type: 'variablepie'
+        },
+        title: {
+            text: config.title
+        },
+        tooltip: {
+            headerFormat: '',
+            pointFormat: config.pointFormat
+        },
+        series: [{
+            minPointSize: 10,
+            innerSize: '20%',
+            zMin: 0,
+            name: 'countries',
+            borderRadius: 5,
+            data: config.data,
+            colors: colors
+        }]
+    });
+}

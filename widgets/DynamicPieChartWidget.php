@@ -19,16 +19,32 @@ class DynamicPieChartWidget extends Widget
         ['name' => 'Switzerland', 'y' => 41284, 'z' => 224],
         ['name' => 'Germany', 'y' => 357114, 'z' => 238],
     ];
+    private static $chartsCounter = 0;
+
+    public function init()
+    {
+        parent::init();
+        // Generate a unique container ID if not provided
+        if (empty($this->containerId)) {
+            $this->containerId = 'population-density-container-' . self::$chartsCounter++;
+        }
+    }
+
 
     public function run()
     {
         DynamicPieChartAsset::register($this->getView());
+        $this->containerId = $this->containerId . rand();
+
         $jsConfig = [
             'data' => $this->data,
             'title' => $this->title,
             'pointFormat' => $this->pointFormat,
+            'containerId' => $this->containerId,
         ];
-        $this->getView()->registerJs("var populationDensityConfig = " . Json::encode($jsConfig) . ";", \yii\web\View::POS_HEAD);
+        $jsVarName = 'populationDensityConfig_' . str_replace('-', '_', $this->containerId);
+        $this->getView()->registerJs("var $jsVarName = " . Json::encode($jsConfig) . ";", \yii\web\View::POS_HEAD);
+        $this->getView()->registerJs("initPopulationDensityChart($jsVarName);", \yii\web\View::POS_READY);
 
         return $this->render('dynamic-pie-chart', [
             'containerId' => $this->containerId,

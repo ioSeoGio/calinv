@@ -51,6 +51,15 @@ class PersonalShare extends BaseActiveRecord
         return $this->buyPrice * $this->amount;
     }
 
+    public function getTotalProfitSum(): float
+    {
+        if ($this->share->currentPrice === null) {
+            return 0;
+        }
+
+        return ($this->share->currentPrice - $this->buyPrice) * $this->amount;
+    }
+
     public function getTotalCurrentPriceSum(): float
     {
         return ($this->share->currentPrice ?: 0) * $this->amount;
