@@ -44,6 +44,9 @@ $queryParamUserId = Yii::$app->request->queryParams['userId'] ?? null;
             },
         ],
         [
+            'attribute' => 'amount',
+        ],
+        [
             'label' => 'прибыль %',
             'format' => 'raw',
             'value' => function (PersonalShare $model) {

@@ -24,6 +24,13 @@ class PersonalShare extends ActiveRecord
         return 'personal_share';
     }
 
+    public function attributeLabels(): array
+    {
+        return [
+            'amount' => 'кол-во',
+        ];
+    }
+
     public static function make(PersonalShareCreateForm $form): self
     {
         $model = new PersonalShare([

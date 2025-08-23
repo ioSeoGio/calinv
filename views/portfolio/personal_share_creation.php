@@ -1,6 +1,9 @@
 <?php
 /** @var \src\Action\Share\PersonalShareCreateForm $personalShareCreateForm */
 
+use kartik\number\NumberControl;
+use kartik\select2\Select2;
+use src\Entity\Issuer\Issuer;
 use src\Entity\Share\Share;
 use yii\bootstrap5\ActiveForm;
 use yii\helpers\ArrayHelper;
@@ -37,12 +40,20 @@ $form = ActiveForm::begin([
             <td>
                 <div class="input-group mb-1">
                     <?= $form->field($personalShareCreateForm, 'share_id')
-                        ->dropDownList(
-                            items: ArrayHelper::map(Share::findActive()->all(),
-                            from: fn (Share $model) => (string) $model->id,
-                            to: fn (Share $share) => $share->issuer->name .' - ' . $share->getFormattedName(),
-                        ),
-                        options: ['class' => 'form-control'])->label(false) ?>
+                        ->widget(Select2::class, [
+                            'data' => ArrayHelper::map(Share::findActive()->with('issuer')->all(),
+                                from: fn (Share $model) => (string) $model->id,
+                                to: fn (Share $model) => $model->getFormattedNameWithIssuer(),
+                            ),
+                            'options' => [
+                                'placeholder' => 'Выберите купленную акцию',
+                                'class' => 'form-control',
+                                'style' => 'min-width: 400px; width: 100%;',
+                            ],
+                            'pluginOptions' => [
+                                'allowClear' => false,
+                            ],
+                        ])->label(false) ?>
                 </div>
             </td>
             <td>
@@ -52,7 +63,10 @@ $form = ActiveForm::begin([
             </td>
             <td>
                 <div class="input-group mb-1">
-                    <?= $form->field($personalShareCreateForm, 'buyPrice')->textInput(['class' => 'form-control'])->label(false) ?>
+                    <?= $form->field($personalShareCreateForm, 'buyPrice')->widget(
+                            NumberControl::class,
+                            Yii::$app->params['moneyWidgetOptions']
+                    )->label(false); ?>
                 </div>
             </td>
             <td>
