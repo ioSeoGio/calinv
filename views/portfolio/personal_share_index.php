@@ -4,6 +4,7 @@ use app\widgets\GuardedActionColumn;
 use lib\FrontendHelper\DetailViewCopyHelper;
 use lib\FrontendHelper\SimpleNumberFormatter;
 use src\Entity\PersonalShare\PersonalShare;
+use src\Entity\User\UserRole;
 use src\ViewHelper\Tools\Badge;
 use yii\base\Model;
 use yii\data\ArrayDataProvider;
@@ -106,6 +107,9 @@ $queryParamUserId = Yii::$app->request->queryParams['userId'] ?? null;
                     'icon' => 'bi bi-trash',
                     'url' => function (PersonalShare $model) {
                         return Url::to(['/personal-share/delete', 'id' => $model->id]);
+                    },
+                    'isVisible' => function (PersonalShare $model, $key) {
+                        return $model->user_id === Yii::$app->user->id || Yii::$app->user->can(UserRole::admin->value);
                     },
                     'options' => [
                         'title' => 'Удалить запись',

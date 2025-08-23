@@ -91,6 +91,12 @@ class GuardedActionColumn extends ActionColumn
                     ? call_user_func($settings['url'], $model, $key)
                     : $settings['url'];
             }
+            if (is_callable($settings['isVisible'])) {
+                $isVisible = call_user_func($settings['isVisible'], $model, $key);
+                if ($isVisible === false) {
+                    return '';
+                }
+            }
 
             $icon = Html::tag('i', '', ['class' => $settings['icon']]);
             return Html::a($icon, $url, $options);
