@@ -23,7 +23,7 @@ echo $this->render('tabs', []);
 
 echo DynamicPieChartWidget::widget([
     'data' => $data,
-    'title' => 'Доли портфеля в рублях',
+    'title' => 'Доли портфеля в рублях. Ширина куска - доля по закупочной цене. Толщина куска - доля по текущей цене акции.',
     'pointFormat' => '
         <span style="color:{point.color}"></span> <b>{point.name}</b><br/>По закупочной цене: <b>{point.y} р.</b><br/>По текущей цене: <b>{point.z} р.</b><br/>
     ',
