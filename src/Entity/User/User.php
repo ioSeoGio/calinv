@@ -77,6 +77,17 @@ class User extends BaseActiveRecord implements IdentityInterface
         ];
     }
 
+    public function getTotalProfit(): float
+    {
+        $profit = 0;
+        /** @var PersonalShare $personalShare */
+        foreach ($this->getPersonalShares()->with('share')->each() as $personalShare) {
+            $profit += ($personalShare->buyPrice - $personalShare->share->currentPrice) * $personalShare->amount;
+        }
+
+        return $profit;
+    }
+
 	public static function findIdentity($id): User|IdentityInterface|null
     {
 		return static::findOne($id);
