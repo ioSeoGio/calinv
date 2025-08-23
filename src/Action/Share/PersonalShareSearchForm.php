@@ -22,7 +22,7 @@ class PersonalShareSearchForm extends Model
     public function search($params): ActiveDataProvider
     {
         $query = PersonalShare::find()
-            ->with(['share.issuer'])
+            ->joinWith(['share.issuer'])
             ->andWhere(['user_id' => $params['userId'] ?? Yii::$app->user->identity->getId()]);
 
         $dataProvider = new ActiveDataProvider([

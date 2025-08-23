@@ -30,7 +30,7 @@ echo DynamicPieChartWidget::widget([
 ]);
 
 $data = ArrayHelper::map(
-        PersonalShare::find()->joinWith(['share.issuer'])
+        $dataProvider->query
             ->andWhere(['IS NOT', 'share.currentPrice', null])
             ->andWhere('share."currentPrice" >= "buyPrice"')
             ->all(),
