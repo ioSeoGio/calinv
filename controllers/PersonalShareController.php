@@ -6,6 +6,7 @@ use lib\BaseController;
 use src\Action\Share\PersonalShareCreateForm;
 use src\Action\Share\PersonalShareSearchForm;
 use src\Entity\PersonalShare\PersonalShare;
+use src\Entity\User\User;
 use src\Entity\User\UserRole;
 use Yii;
 use yii\bootstrap5\ActiveForm;
@@ -47,13 +48,16 @@ class PersonalShareController extends BaseController
         ];
     }
 
-    public function actionCharts(): string
+    public function actionCharts(?int $userId = null): string
     {
+        $user = $userId !== null ? User::getOneById($userId) : Yii::$app->user->identity;
+
         $sharesSearchForm = new PersonalShareSearchForm();
-        $sharesDataProvider = $sharesSearchForm->search(Yii::$app->request->queryParams);
+        $sharesDataProvider = $sharesSearchForm->search($user, Yii::$app->request->queryParams);
 
         return $this->render('charts', [
             'dataProvider' => $sharesDataProvider,
+            'user' => $user,
         ]);
     }
 
@@ -69,10 +73,12 @@ class PersonalShareController extends BaseController
         return $this->redirect(Yii::$app->request->referrer ?: ['index']);
     }
 
-    public function actionIndex(): string
+    public function actionIndex(?int $userId = null): string
     {
+        $user = $userId !== null ? User::getOneById($userId) : Yii::$app->user->identity;
+
         $sharesSearchForm = new PersonalShareSearchForm();
-        $sharesDataProvider = $sharesSearchForm->search(Yii::$app->request->queryParams);
+        $sharesDataProvider = $sharesSearchForm->search($user, Yii::$app->request->queryParams);
 
         return $this->render('personal_share_index', [
             'personalShareCreateForm' => new PersonalShareCreateForm(),

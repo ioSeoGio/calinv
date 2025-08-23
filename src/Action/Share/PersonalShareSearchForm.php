@@ -3,6 +3,7 @@
 namespace src\Action\Share;
 
 use src\Entity\PersonalShare\PersonalShare;
+use src\Entity\User\User;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
@@ -19,11 +20,11 @@ class PersonalShareSearchForm extends Model
         ];
     }
 
-    public function search($params): ActiveDataProvider
+    public function search(User $user, $params): ActiveDataProvider
     {
         $query = PersonalShare::find()
             ->joinWith(['share.issuer'])
-            ->andWhere(['user_id' => $params['userId'] ?? Yii::$app->user->identity->getId()]);
+            ->andWhere(['user_id' => $user->getId()]);
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,

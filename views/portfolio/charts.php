@@ -3,10 +3,14 @@
 use app\widgets\DynamicPieChartWidget;
 use lib\FrontendHelper\SimpleNumberFormatter;
 use src\Entity\PersonalShare\PersonalShare;
+use src\Entity\User\User;
 use yii\helpers\ArrayHelper;
+use yii\helpers\Html;
 
 /** @var \yii\data\ActiveDataProvider $dataProvider */
+/** @var User $user */
 
+$this->title = 'Графики портфеля пользователя ' . Html::encode($user->username);
 ?>
 <?= $this->render('tabs', []); ?>
 <div class="row justify-content-center">
