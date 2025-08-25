@@ -7,6 +7,7 @@
 /** @var FinancialReportByApiCreateForm $apiCreateForm */
 /** @var ProfitLossReportCreateForm $createForm */
 
+use lib\FrontendHelper\LinkButtonPrinter;
 use src\Action\Issuer\FinancialReport\FinancialReportByApiCreateForm;
 use src\Action\Issuer\FinancialReport\ProfitLossReport\ProfitLossReportCreateForm;
 use src\Entity\Issuer\Issuer;
@@ -36,6 +37,7 @@ $this->title = 'Отчет о прибылях и убытках ' . $model->nam
 <?php endif; ?>
 
 <div class="issuer-view">
+    <?= LinkButtonPrinter::printExportCsv(Url::to(['/financial-report-export/profit-loss', 'pid' => $model->_pid])) ?>
     <?= \app\widgets\ReversedFinancialReportTableWidget::widget([
         'models' => $dataProvider->getModels(),
         'modelClass' => \src\Entity\Issuer\FinanceReport\ProfitLossReport\ProfitLossReport::class,

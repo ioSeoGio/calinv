@@ -3,7 +3,10 @@
 namespace app\controllers;
 
 use lib\BaseController;
+use lib\CsvExporter\FinancialReportsCsvExporter;
 use lib\FlashType;
+use src\Entity\Issuer\FinanceReport\AccountingBalance\AccountingBalance;
+use src\Entity\Issuer\Issuer;
 use src\Entity\Issuer\PayerIdentificationNumber;
 use src\Entity\Share\Deal\ShareDealRecord;
 use src\Entity\Share\Share;
@@ -11,6 +14,7 @@ use src\Entity\Share\ShareRegisterNumber;
 use src\Integration\Bcse\ShareInfo\BcseShareInfoFetcher;
 use src\Integration\Legat\LegatAvailableFinancialReportsFetcherInterface;
 use Yii;
+use yii\data\ActiveDataProvider;
 use yii\filters\AccessControl;
 
 class DevController extends BaseController
@@ -38,14 +42,34 @@ class DevController extends BaseController
         private BcseShareInfoFetcher $bcseShareInfoFetcher,
         private LegatAvailableFinancialReportsFetcherInterface $fetcher,
         $config = []
-    ) {
+    )
+    {
         parent::__construct($id, $module, $config);
     }
 
     public function actionView(): string
     {
+        $issuer = Issuer::getOneById(4);
+        return $this->render('view', [
+            'dataProvider' => new ActiveDataProvider(['query' => $issuer->getAccountBalanceReports(), 'pagination' => false]),
+        ]);
+    }
 
-        return $this->render('view');
+    public function actionCustomCsvExport()
+    {
+        $issuer = Issuer::getOneById(4);
+        $models = $issuer->accountBalanceReports;
+
+        $csvContent = FinancialReportsCsvExporter::export(...$models);
+
+        return Yii::$app->response->sendContentAsFile(
+            $csvContent,
+            'exported_data.csv',
+            [
+                'mimeType' => 'application/csv; charset=utf-8',
+                'inline' => false,
+            ]
+        );
     }
 
     public function actionTestData(int $shareId): string
@@ -60,7 +84,7 @@ class DevController extends BaseController
         return json_encode([
             'shareName' => $share->getFormattedNameWithIssuer(),
             'values' => array_map(
-                fn ($item) => array_values($item),
+                fn($item) => array_values($item),
                 $data
             )
         ]);

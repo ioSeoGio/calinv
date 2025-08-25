@@ -7,11 +7,14 @@
 /** @var AccountingBalanceCreateForm $createForm */
 /** @var FinancialReportByApiCreateForm $apiCreateForm */
 
+use lib\FrontendHelper\Icon;
+use lib\FrontendHelper\LinkButtonPrinter;
 use src\Action\Issuer\FinancialReport\AccountingBalance\AccountingBalanceCreateForm;
 use src\Action\Issuer\FinancialReport\FinancialReportByApiCreateForm;
 use src\Entity\Issuer\Issuer;
 use src\Entity\User\UserRole;
 use yii\data\ActiveDataProvider;
+use yii\helpers\Html;
 use yii\helpers\Url;
 
 $this->params['breadcrumbs.homeLink'] = false;
@@ -37,6 +40,7 @@ $this->title = 'Бухгалтерский баланс ' . $model->name;
 <?php endif; ?>
 
 <div class="issuer-view">
+    <?= LinkButtonPrinter::printExportCsv(Url::to(['/financial-report-export/accounting-balance', 'pid' => $model->_pid])) ?>
     <?= \app\widgets\ReversedFinancialReportTableWidget::widget([
         'models' => $dataProvider->getModels(),
         'modelClass' => \src\Entity\Issuer\FinanceReport\AccountingBalance\AccountingBalance::class,

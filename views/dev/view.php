@@ -1,24 +1,5 @@
 <?php
+use yii\helpers\Html;
+use yii\helpers\Url;
 
-use app\widgets\DynamicPieChartWidget;
-use src\Entity\PersonalShare\PersonalShare;
-use yii\helpers\ArrayHelper;
-
-$r = ArrayHelper::getColumn(
-        PersonalShare::find()->all(),
-        'id',
-        function (PersonalShare $personalShare) {
-            return [
-                'name' => $personalShare->share->getFormattedNameWithIssuer(),
-                'y' => $personalShare->getTotalBoughtSum(),
-                'z' => $personalShare->getTotalCurrentPriceSum(),
-            ];
-        },
-    );
-$r = array_values($r);
-echo DynamicPieChartWidget::widget([
-    'data' => $r,
-    'title' => 'Доли портфеля в рублях',
-    'yLabel' => 'Закупочная цена, р.',
-    'zLabel' => 'Текущая цена, р.',
-]);
+echo Html::a('download', Url::to(['dev/custom-csv-export']), []);

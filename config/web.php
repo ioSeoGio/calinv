@@ -18,7 +18,7 @@ $config = [
     ],
     'aliases' => [
         '@bower' => '@vendor/bower-asset',
-        '@npm'   => '@vendor/npm-asset',
+        '@npm' => '@vendor/npm-asset',
         '@views' => '@app/views',
     ],
     'modules' => [
@@ -70,7 +70,7 @@ $config = [
             'rules' => [
                 'portfolio' => '/personal-share/index',
                 'issuer' => '/issuer/index',
-				'login' => 'auth/login',
+                'login' => 'auth/login',
                 'site/login' => 'auth/login',
                 '/faq' => '/site/faq',
                 '' => '/issuer/index',

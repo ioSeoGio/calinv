@@ -15,4 +15,9 @@ class Icon
     {
         return self::print('bi bi-question-octagon');
     }
+
+    public static function printExportCsv(): string
+    {
+        return self::print('bi bi-file-earmark-arrow-down');
+    }
 }

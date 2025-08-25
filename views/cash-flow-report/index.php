@@ -7,6 +7,7 @@
 /** @var FinancialReportByApiCreateForm $apiCreateForm */
 /** @var \src\Action\Issuer\FinancialReport\CashFlowReport\CashFlowReportCreateForm $createForm */
 
+use lib\FrontendHelper\LinkButtonPrinter;
 use src\Action\Issuer\FinancialReport\FinancialReportByApiCreateForm;
 use src\Entity\Issuer\Issuer;
 use src\Entity\User\UserRole;
@@ -35,6 +36,7 @@ $this->title = 'Отчет о движении денежных средств (
 <?php endif; ?>
 
 <div class="issuer-view">
+    <?= LinkButtonPrinter::printExportCsv(Url::to(['/financial-report-export/cash-flow', 'pid' => $model->_pid])) ?>
     <?= \app\widgets\ReversedFinancialReportTableWidget::widget([
         'models' => $dataProvider->getModels(),
         'modelClass' => \src\Entity\Issuer\FinanceReport\CashFlowReport\CashFlowReport::class,
