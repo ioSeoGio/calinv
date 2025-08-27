@@ -5,7 +5,7 @@
 
 use src\Action\Portfolio\PortfolioSearch;
 use src\Entity\User\User;
-use src\ViewHelper\PortfolioIcon\ToggleVisibilityIconPrinter;
+use src\ViewHelper\Icons\PortfolioIcon\ToggleVisibilityIconPrinter;
 use yii\bootstrap5\Html;
 use yii\data\DataProviderInterface;
 use yii\grid\GridView;

@@ -20,6 +20,7 @@ echo Nav::widget([
 	'items' => [
 		['label' => 'Эмитенты', 'url' => ['/issuer'], 'active' => str_contains(Url::current(), '/issuer')],
 		['label' => 'Акции', 'url' => ['/share'], 'active' => str_contains(Url::current(), '/share')],
+		['label' => 'Итоги торгового дня', 'url' => ['/trading-day-result'], 'active' => str_contains(Url::current(), '/trading-day-result')],
 	]
 ]);
 

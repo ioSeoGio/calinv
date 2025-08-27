@@ -1,6 +1,6 @@
 <?php
 
-namespace src\ViewHelper\IssuerIcon;
+namespace src\ViewHelper\Icons\IssuerIcon;
 
 use lib\FrontendHelper\Icon;
 use src\Entity\Issuer\Issuer;

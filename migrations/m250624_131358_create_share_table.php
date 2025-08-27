@@ -18,6 +18,7 @@ class m250624_131358_create_share_table extends Migration
             'fullnessState' => $this->json()->notNull(),
             'issuer_id' => $this->integer()->notNull(),
 
+            'name' => $this->string()->notNull(),
             'nationalId' => $this->string()->notNull(),
             'orderedIssueId' => $this->integer()->notNull(),
             'registerNumber' => $this->string()->notNull(),

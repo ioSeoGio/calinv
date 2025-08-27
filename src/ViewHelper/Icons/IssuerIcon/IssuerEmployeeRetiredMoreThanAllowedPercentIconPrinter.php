@@ -1,10 +1,9 @@
 <?php
 
-namespace src\ViewHelper\IssuerIcon;
+namespace src\ViewHelper\Icons\IssuerIcon;
 
 use lib\EnvGetter;
 use lib\FrontendHelper\Icon;
-use src\Entity\Issuer\EmployeeAmount\EmployeeAmountRecord;
 use src\Entity\Issuer\Issuer;
 use yii\helpers\Html;
 

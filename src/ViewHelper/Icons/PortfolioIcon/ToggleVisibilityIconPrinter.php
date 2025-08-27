@@ -1,6 +1,6 @@
 <?php
 
-namespace src\ViewHelper\PortfolioIcon;
+namespace src\ViewHelper\Icons\PortfolioIcon;
 
 use lib\FrontendHelper\Icon;
 use src\Entity\User\User;

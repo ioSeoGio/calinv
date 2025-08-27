@@ -3,7 +3,7 @@
 namespace app\controllers;
 
 use lib\BaseController;
-use lib\CsvExporter\FinancialReportsCsvExporter;
+use src\CsvExporter\FinancialReportsCsvExporter;
 use src\Entity\Issuer\FinanceReport\FinancialReportInterface;
 use src\Entity\Issuer\Issuer;
 use Yii;

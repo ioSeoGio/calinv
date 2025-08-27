@@ -3,6 +3,7 @@
 namespace app\commands;
 
 use src\Entity\Issuer\PayerIdentificationNumber;
+use src\Entity\Share\Share;
 use src\Entity\Share\ShareRegisterNumber;
 use src\Integration\Bcse\ShareInfo\BcseShareInfoFetcher;
 use src\Integration\CentralDepo\CentralDepoIssuerAndShareInfoFetcher;
@@ -21,6 +22,17 @@ class DevController extends Controller
         $config = [],
     ) {
         parent::__construct($id, $module, $config);
+    }
+
+    public function actionFill(): int
+    {
+        /** @var Share $share */
+        foreach (Share::find()->each() as $share) {
+            $share->name = $share->getFormattedNameWithIssuer();
+            $share->save();
+        }
+
+        return ExitCode::OK;
     }
 
     public function actionCentralDepo(string $pid): int

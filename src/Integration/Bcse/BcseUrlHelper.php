@@ -12,4 +12,9 @@ class BcseUrlHelper
     {
         return sprintf(BcseHttpClient::BASE_URL . BcseShareInfoFetcher::PATH, $model->issuer->_pid, $model->registerNumber);
     }
+
+    public static function getShareUrlFromString(string $pid, string $registerNumber): string
+    {
+        return sprintf(BcseHttpClient::BASE_URL . BcseShareInfoFetcher::PATH, $pid, $registerNumber);
+    }
 }

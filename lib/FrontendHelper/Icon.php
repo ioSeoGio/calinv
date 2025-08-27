@@ -20,4 +20,14 @@ class Icon
     {
         return self::print('bi bi-file-earmark-arrow-down');
     }
+
+    public static function printArrowUp(): string
+    {
+        return self::print('bi bi-arrow-up');
+    }
+
+    public static function printArrowDown(): string
+    {
+        return self::print('bi bi-arrow-down');
+    }
 }

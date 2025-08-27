@@ -7,7 +7,6 @@
 
 use app\widgets\GuardedActionColumn;
 use lib\FrontendHelper\DetailViewCopyHelper;
-use lib\FrontendHelper\GoodBadValueViewHelper;
 use lib\FrontendHelper\Icon;
 use lib\FrontendHelper\SimpleNumberFormatter;
 use src\Action\Issuer\IssuerCreateForm;
@@ -17,10 +16,9 @@ use src\Entity\User\UserRole;
 use src\IssuerRatingCalculator\CapitalizationByShareCalculator;
 use src\ViewHelper\ComplexRating\ComplexRatingViewHelper;
 use src\ViewHelper\ExpressRating\ExpressRatingViewHelper;
-use src\ViewHelper\IssuerIcon\Button\ToggleVisibilityIconPrinter;
-use src\ViewHelper\IssuerIcon\IssuerStateIconsPrinter;
+use src\ViewHelper\Icons\IssuerIcon\Button\ToggleVisibilityIconPrinter;
+use src\ViewHelper\Icons\IssuerIcon\IssuerStateIconsPrinter;
 use src\ViewHelper\IssuerRating\IssuerBikRatingViewHelper;
-use yii\bootstrap5\ActiveForm;
 use yii\data\ActiveDataProvider;
 use yii\grid\GridView;
 use yii\helpers\Html;

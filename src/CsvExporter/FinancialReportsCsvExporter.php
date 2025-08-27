@@ -1,6 +1,6 @@
 <?php
 
-namespace lib\CsvExporter;
+namespace src\CsvExporter;
 
 use src\Entity\Issuer\FinanceReport\FinancialReportInterface;
 

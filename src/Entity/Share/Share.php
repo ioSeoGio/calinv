@@ -24,6 +24,7 @@ use yii\db\ActiveQuery;
  * @property int $issuer_id
  * @property Issuer $issuer
  *
+ * @property string $name Имя вида "ОАО Белмедстекло АП18" - название эмитента + номер выпуска
  * @property string $nationalId Национальный id выпуска
  * @property int $orderedIssueId Порядковый номер выпуска
  * @property string $registerNumber Номер регистрации
@@ -82,6 +83,7 @@ class Share extends ApiFetchedActiveRecord
             'fullnessState' => [ShareFullnessState::initial],
         ]);
 
+        $self->name = $self->getFormattedNameWithIssuer();
         $self->nationalId = $nationalId;
         $self->orderedIssueId = $orderedIssueId;
         $self->denomination = $denominationPrice;

@@ -1,10 +1,10 @@
 <?php
 
-namespace src\ViewHelper\IssuerIcon;
+namespace src\ViewHelper\Icons\IssuerIcon;
 
 use src\Entity\Issuer\Issuer;
-use src\ViewHelper\IssuerIcon\Share\IssuerShareFullnessStateIconPrinter;
-use src\ViewHelper\IssuerIcon\Share\IssuerShareInfoModeratedIconPrinter;
+use src\ViewHelper\Icons\IssuerIcon\Share\IssuerShareFullnessStateIconPrinter;
+use src\ViewHelper\Icons\IssuerIcon\Share\IssuerShareInfoModeratedIconPrinter;
 
 class IssuerStateIconsPrinter
 {
