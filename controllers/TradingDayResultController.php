@@ -51,7 +51,7 @@ class TradingDayResultController extends BaseController
         return $this->render('index', [
             'dataProvider' => $dataProvider,
             'lastAvailableDay' => $lastAvailableDay,
-            'searchModel' => new TradingDayResultSearch(),
+            'searchModel' => TradingDayResultSearch::fill(Yii::$app->request->queryParams),
         ]);
     }
 }

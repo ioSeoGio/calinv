@@ -21,6 +21,18 @@ class TradingDayResultSearch extends Model
         ];
     }
 
+    public static function fill(array $params): self
+    {
+        $self = new self();
+        $self->load($params);
+
+        if ($self->validate()) {
+            return $self;
+        }
+
+        return new self();
+    }
+
     public function search(\DateTimeImmutable $selectedDay, array $params): ActiveDataProvider
     {
         $selectedDay = \DateTimeImmutable::createFromFormat('!Y-m-d', $selectedDay->format('Y-m-d'));
@@ -105,7 +117,7 @@ class TradingDayResultSearch extends Model
             return $dataProvider;
         }
 
-        $query->andFilterWhere(['like', 's.name', $this->name]);
+        $query->andFilterWhere(['ilike', 's.name', $this->name]);
 
         return $dataProvider;
     }
