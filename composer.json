@@ -35,7 +35,9 @@
         "kartik-v/yii2-widget-select2": "^2.2@dev",
         "miloschuman/yii2-highcharts-widget": "dev-master",
         "kartik-v/yii2-slider": "dev-master",
-        "2amigos/yii2-chartjs-widget": "~2.0"
+        "2amigos/yii2-chartjs-widget": "~2.0",
+        "guzzlehttp/psr7": "2.7.x-dev",
+        "yiisoft/yii2-httpclient": "^2.0@dev"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.1.0",
@@ -51,7 +53,8 @@
     },
     "config": {
         "allow-plugins": {
-            "yiisoft/yii2-composer" : true
+            "yiisoft/yii2-composer": true,
+            "php-http/discovery": true
         },
         "process-timeout": 1800,
         "fxp-asset": {

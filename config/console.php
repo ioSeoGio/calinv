@@ -8,6 +8,7 @@ $db = require __DIR__ . '/db.php';
 
 $config = [
     'id' => 'basic-console',
+    'language' => 'ru-RU',
     'basePath' => dirname(__DIR__),
     'bootstrap' => [
         'log',
@@ -35,6 +36,7 @@ $config = [
             ],
         ],
         'db' => $db,
+        'urlManager' => require __DIR__ . '/url_manager.php',
     ],
     'params' => $params,
     'controllerMap' => [

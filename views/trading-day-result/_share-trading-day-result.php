@@ -7,6 +7,7 @@ use yii\helpers\Url;
 
 /** @var array{
  * shareId: int,
+ * shareDealId: int,
  * registerNumber: string,
  * issuerName: string,
  * name: string,
@@ -35,7 +36,7 @@ use yii\helpers\Url;
 ?>
 
 <div class="mb-3 col-12">
-    <div class="card">
+    <div class="card" id=<?= $model['shareDealId'] ?>>
         <div class="card-header bg-primary text-white">
             <h2><?= Html::a(
                 $model['name'],

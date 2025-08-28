@@ -6,6 +6,7 @@ namespace app\bootstrap;
 use lib\ApiIntegrator\BaseHttpClient;
 use lib\EnvGetter;
 use lib\Serializer\EnumDenormalizer;
+use lib\Telegram\Telegram;
 use Psr\Log\LoggerInterface;
 use src\Integration\Legat\Api\LegatAvailableFinancialReportsFetcher;
 use src\Integration\Legat\Api\LegatCommonIssuerInfoFetcher;
@@ -137,6 +138,10 @@ class SetUp implements BootstrapInterface
             return EnvGetter::getBool('LEGAT_TEST_MODE', true)
                 ? $container->get(MockLegatFetcherLegat::class)
                 : $container->get(LegatAvailableFinancialReportsFetcher::class);
+        });
+
+        $container->setSingleton(Telegram::class, function () use ($container) {
+            return new Telegram(EnvGetter::get('TELEGRAM_BOT_TOKEN'));
         });
     }
 }

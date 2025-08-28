@@ -64,18 +64,7 @@ $config = [
             ],
         ],
         'db' => $db,
-        'urlManager' => [
-            'enablePrettyUrl' => true,
-            'showScriptName' => false,
-            'rules' => [
-                'portfolio' => '/personal-share/index',
-                'issuer' => '/issuer/index',
-                'login' => 'auth/login',
-                'site/login' => 'auth/login',
-                '/faq' => '/site/faq',
-                '' => '/issuer/index',
-            ],
-        ],
+        'urlManager' => require __DIR__ . '/url_manager.php',
     ],
     'params' => $params,
 ];

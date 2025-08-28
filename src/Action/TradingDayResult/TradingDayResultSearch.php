@@ -51,6 +51,7 @@ class TradingDayResultSearch extends Model
                 'issuer.name as issuerName',
                 's.name',
                 's."closingDate"',
+                'current_sd.id AS shareDealId',
 
                 'current_sd."maxPrice" AS selectedDayMaxPrice',
                 'current_sd."minPrice" AS selectedDayMinPrice',

@@ -2,6 +2,8 @@
 
 namespace app\commands;
 
+use lib\Telegram\Sender\TelegramTradingDayResultSender;
+use src\Cron\CronTelegramTradingDayResultSender;
 use src\Entity\Issuer\PayerIdentificationNumber;
 use src\Entity\Share\Share;
 use src\Entity\Share\ShareRegisterNumber;
@@ -19,9 +21,17 @@ class DevController extends Controller
         private CentralDepoIssuerAndShareInfoFetcher $fetcher,
         private EgrAddressFetcher $egrAddressFetcher,
         private BcseShareInfoFetcher $bcseShareInfoFetcher,
+        private TelegramTradingDayResultSender $telegramTradingDayResultSender,
+        private CronTelegramTradingDayResultSender $cronTelegramTradingDayResultSender,
         $config = [],
     ) {
         parent::__construct($id, $module, $config);
+    }
+
+    public function actionTelegram(): int
+    {
+        $this->cronTelegramTradingDayResultSender->sendMany();
+        return ExitCode::OK;
     }
 
     public function actionFill(): int
