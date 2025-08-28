@@ -70,13 +70,13 @@ class TelegramTradingDayResultSender
         $dealChangePercent = $dealChangePercent > 0 ? "+$dealChangePercent" : $dealChangePercent;
 
         // Calculate changes
-        $totalSumChange = $model['selectedDayTotalSum'] - $model['previousDayTotalSum'];
+        $totalSumChange = round($model['selectedDayTotalSum'] - $model['previousDayTotalSum']);
         $totalSumChange = $totalSumChange > 0 ? "+$totalSumChange" : $totalSumChange;
 
-        $totalAmountChange = $model['selectedDayTotalAmount'] - $model['previousDayTotalAmount'];
+        $totalAmountChange = round($model['selectedDayTotalAmount'] - $model['previousDayTotalAmount']);
         $totalAmountChange = $totalAmountChange > 0 ? "+$totalAmountChange" : $totalAmountChange;
 
-        $dealAmountChange = $model['selectedDayTotalDealAmount'] - $model['previousDayTotalDealAmount'];
+        $dealAmountChange = round($model['selectedDayTotalDealAmount'] - $model['previousDayTotalDealAmount']);
         $dealAmountChange = $dealAmountChange > 0 ? "+$dealAmountChange" : $dealAmountChange;
 
         // Determine emoji based on changes
