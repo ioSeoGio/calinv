@@ -2,16 +2,18 @@
 
 namespace lib\Telegram\Sender;
 
+use lib\Telegram\Helper\TelegramDiffPrinter;
 use lib\Telegram\Telegram;
 use lib\Telegram\TelegramParseModeEnum;
 use Yii;
 use yii\helpers\Url;
 use yii\httpclient\Response;
 
-class TelegramTradingDayResultSender
+class TelegramTradingDayShareSender
 {
     public function __construct(
         private Telegram $telegram,
+        private TelegramDiffPrinter $telegramDiffPrinter,
     ) {
     }
 
@@ -65,35 +67,15 @@ class TelegramTradingDayResultSender
         // Build the message
         $message = "📊 *{$model['name']}*\n";
         $message .= "Торговый день: $selectedDayDate\n\n";
-        $message .= "**Средневзвешенная цена:** {$model['selectedDayPrice']} BYN {$this->getChange($model['selectedDayPrice'], $model['previousDayPrice'])}\n";
-        $message .= "**Мин. цена:** {$model['selectedDayMinPrice']} BYN {$this->getChange($model['selectedDayMinPrice'], $model['previousDayMinPrice'])}\n";
-        $message .= "**Макс. цена:** {$model['selectedDayMaxPrice']} BYN {$this->getChange($model['selectedDayMaxPrice'], $model['previousDayMaxPrice'])}\n\n";
-        $message .= "**Сумма сделок:** {$model['selectedDayTotalSum']} BYN {$this->getChange($model['selectedDayTotalSum'], $model['previousDayTotalSum'])}\n";
-        $message .= "**Кол-во акций:** {$model['selectedDayTotalAmount']} {$this->getChange($model['selectedDayTotalAmount'], $model['previousDayTotalAmount'])}\n";
-        $message .= "**Кол-во сделок:** {$model['selectedDayTotalDealAmount']} {$this->getChange($model['selectedDayTotalDealAmount'], $model['previousDayTotalDealAmount'])}\n\n";
+        $message .= "**Средневзвешенная цена:** {$model['selectedDayPrice']} BYN {$this->telegramDiffPrinter->getChange($model['selectedDayPrice'], $model['previousDayPrice'])}\n";
+        $message .= "**Мин. цена:** {$model['selectedDayMinPrice']} BYN {$this->telegramDiffPrinter->getChange($model['selectedDayMinPrice'], $model['previousDayMinPrice'])}\n";
+        $message .= "**Макс. цена:** {$model['selectedDayMaxPrice']} BYN {$this->telegramDiffPrinter->getChange($model['selectedDayMaxPrice'], $model['previousDayMaxPrice'])}\n\n";
+        $message .= "**Сумма сделок:** {$model['selectedDayTotalSum']} BYN {$this->telegramDiffPrinter->getChange($model['selectedDayTotalSum'], $model['previousDayTotalSum'])}\n";
+        $message .= "**Кол-во акций:** {$model['selectedDayTotalAmount']} {$this->telegramDiffPrinter->getChange($model['selectedDayTotalAmount'], $model['previousDayTotalAmount'])}\n";
+        $message .= "**Кол-во сделок:** {$model['selectedDayTotalDealAmount']} {$this->telegramDiffPrinter->getChange($model['selectedDayTotalDealAmount'], $model['previousDayTotalDealAmount'])}\n\n";
         $message .= "*Последнее изменение:* {$previousDayDate}\n";
         $message .= "🔗 [Подробности]($url)";
 
         return $message;
-    }
-
-    private function getChange(float $newValue, ?float $oldValue): string
-    {
-        if ($oldValue === null) {
-            return '';
-        }
-
-        $difference = $newValue - $oldValue;
-        $percentChange = round($difference / $oldValue * 100, 2);
-
-        if ($difference == 0) {
-            return '';
-        }
-
-        if ($difference > 0) {
-            return "(*+$difference*, *+$percentChange%* 🟢)";
-        }
-
-        return "(*$difference*, *$percentChange%* 🔴)";
     }
 }

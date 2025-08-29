@@ -2,7 +2,7 @@
 
 namespace app\commands;
 
-use lib\Telegram\Sender\TelegramTradingDayResultSender;
+use lib\Telegram\Sender\TelegramTradingDayShareSender;
 use src\Cron\CronTelegramTradingDayResultSender;
 use src\Entity\Issuer\PayerIdentificationNumber;
 use src\Entity\Share\Share;
@@ -16,14 +16,14 @@ use yii\console\ExitCode;
 class DevController extends Controller
 {
     public function __construct(
-        $id,
-        $module,
+                                                     $id,
+                                                     $module,
         private CentralDepoIssuerAndShareInfoFetcher $fetcher,
-        private EgrAddressFetcher $egrAddressFetcher,
-        private BcseShareInfoFetcher $bcseShareInfoFetcher,
-        private TelegramTradingDayResultSender $telegramTradingDayResultSender,
-        private CronTelegramTradingDayResultSender $cronTelegramTradingDayResultSender,
-        $config = [],
+        private EgrAddressFetcher                    $egrAddressFetcher,
+        private BcseShareInfoFetcher                 $bcseShareInfoFetcher,
+        private TelegramTradingDayShareSender        $telegramTradingDayResultSender,
+        private CronTelegramTradingDayResultSender   $cronTelegramTradingDayResultSender,
+                                                     $config = [],
     ) {
         parent::__construct($id, $module, $config);
     }

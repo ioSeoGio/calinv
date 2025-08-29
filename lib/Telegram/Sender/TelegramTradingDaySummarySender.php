@@ -1,0 +1,93 @@
+<?php
+
+namespace lib\Telegram\Sender;
+
+use lib\Telegram\Helper\TelegramDiffPrinter;
+use lib\Telegram\Telegram;
+use lib\Telegram\TelegramParseModeEnum;
+use Yii;
+use yii\db\Query;
+use yii\db\QueryInterface;
+use yii\helpers\Url;
+use yii\httpclient\Response;
+
+class TelegramTradingDaySummarySender
+{
+    public function __construct(
+        private Telegram $telegram,
+        private TelegramDiffPrinter $telegramDiffPrinter,
+    ) {
+    }
+
+    public function send(\DateTimeImmutable $date, QueryInterface $query): ?Response
+    {
+
+        $selectedDayDate = Yii::$app->formatter->asDate($date, 'full');
+        $message = "📄*Краткий итог*, торговый день: $selectedDayDate\n\n";
+
+        $topByGrowth = (clone $query)->orderBy(['difference' => SORT_DESC])->limit(5)->all();
+        $message .= $topByGrowth ? $this->generateTopByGrowthMessage($topByGrowth) : '';
+        $message .= "\n\n";
+
+        $topByLoss = (clone $query)
+            ->andWhere(['not', ['difference' => null]])
+            ->orderBy(['difference' => SORT_ASC])->limit(5)->all();
+        $message .= $topByLoss ? $this->generateTopByLossMessage($topByLoss) : '';
+        $message .= "\n\n";
+
+        $topByVolume = (clone $query)->orderBy(['selectedDayTotalSum' => SORT_DESC])->limit(5)->all();
+        $message .= $topByVolume ? $this->generateTopByVolumeMessage($topByVolume) : '';
+
+        if (empty($topByVolume) && empty($topByLoss) && empty($topByGrowth)) {
+            return null;
+        }
+
+        return $this->telegram->sendMessage(
+            message: $message,
+            channelId: Yii::$app->params['telegramChannelId'],
+            parseMode: TelegramParseModeEnum::MARKDOWN,
+            disableWebPagePreview: true,
+            disableAudioNotification: true,
+            threadId: Yii::$app->params['telegramTradingDayResultTopicId'],
+        );
+    }
+
+    private function generateTopByGrowthMessage(array $models): string
+    {
+        $url = Url::to(["/trading-day-result", 'sort' => '-difference']);
+
+        $message = "📈 Топ роста цен:\n";
+        foreach ($models as $model) {
+            $message .= "📊 *{$model['name']}*: {$model['selectedDayPrice']} BYN {$this->telegramDiffPrinter->getChange($model['selectedDayPrice'], $model['previousDayPrice'])}\n";
+        }
+        $message .= "\n🔗 [Топ роста]($url)";
+
+        return $message;
+    }
+
+    private function generateTopByLossMessage(array $models): string
+    {
+        $url = Url::to(["/trading-day-result", 'sort' => 'difference']);
+
+        $message = "📈 Топ снижения цен:\n";
+        foreach ($models as $model) {
+            $message .= "📊 *{$model['name']}*: {$model['selectedDayPrice']} BYN {$this->telegramDiffPrinter->getChange($model['selectedDayPrice'], $model['previousDayPrice'])}\n";
+        }
+        $message .= "\n🔗 [Топ снижения]($url)";
+
+        return $message;
+    }
+
+    private function generateTopByVolumeMessage(array $models): string
+    {
+        $url = Url::to(["/trading-day-result", 'sort' => '-selectedDayTotalAmount']);
+
+        $message = "📈 Топ объемов торгов:\n";
+        foreach ($models as $model) {
+            $message .= "📊 *{$model['name']}*: {$model['selectedDayTotalSum']} BYN {$this->telegramDiffPrinter->getChange($model['selectedDayTotalSum'], $model['previousDayTotalSum'])}\n";
+        }
+        $message .= "\n🔗 [Топ снижения]($url)";
+
+        return $message;
+    }
+}
