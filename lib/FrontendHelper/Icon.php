@@ -30,4 +30,9 @@ class Icon
     {
         return self::print('bi bi-arrow-down');
     }
+
+    public static function printShare(): string
+    {
+        return self::print('bi bi-file-bar-graph');
+    }
 }

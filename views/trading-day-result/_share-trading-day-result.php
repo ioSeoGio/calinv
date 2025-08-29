@@ -1,6 +1,7 @@
 <?php
 
 use lib\FrontendHelper\DetailViewCopyHelper;
+use lib\FrontendHelper\LinkButtonPrinter;
 use src\ViewHelper\TradingDay\OldNewValueComparisonViewHelper;
 use yii\helpers\Html;
 use yii\helpers\Url;
@@ -38,14 +39,17 @@ use yii\helpers\Url;
 <div class="mb-3 col-12">
     <div class="card" id=<?= $model['shareDealId'] ?>>
         <div class="card-header bg-primary text-white">
-            <h2><?= Html::a(
-                $model['name'],
-                Url::to(['share/deal-info', 'id' => $model['shareId']]),
-                [
-                    'target' => '_blank',
-                    'style' => ['color' => 'whitesmoke'],
-                ]
-            ) ?></h2>
+            <h2>
+                <?= Html::a(
+                    $model['name'],
+                    Url::to(['share/deal-info', 'id' => $model['shareId']]),
+                    [
+                        'target' => '_blank',
+                        'style' => ['color' => 'whitesmoke'],
+                    ]
+                ) ?>
+                <?= LinkButtonPrinter::printSharePage($model['shareId']) ?>
+            </h2>
         </div>
         <div class="card-body">
             <dl class="row">

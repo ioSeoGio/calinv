@@ -3,6 +3,7 @@
 namespace lib\FrontendHelper;
 
 use yii\helpers\Html;
+use yii\helpers\Url;
 
 class LinkButtonPrinter
 {
@@ -16,5 +17,16 @@ class LinkButtonPrinter
                 'title' => 'Экспортировать отчет в csv',
             ]
         ), $url);
+    }
+
+    public static function printSharePage(int $shareId): string
+    {
+        return Html::a(
+            Icon::printShare(),
+            Url::to(['/share/deal-info', 'id' => $shareId]),
+            [
+                'style' => ['color' => 'whitesmoke'],
+            ],
+        );
     }
 }

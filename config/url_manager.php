@@ -2,7 +2,7 @@
 
 return [
     'enablePrettyUrl' => true,
-    'baseUrl' => 'https://calinv.by/',
+    'baseUrl' => $_ENV['BASE_URL'],
     'showScriptName' => false,
     'rules' => [
         'portfolio' => '/personal-share/index',

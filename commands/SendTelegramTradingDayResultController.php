@@ -21,7 +21,11 @@ class SendTelegramTradingDayResultController extends Controller
 
     public function actionSend(): int
     {
-        $this->cronTelegramTradingDayResultSender->sendMany();
+        if (YII_ENV_PROD) {
+            $this->cronTelegramTradingDayResultSender->sendMany();
+        } else {
+            echo "[CRON][INFO] Not production mode, skipping sending telegram trading day result.\n";
+        }
 
         return ExitCode::OK;
     }

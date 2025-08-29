@@ -56,35 +56,6 @@ class TelegramTradingDayResultSender
      **/
     private function generateMessage(array $model): string
     {
-        // Calculate percentage changes
-        $priceChangePercent = round($model['difference'] / $model['previousDayPrice'] * 100, 2);
-        $priceChangePercent = $priceChangePercent > 0 ? "+$priceChangePercent" : $priceChangePercent;
-
-        $sumChangePercent = round(($model['selectedDayTotalSum'] - $model['previousDayTotalSum']) / $model['previousDayTotalSum'] * 100, 2);
-        $sumChangePercent = $sumChangePercent > 0 ? "+$sumChangePercent" : $sumChangePercent;
-
-        $amountChangePercent = round(($model['selectedDayTotalAmount'] - $model['previousDayTotalAmount']) / $model['previousDayTotalAmount'] * 100, 2);
-        $amountChangePercent = $amountChangePercent > 0 ? "+$amountChangePercent" : $amountChangePercent;
-
-        $dealChangePercent = round(($model['selectedDayTotalDealAmount'] - $model['previousDayTotalDealAmount']) / $model['previousDayTotalDealAmount'] * 100, 2);
-        $dealChangePercent = $dealChangePercent > 0 ? "+$dealChangePercent" : $dealChangePercent;
-
-        // Calculate changes
-        $totalSumChange = round($model['selectedDayTotalSum'] - $model['previousDayTotalSum']);
-        $totalSumChange = $totalSumChange > 0 ? "+$totalSumChange" : $totalSumChange;
-
-        $totalAmountChange = round($model['selectedDayTotalAmount'] - $model['previousDayTotalAmount']);
-        $totalAmountChange = $totalAmountChange > 0 ? "+$totalAmountChange" : $totalAmountChange;
-
-        $dealAmountChange = round($model['selectedDayTotalDealAmount'] - $model['previousDayTotalDealAmount']);
-        $dealAmountChange = $dealAmountChange > 0 ? "+$dealAmountChange" : $dealAmountChange;
-
-        // Determine emoji based on changes
-        $priceEmoji = $model['difference'] >= 0 ? '📈' : '📉';
-        $sumEmoji = ($model['selectedDayTotalSum'] - $model['previousDayTotalSum']) >= 0 ? '📈' : '📉';
-        $amountEmoji = ($model['selectedDayTotalAmount'] - $model['previousDayTotalAmount']) >= 0 ? '📈' : '📉';
-        $dealEmoji = ($model['selectedDayTotalDealAmount'] - $model['previousDayTotalDealAmount']) >= 0 ? '📈' : '📉';
-
         // Format date
         $previousDayDate = Yii::$app->formatter->asDate($model['previousDayDate'], 'full');
         $selectedDayDate = Yii::$app->formatter->asDate($model['selectedDayDate'], 'full');
@@ -93,15 +64,35 @@ class TelegramTradingDayResultSender
         // Build the message
         $message = "📊 *{$model['name']}*\n";
         $message .= "Торговый день: $selectedDayDate\n\n";
-        $message .= "**Средневзвешенная цена:** {$model['selectedDayPrice']} BYN ({$model['difference']}, $priceChangePercent% $priceEmoji)\n";
-        $message .= "**Минимальная цена:** {$model['selectedDayMinPrice']} BYN\n";
-        $message .= "**Максимальная цена:** {$model['selectedDayMaxPrice']} BYN\n";
-        $message .= "**Сумма сделок:** {$model['selectedDayTotalSum']} BYN ($totalSumChange, $sumChangePercent% $sumEmoji)\n";
-        $message .= "**Количество акций:** {$model['selectedDayTotalAmount']} ($totalAmountChange, $amountChangePercent% $amountEmoji)\n";
-        $message .= "**Количество сделок:** {$model['selectedDayTotalDealAmount']} ($dealAmountChange, $dealChangePercent% $dealEmoji)\n\n";
-        $message .= "*Предыдущий отчетный день:* {$previousDayDate}\n";
+        $message .= "**Средневзвешенная цена:** {$model['selectedDayPrice']} BYN {$this->getChange($model['selectedDayPrice'], $model['previousDayPrice'])}\n";
+        $message .= "**Мин. цена:** {$model['selectedDayMinPrice']} BYN {$this->getChange($model['selectedDayMinPrice'], $model['previousDayMinPrice'])}\n";
+        $message .= "**Макс. цена:** {$model['selectedDayMaxPrice']} BYN {$this->getChange($model['selectedDayMaxPrice'], $model['previousDayMaxPrice'])}\n\n";
+        $message .= "**Сумма сделок:** {$model['selectedDayTotalSum']} BYN {$this->getChange($model['selectedDayTotalSum'], $model['previousDayTotalSum'])}\n";
+        $message .= "**Кол-во акций:** {$model['selectedDayTotalAmount']} {$this->getChange($model['selectedDayTotalAmount'], $model['previousDayTotalAmount'])}\n";
+        $message .= "**Кол-во сделок:** {$model['selectedDayTotalDealAmount']} {$this->getChange($model['selectedDayTotalDealAmount'], $model['previousDayTotalDealAmount'])}\n\n";
+        $message .= "*Последнее изменение:* {$previousDayDate}\n";
         $message .= "🔗 [Подробности]($url)";
 
         return $message;
+    }
+
+    private function getChange(float $newValue, ?float $oldValue): string
+    {
+        if ($oldValue === null) {
+            return '';
+        }
+
+        $difference = $newValue - $oldValue;
+        $percentChange = round($difference / $oldValue * 100, 2);
+
+        if ($difference == 0) {
+            return '';
+        }
+
+        if ($difference > 0) {
+            return "(*+$difference*, *+$percentChange%* 🟢)";
+        }
+
+        return "(*$difference*, *$percentChange%* 🔴)";
     }
 }
