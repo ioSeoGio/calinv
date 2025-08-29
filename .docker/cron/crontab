@@ -1,3 +1,4 @@
 CRON_TZ=Europe/Minsk
-*/5 10-16 * * 1-5 /usr/local/bin/php /var/www/html/yii update-share-price/update-all
+*/5 10-16 * * 1-5 /usr/local/bin/php /var/www/html/yii update-share-price/update-bcse
+*/20 9-17 * * 1-5 /usr/local/bin/php /var/www/html/yii update-share-price/central-depo
 0 16 * * 1-5 /usr/local/bin/php /var/www/html/yii send-telegram-trading-day-result/send

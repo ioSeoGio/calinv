@@ -22,24 +22,48 @@ class UpdateSharePriceController extends Controller
         parent::__construct($id, $module, $config);
     }
 
-    public function actionUpdateAll(): int
+    public function updateCentralDepo(): int
     {
         $issuers = Issuer::findVisible();
 
-        Yii::info('[CRON] Обновление акций отображаемых эмитентов и цен акций');
-        echo '[CRON] Обновление акций отображаемых эмитентов и цен акций, кол-во: ' . $issuers->count() . PHP_EOL;
+        Yii::info('[CRON][CENTRALDEPO] Обновление акций отображаемых эмитентов и цен акций');
+        echo '[CRON][CENTRALDEPO] Обновление акций отображаемых эмитентов и цен акций, кол-во: ' . $issuers->count() . PHP_EOL;
         foreach ($issuers->each() as $issuer) {
             try {
-                Yii::info("[CRON] Обновление акций эмитента $issuer->name, УНП: $issuer->_pid");
-                echo "[CRON] Обновление акций эмитента $issuer->name, УНП: $issuer->_pid" . PHP_EOL;
+                Yii::info("[CRON][CENTRALDEPO] Обновление акций эмитента $issuer->name, УНП: $issuer->_pid");
+                echo "[CRON][CENTRALDEPO] Обновление акций эмитента $issuer->name, УНП: $issuer->_pid" . PHP_EOL;
 
-                $this->apiIssuerInfoAndSharesFactory->update($issuer);
+                $this->apiIssuerInfoAndSharesFactory->updateOnlyCentralDepo($issuer);
             } catch (ApiLightTemporaryUnavailableException $exception) {
-                Yii::info("[CRON][ERROR] API временно недоступно для акций эмитента $issuer->name, УНП: $issuer->_pid");
-                echo "[CRON][ERROR] API временно недоступно для акций эмитента $issuer->name, УНП: $issuer->_pid" . PHP_EOL;
+                Yii::info("[CRON][CENTRALDEPO][ERROR] API временно недоступно для акций эмитента $issuer->name, УНП: $issuer->_pid");
+                echo "[CRON][CENTRALDEPO][ERROR] API временно недоступно для акций эмитента $issuer->name, УНП: $issuer->_pid" . PHP_EOL;
             } catch (\Throwable $exception) {
-                Yii::info("[CRON][ERROR] Обновление акций эмитента $issuer->name, УНП: $issuer->_pid: {$exception->getMessage()}");
-                echo '[CRON][ERROR] ' . $exception->getMessage() . PHP_EOL;
+                Yii::info("[CRON][CENTRALDEPO][ERROR] Обновление акций эмитента $issuer->name, УНП: $issuer->_pid: {$exception->getMessage()}");
+                echo '[CRON][CENTRALDEPO][ERROR] ' . $exception->getMessage() . PHP_EOL;
+            }
+        }
+
+        return ExitCode::OK;
+    }
+
+    public function actionUpdateBcse(): int
+    {
+        $issuers = Issuer::findVisible();
+
+        Yii::info('[CRON][BCSE] Обновление акций отображаемых эмитентов и цен акций');
+        echo '[CRON][BCSE] Обновление акций отображаемых эмитентов и цен акций, кол-во: ' . $issuers->count() . PHP_EOL;
+        foreach ($issuers->each() as $issuer) {
+            try {
+                Yii::info("[CRON][BCSE] Обновление акций эмитента $issuer->name, УНП: $issuer->_pid");
+                echo "[CRON][BCSE] Обновление акций эмитента $issuer->name, УНП: $issuer->_pid" . PHP_EOL;
+
+                $this->apiIssuerInfoAndSharesFactory->fillFromBcse($issuer);
+            } catch (ApiLightTemporaryUnavailableException $exception) {
+                Yii::info("[CRON][BCSE][ERROR] API временно недоступно для акций эмитента $issuer->name, УНП: $issuer->_pid");
+                echo "[CRON][BCSE][ERROR] API временно недоступно для акций эмитента $issuer->name, УНП: $issuer->_pid" . PHP_EOL;
+            } catch (\Throwable $exception) {
+                Yii::info("[CRON][BCSE][ERROR] Обновление акций эмитента $issuer->name, УНП: $issuer->_pid: {$exception->getMessage()}");
+                echo '[CRON][BCSE][ERROR] ' . $exception->getMessage() . PHP_EOL;
             }
         }
 

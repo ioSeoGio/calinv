@@ -2,10 +2,13 @@
 
 namespace src\Entity\Share;
 
+use lib\Exception\UserException\ApiNotFoundException;
+use lib\Exception\UserException\ApiSimpleBadResponseException;
 use src\Entity\Issuer\Issuer;
 use src\Entity\Share\Deal\ShareDealRecord;
 use src\Integration\Bcse\ShareInfo\BcseShareInfoFetcher;
 use src\Integration\CentralDepo\IssuerAndSharesInfo\ShareInfoDto;
+use yii\db\Exception;
 
 class ShareFactory
 {
@@ -14,7 +17,7 @@ class ShareFactory
     ) {
     }
 
-    public function create(ShareInfoDto $dto, Issuer $issuer): void
+    public function create(ShareInfoDto $dto, Issuer $issuer): Share
     {
         try {
             $share = Share::createOrUpdate(
@@ -31,33 +34,24 @@ class ShareFactory
             );
             $share->save();
 
+            return $share;
+        } catch (\Throwable $e) {
+            if (isset($share)) {
+                $share->setFullnessState(ShareFullnessState::initial);
+                $share->save();
+            }
+
+            throw $e;
+        }
+    }
+
+    public function createWithBcse(ShareInfoDto $dto, Issuer $issuer): void
+    {
+        try {
+            $share = $this->create($dto, $issuer);
+
             if ($share->isActive()) {
-                $shareInfoDto = $this->fetcher->get($issuer->pid, $share->registerNumberObject);
-
-                if ($shareInfoDto === null) {
-                    return;
-                }
-
-                $share->setLastDealInfo($shareInfoDto->bcseShareLastDealDto);
-                $share->setFullnessState(ShareFullnessState::lastDeal);
-                $share->save();
-
-                foreach ($shareInfoDto->bcseShareDealRecordDtos as $bcseShareDealRecordDto) {
-                    $dealRecord = ShareDealRecord::createOrUpdate(
-                        share: $share,
-                        date: $bcseShareDealRecordDto->date,
-                        currency: $bcseShareDealRecordDto->currency,
-                        minPrice: $bcseShareDealRecordDto->minPrice,
-                        maxPrice: $bcseShareDealRecordDto->maxPrice,
-                        weightedAveragePrice: $bcseShareDealRecordDto->weightedAveragePrice,
-                        totalSum: $bcseShareDealRecordDto->totalSum,
-                        totalAmount: $bcseShareDealRecordDto->totalAmount,
-                        totalDealAmount: $bcseShareDealRecordDto->totalDealAmount,
-                    );
-                    $dealRecord->save();
-                }
-                $share->countBoundaryPrice();
-                $share->save();
+                $this->fillFromBcse($share, $issuer);
             }
         } catch (\Throwable $e) {
             if (isset($share)) {
@@ -67,5 +61,40 @@ class ShareFactory
 
             throw $e;
         }
+    }
+
+    /**
+     * @throws Exception
+     * @throws ApiSimpleBadResponseException
+     * @throws ApiNotFoundException
+     */
+    public function fillFromBcse(Share $share, Issuer $issuer): void
+    {
+        $shareInfoDto = $this->fetcher->get($issuer->pid, $share->registerNumberObject);
+
+        if ($shareInfoDto === null) {
+            return;
+        }
+
+        $share->setLastDealInfo($shareInfoDto->bcseShareLastDealDto);
+        $share->setFullnessState(ShareFullnessState::lastDeal);
+        $share->save();
+
+        foreach ($shareInfoDto->bcseShareDealRecordDtos as $bcseShareDealRecordDto) {
+            $dealRecord = ShareDealRecord::createOrUpdate(
+                share: $share,
+                date: $bcseShareDealRecordDto->date,
+                currency: $bcseShareDealRecordDto->currency,
+                minPrice: $bcseShareDealRecordDto->minPrice,
+                maxPrice: $bcseShareDealRecordDto->maxPrice,
+                weightedAveragePrice: $bcseShareDealRecordDto->weightedAveragePrice,
+                totalSum: $bcseShareDealRecordDto->totalSum,
+                totalAmount: $bcseShareDealRecordDto->totalAmount,
+                totalDealAmount: $bcseShareDealRecordDto->totalDealAmount,
+            );
+            $dealRecord->save();
+        }
+        $share->countBoundaryPrice();
+        $share->save();
     }
 }
