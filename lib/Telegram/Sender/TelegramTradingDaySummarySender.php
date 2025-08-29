@@ -25,17 +25,17 @@ class TelegramTradingDaySummarySender
         $selectedDayDate = Yii::$app->formatter->asDate($date, 'full');
         $message = "📄*Краткий итог*, торговый день: $selectedDayDate\n\n";
 
-        $topByGrowth = (clone $query)->orderBy(['difference' => SORT_DESC])->limit(5)->all();
+        $topByGrowth = (clone $query)->orderBy(['(current_sd."weightedAveragePrice" - prev_sd."weightedAveragePrice")' => SORT_DESC])->limit(5)->all();
         $message .= $topByGrowth ? $this->generateTopByGrowthMessage($topByGrowth) : '';
         $message .= "\n\n";
 
         $topByLoss = (clone $query)
-            ->andWhere(['not', ['difference' => null]])
-            ->orderBy(['difference' => SORT_ASC])->limit(5)->all();
+            ->andWhere(['not', ['(current_sd."weightedAveragePrice" - prev_sd."weightedAveragePrice")' => null]])
+            ->orderBy(['(current_sd."weightedAveragePrice" - prev_sd."weightedAveragePrice")' => SORT_ASC])->limit(5)->all();
         $message .= $topByLoss ? $this->generateTopByLossMessage($topByLoss) : '';
         $message .= "\n\n";
 
-        $topByVolume = (clone $query)->orderBy(['selectedDayTotalSum' => SORT_DESC])->limit(5)->all();
+        $topByVolume = (clone $query)->orderBy(['prev_sd."totalSum"' => SORT_DESC])->limit(5)->all();
         $message .= $topByVolume ? $this->generateTopByVolumeMessage($topByVolume) : '';
 
         if (empty($topByVolume) && empty($topByLoss) && empty($topByGrowth)) {
