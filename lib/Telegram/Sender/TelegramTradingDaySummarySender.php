@@ -23,7 +23,7 @@ class TelegramTradingDaySummarySender
     {
 
         $selectedDayDate = Yii::$app->formatter->asDate($date, 'full');
-        $message = "📄*Краткий итог*, торговый день: $selectedDayDate\n\n";
+        $message = "📄*Краткий итог*\n Торговый день: $selectedDayDate\n\n";
 
         $topByGrowth = (clone $query)->orderBy(['(current_sd."weightedAveragePrice" - prev_sd."weightedAveragePrice")' => SORT_DESC])->limit(5)->all();
         $message .= $topByGrowth ? $this->generateTopByGrowthMessage($topByGrowth) : '';
@@ -56,11 +56,11 @@ class TelegramTradingDaySummarySender
     {
         $url = Url::to(["/trading-day-result", 'sort' => '-difference']);
 
-        $message = "📈 Топ роста цен:\n";
+        $message = "📈 *Топ роста цен*:\n";
         foreach ($models as $model) {
-            $message .= "📊 *{$model['name']}*: {$model['selectedDayPrice']} BYN {$this->telegramDiffPrinter->getChange($model['selectedDayPrice'], $model['previousDayPrice'])}\n";
+            $message .= "*{$model['name']}*: {$model['selectedDayPrice']} BYN {$this->telegramDiffPrinter->getChange($model['selectedDayPrice'], $model['previousDayPrice'])}\n";
         }
-        $message .= "\n🔗 [Топ роста]($url)";
+        $message .= "🔗 [Топ роста]($url)";
 
         return $message;
     }
@@ -69,11 +69,11 @@ class TelegramTradingDaySummarySender
     {
         $url = Url::to(["/trading-day-result", 'sort' => 'difference']);
 
-        $message = "📈 Топ снижения цен:\n";
+        $message = "📈 *Топ снижения цен*:\n";
         foreach ($models as $model) {
-            $message .= "📊 *{$model['name']}*: {$model['selectedDayPrice']} BYN {$this->telegramDiffPrinter->getChange($model['selectedDayPrice'], $model['previousDayPrice'])}\n";
+            $message .= "*{$model['name']}*: {$model['selectedDayPrice']} BYN {$this->telegramDiffPrinter->getChange($model['selectedDayPrice'], $model['previousDayPrice'])}\n";
         }
-        $message .= "\n🔗 [Топ снижения]($url)";
+        $message .= "🔗 [Топ снижения]($url)";
 
         return $message;
     }
@@ -82,11 +82,11 @@ class TelegramTradingDaySummarySender
     {
         $url = Url::to(["/trading-day-result", 'sort' => '-selectedDayTotalAmount']);
 
-        $message = "📈 Топ объемов торгов:\n";
+        $message = "📈 *Топ объемов торгов*:\n";
         foreach ($models as $model) {
-            $message .= "📊 *{$model['name']}*: {$model['selectedDayTotalSum']} BYN {$this->telegramDiffPrinter->getChange($model['selectedDayTotalSum'], $model['previousDayTotalSum'])}\n";
+            $message .= "*{$model['name']}*: {$model['selectedDayTotalSum']} BYN {$this->telegramDiffPrinter->getChange($model['selectedDayTotalSum'], $model['previousDayTotalSum'])}\n";
         }
-        $message .= "\n🔗 [Топ снижения]($url)";
+        $message .= "🔗 [Топ снижения]($url)";
 
         return $message;
     }
