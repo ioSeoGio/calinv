@@ -22,6 +22,7 @@ class TelegramTradingDayResultSender
             channelId: Yii::$app->params['telegramChannelId'],
             parseMode: TelegramParseModeEnum::MARKDOWN,
             disableWebPagePreview: true,
+            disableAudioNotification: true,
             threadId: Yii::$app->params['telegramTradingDayResultTopicId'],
         );
     }
