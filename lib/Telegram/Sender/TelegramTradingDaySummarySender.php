@@ -6,7 +6,6 @@ use lib\Telegram\Helper\TelegramDiffPrinter;
 use lib\Telegram\Telegram;
 use lib\Telegram\TelegramParseModeEnum;
 use Yii;
-use yii\db\Query;
 use yii\db\QueryInterface;
 use yii\helpers\Url;
 use yii\httpclient\Response;
@@ -21,7 +20,6 @@ class TelegramTradingDaySummarySender
 
     public function send(\DateTimeImmutable $date, QueryInterface $query): ?Response
     {
-
         $selectedDayDate = Yii::$app->formatter->asDate($date, 'full');
         $message = "📄*Краткий итог*\n Торговый день: $selectedDayDate\n\n";
 
@@ -35,7 +33,7 @@ class TelegramTradingDaySummarySender
         $message .= $topByLoss ? $this->generateTopByLossMessage($topByLoss) : '';
         $message .= "\n\n";
 
-        $topByVolume = (clone $query)->orderBy(['prev_sd."totalSum"' => SORT_DESC])->limit(5)->all();
+        $topByVolume = (clone $query)->orderBy(['current_sd."totalSum"' => SORT_DESC])->limit(5)->all();
         $message .= $topByVolume ? $this->generateTopByVolumeMessage($topByVolume) : '';
 
         if (empty($topByVolume) && empty($topByLoss) && empty($topByGrowth)) {

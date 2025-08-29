@@ -28,6 +28,11 @@ class DevController extends Controller
         parent::__construct($id, $module, $config);
     }
 
+    public function actionTest(): int
+    {
+        $this->cronTelegramTradingDayResultSender->sendMany();
+    }
+
     public function actionTelegram(): int
     {
         $this->cronTelegramTradingDayResultSender->sendMany();
