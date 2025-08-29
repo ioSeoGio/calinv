@@ -86,7 +86,7 @@ class TelegramTradingDaySummarySender
         foreach ($models as $model) {
             $message .= "*{$model['name']}*: {$model['selectedDayTotalSum']} BYN {$this->telegramDiffPrinter->getChange($model['selectedDayTotalSum'], $model['previousDayTotalSum'])}\n";
         }
-        $message .= "🔗 [Топ снижения]($url)";
+        $message .= "🔗 [Топ объемов торгов]($url)";
 
         return $message;
     }
