@@ -6,7 +6,7 @@ use src\Cron\CronTelegramTradingDayResultSender;
 use yii\console\Controller;
 use yii\console\ExitCode;
 
-class SendTelegramTradingDayResultController extends Controller
+class TelegramSenderController extends Controller
 {
     public function __construct(
         $id,
@@ -19,7 +19,7 @@ class SendTelegramTradingDayResultController extends Controller
         parent::__construct($id, $module, $config);
     }
 
-    public function actionSend(): int
+    public function actionTradingDay(): int
     {
         if (YII_ENV_PROD) {
             $this->cronTelegramTradingDayResultSender->sendMany();

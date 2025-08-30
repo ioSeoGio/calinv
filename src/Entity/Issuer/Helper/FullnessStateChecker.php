@@ -19,7 +19,7 @@ class FullnessStateChecker
             $states[] = IssuerFullnessState::sharesWithException;
         }
 
-        if (!empty($issuer->name) && $issuer->legalStatus->isFilled()) {
+        if (!empty($issuer->name) && $issuer->_legalStatus !== null) {
             $states[] = IssuerFullnessState::nameAndStatus;
         }
 

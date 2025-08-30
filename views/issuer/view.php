@@ -140,6 +140,21 @@ $this->title = $model->name;
                 }
             ],
             '_legalStatus',
+
+            [
+                'attribute' => 'typeOfActivity',
+                'format' => 'raw',
+                'value' => function (Issuer $model) {
+                    return DetailViewCopyHelper::render($model, 'typeOfActivity');
+                }
+            ],
+            [
+                'attribute' => 'typeOfActivityCode',
+                'format' => 'raw',
+                'value' => function (Issuer $model) {
+                    return DetailViewCopyHelper::render($model, 'typeOfActivityCode');
+                }
+            ],
             [
                 'attribute' => '_pid',
                 'format' => 'raw',

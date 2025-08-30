@@ -9,7 +9,7 @@ use Yii;
 use yii\console\Controller;
 use yii\console\ExitCode;
 
-class UpdateSharePriceController extends Controller
+class CronShareController extends Controller
 {
     public function __construct(
         $id,

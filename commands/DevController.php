@@ -56,7 +56,7 @@ class DevController extends Controller
     public function actionCentralDepo(string $pid): int
     {
         try {
-            $dto = $this->egrTypeOfActivityFetcher->get(new PayerIdentificationNumber($pid));
+            $dto = $this->fetcher->get(new PayerIdentificationNumber($pid));
             print_r($dto);
         } catch (\Throwable $exception) {
             print_r($exception);
@@ -67,8 +67,12 @@ class DevController extends Controller
 
     public function actionEgr(string $pid): int
     {
-        $dto = $this->egrAddressFetcher->get(new PayerIdentificationNumber($pid));
-        print_r($dto);
+        try {
+            $dto = $this->egrTypeOfActivityFetcher->get(new PayerIdentificationNumber($pid));
+            print_r($dto);
+        } catch (\Throwable $exception) {
+            print_r($exception);
+        }
 
         return ExitCode::OK;
     }

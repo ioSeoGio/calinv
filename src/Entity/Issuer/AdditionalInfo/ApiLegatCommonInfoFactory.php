@@ -4,6 +4,7 @@ namespace src\Entity\Issuer\AdditionalInfo;
 
 use src\Entity\Issuer\AddressInfo\AddressInfo;
 use src\Entity\Issuer\Issuer;
+use src\Entity\Issuer\IssuerLegalStatus;
 use src\Integration\Legat\Dto\CommonIssuerInfo\CommonIssuerInfoDto;
 use Yii;
 
@@ -20,7 +21,7 @@ class ApiLegatCommonInfoFactory
             $issuer->name = $commonIssuerInfoDto->detailsDto->shortIssuerName;
         }
         if ($issuer->_legalStatus === null) {
-            $issuer->_legalStatus = $commonIssuerInfoDto->detailsDto->inspectionStatus;
+            $issuer->updateLegalStatus(IssuerLegalStatus::from($commonIssuerInfoDto->detailsDto->egrStatus));
         }
 
         $site = $commonIssuerInfoDto->directorInfo?->site

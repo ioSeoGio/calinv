@@ -22,10 +22,7 @@ class ApiIssuerInfoAndSharesFactory
     public function updateOnlyCentralDepo(Issuer $issuer): void
     {
         $dto = $this->centralDepoIssuerAndShareInfoFetcher->get($issuer->pid);
-        $issuer->updateInfo(
-            name: $dto->shortName,
-            legalStatus: $dto->legalStatus,
-        );
+        $issuer->updateName($dto->shortName);
         $addressInfo = AddressInfo::createOrUpdate(
             pid: $issuer->pid,
             fullAddress: $dto->address,
@@ -54,10 +51,7 @@ class ApiIssuerInfoAndSharesFactory
     {
         try {
             $dto = $this->centralDepoIssuerAndShareInfoFetcher->get($issuer->pid);
-            $issuer->updateInfo(
-                name: $dto->shortName,
-                legalStatus: $dto->legalStatus,
-            );
+            $issuer->updateName(name: $dto->shortName);
             $addressInfo = AddressInfo::createOrUpdate(
                 pid: $issuer->pid,
                 fullAddress: $dto->address,

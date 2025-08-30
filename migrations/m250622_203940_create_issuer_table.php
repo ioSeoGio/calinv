@@ -9,6 +9,9 @@ class m250622_203940_create_issuer_table extends Migration
         $this->createTable('{{%issuer}}', [
             'id' => $this->primaryKey(),
 
+            'typeOfActivity' => $this->string()->null(),
+            'typeOfActivityCode' => $this->string()->null(),
+
             'name' => $this->string()->null(),
             'description' => $this->text()->null(),
             '_legalStatus' => $this->string()->null(),

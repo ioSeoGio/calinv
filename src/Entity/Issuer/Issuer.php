@@ -19,6 +19,7 @@ use src\Entity\Issuer\FinanceReport\ProfitLossReport\ProfitLossReport;
 use src\Entity\Issuer\TypeOfActivity\TypeOfActivity;
 use src\Entity\Issuer\UnreliableSupplier\UnreliableSupplier;
 use src\Entity\Share\Share;
+use src\Integration\Egr\TypeOfActivity\EgrTypeOfActivityDto;
 use src\Integration\Legat\Dto\CommonIssuerInfo\LiquidationDto;
 use yii\db\ActiveQuery;
 
@@ -26,7 +27,9 @@ use yii\db\ActiveQuery;
  * @inheritDoc
  * @property int $id
  * @property ?string $name
- * @property ?string $description
+ * @property ?string $description Описание, введенное вручную модератором
+ * @property ?string $typeOfActivity Вид экономической деятельности
+ * @property ?string $typeOfActivityCode ОКЭД - код экономической деятельности
  *
  * @property ?BusinessReputationInfo $businessReputationInfo Рейтинг деловой репутации BIK
  * @property ?AddressInfo $addressInfo
@@ -45,7 +48,7 @@ use yii\db\ActiveQuery;
  * @property string[] $fullnessState
  *
  * @property IssuerLegalStatus $legalStatus
- * @property string $_legalStatus
+ * @property ?string $_legalStatus
  *
  * @property ?string $_dateFinanceReportsInfoUpdated Дата, когда была запрошена информация об имеющихся фин. отчетностях
  * @property ?\DateTimeImmutable $dateFinanceReportsInfoUpdated Дата, когда была запрошена информация об имеющихся фин. отчетностях
@@ -70,6 +73,8 @@ class Issuer extends ApiFetchedActiveRecord
         return [
             '_legalStatus' => 'Статус',
             'name' => 'Наименование',
+            'typeOfActivity' => 'Вид деятельности',
+            'typeOfActivityCode' => 'ОКЭД',
             'fullnessState' => 'Заполненность',
             'expressRating' => 'Экспресс рейтинг',
             '_pid' => 'УНП',
@@ -87,16 +92,24 @@ class Issuer extends ApiFetchedActiveRecord
         ]);
     }
 
-    public function updateInfo(
+    public function updateName(
         string $name,
-        IssuerLegalStatus $legalStatus,
     ): self {
-        $this->_legalStatus = $legalStatus->value;
         $this->name = $name;
-
         $this->renewLastApiUpdateDate();
 
         return $this;
+    }
+
+    public function updateLegalStatus(IssuerLegalStatus $legalStatus): void
+    {
+        $this->_legalStatus = $legalStatus->value;
+    }
+
+    public function updateTypeOfActivity(EgrTypeOfActivityDto $dto): void
+    {
+        $this->typeOfActivity = $dto->typeOfActivityName;
+        $this->typeOfActivityCode = $dto->typeOfActivityCode;
     }
 
     public function getDateFinanceReportsInfoUpdated(): ?\DateTimeInterface
@@ -159,16 +172,6 @@ class Issuer extends ApiFetchedActiveRecord
     public function setFullnessState(IssuerFullnessState ...$states): void
     {
         $this->fullnessState = $states;
-    }
-
-    public function updateName(string $name): void
-    {
-        $this->name = $name;
-    }
-
-    public function updateLegalStatus(IssuerLegalStatus $status): void
-    {
-        $this->_legalStatus = $status->value;
     }
 
     public function getLegalStatus(): IssuerLegalStatus

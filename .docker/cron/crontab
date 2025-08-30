@@ -1,4 +1,4 @@
 CRON_TZ=Europe/Minsk
-*/5 10-16 * * 1-5 /usr/local/bin/php /var/www/html/yii update-share-price/update-bcse
-*/20 9-17 * * 1-5 /usr/local/bin/php /var/www/html/yii update-share-price/update-central-depo
-0 16 * * 1-5 /usr/local/bin/php /var/www/html/yii send-telegram-trading-day-result/send
+*/5 10-16 * * 1-5 /usr/local/bin/php /var/www/html/yii cron-share/update-bcse
+*/20 9-17 * * 1-5 /usr/local/bin/php /var/www/html/yii cron-share/update-central-depo
+0 */2 * * * /usr/local/bin/php /var/www/html/yii cron-egr/type-of-activity
