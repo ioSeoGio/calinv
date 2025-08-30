@@ -22,7 +22,7 @@ class UpdateSharePriceController extends Controller
         parent::__construct($id, $module, $config);
     }
 
-    public function updateCentralDepo(): int
+    public function actionUpdateCentralDepo(): int
     {
         $issuers = Issuer::findVisible();
 

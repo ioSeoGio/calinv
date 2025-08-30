@@ -31,6 +31,7 @@ class DevController extends Controller
     public function actionTest(): int
     {
         $this->cronTelegramTradingDayResultSender->sendMany();
+        return ExitCode::OK;
     }
 
     public function actionTelegram(): int
