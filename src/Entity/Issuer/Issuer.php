@@ -267,6 +267,8 @@ class Issuer extends ApiFetchedActiveRecord
 
     public static function findVisible(): ActiveQuery
     {
-        return self::find()->andWhere(['isVisible' => true]);
+        return self::find()
+            ->andWhere(['isVisible' => true])
+            ->andWhere(['not', ['_pid' => null]]);
     }
 }

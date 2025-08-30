@@ -1,4 +1,6 @@
 CRON_TZ=Europe/Minsk
 */5 10-16 * * 1-5 /usr/local/bin/php /var/www/html/yii cron-share/update-bcse
 */20 9-17 * * 1-5 /usr/local/bin/php /var/www/html/yii cron-share/update-central-depo
-0 */2 * * * /usr/local/bin/php /var/www/html/yii cron-egr/type-of-activity
+30 * * * * /usr/local/bin/php /var/www/html/yii cron-egr/type-of-activity
+35 * * * * /usr/local/bin/php /var/www/html/yii cron-egr/legal-status
+40 * * * * /usr/local/bin/php /var/www/html/yii cron-egr/issuer-event

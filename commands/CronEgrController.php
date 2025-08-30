@@ -26,18 +26,74 @@ class CronEgrController extends Controller
         parent::__construct($id, $module, $config);
     }
 
+    public function actionIssuerEvent(): int
+    {
+        $issuers = Issuer::findVisible();
+
+        $issuersAmount = $issuers->count();
+        Yii::info('[CRON][EGR] Обновление событий эмитентов, кол-во: ' . $issuersAmount);
+        echo '[CRON][EGR] Обновление событий эмитентов, кол-во: ' . $issuersAmount . PHP_EOL;
+
+        /** @var Issuer $issuer */
+        foreach ($issuers->each() as $issuer) {
+            try {
+                Yii::info('[CRON][EGR] Обновление событий эмитента с УНП: ' . $issuer->_pid);
+                echo '[CRON][EGR] Обновление событий эмитента с УНП: ' . $issuer->_pid . PHP_EOL;
+
+                $this->egrEventFetcher->update($issuer->pid);
+            } catch (ApiLightTemporaryUnavailableException $e) {
+                Yii::info("[CRON][EGR][ERROR] Обновление событий эмитента с УНП: $issuer->_pid, API временно недоступно");
+                echo "[CRON][EGR][ERROR] Обновление событий эмитента с УНП: $issuer->_pid, API временно недоступно\n";
+            } catch (\Throwable $e) {
+                $errorClass = get_class($e);
+                Yii::info("[CRON][EGR][ERROR] Обновление событий эмитента с УНП: $issuer->_pid, ошибка: {$errorClass} {$e->getMessage()}");
+                echo "[CRON][EGR][ERROR] Обновление событий эмитента с УНП: $issuer->_pid, ошибка: {$errorClass} {$e->getMessage()}";
+            }
+        }
+
+        return ExitCode::OK;
+    }
+
+    public function actionLegalStatus(): int
+    {
+        $issuers = Issuer::findVisible();
+
+        $issuersAmount = $issuers->count();
+        Yii::info('[CRON][EGR] Обновление статуса эмитентов, кол-во: ' . $issuersAmount);
+        echo '[CRON][EGR] Обновление статуса эмитентов, кол-во: ' . $issuersAmount . PHP_EOL;
+
+        /** @var Issuer $issuer */
+        foreach ($issuers->each() as $issuer) {
+            try {
+                Yii::info('[CRON][EGR] Обновление статуса эмитента с УНП: ' . $issuer->_pid);
+                echo '[CRON][EGR] Обновление статуса эмитента с УНП: ' . $issuer->_pid . PHP_EOL;
+
+                $dto = $this->egrLegalNameFetcher->get($issuer->pid);
+                $issuer->updateLegalStatus($dto->status->toLegalStatus());
+                $issuer->save();
+            } catch (ApiLightTemporaryUnavailableException $e) {
+                Yii::info("[CRON][EGR][ERROR] Обновление статуса эмитента с УНП: $issuer->_pid, API временно недоступно");
+                echo "[CRON][EGR][ERROR] Обновление статуса эмитента с УНП: $issuer->_pid, API временно недоступно\n";
+            } catch (\Throwable $e) {
+                $errorClass = get_class($e);
+                Yii::info("[CRON][EGR][ERROR] Обновление статуса эмитента с УНП: $issuer->_pid, ошибка: {$errorClass} {$e->getMessage()}");
+                echo "[CRON][EGR][ERROR] Обновление статуса эмитента с УНП: $issuer->_pid, ошибка: {$errorClass} {$e->getMessage()}";
+            }
+        }
+
+        return ExitCode::OK;
+    }
+
     public function actionTypeOfActivity(): int
     {
-        $issuers = Issuer::find()
+        $issuers = Issuer::findVisible()
             ->andWhere([
                 'OR',
                 [
                     'typeOfActivityCode' => null,
                     'typeOfActivity' => null,
                 ],
-            ])
-            ->andWhere(['isVisible' => true])
-            ->andWhere(['not', ['_pid' => null]]);
+            ]);
 
         $issuersAmount = $issuers->count();
         Yii::info('[CRON][EGR] Обновление ОКЭД отображаемых эмитентов, кол-во: ' . $issuersAmount);
