@@ -10,6 +10,7 @@ use src\Entity\Share\ShareRegisterNumber;
 use src\Integration\Bcse\ShareInfo\BcseShareInfoFetcher;
 use src\Integration\CentralDepo\CentralDepoIssuerAndShareInfoFetcher;
 use src\Integration\Egr\Address\EgrAddressFetcher;
+use src\Integration\Egr\TypeOfActivity\EgrTypeOfActivityFetcher;
 use yii\console\Controller;
 use yii\console\ExitCode;
 
@@ -20,6 +21,7 @@ class DevController extends Controller
                                                      $module,
         private CentralDepoIssuerAndShareInfoFetcher $fetcher,
         private EgrAddressFetcher                    $egrAddressFetcher,
+        private EgrTypeOfActivityFetcher                    $egrTypeOfActivityFetcher,
         private BcseShareInfoFetcher                 $bcseShareInfoFetcher,
         private TelegramTradingDayShareSender        $telegramTradingDayResultSender,
         private CronTelegramTradingDayResultSender   $cronTelegramTradingDayResultSender,
@@ -53,8 +55,12 @@ class DevController extends Controller
 
     public function actionCentralDepo(string $pid): int
     {
-        $dto = $this->fetcher->get(new PayerIdentificationNumber($pid));
-        print_r($dto);
+        try {
+            $dto = $this->egrTypeOfActivityFetcher->get(new PayerIdentificationNumber($pid));
+            print_r($dto);
+        } catch (\Throwable $exception) {
+            print_r($exception);
+        }
 
         return ExitCode::OK;
     }
