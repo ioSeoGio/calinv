@@ -4,7 +4,6 @@ namespace src\Action\TradingDayResult;
 
 use src\Entity\Issuer\Issuer;
 use src\Entity\Share\Deal\ShareDealRecord;
-use src\Entity\Share\Share;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
 use yii\db\Query;
@@ -72,6 +71,7 @@ class TradingDayResultSearch extends Model
                 '(current_sd."minPrice" - prev_sd."minPrice") AS minPriceDifference',
                 '(current_sd."maxPrice" - prev_sd."maxPrice") AS maxPriceDifference',
                 '(current_sd."weightedAveragePrice" - prev_sd."weightedAveragePrice") AS difference',
+                '((current_sd."weightedAveragePrice" - prev_sd."weightedAveragePrice") / prev_sd."weightedAveragePrice") AS differenceInPercent',
             ])
             ->leftJoin([
                     'current_sd' => ShareDealRecord::tableName()
@@ -109,6 +109,7 @@ class TradingDayResultSearch extends Model
                     'previousDayMinPrice',
                     'previousDayPrice',
                     'difference',
+                    'differenceInPercent',
                 ],
             ],
         ]);

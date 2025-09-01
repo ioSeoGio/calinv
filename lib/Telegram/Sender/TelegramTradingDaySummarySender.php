@@ -23,13 +23,13 @@ class TelegramTradingDaySummarySender
         $selectedDayDate = Yii::$app->formatter->asDate($date, 'full');
         $message = "📄*Краткий итог*\n Торговый день: $selectedDayDate\n\n";
 
-        $topByGrowth = (clone $query)->orderBy(['(current_sd."weightedAveragePrice" - prev_sd."weightedAveragePrice")' => SORT_DESC])->limit(5)->all();
+        $topByGrowth = (clone $query)->orderBy(['((current_sd."weightedAveragePrice" - prev_sd."weightedAveragePrice") / prev_sd."weightedAveragePrice")' => SORT_DESC])->limit(5)->all();
         $message .= $topByGrowth ? $this->generateTopByGrowthMessage($topByGrowth) : '';
         $message .= "\n\n";
 
         $topByLoss = (clone $query)
-            ->andWhere(['not', ['(current_sd."weightedAveragePrice" - prev_sd."weightedAveragePrice")' => null]])
-            ->orderBy(['(current_sd."weightedAveragePrice" - prev_sd."weightedAveragePrice")' => SORT_ASC])->limit(5)->all();
+            ->andWhere(['not', ['((current_sd."weightedAveragePrice" - prev_sd."weightedAveragePrice") / prev_sd."weightedAveragePrice")' => null]])
+            ->orderBy(['((current_sd."weightedAveragePrice" - prev_sd."weightedAveragePrice") / prev_sd."weightedAveragePrice")' => SORT_ASC])->limit(5)->all();
         $message .= $topByLoss ? $this->generateTopByLossMessage($topByLoss) : '';
         $message .= "\n\n";
 
@@ -52,9 +52,9 @@ class TelegramTradingDaySummarySender
 
     private function generateTopByGrowthMessage(array $models): string
     {
-        $url = Url::to(["/trading-day-result", 'sort' => '-difference']);
+        $url = Url::to(["/trading-day-result", 'sort' => '-differenceInPercent']);
 
-        $message = "📈 *Топ роста цен*:\n";
+        $message = "📈 *Топ роста цен в %*:\n";
         foreach ($models as $model) {
             $message .= "*{$model['name']}*: {$model['selectedDayPrice']} BYN {$this->telegramDiffPrinter->getChange($model['selectedDayPrice'], $model['previousDayPrice'])}\n";
         }
@@ -65,9 +65,9 @@ class TelegramTradingDaySummarySender
 
     private function generateTopByLossMessage(array $models): string
     {
-        $url = Url::to(["/trading-day-result", 'sort' => 'difference']);
+        $url = Url::to(["/trading-day-result", 'sort' => 'differenceInPercent']);
 
-        $message = "📈 *Топ снижения цен*:\n";
+        $message = "📈 *Топ снижения цен в %*:\n";
         foreach ($models as $model) {
             $message .= "*{$model['name']}*: {$model['selectedDayPrice']} BYN {$this->telegramDiffPrinter->getChange($model['selectedDayPrice'], $model['previousDayPrice'])}\n";
         }
