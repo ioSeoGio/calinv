@@ -3,3 +3,4 @@
 30 * * * * /usr/local/bin/php /var/www/html/yii cron-egr/type-of-activity
 35 * * * * /usr/local/bin/php /var/www/html/yii cron-egr/legal-status
 40 * * * * /usr/local/bin/php /var/www/html/yii cron-egr/issuer-event
+52 18 * * 1-5 /usr/local/bin/php /var/www/html/yii telegram-sender/trading-day
