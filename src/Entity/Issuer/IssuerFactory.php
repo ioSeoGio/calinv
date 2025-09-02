@@ -11,13 +11,13 @@ class IssuerFactory
     ) {
     }
 
-    public function createOrUpdate(
+    public function createOrUpdateByForm(
         IssuerCreateForm $form,
     ): Issuer {
-        return $this->update(new PayerIdentificationNumber($form->pid));
+        return $this->createOrUpdate(new PayerIdentificationNumber($form->pid));
     }
 
-    public function update(PayerIdentificationNumber $pid): Issuer
+    public function createOrUpdate(PayerIdentificationNumber $pid): Issuer
     {
         $issuer = Issuer::createOrGet($pid);
         $issuer->save();

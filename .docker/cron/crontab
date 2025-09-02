@@ -5,5 +5,6 @@ CRON_TZ=+3
 35 * * * * /usr/local/bin/php /var/www/html/yii cron-egr/legal-status >> /var/log/cron.log 2>&1
 40 * * * * /usr/local/bin/php /var/www/html/yii cron-egr/issuer-event >> /var/log/cron.log 2>&1
 52 12 * * 1-5 /usr/local/bin/php /var/www/html/yii telegram-sender/trading-day >> /var/log/cron.log 2>&1
+0 */3 * * * /usr/local/bin/php /var/www/html/yii cron-issuer/check-new >> /var/log/cron.log 2>&1
 15 0 * * * /usr/local/bin/php /var/www/html/yii cron-cleanup/remove >> /var/log/cron.log 2>&1
 25 0 * * * /usr/local/bin/php /var/www/html/yii cron-cleanup/hide >> /var/log/cron.log 2>&1

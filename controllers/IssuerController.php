@@ -171,7 +171,7 @@ class IssuerController extends BaseController
 
         if (Yii::$app->request->isPost && $post = Yii::$app->request->post()) {
             if (isset($post['simple']) && $form->load($post) && $form->validate()) {
-                $issuer = $this->factory->createOrUpdate($form);
+                $issuer = $this->factory->createOrUpdateByForm($form);
             } elseif (isset($post['complex']) && $form->load($post) && $form->validate()) {
                 $issuer = $this->issuerAutomaticLegatFactory->createOrUpdate($form);
             } else {

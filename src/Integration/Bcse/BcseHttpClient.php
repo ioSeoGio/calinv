@@ -18,9 +18,9 @@ class BcseHttpClient
     ) {
     }
 
-    public function request(HttpMethod $method, string $path, array $data = []): ResponseInterface
+    public function request(HttpMethod $method, string $path, array $data = [], array $queryParams = []): ResponseInterface
     {
-        $url = $this->urlGenerator->generateUrl(self::BASE_URL, $path);
+        $url = $this->urlGenerator->generateUrl(self::BASE_URL, $path, queryParams: $queryParams);
 
         $response = $this->httpClient->request($method, $url, [
             'headers' => [
