@@ -12,12 +12,12 @@ use yii\helpers\ArrayHelper;
 
 class RatingSelectIssuerDropdown
 {
-    public static function render(BusinessReputationInfo|EsgRatingInfo|CreditRatingInfo $model): string
+    public static function render(BusinessReputationInfo|EsgRatingInfo|CreditRatingInfo $model, array $issuers): string
     {
         return Select2::widget([
             'model' => $model,
             'attribute' => 'issuerId',
-            'data' => ArrayHelper::map(Issuer::find()->all(),
+            'data' => ArrayHelper::map($issuers,
                 from: fn (Issuer $model) => (string) $model->id,
                 to: fn (Issuer $model) => $model->name,
             ),

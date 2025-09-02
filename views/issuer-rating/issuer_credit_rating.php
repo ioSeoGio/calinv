@@ -12,6 +12,7 @@ use src\Entity\Issuer\EsgRating\EsgRatingInfo;
 use src\Entity\Issuer\Issuer;
 use src\Entity\User\UserRole;
 use src\ViewHelper\IssuerRating\IssuerBikRatingViewHelper;
+use src\ViewHelper\Shit\RatingSelectIssuerDropdown;
 use yii\data\ActiveDataProvider;
 use yii\grid\GridView;
 use yii\helpers\ArrayHelper;
@@ -32,6 +33,13 @@ $this->title = 'Кредитный рейтинг BIK';
     </div>
 </div>
 <?php endif; ?>
+
+<?php
+if (Yii::$app->user->can(UserRole::admin->value)) {
+    $issuers = Issuer::find()->all();
+}
+?>
+
 <div class="esg-rating-index">
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
@@ -44,9 +52,9 @@ $this->title = 'Кредитный рейтинг BIK';
             [
                 'label' => 'Эмитент',
                 'format' => 'raw',
-                'value' => function (CreditRatingInfo $model) {
+                'value' => function (CreditRatingInfo $model) use ($issuers) {
                     if (Yii::$app->user->can(UserRole::admin->value)) {
-                        return \src\ViewHelper\Shit\RatingSelectIssuerDropdown::render($model);
+                        return RatingSelectIssuerDropdown::render($model, $issuers);
                     }
 
                     return $model->issuer

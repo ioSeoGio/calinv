@@ -4,17 +4,15 @@
 /** @var ActiveDataProvider $dataProvider */
 /** @var BusinessReputationInfoSearch $searchForm */
 
-use kartik\select2\Select2;
 use lib\FrontendHelper\DetailViewCopyHelper;
 use src\Action\Issuer\Rating\BusinessReputationInfoSearch;
 use src\Entity\Issuer\BusinessReputationRating\BusinessReputationInfo;
-use src\Entity\Issuer\BusinessReputationRating\IssuerBusinessReputation;
 use src\Entity\Issuer\Issuer;
 use src\Entity\User\UserRole;
 use src\ViewHelper\IssuerRating\IssuerBikRatingViewHelper;
+use src\ViewHelper\Shit\RatingSelectIssuerDropdown;
 use yii\data\ActiveDataProvider;
 use yii\grid\GridView;
-use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\helpers\StringHelper;
 use yii\helpers\Url;
@@ -32,6 +30,13 @@ $this->title = 'Рейтинг деловой репутации BIK';
     </div>
 </div>
 <?php endif; ?>
+
+<?php
+if (Yii::$app->user->can(UserRole::admin->value)) {
+    $issuers = Issuer::find()->all();
+}
+?>
+
 <div class="business-rating-index">
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
@@ -44,9 +49,9 @@ $this->title = 'Рейтинг деловой репутации BIK';
             [
                 'label' => 'Эмитент',
                 'format' => 'raw',
-                'value' => function (BusinessReputationInfo $model) {
+                'value' => function (BusinessReputationInfo $model) use ($issuers) {
                     if (Yii::$app->user->can(UserRole::admin->value)) {
-                        return \src\ViewHelper\Shit\RatingSelectIssuerDropdown::render($model);
+                        return RatingSelectIssuerDropdown::render($model, $issuers);
                     }
 
                     return $model->issuer

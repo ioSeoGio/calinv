@@ -31,6 +31,13 @@ $this->title = 'ESG Рейтинг BIK';
     </div>
 </div>
 <?php endif; ?>
+
+<?php
+if (Yii::$app->user->can(UserRole::admin->value)) {
+    $issuers = Issuer::find()->all();
+    }
+?>
+
 <div class="esg-rating-index">
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
@@ -43,9 +50,9 @@ $this->title = 'ESG Рейтинг BIK';
             [
                 'label' => 'Эмитент',
                 'format' => 'raw',
-                'value' => function (EsgRatingInfo $model) {
+                'value' => function (EsgRatingInfo $model) use ($issuers) {
                     if (Yii::$app->user->can(UserRole::admin->value)) {
-                        return \src\ViewHelper\Shit\RatingSelectIssuerDropdown::render($model);
+                        return \src\ViewHelper\Shit\RatingSelectIssuerDropdown::render($model, $issuers);
                     }
 
                     return $model->issuer
