@@ -12,7 +12,11 @@ $url = Url::current();
         [
             'label' => 'Эмитенты',
             'url' => ['/issuer/index'],
-            'active' => str_contains($url, '/issuer/index') || $url === '/issuer' || $url === '/',
+            'active' =>
+                str_contains($url, '/issuer/index')
+                || $url === '/issuer'
+                || $url === '/'
+                || str_contains($url, '/issuer?'),
         ],
         [
             'label' => 'Рейтинг деловой репутации BIK',

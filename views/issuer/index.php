@@ -35,6 +35,7 @@ $this->title = 'Эмитенты РБ';
         ]) ?>
     <?php endif; ?>
 
+    <?= Html::a('Без отчетностей', Url::to(['/issuer/index', 'onlyWithoutReports' => true]), ['class' => 'btn btn-primary']) ?>
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'pager' => [

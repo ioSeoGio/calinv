@@ -12,11 +12,13 @@ class IssuerSearchForm extends Model
 {
     public string $name = '';
     public string $_pid = '';
+    public bool $onlyWithoutReports = false;
 
     public function rules(): array
     {
         return [
             [['name', '_pid'], 'string'],
+            [['onlyWithoutReports'], 'boolean'],
         ];
     }
 
@@ -40,13 +42,20 @@ class IssuerSearchForm extends Model
                 'cashFlowReports',
             ])
             ->andWhere(['!=', Issuer::tableName() . '._pid', ''])
-            ->addOrderBy([
-                'CASE WHEN "_dateShareInfoModerated" IS NULL THEN 1 ELSE 0 END' => SORT_ASC,
-                Issuer::tableName() . '._dateShareInfoModerated' => SORT_DESC
-            ]);
+            ->addOrderBy([Issuer::tableName() . '._lastApiUpdateDate' => SORT_DESC]);
+//            ->addOrderBy([
+//                'CASE WHEN "_dateShareInfoModerated" IS NULL THEN 1 ELSE 0 END' => SORT_ASC,
+//                Issuer::tableName() . '._dateShareInfoModerated' => SORT_DESC
+//            ]);
 
-        if (!Yii::$app->user->can(UserRole::admin->value)) {
-            $query->andWhere(['isVisible' => true]);
+        if ($this->onlyWithoutReports) {
+            // Добавляем LEFT JOIN для таблиц отчетов и проверяем, что они пусты
+            $query->leftJoin('accountBalanceReports', 'accountBalanceReports.issuer_id = ' . Issuer::tableName() . '.id')
+                ->leftJoin('profitLossReports', 'profitLossReports.issuer_id = ' . Issuer::tableName() . '.id')
+                ->leftJoin('cashFlowReports', 'cashFlowReports.issuer_id = ' . Issuer::tableName() . '.id')
+                ->andWhere(['accountBalanceReports.id' => null])
+                ->andWhere(['profitLossReports.id' => null])
+                ->andWhere(['cashFlowReports.id' => null]);
         }
 
         $dataProvider = new ActiveDataProvider([
@@ -56,6 +65,10 @@ class IssuerSearchForm extends Model
         $this->load($params);
         if (!$this->validate()) {
             return $dataProvider;
+        }
+
+        if ($this->onlyWithoutReports) {
+            $query->andWhere([Issuer::tableName() . '._pid' => $this->_pid]);
         }
 
         $query->andFilterWhere(['ilike', 'name', $this->name])
