@@ -102,8 +102,7 @@ class IssuerController extends BaseController
     public function actionToggleVisibility(int $id): Response
     {
         $issuer = Issuer::getOneById($id);
-        $issuer->isVisible = !$issuer->isVisible;
-        $issuer->save();
+        $issuer->hide();
 
         return $this->redirect(Yii::$app->request->referrer ?: ['/issuer/view', 'id' => $id]);
     }

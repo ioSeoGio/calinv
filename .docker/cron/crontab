@@ -4,3 +4,5 @@
 35 * * * * /usr/local/bin/php /var/www/html/yii cron-egr/legal-status
 40 * * * * /usr/local/bin/php /var/www/html/yii cron-egr/issuer-event
 52 15 * * 1-5 /usr/local/bin/php /var/www/html/yii telegram-sender/trading-day
+@daily /usr/local/bin/php /var/www/html/yii cron-cleanup/remove
+@daily /usr/local/bin/php /var/www/html/yii cron-cleanup/hide

@@ -92,6 +92,12 @@ class Issuer extends ApiFetchedActiveRecord
         ]);
     }
 
+    public function hide(): void
+    {
+        $this->isVisible = false;
+        $this->save();
+    }
+
     public function updateName(
         string $name,
     ): self {
