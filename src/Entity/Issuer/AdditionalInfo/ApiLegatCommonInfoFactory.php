@@ -20,9 +20,6 @@ class ApiLegatCommonInfoFactory
         if ($issuer->name === null) {
             $issuer->name = $commonIssuerInfoDto->detailsDto->shortIssuerName;
         }
-        if ($issuer->_legalStatus === null) {
-            $issuer->updateLegalStatus(IssuerLegalStatus::from($commonIssuerInfoDto->detailsDto->egrStatus));
-        }
 
         $site = $commonIssuerInfoDto->directorInfo?->site
             ? str_replace(' ', '', $commonIssuerInfoDto->directorInfo?->site)
