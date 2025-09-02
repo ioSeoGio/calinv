@@ -1,11 +1,11 @@
 CRON_TZ=+3
-*/5 10-16 * * 1-5 /usr/local/bin/php /var/www/html/yii cron-share/update-bcse
-*/20 9-17 * * 1-5 /usr/local/bin/php /var/www/html/yii cron-share/update-central-depo
-30 * * * * /usr/local/bin/php /var/www/html/yii cron-egr/type-of-activity
-35 * * * * /usr/local/bin/php /var/www/html/yii cron-egr/legal-status
-40 * * * * /usr/local/bin/php /var/www/html/yii cron-egr/issuer-event
-52 15 * * 1-5 /usr/local/bin/php /var/www/html/yii telegram-sender/trading-day
-15 0 * * * /usr/local/bin/php /var/www/html/yii cron-cleanup/remove
-25 0 * * * /usr/local/bin/php /var/www/html/yii cron-cleanup/hide
+*/5 10-16 * * 1-5 /usr/local/bin/php /var/www/html/yii cron-share/update-bcse >> /var/log/cron.log 2>&1
+*/20 9-17 * * 1-5 /usr/local/bin/php /var/www/html/yii cron-share/update-central-depo >> /var/log/cron.log 2>&1
+30 * * * * /usr/local/bin/php /var/www/html/yii cron-egr/type-of-activity >> /var/log/cron.log 2>&1
+35 * * * * /usr/local/bin/php /var/www/html/yii cron-egr/legal-status >> /var/log/cron.log 2>&1
+40 * * * * /usr/local/bin/php /var/www/html/yii cron-egr/issuer-event >> /var/log/cron.log 2>&1
+52 15 * * 1-5 /usr/local/bin/php /var/www/html/yii telegram-sender/trading-day >> /var/log/cron.log 2>&1
+15 0 * * * /usr/local/bin/php /var/www/html/yii cron-cleanup/remove >> /var/log/cron.log 2>&1
+25 0 * * * /usr/local/bin/php /var/www/html/yii cron-cleanup/hide >> /var/log/cron.log 2>&1
 
-47 11 * * 1-5 /usr/local/bin/php /var/www/html/yii telegram-sender/trading-day
+55 11 * * 1-5 /usr/local/bin/php /var/www/html/yii telegram-sender/trading-day >> /var/log/cron.log 2>&1

@@ -21,4 +21,4 @@ RUN mkdir -p /var/www/html/log && chmod -R 777 /var/www/html/log
 RUN chmod 0644 /etc/cron.d/yii-cron
 RUN crontab /etc/cron.d/yii-cron
 
-CMD cron -f
+CMD ["/bin/bash", "-c", "cron && tail -f /var/log/cron.log"]
