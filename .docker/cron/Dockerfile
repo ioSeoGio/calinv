@@ -16,6 +16,7 @@ RUN php composer-setup.php --install-dir=/usr/local/bin --filename=composer
 
 WORKDIR /var/www/html
 
+RUN mkfifo --mode 0666 /var/log/cron.log
 COPY .docker/cron/crontab /etc/cron.d/yii-cron
 RUN mkdir -p /var/www/html/log && chmod -R 777 /var/www/html/log
 RUN chmod 0644 /etc/cron.d/yii-cron

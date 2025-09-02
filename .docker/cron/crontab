@@ -8,4 +8,4 @@ CRON_TZ=+3
 15 0 * * * /usr/local/bin/php /var/www/html/yii cron-cleanup/remove >> /var/log/cron.log 2>&1
 25 0 * * * /usr/local/bin/php /var/www/html/yii cron-cleanup/hide >> /var/log/cron.log 2>&1
 
-55 11 * * 1-5 /usr/local/bin/php /var/www/html/yii telegram-sender/trading-day >> /var/log/cron.log 2>&1
+58 11 * * 1-5 /usr/local/bin/php /var/www/html/yii telegram-sender/trading-day >> /var/log/cron.log 2>&1
