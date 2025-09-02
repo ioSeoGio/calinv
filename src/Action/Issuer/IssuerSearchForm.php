@@ -12,13 +12,11 @@ class IssuerSearchForm extends Model
 {
     public string $name = '';
     public string $_pid = '';
-    public bool $onlyWithoutReports = false;
 
     public function rules(): array
     {
         return [
             [['name', '_pid'], 'string'],
-            [['onlyWithoutReports'], 'boolean'],
         ];
     }
 
@@ -48,16 +46,6 @@ class IssuerSearchForm extends Model
 //                Issuer::tableName() . '._dateShareInfoModerated' => SORT_DESC
 //            ]);
 
-        if ($this->onlyWithoutReports) {
-            // Добавляем LEFT JOIN для таблиц отчетов и проверяем, что они пусты
-            $query->leftJoin('accountBalanceReports', 'accountBalanceReports.issuer_id = ' . Issuer::tableName() . '.id')
-                ->leftJoin('profitLossReports', 'profitLossReports.issuer_id = ' . Issuer::tableName() . '.id')
-                ->leftJoin('cashFlowReports', 'cashFlowReports.issuer_id = ' . Issuer::tableName() . '.id')
-                ->andWhere(['accountBalanceReports.id' => null])
-                ->andWhere(['profitLossReports.id' => null])
-                ->andWhere(['cashFlowReports.id' => null]);
-        }
-
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);
@@ -69,10 +57,6 @@ class IssuerSearchForm extends Model
 
         if (!Yii::$app->user->can(UserRole::admin->value)) {
             $query->andWhere([Issuer::tableName() . '."isVisible"' => true]);
-        }
-
-        if ($this->onlyWithoutReports) {
-            $query->andWhere([Issuer::tableName() . '._pid' => $this->_pid]);
         }
 
         $query->andFilterWhere(['ilike', 'name', $this->name])
