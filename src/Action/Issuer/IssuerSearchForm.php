@@ -67,6 +67,10 @@ class IssuerSearchForm extends Model
             return $dataProvider;
         }
 
+        if (!Yii::$app->user->can(UserRole::admin->value)) {
+            $query->andWhere([Issuer::tableName() . '."isVisible"' => true]);
+        }
+
         if ($this->onlyWithoutReports) {
             $query->andWhere([Issuer::tableName() . '._pid' => $this->_pid]);
         }
