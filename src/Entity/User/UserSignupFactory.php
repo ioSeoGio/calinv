@@ -13,6 +13,8 @@ class UserSignupFactory
 		$user = new User();
 		$user->username = $signupForm->username;
 		$user->email = $signupForm->email;
+        $user->isPortfolioVisible = true;
+        $user->isPortfolioPublic = true;
 		$user->setPassword($signupForm->password);
 		$user->generateAuthKey();
 
