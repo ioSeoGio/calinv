@@ -24,7 +24,7 @@ class CronShareController extends Controller
 
     public function actionUpdateCentralDepo(): int
     {
-        $issuers = Issuer::findVisible();
+        $issuers = Issuer::findWithPid();
 
         Yii::info('[CRON][CENTRALDEPO] Обновление акций отображаемых эмитентов и цен акций');
         echo '[CRON][CENTRALDEPO] Обновление акций отображаемых эмитентов и цен акций, кол-во: ' . $issuers->count() . PHP_EOL;
@@ -48,7 +48,7 @@ class CronShareController extends Controller
 
     public function actionUpdateBcse(): int
     {
-        $issuers = Issuer::findVisible();
+        $issuers = Issuer::findWithPid();
 
         Yii::info('[CRON][BCSE] Обновление акций отображаемых эмитентов и цен акций');
         echo '[CRON][BCSE] Обновление акций отображаемых эмитентов и цен акций, кол-во: ' . $issuers->count() . PHP_EOL;
