@@ -2,7 +2,9 @@
 namespace app\controllers;
 
 use src\Action\Profile\ProfileForm;
+use src\Entity\User\User;
 use Yii;
+use yii\web\BadRequestHttpException;
 use yii\web\Controller;
 use yii\web\Response;
 
@@ -49,4 +51,29 @@ class ProfileController extends Controller
 			'model' => $profileForm,
 		]);
 	}
+
+    public function actionToggleVisibility(): array
+    {
+        if (!Yii::$app->request->isAjax) {
+            throw new BadRequestHttpException("Only ajax requests are allowed");
+        }
+
+        Yii::$app->response->format = Response::FORMAT_JSON;
+        $user = Yii::$app->user->identity;
+
+        $visible = Yii::$app->request->post('visible', false);
+        $user->isPortfolioPublic = $visible;
+
+        if ($user->save()) {
+            return [
+                'success' => true,
+                'message' => 'Статус портфеля успешно обновлен.',
+            ];
+        }
+
+        return [
+            'success' => false,
+            'message' => 'Ошибка при сохранении настроек портфеля.',
+        ];
+    }
 }

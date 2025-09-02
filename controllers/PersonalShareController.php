@@ -75,7 +75,17 @@ class PersonalShareController extends BaseController
 
     public function actionIndex(?int $userId = null): string
     {
-        $user = $userId !== null ? User::getOneById($userId) : Yii::$app->user->identity;
+        $user = $userId !== null
+            ? User::getOneById($userId)
+            : Yii::$app->user->identity;
+
+        if (
+            !Yii::$app->user->can(UserRole::admin->value)
+            && (!$user->isPortfolioVisible || !$user->isPortfolioPublic)
+            && $userId !== Yii::$app->user->id
+        ) {
+            throw new ForbiddenHttpException();
+        }
 
         $sharesSearchForm = new PersonalShareSearchForm();
         $sharesDataProvider = $sharesSearchForm->search($user, Yii::$app->request->queryParams);

@@ -27,6 +27,7 @@ class PortfolioSearch extends Model
 
         if (!Yii::$app->user->can(UserRole::admin->value)) {
             $query->andWhere(['isPortfolioVisible' => true]);
+            $query->andWhere(['isPortfolioPublic' => true]);
         }
 
         $dataProvider = new ActiveDataProvider([

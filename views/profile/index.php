@@ -1,13 +1,48 @@
 <?php
 
+use app\assets\AppAsset;
 use lib\FrontendHelper\DetailViewCopyHelper;
 use yii\helpers\Html;
+use yii\helpers\Url;
 
 /** @var \src\Entity\User\User $model */
 
 $this->title = 'Профиль';
 $this->params['breadcrumbs'][] = $this->title;
-?>
+
+$this->registerJs("var csrfParam = '" . Html::encode(Yii::$app->request->csrfParam) . "';");
+$this->registerJs("var csrfToken = '" . Html::encode(Yii::$app->request->csrfToken) . "';");
+$this->registerJs("var togglePortfolioUrl = '" . Html::encode(Url::to(['/profile/toggle-visibility'])) . "';");
+
+$this->registerJs(<<<JS
+$(document).ready(function() {
+    $('#portfolio-toggle').on('change', function() {
+        const isVisible = $(this).is(':checked');
+        var data = {};
+        data[csrfParam] = csrfToken;
+        data.visible = isVisible;
+        $.ajax({
+            url: togglePortfolioUrl,
+            type: 'POST',
+            data: data,
+            success: function(response) {
+                if (response.success) {
+                    flashMessage('success', 'Портфель ' + (isVisible ? 'показан' : 'скрыт') + '!');
+                    $("#portfolio-toggle-text").text('Портфель ' + (isVisible ? 'показан' : 'скрыт'));
+                } else {
+                    flashMessage('error', 'Ошибка при обновлении статуса портфеля.');
+                    $('#portfolio-toggle').prop('checked', !isVisible); // Revert toggle on error
+                }
+            },
+            error: function() {
+                flashMessage('error', 'Ошибка соединения с сервером.');
+                $('#portfolio-toggle').prop('checked', !isVisible); // Revert toggle on error
+            }
+        });
+    });
+});
+JS
+); ?>
 
 <div class="site-profile">
     <div class="container">
@@ -32,8 +67,18 @@ $this->params['breadcrumbs'][] = $this->title;
                             <dt class="col-sm-4">Дата регистрации:</dt>
                             <dd class="col-sm-8">
                                 <?= DetailViewCopyHelper::renderValueColored(
-                                    Yii::$app->formatter->asDate($model->created_at, 'long')
+                                        Yii::$app->formatter->asDate($model->created_at, 'long')
                                 ) ?>
+                            </dd>
+                            <dt class="col-sm-4">Показать портфель:</dt>
+                            <dd class="col-sm-8">
+                                <div class="form-check form-switch">
+                                    <input class="form-check-input" type="checkbox" id="portfolio-toggle"
+                                            <?= $model->isPortfolioPublic ? 'checked' : '' ?>>
+                                    <label id="portfolio-toggle-text" class="form-check-label" for="portfolio-toggle">
+                                        <?= $model->isPortfolioPublic ? 'Портфель виден' : 'Портфель скрыт' ?>
+                                    </label>
+                                </div>
                             </dd>
                         </dl>
                     </div>

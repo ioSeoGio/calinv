@@ -5,7 +5,6 @@ function flashMessage(type, msg)
     var printFlash = true;
 
     if (printFlash) {
-
         let classes = "alert";
 
         switch(type) {

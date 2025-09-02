@@ -13,10 +13,6 @@ class FlashMessagesWidget extends Widget
     {
         $flashes = Yii::$app->session->getAllFlashes();
 
-        if (empty($flashes)) {
-            return false;
-        }
-
         $htmlMessages = '';
         foreach ($flashes as $type => $flash) {
             $messages = is_array($flash) ? $flash : [$flash];
