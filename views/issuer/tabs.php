@@ -14,8 +14,8 @@ $url = Url::current();
             'url' => ['/issuer/index'],
             'active' =>
                 str_contains($url, '/issuer/index')
-                || $url === '/issuer'
-                || $url === '/'
+                || str_ends_with($url, '/issuer')
+                || str_ends_with($url, '/')
                 || str_contains($url, '/issuer?'),
         ],
         [
