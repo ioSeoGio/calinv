@@ -59,6 +59,7 @@ class ApiIssuerInfoAndSharesFactory
                 fullAddress: $dto->address,
                 phoneNumbers: $dto->phone,
             );
+            $issuer->save();
             $addressInfo->save();
 
             foreach ($dto->shareDtos as $shareDto) {
