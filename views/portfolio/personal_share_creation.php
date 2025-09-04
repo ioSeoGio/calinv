@@ -83,7 +83,7 @@ $form = ActiveForm::begin([
         </td>
         <td>
             <div class="mx-auto d-flex justify-content-center">
-                <button class="btn btn-primary" type="submit">Сохранить</button>
+                <button class="btn btn-primary" type="submit">Добавить в портфель</button>
             </div>
         </td>
     </tr>

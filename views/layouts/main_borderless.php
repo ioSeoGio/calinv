@@ -7,6 +7,7 @@
 use app\assets\AppAsset;
 use app\widgets\FlashMessagesWidget;
 use app\widgets\YandexMetricsWidget;
+use lib\MetaTag\MetaTagManager;
 use yii\bootstrap5\Breadcrumbs;
 use yii\bootstrap5\Html;
 
@@ -15,8 +16,8 @@ AppAsset::register($this);
 $this->registerCsrfMetaTags();
 $this->registerMetaTag(['charset' => Yii::$app->charset], 'charset');
 $this->registerMetaTag(['name' => 'viewport', 'content' => 'width=device-width, initial-scale=1, shrink-to-fit=no']);
-$this->registerMetaTag(['name' => 'description', 'content' => Yii::$app->params['meta_description'] ?? '']);
-$this->registerMetaTag(['name' => 'keywords', 'content' => Yii::$app->params['meta_keywords'] ?? '']);
+MetaTagManager::registerDescriptionTag($this);
+MetaTagManager::registerKeywordsTag($this);
 $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii::getAlias('@web/favicon.ico')]);
 
 $darkThemeEnabled = Yii::$app->request->cookies->getValue('darkTheme', true);

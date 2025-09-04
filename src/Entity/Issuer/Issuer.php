@@ -8,7 +8,6 @@ use src\Entity\Issuer\AdditionalInfo\IssuerAdditionalInfo;
 use src\Entity\Issuer\AdditionalInfo\IssuerLiquidationInfo;
 use src\Entity\Issuer\AddressInfo\AddressInfo;
 use src\Entity\Issuer\BusinessReputationRating\BusinessReputationInfo;
-use src\Entity\Issuer\CreditRating\CreditRating;
 use src\Entity\Issuer\CreditRating\CreditRatingInfo;
 use src\Entity\Issuer\EmployeeAmount\EmployeeAmountRecord;
 use src\Entity\Issuer\EsgRating\EsgRatingInfo;
@@ -16,11 +15,9 @@ use src\Entity\Issuer\FinanceReport\AccountingBalance\AccountingBalance;
 use src\Entity\Issuer\FinanceReport\AvailableFinancialReportData;
 use src\Entity\Issuer\FinanceReport\CashFlowReport\CashFlowReport;
 use src\Entity\Issuer\FinanceReport\ProfitLossReport\ProfitLossReport;
-use src\Entity\Issuer\TypeOfActivity\TypeOfActivity;
 use src\Entity\Issuer\UnreliableSupplier\UnreliableSupplier;
 use src\Entity\Share\Share;
 use src\Integration\Egr\TypeOfActivity\EgrTypeOfActivityDto;
-use src\Integration\Legat\Dto\CommonIssuerInfo\LiquidationDto;
 use yii\db\ActiveQuery;
 use yii\web\NotFoundHttpException;
 
@@ -234,11 +231,6 @@ class Issuer extends ApiFetchedActiveRecord
     {
         return $this->hasMany(CashFlowReport::class, ['issuer_id' => 'id'])
             ->addOrderBy(['_year' => SORT_DESC]);
-    }
-
-    public function getTypeOfActivity(): ActiveQuery
-    {
-        return $this->hasOne(TypeOfActivity::class, ['_pid' => '_pid']);
     }
 
     public function getAddressInfo(): ActiveQuery

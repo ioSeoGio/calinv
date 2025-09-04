@@ -11,6 +11,7 @@
 use app\widgets\EditableHtmlAreaWidget;
 use lib\FrontendHelper\DetailViewCopyHelper;
 use lib\FrontendHelper\NullableValue;
+use lib\MetaTag\MetaTagManager;
 use src\Action\Issuer\Event\IssuerEventSearchForm;
 use src\Entity\Issuer\AdditionalInfo\IssuerLiquidationInfo;
 use src\Entity\Issuer\EmployeeAmount\EmployeeAmountRecord;
@@ -25,10 +26,21 @@ use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use yii\widgets\DetailView;
 
+MetaTagManager::registerDescriptionTag($this, "УНП $model->_pid");
+MetaTagManager::registerKeywordsTag($this, [
+    $model->name,
+    $model->_pid,
+    $model->addressInfo?->fullAddress,
+    $model->addressInfo?->site,
+    $model->typeOfActivityCode,
+    $model->typeOfActivity,
+    $model->addressInfo?->phones,
+]);
+
 $this->params['breadcrumbs.homeLink'] = false;
 $this->params['breadcrumbs'][] = ['label' => 'Эмитенты', 'url' => ['issuer/index']];
 $this->params['breadcrumbs'][] = $model->name;
-$this->title = $model->name;
+$this->title = "$model->name УНП $model->_pid";
 ?>
 
 <?= $this->render('@views/_parts/issuer_tabs', [

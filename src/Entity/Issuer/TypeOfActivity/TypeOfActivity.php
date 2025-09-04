@@ -22,6 +22,7 @@ use yii\db\ActiveQuery;
  *
  * @property string $code ОКЭД
  * @property string $name название вида деятельности
+ * @deprecated
  */
 class TypeOfActivity extends ApiFetchedActiveRecord
 {
