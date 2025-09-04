@@ -17,9 +17,9 @@ class CoefficientController extends BaseController
         parent::__construct($id, $module, $config);
     }
 
-    public function actionView(int $issuerId): string
+    public function actionView(?int $issuerId = null, ?string $unp = null): string
     {
-        $issuer = Issuer::getOneById($issuerId);
+        $issuer = $unp ? Issuer::getOneByPid($unp) : Issuer::getOneById($issuerId);
 
         return $this->render('view', [
             'model' => $issuer

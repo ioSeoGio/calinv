@@ -32,7 +32,7 @@ $this->title = isset(Yii::$app->request->get('ShareSearchForm')['issuerId']) ? '
         'attribute' => 'issuer.name',
         'format' => 'raw',
         'value' => function (Share $model) {
-            return Html::a($model->issuer->name, ['/issuer/view', 'id' => $model->issuer->id]);
+            return Html::a($model->issuer->name, ['/issuer/view', 'unp' => $model->issuer->_pid]);
         },
         'filter' => Html::activeDropDownList(
             $shareSearchForm,

@@ -85,9 +85,9 @@ class AccountingBalanceController extends BaseController
         return $this->redirect(['index', 'issuerId' => $issuerId]);
     }
 
-    public function actionIndex(int $issuerId, ?int $year = null): string
+    public function actionIndex(?int $issuerId = null, ?string $unp = null, ?int $year = null): string
     {
-        $issuer = Issuer::getOneById($issuerId);
+        $issuer = $unp ? Issuer::getOneByPid($unp) : Issuer::getOneById($issuerId);
 
         $searchForm = new AccountingBalanceSearchForm();
         $dataProvider = $searchForm->search($issuer, Yii::$app->request->queryParams);

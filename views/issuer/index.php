@@ -55,7 +55,7 @@ $this->title = 'Эмитенты РБ';
                 'format' => 'raw',
                 'value' => function (Issuer $model) {
                     $result = ToggleVisibilityIconPrinter::print($model);
-                    $result .= Html::a($model->name, ['/issuer/view', 'id' => $model->id]);
+                    $result .= Html::a($model->name, ['/issuer/view', 'unp' => $model->_pid]);
 
                     return $result;
                 }
@@ -142,11 +142,16 @@ $this->title = 'Эмитенты РБ';
             [
                 'class' => GuardedActionColumn::class,
                 'buttonsConfig' => [
-                    'view',
+                    'view' => [
+                        'icon' => 'bi bi-eye',
+                        'url' => function (Issuer $model) {
+                            return Url::to(['/issuer/view', 'unp' => $model->_pid]);
+                        },
+                    ],
                     'coefficient' => [
                         'icon' => 'bi bi-percent',
                         'url' => function (Issuer $model) {
-                            return Url::to(['/coefficient/view', 'issuerId' => $model->id]);
+                            return Url::to(['/coefficient/view', 'unp' => $model->_pid]);
                         },
                         'options' => [
                             'title' => 'Коэффициенты',
@@ -155,7 +160,7 @@ $this->title = 'Эмитенты РБ';
                     'accounting-balance' => [
                         'icon' => 'bi bi-file-earmark-text',
                         'url' => function (Issuer $model) {
-                            return Url::to(['/accounting-balance/index', 'issuerId' => $model->id]);
+                            return Url::to(['/accounting-balance/index', 'unp' => $model->_pid]);
                         },
                         'options' => [
                             'title' => 'Бухгалтерский баланс',
@@ -164,7 +169,7 @@ $this->title = 'Эмитенты РБ';
                     'profit-loss-report' => [
                         'icon' => 'bi bi-file-text',
                         'url' => function (Issuer $model) {
-                            return Url::to(['/profit-loss-report/index', 'issuerId' => $model->id]);
+                            return Url::to(['/profit-loss-report/index', 'unp' => $model->_pid]);
                         },
                         'options' => [
                             'title' => 'Отчет о прибылях и убытках',
@@ -173,7 +178,7 @@ $this->title = 'Эмитенты РБ';
                     'cash-flow-report' => [
                         'icon' => 'bi bi-file-earmark-break',
                         'url' => function (Issuer $model) {
-                            return Url::to(['/cash-flow-report/index', 'issuerId' => $model->id]);
+                            return Url::to(['/cash-flow-report/index', 'unp' => $model->_pid]);
                         },
                         'options' => [
                             'title' => 'Отчет о движении денежных средств',

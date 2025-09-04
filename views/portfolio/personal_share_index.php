@@ -46,7 +46,7 @@ $queryParamUserId = Yii::$app->request->queryParams['userId'] ?? null;
             'format' => 'raw',
             'value' => function (PersonalShare $personalShare) {
                 $issuer = $personalShare->share->issuer;
-                return Html::a($issuer->name, Url::to(['/issuer/view', 'id' => $issuer->id]))
+                return Html::a($issuer->name, Url::to(['/issuer/view', 'unp' => $issuer->_pid]))
                     . ' - '
                     . $personalShare->share->getFormattedName();
             },

@@ -105,7 +105,7 @@ class IssuerController extends BaseController
         $issuer->isVisible = !$issuer->isVisible;
         $issuer->save();
 
-        return $this->redirect(Yii::$app->request->referrer ?: ['/issuer/view', 'id' => $id]);
+        return $this->redirect(Yii::$app->request->referrer ?: ['/issuer/view', 'unp' => $issuer->_pid]);
     }
 
     public function actionRenewEmployeeAmount($id): Response
@@ -114,7 +114,7 @@ class IssuerController extends BaseController
         $dto = $this->employeeAmountFetcher->getEmployeeAmount($issuer->pid);
         $this->employeeAmountRecordFactory->createMany($issuer, $dto);
 
-        return $this->redirect(['issuer/view', 'id' => $issuer->id]);
+        return $this->redirect(['issuer/view', 'unp' => $issuer->_pid]);
     }
 
     public function actionRenewLegatIssuerInfo($id): Response
@@ -124,13 +124,13 @@ class IssuerController extends BaseController
         $dto = $this->commonIssuerInfoFetcher->getCommonInfo($issuer->getPid());
         $this->apiLegatCommonInfoFactory->update($issuer, $dto);
 
-        return $this->redirect(['issuer/view', 'id' => $issuer->id]);
+        return $this->redirect(['issuer/view', 'unp' => $issuer->_pid]);
     }
 
 
-    public function actionView($id): string
+    public function actionView(?int $id = null, ?string $unp = null): string
     {
-        $issuer = Issuer::getOneById($id);
+        $issuer = $unp ? Issuer::getOneByPid($unp) : Issuer::getOneById($id);
 
         $searchForm = new IssuerEventSearchForm();
         $eventDataProvider = $searchForm->search($issuer, Yii::$app->request->queryParams);
@@ -155,14 +155,15 @@ class IssuerController extends BaseController
         $issuer = Issuer::getOneById($id);
         $this->bulkIssuerEventFactory->update($issuer->pid);
 
-        return $this->redirect(['issuer/view', 'id' => $issuer->id]);
+        return $this->redirect(['issuer/view', 'unp' => $issuer->_pid]);
     }
 
     public function actionRenewTypeOfActivity($id): Response
     {
-        $this->apiTypeOfActivityFactory->createOrUpdate(Issuer::getOneById($id));
+        $issuer = Issuer::getOneById($id);
+        $this->apiTypeOfActivityFactory->createOrUpdate($issuer);
 
-        return $this->redirect(['issuer/view', 'id' => $id]);
+        return $this->redirect(['issuer/view', 'unp' => $issuer->_pid]);
     }
 
     public function actionCreate(): Response
@@ -179,7 +180,7 @@ class IssuerController extends BaseController
                 throw new BadRequestHttpException("Неверный запрос на заполнение.");
             }
 
-            return $this->redirect(['issuer/view', 'id' => $issuer->id]);
+            return $this->redirect(['issuer/view', 'unp' => $issuer->_pid]);
         }
 
         return $this->redirect(['index']);
@@ -195,12 +196,12 @@ class IssuerController extends BaseController
             $issuer->description = $form->description;
             $issuer->save();
 
-            return $this->redirect(['issuer/view', 'id' => $issuer->id]);
+            return $this->redirect(['issuer/view', 'unp' => $issuer->_pid]);
         }
 
         Yii::$app->session->addFlash('error', 'Ошибка при сохранении описания.');
 
-        return $this->redirect(['issuer/view', 'id' => $issuer->id]);
+        return $this->redirect(['issuer/view', 'unp' => $issuer->_pid]);
     }
 
     public function actionUpdateIssuerInfo($id): Response
@@ -208,7 +209,7 @@ class IssuerController extends BaseController
         $issuer = Issuer::getOneById($id);
         $this->apiIssuerInfoAndSharesFactory->update($issuer);
 
-        return $this->redirect(['view', 'id' => $issuer->id]);
+        return $this->redirect(['view', 'unp' => $issuer->_pid]);
     }
 
     public function actionValidate(): array

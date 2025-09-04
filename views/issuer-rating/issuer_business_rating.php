@@ -55,7 +55,7 @@ if (Yii::$app->user->can(UserRole::admin->value)) {
                     }
 
                     return $model->issuer
-                        ? Html::a($model->issuer->name, Url::to(['issuer/view', 'id' => $model->issuer->id]))
+                        ? Html::a($model->issuer->name, Url::to(['issuer/view', 'unp' => $model->issuer->_pid]))
                         : \lib\FrontendHelper\NullableValue::printNull();
                 },
                 'options' => ['style' => 'min-width: 200px'],

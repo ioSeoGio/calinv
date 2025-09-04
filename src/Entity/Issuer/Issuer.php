@@ -22,6 +22,7 @@ use src\Entity\Share\Share;
 use src\Integration\Egr\TypeOfActivity\EgrTypeOfActivityDto;
 use src\Integration\Legat\Dto\CommonIssuerInfo\LiquidationDto;
 use yii\db\ActiveQuery;
+use yii\web\NotFoundHttpException;
 
 /**
  * @inheritDoc
@@ -168,6 +169,17 @@ class Issuer extends ApiFetchedActiveRecord
             $isEquals = is_array($value) ? $state->equalsString($value['value']) : $value->equals($value);
             return $isEquals === false;
         });
+    }
+
+    public static function getOneByPid(string $pid): static
+    {
+        $result = static::getOneByCriteria(['_pid' => $pid]);
+
+        if ($result === null) {
+            throw new NotFoundHttpException("Запись с УНП {$pid} не найдена.");
+        }
+
+        return $result;
     }
 
     public static function findByPid(PayerIdentificationNumber $pid): ?Issuer
