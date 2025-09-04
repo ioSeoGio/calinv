@@ -34,13 +34,35 @@ class CentralDepoIssuerAndShareInfoFetcher
         ]);
         $dom = new HtmlDocument($response->getContent());
 
-        $generalInfoTables = $dom->find('.table-color tbody');
-        $sections = $dom->find('.table-container');
-
         /** @var HtmlNode $generalInfoTable */
-        $generalInfoTable = $generalInfoTables[0] ?? null;
-        $sharesSection = null;
+        $issuerBlocks = $dom->find('.table_open_div');
 
+        if ($issuerBlocks === null) {
+            throw new ApiNotFoundException("Не найден эмитент с УНП $pid->id");
+        }
+
+        foreach ($issuerBlocks as $key => $block) {
+            $generalInfoTables = $block->find('.table-color tbody');
+            foreach ($generalInfoTables as $table) {
+                if ($pid->id !== $table->childNodes(3)->childNodes(1)->innertext()) {
+                    unset($issuerBlocks[$key]);
+                }
+            }
+        }
+
+        if (count($issuerBlocks) > 1 ) {
+            throw new ApiSimpleBadResponseException("Для эмитента с УНП $pid->id api ответило невалидными данными");
+        }
+
+        $issuerBlock = reset($issuerBlocks);
+
+        $generalInfoTables = $issuerBlock->find('.table-color tbody');
+        if (count($generalInfoTables) > 1 ) {
+            throw new ApiSimpleBadResponseException("Для эмитента с УНП $pid->id api ответило невалидными данными");
+        }
+
+        $generalInfoTable = reset($generalInfoTables);
+        $sections = $issuerBlock->find('.table-container');
         /** @var HtmlNode $section */
         foreach ($sections as $section) {
             $header = $section->parentNode()->find('h2.sub-header')[0];
@@ -49,16 +71,9 @@ class CentralDepoIssuerAndShareInfoFetcher
             }
         }
 
-        if ($generalInfoTable === null) {
-            throw new ApiNotFoundException("Не найден эмитент с УНП $pid->id");
-        }
-        if (count($generalInfoTables) > 1 ) {
-            throw new ApiSimpleBadResponseException("Для эмитента с УНП $pid->id api ответило невалидными данными");
-        }
-
         $shareDtos = [];
         /** @var HtmlNode $shareRow */
-        foreach ($sharesSection?->childNodes() ?: [] as $shareRow) {
+        foreach ($sharesSection?->childNodes() ?? [] as $shareRow) {
             $shareDtos[] = new ShareInfoDto(
                 nationalId: $shareRow->childNodes(0)->innertext(),
                 orderedIssueId: $shareRow->childNodes(4)->innertext(),
