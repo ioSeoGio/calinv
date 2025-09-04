@@ -83,7 +83,7 @@ $this->title = 'Графики портфеля пользователя ' . Htm
             'data' => $data,
             'title' => 'Доли прибыли в портфеле по акциям в рублях. Убыточные в графике не отображаются <br>Всего '
                     . TotalUserProfitLoader::load($user->id)
-                    . ' р. прибыли',
+                    . ' прибыли',
             'pointFormat' => '
                 <span style="color:{point.color}"></span> <b>{point.name}</b><br/>Прибыль: <b>{point.y} р.</b><br/>
             ',

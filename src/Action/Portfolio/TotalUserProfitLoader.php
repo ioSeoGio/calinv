@@ -4,7 +4,6 @@ namespace src\Action\Portfolio;
 
 use lib\FrontendHelper\SimpleNumberFormatter;
 use src\Entity\PersonalShare\PersonalShare;
-use src\Entity\User\User;
 
 class TotalUserProfitLoader
 {
@@ -18,6 +17,6 @@ class TotalUserProfitLoader
             ->asArray()
             ->column();
 
-        return SimpleNumberFormatter::toView($r[0]) . ' р.' ?? 'Неизвестно';
+        return SimpleNumberFormatter::toView($r[0] ?? 0) . ' р.' ?? 'Неизвестно';
     }
 }
