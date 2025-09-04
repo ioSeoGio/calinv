@@ -195,6 +195,11 @@ class Issuer extends ApiFetchedActiveRecord
         return $this->hasMany(Share::class, ['issuer_id' => 'id']);
     }
 
+    public function hasShares(): bool
+    {
+        return $this->hasMany(Share::class, ['issuer_id' => 'id'])->count() > 0;
+    }
+
     public function getActiveShares(): ActiveQuery
     {
         return $this->hasMany(Share::class, ['issuer_id' => 'id'])

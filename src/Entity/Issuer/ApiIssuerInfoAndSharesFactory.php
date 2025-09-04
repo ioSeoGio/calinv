@@ -49,6 +49,8 @@ class ApiIssuerInfoAndSharesFactory
 
     public function update(Issuer $issuer): void
     {
+        $sharesWereOk = $issuer->hasShares() && !$issuer->hasState(IssuerFullnessState::sharesWithException);
+
         try {
             $dto = $this->centralDepoIssuerAndShareInfoFetcher->get($issuer->pid);
             $issuer->updateName(name: $dto->shortName);
@@ -65,8 +67,10 @@ class ApiIssuerInfoAndSharesFactory
         } catch (\Throwable $e) {
             ApplicationLogger::log($e);
 
-            $issuer->addFullnessState(IssuerFullnessState::sharesWithException);
-            $issuer->save();
+            if (!$sharesWereOk) {
+                $issuer->addFullnessState(IssuerFullnessState::sharesWithException);
+                $issuer->save();
+            }
 
 //            return;
             throw $e;
