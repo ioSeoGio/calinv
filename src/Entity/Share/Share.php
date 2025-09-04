@@ -37,6 +37,8 @@ use yii\db\ActiveQuery;
  *
  * @property string $issueDate Дата выпуска
  * @property ?string $closingDate Дата снятия с учета и хранения
+ *
+ * @property ?ShareDealRecord $lastShareDeal
  */
 class Share extends ApiFetchedActiveRecord
 {
@@ -178,6 +180,11 @@ class Share extends ApiFetchedActiveRecord
     public function getShareDeals(): ActiveQuery
     {
         return $this->hasMany(ShareDealRecord::class, ['share_id' => 'id']);
+    }
+
+    public function getLastShareDeal(): ActiveQuery
+    {
+        return $this->hasOne(ShareDealRecord::class, ['share_id' => 'id'])->orderBy(['_date' => SORT_DESC]);
     }
 
     public static function getShareIdsWithDeals(): array

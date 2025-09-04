@@ -10,7 +10,7 @@ class CapitalizationByShareCalculator
     {
         $result = 0;
         foreach ($issuer->activeShares as $share) {
-            $result += $share->totalIssuedAmount * $share->currentPrice;
+            $result += $share->totalIssuedAmount * $share->lastShareDeal?->weightedAveragePrice;
         }
 
         return $result;
