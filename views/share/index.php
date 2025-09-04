@@ -110,7 +110,7 @@ $this->title = isset(Yii::$app->request->get('ShareSearchForm')['issuerId']) ? '
         'value' => function (Share $model) {
             $shareDealsInfoExists = $model->getShareDeals()->count();
 
-            $chart = $shareDealsInfoExists
+            $chart = $shareDealsInfoExists || Yii::$app->user->can(UserRole::admin->value)
                 ? Html::a('График', Url::to(['/share/deal-info', 'id' => $model->id]), ['class' => 'btn btn-primary btn-sm border-bottom'])
                 : '';
 
@@ -122,7 +122,7 @@ $this->title = isset(Yii::$app->request->get('ShareSearchForm')['issuerId']) ? '
                 ? '<br>' . Html::a(
                     'Биржа',
                     BcseUrlHelper::getShareUrl($model),
-                    ['target' => '_blank']
+                    ['target' => '_blank', 'class' => 'btn btn-success btn-sm border-bottom']
                 )
                 : '';
 
