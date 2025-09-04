@@ -10,7 +10,7 @@ class IssuerTaxesDebtIconPrinter
 {
     public static function print(Issuer $issuer): string
     {
-        if (empty($issuer->additionalInfo?->debtFszn) && empty($issuer->additionalInfo?->debtTaxes)) {
+        if (!$issuer->additionalInfo?->hasTaxesDebt()) {
             return '';
         }
 
@@ -19,7 +19,8 @@ class IssuerTaxesDebtIconPrinter
             Icon::print('bi bi-coin'),
             [
                 'class' => 'btn btn-sm btn-outline-danger me-1',
-                'title' => 'Эмитент имел и/или имеет задолженности перед ФСЗН или МНС',
+                'title' => 'Эмитент имел и/или имеет задолженности перед ФСЗН или МНС, последняя задолженность: '
+                    . $issuer->additionalInfo->getLatestDebtDate()->format('Y-m-d'),
             ]
         );
     }

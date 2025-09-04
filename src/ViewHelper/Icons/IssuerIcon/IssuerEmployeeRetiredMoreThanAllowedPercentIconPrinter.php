@@ -26,7 +26,7 @@ class IssuerEmployeeRetiredMoreThanAllowedPercentIconPrinter
             if ($employeeChange < 0) {
                 $retiredPercent = -1 * $employeeChange / $firstRecord->amount * 100;
 
-                if ($retiredPercent >= $allowedRetiredPercent) {
+                if ($retiredPercent >= $allowedRetiredPercent && $employeeChange < -5) {
                     $badSigns[$employeeAmountRecord->year] = $retiredPercent;
                 }
             }

@@ -38,6 +38,9 @@ class IssuerLiquidationInfo extends ApiFetchedActiveRecord
     public function attributeLabels(): array
     {
         return [
+            'liquidatorName' => 'Наименование ликвидатора',
+            'liquidatorAddress' => 'Адрес ликвидатора',
+            'liquidatorPhone' => 'Телефон ликвидатора',
             '_pid' => 'УНП',
             'liquidationDecisionNumber' => 'Номер решения о ликвидации',
             'status' => 'Статус процедуры',

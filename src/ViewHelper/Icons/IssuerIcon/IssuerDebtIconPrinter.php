@@ -19,7 +19,7 @@ class IssuerDebtIconPrinter
             Icon::print('bi bi-cash-coin'),
             [
                 'class' => 'btn btn-sm btn-outline-danger me-1',
-                'title' => 'Эмитент судится/судился как должник',
+                'title' => 'Эмитент судится/судился как должник, кол-во судов: ' . $issuer->additionalInfo->orderlyCourtAmountAsDebtor,
             ]
         );
     }

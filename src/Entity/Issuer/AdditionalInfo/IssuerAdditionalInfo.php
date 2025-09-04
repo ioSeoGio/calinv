@@ -2,11 +2,13 @@
 
 namespace src\Entity\Issuer\AdditionalInfo;
 
+use DateTimeImmutable;
 use lib\Database\ApiFetchedActiveRecord;
 use src\Entity\Issuer\Issuer;
 use src\Integration\Legat\Dto\CommonIssuerInfo\CommonIssuerInfoDto;
 use src\Integration\Legat\Dto\CommonIssuerInfo\RetailFacilityDto;
 use yii\db\ActiveQuery;
+use yii\helpers\ArrayHelper;
 
 /**
  * @inheritDoc
@@ -106,6 +108,29 @@ class IssuerAdditionalInfo extends ApiFetchedActiveRecord
         $self->renewLastApiUpdateDate();
 
         return $self;
+    }
+
+    public function hasTaxesDebt(): bool
+    {
+        return !empty($this->debtFszn) || !empty($this->debtTaxes);
+    }
+
+    public function getLatestDebtDate(): ?DateTimeImmutable
+    {
+        if (!$this->hasTaxesDebt()) {
+            return null;
+        }
+
+        $taxesDebt = array_merge(
+            $this->debtTaxes,
+            ArrayHelper::getColumn($this->debtFszn, 'date')
+        );
+
+        usort($taxesDebt, function ($a, $b) {
+            return strtotime($b) - strtotime($a);
+        });
+
+        return DateTimeImmutable::createFromFormat('Y-m-d', reset($taxesDebt)) ?: null;
     }
 
     public function getIssuer(): ActiveQuery

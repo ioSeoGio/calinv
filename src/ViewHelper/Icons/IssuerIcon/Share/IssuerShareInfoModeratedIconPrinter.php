@@ -27,7 +27,7 @@ class IssuerShareInfoModeratedIconPrinter
             'span',
             Icon::print('bi bi-piggy-bank'),
             [
-                'class' => 'btn btn-sm btn-outline-danger me-1',
+                'class' => 'btn btn-sm btn-outline-secondary me-1',
                 'title' => 'Информация о акциях эмитента не подтверждена модератором, расчеты коэффициентов и капитала могут быть неточными',
             ]
         );
