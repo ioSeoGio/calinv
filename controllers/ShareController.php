@@ -50,6 +50,15 @@ class ShareController extends BaseController
         ];
     }
 
+    public function actionAjaxUpdatePrice(): void
+    {
+        Yii::$app->response->format = Response::FORMAT_JSON;
+
+        $share = Share::getOneById(Yii::$app->request->post('id'));
+        $share->currentPrice = Yii::$app->request->post('price');
+        $share->save();
+    }
+
     public function actionIndex(): string
     {
         $shareSearchForm = new ShareSearchForm();

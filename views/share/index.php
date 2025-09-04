@@ -20,6 +20,27 @@ use yii\helpers\Url;
 /** @var ShareCreateForm $shareCreateForm */
 /** @var bool $showClosingDate */
 
+$script = <<<JS
+    $('.current-price-ajax').on('change', function() {
+        var price = this.value;
+        var id = this.getAttribute('data-id');
+        if (price !== '') {
+            $.ajax({
+                url: '/share/ajax-update-price',
+                type: 'POST',
+                data: { id: id, price: price },
+                success: function(response) {
+                    flashMessage('success', 'Цена изменена');
+                },
+                error: function(xhr, status, error) {
+                    flashMessage('error', 'Ошибка: ' + error);
+                }
+            });
+        }
+    });
+JS;
+$this->registerJs($script);
+
 $this->title = isset(Yii::$app->request->get('ShareSearchForm')['issuerId']) ? 'Акции эмитента' : 'Акции';
 ?>
 <?= $this->render('../_parts/_tabs', []); ?>
@@ -73,8 +94,19 @@ $this->title = isset(Yii::$app->request->get('ShareSearchForm')['issuerId']) ? '
     ],
     [
         'attribute' => 'currentPrice',
-        'format' => 'html',
+        'format' => 'raw',
         'value' => function (Share $model) {
+            if (Yii::$app->user->can(UserRole::admin->value) && ($model->currentPrice === null || !$model->hasShareDeals())) {
+                $html = Html::input('number', 'currentPrice', $model->currentPrice, [
+                    'class' => 'form-control current-price-ajax',
+                    'placeholder' => 'Введите цену',
+                    'style' => 'width: 150px; display: inline-block;',
+                    'data-id' => $model->id,
+                ]);
+
+                return $html;
+            }
+
             $currentPrice = $model->currentPrice
                 ? Badge::neutral($model->currentPrice . ' р.')
                 : NullableValue::printNull();

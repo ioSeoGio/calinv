@@ -53,7 +53,7 @@ class Share extends ApiFetchedActiveRecord
             'name' => 'Имя выпуска',
             'issuer_id' => 'Эмитент',
             'denomination' => 'Номинал',
-            'currentPrice' => 'Текущая цена',
+            'currentPrice' => 'Цена по последней сделке',
             'volumeIssued' => 'Объем выпуска',
             'registerNumber' => 'Регистрационный номер',
             'lastDealDate' => 'Последняя сделка',
@@ -180,6 +180,11 @@ class Share extends ApiFetchedActiveRecord
     public function getShareDeals(): ActiveQuery
     {
         return $this->hasMany(ShareDealRecord::class, ['share_id' => 'id']);
+    }
+
+    public function hasShareDeals(): bool
+    {
+        return $this->getShareDeals()->count() > 0;
     }
 
     public function getLastShareDeal(): ActiveQuery
