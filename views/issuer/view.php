@@ -213,11 +213,11 @@ $this->title = "$model->name УНП $model->_pid";
                     }
 
                     return $result . Html::a("Активные акции ({$model->getActiveShares()->count()})", ['/share', 'ShareSearchForm' => [
-                            'issuerId' =>  $model->id,
+                            'issuerName' =>  $model->name,
                         ]], ['target' => '_blank', 'class' => 'btn btn-primary'])
                         . '<hr>'
                         . Html::a("Все акции ({$model->getShares()->count()})", ['/share/all-shares', 'ShareSearchForm' => [
-                            'issuerId' =>  $model->id,
+                            'issuerName' =>  $model->name,
                         ]], ['target' => '_blank', 'class' => 'btn btn-secondary']);
                 }
             ],

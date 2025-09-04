@@ -81,11 +81,11 @@ $this->title = 'Эмитенты РБ';
                 'format' => 'raw',
                 'value' => function (Issuer $model) {
                     return Html::a("Активные ({$model->getActiveShares()->count()})", ['/share', 'ShareSearchForm' => [
-                            'issuerId' =>  $model->id,
+                            'issuerName' =>  $model->name,
                         ]], ['target' => '_blank', 'class' => 'btn btn-primary'])
                         . '<hr>'
                         . Html::a("Все ({$model->getShares()->count()})", ['/share/all-shares', 'ShareSearchForm' => [
-                            'issuerId' =>  $model->id,
+                            'issuerName' =>  $model->name,
                         ]], ['target' => '_blank', 'class' => 'btn btn-secondary']);
                 },
                 'contentOptions' => ['style' => 'min-width: 140px;'],
