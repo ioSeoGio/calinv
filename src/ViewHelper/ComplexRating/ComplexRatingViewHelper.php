@@ -4,6 +4,7 @@ namespace src\ViewHelper\ComplexRating;
 
 use lib\FrontendHelper\SimpleNumberFormatter;
 use src\Entity\Issuer\Issuer;
+use src\IssuerRatingCalculator\CapitalizationByShareCalculator;
 use src\IssuerRatingCalculator\ComplexRating\ComplexRatingCalculator;
 use src\ViewHelper\Tools\Badge;
 use src\ViewHelper\Tools\ShowMoreContainer;
@@ -12,6 +13,10 @@ class ComplexRatingViewHelper
 {
     public static function render(Issuer $issuer, ?float $capitalization = null, int $max = 5): string
     {
+        if ($capitalization === null && CapitalizationByShareCalculator::calculate($issuer) == 0) {
+            return '';
+        }
+
         $values = ComplexRatingCalculator::calculateMany($issuer, $capitalization);
         $printValues = [];
 
