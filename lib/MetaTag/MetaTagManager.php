@@ -2,11 +2,26 @@
 
 namespace lib\MetaTag;
 
+use src\Entity\Issuer\Issuer;
 use Yii;
 use yii\web\View;
 
 class MetaTagManager
 {
+    public static function registerIssuerTags(View $view, Issuer $issuer): void
+    {
+        MetaTagManager::registerDescriptionTag($view, "УНП $issuer->_pid");
+        MetaTagManager::registerKeywordsTag($view, [
+            $issuer->name,
+            $issuer->_pid,
+            $issuer->addressInfo?->fullAddress,
+            $issuer->addressInfo?->site,
+            $issuer->typeOfActivityCode,
+            $issuer->typeOfActivity,
+            $issuer->addressInfo?->phones,
+        ]);
+    }
+
     public static function registerDescriptionTag(View $view, string $additional = ''): void
     {
         self::registerMetaTag($view, 'description', $additional . ' ' . self::getMetaDescription());

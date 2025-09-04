@@ -7,20 +7,21 @@
 /** @var AccountingBalanceCreateForm $createForm */
 /** @var FinancialReportByApiCreateForm $apiCreateForm */
 
-use lib\FrontendHelper\Icon;
 use lib\FrontendHelper\LinkButtonPrinter;
+use lib\MetaTag\MetaTagManager;
 use src\Action\Issuer\FinancialReport\AccountingBalance\AccountingBalanceCreateForm;
 use src\Action\Issuer\FinancialReport\FinancialReportByApiCreateForm;
 use src\Entity\Issuer\Issuer;
 use src\Entity\User\UserRole;
 use yii\data\ActiveDataProvider;
-use yii\helpers\Html;
 use yii\helpers\Url;
+
+MetaTagManager::registerIssuerTags($this, $model);
 
 $this->params['breadcrumbs.homeLink'] = false;
 $this->params['breadcrumbs'][] = ['label' => 'Эмитенты', 'url' => ['issuer/index']];
 $this->params['breadcrumbs'][] = $model->name;
-$this->title = 'Бухгалтерский баланс ' . $model->name;
+$this->title = 'Бухгалтерский баланс ' . $model->name . " УНП $model->_pid";;
 
 ?>
 

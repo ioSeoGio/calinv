@@ -8,6 +8,7 @@
 /** @var ProfitLossReportCreateForm $createForm */
 
 use lib\FrontendHelper\LinkButtonPrinter;
+use lib\MetaTag\MetaTagManager;
 use src\Action\Issuer\FinancialReport\FinancialReportByApiCreateForm;
 use src\Action\Issuer\FinancialReport\ProfitLossReport\ProfitLossReportCreateForm;
 use src\Entity\Issuer\Issuer;
@@ -15,10 +16,12 @@ use src\Entity\User\UserRole;
 use yii\data\ActiveDataProvider;
 use yii\helpers\Url;
 
+MetaTagManager::registerIssuerTags($this, $model);
+
 $this->params['breadcrumbs.homeLink'] = false;
 $this->params['breadcrumbs'][] = ['label' => 'Эмитенты', 'url' => ['issuer/index']];
 $this->params['breadcrumbs'][] = $model->name;
-$this->title = 'Отчет о прибылях и убытках ' . $model->name;
+$this->title = 'Отчет о прибылях и убытках ' . $model->name . " УНП $model->_pid";
 ?>
 
 <?= $this->render('@views/_parts/issuer_tabs', [

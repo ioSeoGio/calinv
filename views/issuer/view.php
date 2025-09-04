@@ -26,16 +26,7 @@ use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use yii\widgets\DetailView;
 
-MetaTagManager::registerDescriptionTag($this, "УНП $model->_pid");
-MetaTagManager::registerKeywordsTag($this, [
-    $model->name,
-    $model->_pid,
-    $model->addressInfo?->fullAddress,
-    $model->addressInfo?->site,
-    $model->typeOfActivityCode,
-    $model->typeOfActivity,
-    $model->addressInfo?->phones,
-]);
+MetaTagManager::registerIssuerTags($this, $model);
 
 $this->params['breadcrumbs.homeLink'] = false;
 $this->params['breadcrumbs'][] = ['label' => 'Эмитенты', 'url' => ['issuer/index']];
