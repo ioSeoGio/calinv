@@ -33,9 +33,7 @@ $this->title = 'ESG Рейтинг BIK';
 <?php endif; ?>
 
 <?php
-if (Yii::$app->user->can(UserRole::admin->value)) {
-    $issuers = Issuer::find()->all();
-    }
+$issuers = Yii::$app->user->can(UserRole::admin->value) ? Issuer::find()->all() : [];
 ?>
 
 <div class="esg-rating-index">

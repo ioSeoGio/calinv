@@ -75,12 +75,6 @@ if (YII_ENV_PROD) {
         'class' => 'yii\debug\Module',
         'allowedIPs' => ['178.120.54.66'],
     ];
-} else {
-    $config['bootstrap'][] = 'debug';
-    $config['modules']['debug'] = [
-        'class' => 'yii\debug\Module',
-        'allowedIPs' => ['*'],
-    ];
 }
 
 return $config;

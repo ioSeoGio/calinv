@@ -32,9 +32,7 @@ $this->title = 'Рейтинг деловой репутации BIK';
 <?php endif; ?>
 
 <?php
-if (Yii::$app->user->can(UserRole::admin->value)) {
-    $issuers = Issuer::find()->all();
-}
+$issuers = Yii::$app->user->can(UserRole::admin->value) ? Issuer::find()->all() : [];
 ?>
 
 <div class="business-rating-index">
