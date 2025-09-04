@@ -26,7 +26,7 @@ echo Nav::widget([
 
 $items = [];
 if (Yii::$app->user->can(UserRole::admin->value)) {
-    $items[] = ['label' => 'Мой портфель', 'url' => ['/portfolio'], 'active' => Url::current() === '/portfolio'];
+    $items[] = ['label' => 'Мой портфель', 'url' => ['/portfolio'], 'active' => str_ends_with(Url::current(), '/portfolio')];
 }
 $items[] = ['label' => 'Поиск портфелей', 'url' => ['/portfolio/search'], 'active' => str_contains(Url::current(), '/portfolio/search')];
 
