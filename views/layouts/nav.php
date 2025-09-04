@@ -38,7 +38,7 @@ echo Nav::widget([
 $iconsContainer = function (string $icon, string $id): string {
     return Html::tag('div', $icon, [
         'id' => $id,
-        'class' => 'ms-1',
+        'class' => 'ms-2',
         'style' => [
             'color' => 'whitesmoke',
             'display' => 'flex',
@@ -70,8 +70,8 @@ if (Yii::$app->user->can(UserRole::admin->value)) {
 }
 
 $telegram = $iconsContainer(
-    Html::a(Icon::print('bi bi-telegram'), 'https://t.me/+VkMwRJV7LqoyZmYy', ['target' => '_blank']),
-    'telegram-link'
+    Html::a("телеграм " . Icon::print('bi bi-telegram'), 'https://t.me/+VkMwRJV7LqoyZmYy', ['target' => '_blank', 'class' => 'btn btn-sm btn-danger']),
+'logs-link'
 );
 
 $common = ''
