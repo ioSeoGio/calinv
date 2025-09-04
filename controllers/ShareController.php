@@ -55,7 +55,7 @@ class ShareController extends BaseController
         Yii::$app->response->format = Response::FORMAT_JSON;
 
         $share = Share::getOneById(Yii::$app->request->post('id'));
-        $share->currentPrice = Yii::$app->request->post('price');
+        $share->currentPrice = Yii::$app->request->post('price') ?: null;
         $share->save();
     }
 
