@@ -61,7 +61,7 @@ $queryParamUserId = Yii::$app->request->queryParams['userId'] ?? null;
                 $value = ($model->share->currentPrice - $model->buyPrice) / $model->buyPrice * 100;
 
 
-                if ($value === 0) {
+                if ($value == 0) {
                     return Badge::neutral(SimpleNumberFormatter::toView($value, 1) . '%');
                 }
 
@@ -77,7 +77,7 @@ $queryParamUserId = Yii::$app->request->queryParams['userId'] ?? null;
                 $value = ($model->share->currentPrice - $model->buyPrice) * $model->amount;
 
 
-                if ($value === 0) {
+                if ($value == 0) {
                     return Badge::neutral(SimpleNumberFormatter::toView($value, 1) . ' р.');
                 }
 
