@@ -2,20 +2,21 @@
 
 namespace src\Action\Share;
 
+use src\Entity\Issuer\Issuer;
 use src\Entity\Share\Share;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
 
 class ShareSearchForm extends Model
 {
-    public string $issuerId = 'All';
+    public string $issuerName = '';
     public string $name = '';
     public bool $isActive = false;
 
     public function rules(): array
     {
         return [
-            [['issuerId', 'name'], 'string'],
+            [['issuerName', 'name'], 'string'],
             [['isActive'], 'boolean'],
         ];
     }
@@ -23,7 +24,8 @@ class ShareSearchForm extends Model
     public function search($params): ActiveDataProvider
     {
         $query = Share::find()
-            ->with(['issuer', 'shareDeals'])
+            ->joinWith('issuer')
+            ->with(['shareDeals'])
             ->addOrderBy(['issueDate' => SORT_DESC]);
 
         $dataProvider = new ActiveDataProvider([
@@ -36,9 +38,7 @@ class ShareSearchForm extends Model
         }
 
         $query->andFilterWhere(['ilike', 'name', $this->name]);
-        if ($this->issuerId !== 'All' && $this->issuerId !== '') {
-            $query->andFilterWhere(['issuer_id' => $this->issuerId]);
-        }
+        $query->andFilterWhere(['ilike', 'issuer.name', $this->issuerName]);
 
         if ($this->isActive) {
             $query->andWhere(['closingDate' => null]);

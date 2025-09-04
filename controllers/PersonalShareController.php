@@ -36,12 +36,18 @@ class PersonalShareController extends BaseController
                     'index',
                     'create',
                     'delete',
+                    'charts',
                 ],
                 'rules' => [
                     [
-                        'actions' => ['index', 'create', 'delete', 'charts'],
+                        'actions' => ['create', 'delete', 'charts'],
                         'allow' => true,
                         'roles' => ['@'],
+                    ],
+                    [
+                        'actions' => ['index'],
+                        'allow' => true,
+                        'roles' => ['?', '@'],
                     ],
                 ],
             ],
@@ -75,6 +81,10 @@ class PersonalShareController extends BaseController
 
     public function actionIndex(?int $userId = null): string
     {
+        if ($userId === null && Yii::$app->user->isGuest) {
+            throw new ForbiddenHttpException();
+        }
+
         $user = $userId !== null
             ? User::getOneById($userId)
             : Yii::$app->user->identity;

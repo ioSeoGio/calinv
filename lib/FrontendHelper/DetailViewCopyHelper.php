@@ -29,34 +29,42 @@ class DetailViewCopyHelper
         // Форматируем значение, если указан формат
         $formattedValue = $format ? Yii::$app->formatter->format($value, $format) : Html::encode($value);
 
-        return ClipboardJsWidget::widget([
-            'text' => $value,
-            'tag' => 'span',
-            'htmlOptions' => ['class' => 'btn btn-m btn-default', 'type' => 'span', 'title' => ''],
-            'label' => $formattedValue,
-            'successText' => $formattedValue . ' <i class="bi bi-check2-all"></i>',
-        ]);
+        return self::internalRender(
+            $value,
+            $formattedValue,
+            $value,
+            true
+        );
     }
 
     public static function renderValue(mixed $value): string
     {
-        return ClipboardJsWidget::widget([
-            'text' => $value,
-            'tag' => 'span',
-            'htmlOptions' => ['class' => 'btn btn-m btn-default', 'type' => 'span', 'title' => ''],
-            'label' => $value,
-            'successText' => $value . ' <i class="bi bi-check2-all"></i>',
-        ]);
+        return self::internalRender(
+            $value,
+            $value,
+            $value,
+            true,
+        );
     }
 
     public static function renderValueColored(mixed $value): string
     {
-        return $value === null ? '' : ClipboardJsWidget::widget([
+        return $value === null
+            ? ''
+            : self::internalRender($value, $value, "<b style='color: dodgerblue'>$value</b>", false);
+    }
+
+    private static function internalRender(mixed $value, string $label, string $successText, bool $useTooltip): string
+    {
+        return ClipboardJsWidget::widget([
             'text' => $value,
             'tag' => 'span',
-            'htmlOptions' => ['class' => 'btn btn-m btn-default', 'type' => 'span', 'title' => ''],
-            'label' => $value,
-            'successText' => "<b style='color: dodgerblue'>$value</b>",
+            'htmlOptions' => array_merge([
+                'class' => 'btn btn-m btn-default ' . ($useTooltip ? 'click-tooltip' : ''),
+                'type' => 'span',
+            ], ($useTooltip ? ['title' => 'Скопировано!'] : [])),
+            'label' => $label,
+            'successText' => $successText,
         ]);
     }
 }

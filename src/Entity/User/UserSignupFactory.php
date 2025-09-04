@@ -11,7 +11,7 @@ class UserSignupFactory
         SignupForm $signupForm,
     ): User {
 		$user = new User();
-		$user->username = $signupForm->username;
+		$user->username = $signupForm->nickname;
 		$user->email = $signupForm->email;
         $user->isPortfolioVisible = true;
         $user->isPortfolioPublic = true;

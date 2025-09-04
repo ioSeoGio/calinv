@@ -18,7 +18,7 @@ class ToggleVisibilityIconPrinter
         }
 
         if ($issuer->isVisible) {
-            return  Html::a(
+            return Html::a(
                 Icon::print('bi bi-eye'),
                 Url::to(['/issuer/toggle-visibility', 'id' => $issuer->id]),
                 [

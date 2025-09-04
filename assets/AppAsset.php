@@ -33,6 +33,7 @@ class AppAsset extends AssetBundle
     ];
 
     public $js = [
+        'js/tooltip.js',
         'js/alert-messages.js',
         'js/fix-kartik-masked-input.js',
 

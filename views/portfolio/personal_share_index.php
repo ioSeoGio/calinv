@@ -22,11 +22,15 @@ $this->title = 'Мой портфель';
 $queryParamUserId = Yii::$app->request->queryParams['userId'] ?? null;
 ?>
 <?= $this->render('tabs', []); ?>
-<?php if ($queryParamUserId === null || $queryParamUserId === Yii::$app->user->id) {
-    echo $this->render('personal_share_creation', [
-        'personalShareCreateForm' => $personalShareCreateForm,
-    ]);
-} ?>
+<?php if ($queryParamUserId === null || $queryParamUserId === Yii::$app->user->id): ?>
+<div class="card mt-3" style="min-width: 250px">
+    <div class="card-body">
+        <?= $this->render('personal_share_creation', [
+            'personalShareCreateForm' => $personalShareCreateForm,
+        ]); ?>
+    </div>
+</div>
+<?php endif; ?>
 <?= $sharesContent = GridView::widget([
     'dataProvider' => $personalShareDataProvider,
     'pager' => [

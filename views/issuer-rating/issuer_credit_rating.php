@@ -46,7 +46,13 @@ $issuers = Yii::$app->user->can(UserRole::admin->value) ? Issuer::find()->all() 
         ],
         'filterModel' => $searchForm,
         'columns' => [
-            'issuerName',
+            [
+                'attribute' => 'issuerName',
+                'filterInputOptions' => [
+                    'class' => 'form-control',
+                    'placeholder' => 'Поиск по эмитенту...',
+                ],
+            ],
             [
                 'label' => 'Эмитент',
                 'format' => 'raw',

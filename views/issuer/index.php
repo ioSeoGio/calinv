@@ -52,6 +52,10 @@ $this->title = 'Эмитенты РБ';
             [
                 'label' => 'Эмитент',
                 'attribute' => 'name',
+                'filterInputOptions' => [
+                    'class' => 'form-control',
+                    'placeholder' => 'Поиск по эмитенту...',
+                ],
                 'format' => 'raw',
                 'value' => function (Issuer $model) {
                     $result = ToggleVisibilityIconPrinter::print($model);
@@ -63,10 +67,14 @@ $this->title = 'Эмитенты РБ';
             '_legalStatus',
             [
                 'attribute' => '_pid',
+                'filterInputOptions' => [
+                    'class' => 'form-control',
+                    'placeholder' => 'Поиск по УНП...',
+                ],
                 'format' => 'raw',
                 'value' => function (Issuer $model) {
                     return DetailViewCopyHelper::renderValueColored($model->_pid);
-                }
+                },
             ],
             [
                 'label' => 'Выпуски акций',

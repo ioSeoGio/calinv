@@ -3,7 +3,6 @@
 
 use kartik\number\NumberControl;
 use kartik\select2\Select2;
-use src\Entity\Issuer\Issuer;
 use src\Entity\Share\Share;
 use yii\bootstrap5\ActiveForm;
 use yii\helpers\ArrayHelper;

@@ -10,7 +10,7 @@ use yii\helpers\Url;
         [
             'label' => 'Акции (активные)',
             'url' => Url::to(['/share/index']),
-            'active' => str_starts_with(Url::current(), '/share') || Url::current() === '/share/index',
+            'active' => str_starts_with(Url::current(), '/share') || str_ends_with(Url::current(), '/share/index'),
         ],
         [
             'label' => 'Акции (все)',

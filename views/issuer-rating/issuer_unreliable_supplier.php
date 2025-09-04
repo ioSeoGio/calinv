@@ -38,7 +38,13 @@ $this->title = 'Недобросовестные поставщики';
                     return DetailViewCopyHelper::renderValueColored($model->_pid);
                 }
             ],
-            'issuerName',
+            [
+                'attribute' => 'issuerName',
+                'filterInputOptions' => [
+                    'class' => 'form-control',
+                    'placeholder' => 'Поиск по эмитенту...',
+                ],
+            ],
             'reason',
             [
                 'attribute' => '_addDate',

@@ -6,7 +6,6 @@ use lib\FrontendHelper\NullableValue;
 use lib\FrontendHelper\SimpleNumberFormatter;
 use src\Action\Share\ShareCreateForm;
 use src\Action\Share\ShareSearchForm;
-use src\Entity\Issuer\Issuer;
 use src\Entity\Share\Share;
 use src\Entity\User\UserRole;
 use src\Integration\Bcse\BcseUrlHelper;
@@ -14,7 +13,6 @@ use src\ViewHelper\Tools\Badge;
 use yii\bootstrap5\Html;
 use yii\data\ArrayDataProvider;
 use yii\grid\GridView;
-use yii\helpers\ArrayHelper;
 use yii\helpers\Url;
 
 /** @var ArrayDataProvider $shareDataProvider */
@@ -34,11 +32,10 @@ $this->title = isset(Yii::$app->request->get('ShareSearchForm')['issuerId']) ? '
         'value' => function (Share $model) {
             return Html::a($model->issuer->name, ['/issuer/view', 'unp' => $model->issuer->_pid]);
         },
-        'filter' => Html::activeDropDownList(
+        'filter' => Html::activeTextInput(
             $shareSearchForm,
-            'issuerId',
-            ['All' => 'Все'] + ArrayHelper::map(Issuer::find()->all(), 'id', 'name'),
-            ['class' => 'form-control']
+            'issuerName',
+            ['class' => 'form-control', 'placeholder' => 'Поиск по эмитенту...'],
         ),
     ],
     [
@@ -122,7 +119,11 @@ $this->title = isset(Yii::$app->request->get('ShareSearchForm')['issuerId']) ? '
                 : '';
 
             $shareUrl = Yii::$app->user->can(UserRole::admin->value)
-                ? '<br>' . Html::a('Биржа', BcseUrlHelper::getShareUrl($model), ['target' => '_blank', 'class' => 'btn btn-success btn-sm'])
+                ? '<br>' . Html::a(
+                    'Биржа',
+                    BcseUrlHelper::getShareUrl($model),
+                    ['target' => '_blank']
+                )
                 : '';
 
             return $chart . $fairPrice . $shareUrl;
